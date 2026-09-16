@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "f0.normalized.v1",
+  "kind": "occurrence",
+  "id": "nnb:4171065",
+  "taxon": { "source": "NNB", "id": "unresolved:Carduelis chloris", "scientificName": "Carduelis chloris", "kingdom": "Animalia", "rank": "SPECIES", "status": "REQUIRES_GBIF_MATCH" },
+  "provenance": {
+    "provider": "NNB",
+    "dataset": "EPE-Euring",
+    "sourceVersion": "NNB WFS 2026-09-14",
+    "retrievedAt": "2026-09-14T12:36:46Z",
+    "sourceRecordId": "4171065",
+    "queryId": "nnb-wfs-parco-nord-v1",
+    "sourceUrl": "https://geoserver.nnb.isprambiente.it/geoserver/nnb/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=nnb%3AOsservazioni_puntuali&bbox=9.171%2C45.511%2C9.210%2C45.540%2CEPSG%3A4326&count=3&outputFormat=application%2Fjson",
+    "license": "NNB per-record license not exposed; personal/non-commercial default only",
+    "attribution": "EPE-Euring; Network Nazionale della Biodiversità (ISPRA)",
+    "quality": "unknown",
+    "rawFixture": "fixtures/providers/nnb-wfs.parco-nord.json"
+  },
+  "data": {
+    "occurrenceStatus": "PRESENT",
+    "observedAt": "2014",
+    "position": { "latitude": 45.5284, "longitude": 9.1789, "crs": "EPSG:4326" },
+    "coordinateUncertaintyM": null,
+    "basisOfRecord": "OBSERVATION",
+    "issues": ["LICENSE_NOT_EXPOSED", "COORDINATE_UNCERTAINTY_NOT_EXPOSED", "TAXON_NOT_RESOLVED"]
+  }
+}

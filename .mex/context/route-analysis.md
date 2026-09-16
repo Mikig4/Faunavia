@@ -33,3 +33,12 @@ The route engine accepts geolocation, GPX, and GeoJSON inputs and returns valida
 ## Tests first
 
 Cover a point location, one-segment track, multi-segment GPX, duplicate points, malformed file, and a route crossing a boundary relevant to the first geography.
+
+## F0 spike baseline
+
+- Pilot area: Lombardia; primary synthetic route: Parco Nord Milano.
+- Comparison set: five synthetic routes covering urban park, canal, river/agriculture, pre-Alpine relief and dense urban context.
+- Default corridor radius: 1 km, configurable; sampling interval: 500 m.
+- Reproducibility grid: WGS84 0.01° cells grouped into 0.05° query chunks, with fixed origin and deterministic fingerprint.
+- The degree-based grid deliberately over-covers the corridor and is not a production decision. F5 must compare it with EPSG:3035 and test boundary, distortion and antimeridian cases.
+- Canonical fixture and expected output live under `f0/fixtures/routes/` and are verified by `npm --prefix f0 test`.

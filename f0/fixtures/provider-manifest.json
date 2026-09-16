@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "f0.provider-manifest.v1",
+  "files": [
+    { "file": "providers/clcplus-2021-samples.json", "sha256": "4c8169f44aced89b5ec8e4c721d952302f54417475d6950ace5df4851c470152" },
+    { "file": "providers/eea-article12.parco-nord.json", "sha256": "a14d541cfcb9a6501e874307584d508eee4bec0ee8caeaac5f27dac09d97bdd4" },
+    { "file": "providers/eea-article17.parco-nord.json", "sha256": "51b03c98752194c4d77bf461f3894420af75a94f0fc77b22aa6e27d35e920739" },
+    { "file": "providers/eea-maes-2014.json", "sha256": "1e7eae6c227081c64655cbbd051255e68309ecaa45a17a83165bb74571819f52" },
+    { "file": "providers/gbif-occurrence.parco-nord.json", "sha256": "7c22e020830892846953428015a25b7cba0e255df7e84b6a7040ad543dc39cf9" },
+    { "file": "providers/gbif-taxa-initial.json", "sha256": "158ebf8354d1939154bc03260c68b25e69d2cd0083e7d199ec3995ea6642b33c" },
+    { "file": "providers/nnb-wfs.parco-nord.json", "sha256": "be0d49da69f7dcdb27dae30dbda96e06568d96458bc958a15f24ffb5e4ed9da7" }
+  ]
+}

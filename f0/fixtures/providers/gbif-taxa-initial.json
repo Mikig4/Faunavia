@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "gbif-taxa-initial-2026-09-14",
+  "provider": "GBIF",
+  "dataset": "GBIF Species match",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "gbif-taxa-initial-v1",
+    "method": "GET",
+    "url": "https://api.gbif.org/v1/species/match",
+    "spatialMode": "taxonomy",
+    "limit": 4,
+    "httpStatus": 200
+  },
+  "response": {
+    "matches": [
+      { "input": "Turdus merula", "usageKey": 2490719, "scientificName": "Turdus merula Linnaeus, 1758", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED", "matchType": "EXACT", "confidence": 100 },
+      { "input": "Triturus carnifex", "usageKey": 2431887, "scientificName": "Triturus carnifex (Laurenti, 1768)", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED", "matchType": "EXACT", "confidence": 100 },
+      { "input": "Lycaena dispar", "usageKey": 1929270, "scientificName": "Lycaena dispar (Haworth, 1802)", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED", "matchType": "EXACT", "confidence": 100 },
+      { "input": "Sciurus vulgaris", "usageKey": 8211070, "scientificName": "Sciurus vulgaris Linnaeus, 1758", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED", "matchType": "EXACT", "confidence": 100 }
+    ]
+  }
+}

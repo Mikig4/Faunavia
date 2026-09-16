@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://faunavia.local/f0/routes.schema.json",
+  "title": "Faunavia F0 route fixtures",
+  "type": "object",
+  "required": ["type", "name", "crs", "features"],
+  "properties": {
+    "type": { "const": "FeatureCollection" },
+    "name": { "const": "faunavia-f0-routes" },
+    "crs": {
+      "type": "object",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": { "const": "name" },
+        "properties": {
+          "type": "object",
+          "required": ["name"],
+          "properties": { "name": { "const": "urn:ogc:def:crs:OGC:1.3:CRS84" } }
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["type", "properties", "geometry"],
+        "properties": {
+          "type": { "const": "Feature" },
+          "properties": {
+            "type": "object",
+            "required": ["id", "name", "environment", "synthetic", "pilot"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^f0-it-lom-" },
+              "name": { "type": "string", "minLength": 1 },
+              "environment": { "type": "string", "minLength": 1 },
+              "synthetic": { "const": true },
+              "pilot": { "type": "boolean" }
+            }
+          },
+          "geometry": {
+            "type": "object",
+            "required": ["type", "coordinates"],
+            "properties": {
+              "type": { "const": "LineString" },
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "prefixItems": [
+                    { "type": "number", "minimum": -180, "maximum": 180 },
+                    { "type": "number", "minimum": -90, "maximum": 90 }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

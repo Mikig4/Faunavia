@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "clcplus-2021-lombardia-samples",
+  "provider": "Copernicus Land Monitoring Service",
+  "dataset": "CLCplus Backbone 2021 raster",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "clcplus-2021-five-route-points-v1",
+    "method": "GET",
+    "url": "https://image.discomap.eea.europa.eu/arcgis/rest/services/CLC_plus/CLMS_CLCplus_RASTER_2021_010m_eu/ImageServer/identify",
+    "spatialMode": "point",
+    "limit": 5,
+    "httpStatus": 200
+  },
+  "response": {
+    "year": 2021,
+    "equivalentToCurrentProduct": false,
+    "classLegend": {
+      "1": "sealed",
+      "2": "needle-leaved trees",
+      "3": "broadleaved deciduous trees",
+      "4": "evergreen broadleaved trees",
+      "5": "low-growing woody plants",
+      "6": "permanent herbaceous",
+      "7": "periodically herbaceous",
+      "8": "lichens and mosses",
+      "9": "sparse vegetation",
+      "10": "water",
+      "11": "snow and ice",
+      "253": "coastal water"
+    },
+    "samples": [
+      { "routeId": "f0-it-lom-001", "point": [9.1905, 45.5255], "value": 6 },
+      { "routeId": "f0-it-lom-002", "point": [9.135, 45.438], "value": 3 },
+      { "routeId": "f0-it-lom-003", "point": [8.76, 45.39], "value": 7 },
+      { "routeId": "f0-it-lom-004", "point": [9.375, 45.822], "value": 6 },
+      { "routeId": "f0-it-lom-005", "point": [9.19, 45.4642], "value": 1 }
+    ]
+  }
+}

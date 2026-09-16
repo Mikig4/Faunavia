@@ -42,9 +42,11 @@ Un'app personale che analizza una posizione o un itinerario e mostra specie anim
      - Lint: `npm run lint`
      - Build: `npm run build` -->
 
-Applicazione: [TO BE DETERMINED — lo scaffold applicativo non esiste ancora]
-MEX: `npx mex-agent@0.8.1 graph status`, `npx mex-agent@0.8.1 hub`
-Pianificati dopo lo scaffold: `npm run dev`, `npm test`, `npm run build`
+Bootstrap Android: `pwsh -NoProfile -File scripts/bootstrap-android.ps1`
+Ambiente: `. scripts/android-env.ps1`
+Gate: `.\gradlew.bat verifyFast`, `.\gradlew.bat verifyDevice`, `.\gradlew.bat verifyVisual`, `.\gradlew.bat verifyAll`
+Fase 0: `npm --prefix f0 test`
+MEX: `mex graph status`, `mex hub`
 
 ## Code Graph
 Use the smallest relevant structured resolver. For Inbox or Relay mutations, resolve only the intended action with `mex inbox contract --action <command-id> --json` or `mex relay contract --action <command-id> --json`; use `mex capabilities --json` only for broader capability discovery. If the user explicitly asks to create, save, or draft a checkout-local Inbox or Relay draft, preview and apply that exact draft without asking for redundant confirmation. Deleting a local draft, or publishing, approving, rejecting, withdrawing, marking stale, repairing, taking or acknowledging, or closing, requires fresh explicit confirmation after semantic preview. Treat Git commit, push, and pull as separate actions requiring their own authorization.

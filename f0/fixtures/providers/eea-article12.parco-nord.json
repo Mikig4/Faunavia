@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "eea-article12-parco-nord-2026-09-14",
+  "provider": "European Environment Agency",
+  "dataset": "Article 12 birds 2019–2024 public — layer 0",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "eea-article12-parco-nord-v1",
+    "method": "GET",
+    "url": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article_12/ART12_birds_2019_2024_public/MapServer/0/query?where=1%3D1&geometry=9.171%2C45.511%2C9.210%2C45.540&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=false&resultRecordCount=5&f=json",
+    "spatialMode": "envelope",
+    "limit": 5,
+    "httpStatus": 200
+  },
+  "response": {
+    "maxRecordCount": 2000,
+    "extractedRows": [
+      { "speciesName": "Accipiter nisus", "speciesCode": "A898", "season": "all others", "populationTrend": "Unknown", "seasonCode": "B" },
+      { "speciesName": "Acrocephalus arundinaceus", "speciesCode": "A298", "season": "all others", "populationTrend": "Decreasing", "seasonCode": "B" },
+      { "speciesName": "Acrocephalus palustris", "speciesCode": "A296", "season": "all others", "populationTrend": "Stable", "seasonCode": "B" },
+      { "speciesName": "Acrocephalus scirpaceus", "speciesCode": "A297", "season": "all others", "populationTrend": "Fluctuating", "seasonCode": "B" },
+      { "speciesName": "Acrocephalus scirpaceus", "speciesCode": "A297", "season": "all others", "populationTrend": "Stable", "seasonCode": "B" }
+    ]
+  }
+}

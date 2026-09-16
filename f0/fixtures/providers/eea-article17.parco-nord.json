@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "eea-article17-parco-nord-2026-09-14",
+  "provider": "European Environment Agency",
+  "dataset": "Article 17 2019–2024 public — species layer 6",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "eea-article17-parco-nord-v1",
+    "method": "GET",
+    "url": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article17/ART17_2019_2024_public/MapServer/6/query?where=1%3D1&geometry=9.171%2C45.511%2C9.210%2C45.540&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=false&resultRecordCount=3&f=json",
+    "spatialMode": "envelope",
+    "limit": 3,
+    "httpStatus": 200
+  },
+  "response": {
+    "maxRecordCount": 2000,
+    "extractedRows": [
+      { "speciesName": "Helix pomatia", "speciesCode": "1026", "biogeographicRegion": "CON", "assessment": "FV", "assessmentLabel": "Favourable" },
+      { "speciesName": "Unio elongatulus", "speciesCode": "1033", "biogeographicRegion": "CON", "assessment": "U2", "assessmentLabel": "Bad" },
+      { "speciesName": "Lycaena dispar", "speciesCode": "1060", "biogeographicRegion": "CON", "assessment": "U2", "assessmentLabel": "Bad" }
+    ]
+  }
+}

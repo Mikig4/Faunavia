@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://faunavia.local/f0/fixture-envelope.schema.json",
+  "title": "Faunavia F0 provider fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "fixtureId",
+    "provider",
+    "dataset",
+    "retrievedAt",
+    "query",
+    "response"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "f0.fixture.v1" },
+    "fixtureId": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string", "minLength": 1 },
+    "dataset": { "type": "string", "minLength": 1 },
+    "retrievedAt": { "type": "string", "format": "date-time" },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "method", "url", "spatialMode", "limit", "httpStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "method": { "const": "GET" },
+        "url": { "type": "string", "format": "uri" },
+        "spatialMode": {
+          "enum": ["polygon", "bbox", "envelope", "point", "static-subset", "taxonomy"]
+        },
+        "limit": { "type": ["integer", "null"], "minimum": 1, "maximum": 50 },
+        "httpStatus": { "type": "integer", "minimum": 100, "maximum": 599 }
+      }
+    },
+    "response": { "type": "object" }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "f0.queries.v1",
+  "maxRecordsPerRequest": 50,
+  "queries": [
+    { "id": "gbif-occurrence-parco-nord-v1", "provider": "GBIF", "spatialMode": "polygon", "limit": 5, "providerKnownMaximum": 300, "fallback": "same stable cells as bounding boxes" },
+    { "id": "nnb-geoapi-parco-nord-v1", "provider": "NNB GeoAPI", "spatialMode": "bbox", "limit": 5, "providerKnownMaximum": null, "fallback": "nnb-wfs-parco-nord-v1" },
+    { "id": "nnb-wfs-parco-nord-v1", "provider": "NNB WFS", "spatialMode": "bbox", "limit": 3, "providerKnownMaximum": null, "fallback": "last valid cache marked stale" },
+    { "id": "eea-article12-parco-nord-v1", "provider": "EEA Article 12", "spatialMode": "envelope", "limit": 5, "providerKnownMaximum": 2000, "fallback": "last valid versioned fixture" },
+    { "id": "eea-article17-parco-nord-v1", "provider": "EEA Article 17", "spatialMode": "envelope", "limit": 3, "providerKnownMaximum": 2000, "fallback": "last valid versioned fixture" },
+    { "id": "eea-maes-initial-taxa-v1", "provider": "EEA MAES", "spatialMode": "static-subset", "limit": 14, "providerKnownMaximum": null, "fallback": "insufficient" },
+    { "id": "clcplus-2021-five-route-points-v1", "provider": "CLCplus 2021", "spatialMode": "point", "limit": 5, "providerKnownMaximum": null, "fallback": "cache with source year visible" },
+    { "id": "gbif-taxa-initial-v1", "provider": "GBIF Species", "spatialMode": "taxonomy", "limit": 4, "providerKnownMaximum": null, "fallback": "do not persist unresolved observation" }
+  ]
+}

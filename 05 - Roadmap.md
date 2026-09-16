@@ -1,53 +1,35 @@
 # Roadmap
 
-## Fase 0 — Decisioni e prova dati
+La roadmap è una sequenza di fasi chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi.
 
-- Confermare piattaforma, area geografica iniziale e gruppi animali.
-- Scegliere la definizione di “presenza” e il raggio del corridoio.
-- Provare 3–5 query GBIF su un percorso reale.
-- Definire il formato del record normalizzato e la politica di attribuzione.
+| Fase | Incremento | Gate principale |
+|---|---|---|
+| F0 | decisioni, spike dati e fixture | fonti e query riproducibili, nessun codice prodotto |
+| F1 | scaffold Android e automazione | APK installabile + `verifyFast`, `verifyDevice`, `verifyVisual`, `verifyAll` |
+| F2 | dominio, Room e repository | vincoli, CRUD, migrazioni e persistenza dopo riavvio |
+| F3 | ricerca tassonomica | taxon Animalia accettato, sinonimi, cache e fallback offline |
+| F4 | diario manuale | creazione/modifica/eliminazione offline con specie obbligatoria |
+| F5 | route engine | GPX/GeoJSON → corridoio, porzioni e celle stabili |
+| F6 | gateway occorrenze | adapter, cache, provenienza, retry e deduplicazione |
+| F7 | motore di plausibilità | areale + habitat obbligatori, stagione come modificatore |
+| F8 | risultati e mappa online | percorso completo import → risultati spiegati → mappa |
+| F9 | suggerimenti peculiari | distinzione dai taxa comuni e dal catalogo generale |
+| F10 | foto locali | Photo Picker, copie controllate, privacy e gestione errori |
+| F11 | notifica flessibile | WorkManager, fuso, permessi, zero notifiche vuote |
+| F12 | export/import | archivio verificato, ripristino e rollback sicuro |
+| F13 | scheda specie e fallback 2D | contenuto tracciabile, accessibile e disponibile dalla cache |
+| F14 | pipeline e primo asset 3D | GLB validato, manifest, budget mobile e fallback integro |
+| F15 | mappa regionale offline | licenza, pacchetto versionato, import/cancellazione |
+| F16 | sincronizzazione opzionale | decisione architetturale motivata prima di qualsiasi backend |
 
-Risultato: una nota di decisione e un piccolo dataset di test riproducibile.
+## Politica dei test
 
-## Fase 1 — MVP Android e diario
-
-- Scaffold Android Kotlin/Jetpack Compose e build APK locale.
-- Database Room/SQLite per diario, cache, catalogo e preferenze.
-- Autocomplete tassonomico per selezionare qualunque animale esistente, non solo i suggeriti.
-- Import GPX/GeoJSON e posizione corrente.
-- Visualizzazione mappa della traccia e del corridoio.
-- Adapter GBIF con cache e gestione errori/rate limit.
-- Lista di specie peculiari, con regole che escludono animali urbani comuni.
-- Una scheda specie con fallback 2D e un primo modello 3D.
-- Inserimento manuale di qualsiasi animale del catalogo, anche non suggerito.
-- Foto locali associate all'avvistamento.
-- Notifica locale serale solo se sono presenti avvistamenti nella giornata.
-
-Risultato: l'APK produce una lista verificabile e permette di costruire un diario personale senza backend, account o connessione obbligatoria.
-
-## Fase 2 — Qualità dell'esperienza
-
-- Campionamento adattivo per lunghezza e habitat.
-- Ranking spiegabile e distinzione chiara tra documentato/plausibile.
-- Schede con stagionalità, habitat, sicurezza e conservazione.
-- Cache invalidabile, export/import locale dei dati e gestione privacy.
-- Test con più percorsi, inclusi percorsi senza tappe.
-- Backup manuale di database e foto.
-
-## Fase 3 — Libreria 3D coerente
-
-- Manifest asset e pipeline Blender → GLB.
-- 5–10 specie curate con licenze verificabili.
-- Lazy loading, placeholder, preview e controllo peso.
-- Test su dispositivo reale e fallback accessibile.
-
-## Fase 4 — Offline e sincronizzazione opzionale
-
-- Adapter iNaturalist dopo revisione licenze e limiti.
-- Pacchetto mappa offline regionale, generato da dati OSM compatibili e con attribuzione.
-- Dataset locali più ricchi per uso offline reale.
-- Firestore solo per sincronizzare dati strutturati, dopo aver dimostrato che serve.
-- Eventuale backup foto esterno solo dopo decisione esplicita sui costi.
+- F0 valida dati e assunzioni con fixture riproducibili.
+- F1 costruisce l'infrastruttura di test e i gate automatici.
+- Da F2 in poi ogni fase aggiunge i propri test e riesegue l'intera suite accumulata come non regressione.
+- I provider reali vengono verificati con smoke test controllati; i test deterministici usano fake e fixture versionate.
+- I flussi critici Android vengono provati su emulatore gestito con Compose UI/UI Automator; screenshot e artefatti di test restano consultabili.
+- Playwright entra solo con una futura superficie browser/WebView. Il 3D usa Blender headless, glTF Validator, render golden e prova su dispositivo.
 
 ## Criteri per non espandere troppo il progetto
 

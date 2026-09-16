@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "f0.sources.v1",
+  "generatedAt": "2026-09-14T12:36:46Z",
+  "sources": [
+    {
+      "id": "gbif-occurrence",
+      "provider": "GBIF",
+      "dataset": "Occurrence search",
+      "sourceVersion": "occurrence index observed 2026-09-14",
+      "license": "Per-record: CC0, CC BY 4.0 or CC BY-NC 4.0; fixture records are CC BY-NC 4.0",
+      "attribution": "Dataset publisher and GBIF occurrence identifier",
+      "intendedUse": "prototype and non-commercial spike only",
+      "sourceUrl": "https://techdocs.gbif.org/en/openapi/v1/occurrence",
+      "risk": "Dynamic rate limits; coordinate and taxonomic quality flags must be preserved"
+    },
+    {
+      "id": "nnb-occurrence",
+      "provider": "Network Nazionale della Biodiversità (ISPRA)",
+      "dataset": "Osservazioni puntuali",
+      "sourceVersion": "WFS observed 2026-09-14",
+      "license": "No per-record license exposed; NNB default is personal/non-commercial use with source acknowledgement",
+      "attribution": "Banca dati originaria e Network Nazionale della Biodiversità (ISPRA)",
+      "intendedUse": "feasibility fixture only until dataset-specific permission is resolved",
+      "sourceUrl": "https://www.nnb.isprambiente.it/it/note-legali",
+      "risk": "GeoAPI unavailable during spike; commercial/public reuse unresolved"
+    },
+    {
+      "id": "eea-article12",
+      "provider": "European Environment Agency",
+      "dataset": "Article 12 birds 2019–2024 public",
+      "sourceVersion": "2019–2024 reporting cycle",
+      "license": "EEA data policy; dataset-specific notices prevail",
+      "attribution": "European Environment Agency and reporting countries",
+      "intendedUse": "range and season evidence",
+      "sourceUrl": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article_12/ART12_birds_2019_2024_public/MapServer",
+      "risk": "Reporting geometries are not live occurrence observations"
+    },
+    {
+      "id": "eea-article17",
+      "provider": "European Environment Agency",
+      "dataset": "Article 17 species 2019–2024 public",
+      "sourceVersion": "2019–2024 reporting cycle",
+      "license": "EEA data policy; dataset-specific notices prevail",
+      "attribution": "European Environment Agency and reporting countries",
+      "intendedUse": "range and conservation assessment evidence",
+      "sourceUrl": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article17/ART17_2019_2024_public/MapServer",
+      "risk": "Reporting geometries and conservation status are not sightings"
+    },
+    {
+      "id": "eea-maes-2014",
+      "provider": "European Environment Agency",
+      "dataset": "MAES species–ecosystem associations",
+      "sourceVersion": "2014",
+      "license": "EEA data policy; acknowledge EEA and original data providers",
+      "attribution": "European Environment Agency",
+      "intendedUse": "prototype habitat compatibility",
+      "sourceUrl": "https://sdi.eea.europa.eu/data/f5194384-83a2-4b9a-b7f6-c106a4b6308b",
+      "risk": "Dated scientific crosswalk; update must preserve semantics"
+    },
+    {
+      "id": "clcplus-backbone",
+      "provider": "Copernicus Land Monitoring Service",
+      "dataset": "CLCplus Backbone raster",
+      "sourceVersion": "2021 point service; 2023 product access pending",
+      "license": "Free and open Copernicus Land Monitoring Service data policy with attribution and modification notice",
+      "attribution": "European Union, Copernicus Land Monitoring Service",
+      "intendedUse": "raw land-cover signal only",
+      "sourceUrl": "https://land.copernicus.eu/en/products/clc-backbone",
+      "risk": "No validated direct mapping from CLCplus classes to MAES ecosystems"
+    }
+  ]
+}

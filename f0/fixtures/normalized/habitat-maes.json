@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "f0.normalized.v1",
+  "kind": "habitat",
+  "id": "eea-maes:219001",
+  "taxon": { "source": "GBIF", "id": "1929270", "scientificName": "Lycaena dispar (Haworth, 1802)", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED" },
+  "provenance": {
+    "provider": "European Environment Agency",
+    "dataset": "MAES species–ecosystem associations 2014",
+    "sourceVersion": "2014",
+    "retrievedAt": "2026-09-14T12:36:46Z",
+    "sourceRecordId": "219001",
+    "queryId": "eea-maes-initial-taxa-v1",
+    "sourceUrl": "https://sdi.eea.europa.eu/data/f5194384-83a2-4b9a-b7f6-c106a4b6308b",
+    "license": "EEA data policy; acknowledge EEA and original data providers",
+    "attribution": "European Environment Agency",
+    "quality": "stale",
+    "rawFixture": "fixtures/providers/eea-maes-2014.json"
+  },
+  "data": { "biogeographicRegion": "CON", "ecosystemCode": "grassland", "associationCode": "P", "associationLabel": "preferred" }
+}

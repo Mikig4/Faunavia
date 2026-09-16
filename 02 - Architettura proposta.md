@@ -4,6 +4,20 @@
 
 Per il primo rilascio propongo un'app Android nativa in Kotlin con Jetpack Compose. Il database locale è Room/SQLite; foto, diario, cache, specie curate e asset vivono sul dispositivo. Le notifiche serali sono locali e non richiedono Firebase. Firebase/Firestore resta un'opzione successiva per sincronizzare dati strutturati, non una dipendenza dell'MVP.
 
+## Direzione delle dipendenze
+
+La dipendenza è sempre rivolta verso l'interno: UI e framework dipendono dai casi d'uso; i casi d'uso dipendono dal dominio e da interfacce; Room, rete, mappa, notifiche e renderer 3D implementano adapter esterni. Il dominio non importa API Android, client HTTP, modelli Room o tipi MapLibre. In questo modo la logica di percorso, tassonomia, diario e plausibilità resta deterministica e testabile senza dispositivo o rete.
+
+```text
+UI / Android / provider / Room / MapLibre / renderer 3D
+                         ↓
+               adapter e repository
+                         ↓
+                    casi d'uso
+                         ↓
+                       dominio
+```
+
 ## Flusso principale
 
 ```text
@@ -32,15 +46,15 @@ Schermate: Home, Analisi percorso, Risultati, Nuovo avvistamento, Diario, Dettag
 
 ### 2. Route engine
 
-Importa e valida GPX/GeoJSON, unifica i segmenti, calcola lunghezza e bounding box, campiona la geometria e produce il corridoio di ricerca. Il motore deve essere indipendente dalla UI per poter essere testato con fixture geografiche.
+Importa e valida GPX/GeoJSON, unifica i segmenti, calcola lunghezza e bounding box, campiona la geometria e produce il corridoio di ricerca. La strategia approvata è ibrida: il motore emette porzioni semplificate del corridoio e chiavi di celle di griglia stabili; ogni adapter sceglie poligoni oppure bounding box contenuti in base alle capacità del provider. Il motore deve essere indipendente dalla UI per poter essere testato con fixture geografiche.
 
 ### 3. Biodiversity gateway
 
-Un'interfaccia comune nasconde i provider esterni. Il primo adapter può usare GBIF per le occorrenze; iNaturalist è un adapter opzionale. Ogni risposta conserva provider, query, data di recupero, identificativo del record, licenza e livello di precisione.
+Un'interfaccia comune nasconde i provider esterni. Il primo adapter usa GBIF e il Network Nazionale della Biodiversità per le evidenze documentate; iNaturalist resta opzionale. Adapter distinti forniscono distribuzione, habitat e stagionalità da fonti istituzionali. Ogni risposta conserva provider, query, data di recupero, identificativo del record, licenza e livello di precisione.
 
 ### 4. Evidence engine
 
-Normalizza tassonomia e sinonimi, raggruppa i record per specie, scarta coordinate palesemente errate e calcola un livello di evidenza. Il linguaggio della UI deve essere prudente: “segnalata nell'area” o “possibile”, mai “presente adesso”.
+Normalizza tassonomia e sinonimi, raggruppa i record per specie, scarta coordinate palesemente errate e calcola un livello di evidenza. “Plausibile” richiede contemporaneamente compatibilità con l'areale e con l'habitat; la stagionalità aumenta o riduce la confidenza. Se una delle due evidenze necessarie manca, il risultato è “informazioni insufficienti”. Il linguaggio della UI deve essere prudente: “segnalata nell'area” o “possibile”, mai “presente adesso”.
 
 ### 5. Taxonomy catalogue
 
@@ -60,7 +74,7 @@ Room/SQLite, con repository che separa modelli applicativi e dettagli della pers
 
 ### 9. Notification scheduler
 
-Programma un controllo locale giornaliero all'orario scelto. Il controllo legge Room, conta gli avvistamenti della giornata nel fuso locale e crea una notifica solo quando il conteggio è maggiore di zero.
+Programma con WorkManager un controllo locale giornaliero attorno all'orario scelto, entro una finestra flessibile compatibile con le politiche energetiche Android. Il controllo legge Room, conta gli avvistamenti della giornata nel fuso locale e crea una notifica solo quando il conteggio è maggiore di zero.
 
 ### 10. Species profile e asset registry
 
@@ -82,6 +96,11 @@ Rende traccia, corridoio, campioni, risultati e punti del diario. MapLibre Nativ
 - `Observation`: `taxonId`, data/ora locale, posizione, note, foto e origine `manual`.
 - `SuggestionProfile`: specie, area/habitat, priorità, peculiarità, esclusioni e motivazione.
 - `DailySummary`: data locale, numero di avvistamenti e stato della notifica.
+- `SourceEvidence`: tipo `occurrence | range | habitat | season`, fonte, versione, recupero, licenza, qualità e riferimento riproducibile.
+
+## Strategia di verifica
+
+La build espone quattro gate automatizzati: `verifyFast` per compilazione, lint e unit test; `verifyDevice` per test strumentati, Compose UI e UI Automator; `verifyVisual` per confronti screenshot; `verifyAll` per la suite completa. I provider esterni sono sostituiti da fixture nei test riproducibili. Emulatore gestito, ADB e controllo schermo verificano i flussi Android; Playwright viene introdotto soltanto se nascerà una superficie web o WebView.
 
 ## Evoluzione possibile
 

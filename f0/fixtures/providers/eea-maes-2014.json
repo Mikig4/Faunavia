@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "eea-maes-crosswalk-subset-2014",
+  "provider": "European Environment Agency",
+  "dataset": "MAES species–ecosystem associations 2014",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "eea-maes-initial-taxa-v1",
+    "method": "GET",
+    "url": "https://sdi.eea.europa.eu/data/f5194384-83a2-4b9a-b7f6-c106a4b6308b",
+    "spatialMode": "static-subset",
+    "limit": 14,
+    "httpStatus": 200
+  },
+  "response": {
+    "associationLegend": { "P": "preferred", "S": "suitable", "O": "occasional" },
+    "seasonLegend": { "B": "breeding", "P": "passage", "W": "winter" },
+    "rows": [
+      { "recordId": 218924, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "cropland", "association": "O" },
+      { "recordId": 219001, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "grassland", "association": "P" },
+      { "recordId": 219314, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "heathlandShrub", "association": "O" },
+      { "recordId": 218598, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "urban", "association": "O" },
+      { "recordId": 219571, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "wetlands", "association": "P" },
+      { "recordId": 220213, "speciesName": "Lycaena dispar", "region": "CON", "ecosystem": "woodlandForest", "association": "S" },
+      { "recordId": 219470, "speciesName": "Sciurus vulgaris", "region": "CON", "ecosystem": "heathlandShrub", "association": "S" },
+      { "recordId": 218691, "speciesName": "Sciurus vulgaris", "region": "CON", "ecosystem": "urban", "association": "S" },
+      { "recordId": 220391, "speciesName": "Sciurus vulgaris", "region": "CON", "ecosystem": "woodlandForest", "association": "P" },
+      { "recordId": 218806, "speciesName": "Triturus carnifex", "region": "CON", "ecosystem": "cropland", "association": "S" },
+      { "recordId": 219906, "speciesName": "Triturus carnifex", "region": "CON", "ecosystem": "riversLakes", "association": "S" },
+      { "recordId": 219662, "speciesName": "Triturus carnifex", "region": "CON", "ecosystem": "wetlands", "association": "P" },
+      { "recordId": 220317, "speciesName": "Triturus carnifex", "region": "CON", "ecosystem": "woodlandForest", "association": "P" },
+      { "recordId": 24312, "speciesName": "Turdus merula", "region": "CON", "ecosystem": "woodlandForest", "association": "P", "season": "B" }
+    ]
+  }
+}

@@ -10,6 +10,18 @@ Il dato di biodiversità è un'evidenza di osservazione, non una promessa di inc
 
 Prima fonte per l'MVP: l'API di GBIF espone ricerche di occorrenze in JSON e, per la maggior parte delle operazioni di ricerca, non richiede autenticazione. Va usata con query spaziali contenute, cache e attribuzione per singolo risultato. Riferimenti: [GBIF API reference](https://techdocs.gbif.org/en/openapi/) e [GBIF data use](https://www.gbif.org/terms/data-use).
 
+### Network Nazionale della Biodiversità
+
+Il [Network Nazionale della Biodiversità di ISPRA](https://www.nnb.isprambiente.it/) integra dati e servizi italiani e affianca GBIF come evidenza documentata per l'area iniziale. L'integrazione deve conservare dataset originario, metadati, data e condizioni d'uso del singolo record.
+
+### Distribuzione, habitat e stagionalità
+
+- I dataset EEA derivati dai reporting delle direttive Natura — Article 12 per gli uccelli e Article 17 per gli altri taxa coperti — forniscono distribuzione e, quando disponibile, informazioni stagionali istituzionali.
+- La matrice EEA specie–habitat MAES/EUNIS collega specie e classi di habitat.
+- [CLCplus Backbone 2023 di Copernicus](https://land.copernicus.eu/en/products/clc-backbone) fornisce una classificazione di copertura del suolo utile a tradurre il corridoio in habitat ampi.
+- Natura 2000 è contesto positivo quando una specie o un habitat è esplicitamente documentato; la sua assenza non è prova che la specie non sia plausibile.
+- Per taxa senza stagionalità istituzionale, la distribuzione mensile delle occorrenze GBIF/NNB può produrre solo un segnale empirico a confidenza inferiore.
+
 ### iNaturalist
 
 Adapter opzionale per osservazioni e contenuti naturalistici più leggibili. L'API moderna è documentata su [api.inaturalist.org](https://api.inaturalist.org/v1/docs/); l'accesso pubblico e i termini per immagini, osservazioni e nomi degli autori vanno verificati prima di includere dati in una cache persistente.
@@ -21,12 +33,22 @@ Usare OSM per la mappa e, se necessario, per contesto geografico. Le tile standa
 ## Pipeline dati
 
 1. Definire il corridoio in locale.
-2. Interrogare i provider solo per bounding box/segmenti aggregati.
+2. Produrre porzioni di corridoio semplificate e celle di griglia stabili; interrogare ogni provider con poligoni quando supportati o bounding box contenuti come fallback.
 3. Salvare risposta grezza minima con identificativo e metadati della query.
 4. Normalizzare specie e sinonimi in un modello interno.
 5. Deduplicare record e calcolare evidenze, senza alterare la provenienza.
 6. Mostrare risultati con data di recupero, fonte, licenza e spiegazione del ranking.
 7. Scadere o aggiornare la cache senza cancellare la provenienza storica.
+
+## Regola approvata per la plausibilità
+
+La classificazione non è una media indistinta di segnali. Una specie è:
+
+- **documentata** quando esiste almeno un'evidenza di occorrenza pertinente e utilizzabile;
+- **plausibile** quando l'areale interseca il corridoio e la copertura del suolo è compatibile con almeno un habitat associato; la stagionalità modifica la confidenza;
+- **insufficiente** quando manca l'evidenza di areale o di habitat, una fonte non è disponibile, oppure la qualità non consente una conclusione prudente.
+
+Ogni spiegazione conserva fonte, versione/data, licenza, qualità e passaggi che hanno prodotto il risultato. IUCN ed eBird possono essere valutati in seguito, solo dopo una revisione specifica di accesso, licenze e condizioni d'uso.
 
 ## Qualità, privacy e casi delicati
 
@@ -36,9 +58,9 @@ Usare OSM per la mappa e, se necessario, per contesto geografico. Le tile standa
 - Non inviare la traccia completa se basta un bounding box o una griglia a risoluzione ridotta.
 - Ogni importazione deve essere riproducibile tramite query e timestamp registrati.
 
-## Decisione iniziale proposta
+## Decisione iniziale approvata
 
-Partire con GBIF e dati locali curati. Aggiungere iNaturalist solo dopo aver definito chiaramente licenze, attribuzione, limiti di frequenza e formato della cache.
+Partire con GBIF, NNB, reporting EEA, matrice specie–habitat e CLCplus, oltre ai dati locali curati. Aggiungere iNaturalist solo dopo aver definito chiaramente licenze, attribuzione, limiti di frequenza e formato della cache.
 
 ## Catalogo completo degli animali
 

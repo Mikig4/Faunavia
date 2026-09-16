@@ -22,7 +22,7 @@ edges:
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-09-14
+last_updated: 2026-09-16
 ---
 
 # Architecture
@@ -48,6 +48,21 @@ last_updated: 2026-09-14
 - **Taxonomy catalogue** — common/scientific-name autocomplete, synonym resolution and accepted Animalia taxa.
 - **Suggestion engine** — curated regional profiles with distinctiveness and urban-common exclusion rules.
 - **Notification scheduler** — timezone-aware local daily summary; no server or FCM dependency.
+
+## Implemented F1 module boundary
+
+- `:app` owns Android, Compose navigation and platform tests.
+- `:core:domain` is pure Kotlin and exposes clock, location and species-provider ports plus provenance-aware evidence types.
+- `:core:testing` provides deterministic fake clock, location and provider implementations.
+- A static boundary gate rejects Android imports in the domain and provider URLs in UI source.
+
+## F2 local persistence boundary
+
+- `:core:domain` defines nine local models, complete provenance and suspend contracts for diary, catalogue, routes and settings.
+- `:core:local` owns Room entities, DAO, explicit mappers and IO-dispatched transactional repositories. It depends on the domain; the domain never imports Room or Android.
+- `FaunaviaApplication` lazily creates the local repository container with the system clock. F2 adds no diary UI; F3/F4 will consume the contracts.
+- SQLite foreign keys and triggers enforce accepted Animalia references even for direct SQL writes. Deleting a referenced taxon is rejected; deleting an observation cascades photo metadata.
+- Database schema v2 and a non-destructive v1-to-v2 migration are exported under `core/local/schemas`; v1 is an initial F2 fixture, not a database shipped by F1.
 
 ## External Dependencies
 

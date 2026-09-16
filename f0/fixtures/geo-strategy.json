@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "f0.geo-strategy.v1",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "longitude-latitude",
+  "coordinatePrecisionDecimals": 6,
+  "defaultCorridorRadiusM": 1000,
+  "samplingIntervalM": 500,
+  "grid": {
+    "id": "wgs84-0p01-v1",
+    "originLongitude": -180,
+    "originLatitude": -90,
+    "cellSizeDegrees": 0.01,
+    "queryChunkCellsPerAxis": 5,
+    "queryChunkId": "wgs84-0p05-v1"
+  },
+  "queryLimits": {
+    "maxRecordsPerRequest": 50,
+    "maxPolygonVertices": 50,
+    "maxQueryEnvelopeSpanDegrees": 0.05,
+    "maxQueryChunksPerPilotRoute": 50
+  },
+  "notes": [
+    "La copertura delle celle sovrastima intenzionalmente il corridoio per non introdurre falsi negativi nello spike.",
+    "La griglia in gradi è provvisoria e limitata alla prima area italiana; F5 deve confrontarla con EPSG:3035."
+  ]
+}

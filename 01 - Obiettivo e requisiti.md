@@ -29,6 +29,8 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 3. Costruisce un corridoio attorno alla traccia; il raggio va scelto in base al tipo di ambiente e all'uso dell'app.
 4. Aggrega osservazioni duplicate e calcola un punteggio composto da distanza, recenza, qualità della coordinata, stagione e affidabilità della fonte.
 5. Distingue almeno: documentato nell'area, plausibile nell'habitat, non sufficiente per concludere.
+6. Suddivide il corridoio in porzioni semplificate e celle di griglia stabili; ogni adapter può interrogare il provider con poligoni quando supportati o con bounding box contenuti come fallback.
+7. Classifica una specie come plausibile solo quando esistono insieme un'evidenza di distribuzione e una compatibilità di habitat; la stagionalità modifica la confidenza ma non sostituisce questi due requisiti.
 
 ### Risultato
 
@@ -47,14 +49,16 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 3. Ogni avvistamento può contenere data e ora locali, posizione scelta o corrente, note, numero di esemplari e una o più foto.
 4. Le foto restano locali nell'MVP; l'utente può esportare un backup manuale insieme ai dati.
 5. Gli avvistamenti dell'utente sono distinti dalle osservazioni importate da GBIF/iNaturalist.
+6. La specie è obbligatoria: un avvistamento persistito deve riferirsi a un taxon animale accettato e stabile; una ricerca incompleta può restare soltanto come bozza non salvata.
 
 ### Notifica di fine giornata
 
-1. L'utente sceglie un orario locale, ad esempio le 20:30.
+1. L'utente sceglie un orario locale preferito, ad esempio le 20:30, accettando una finestra di esecuzione flessibile gestita da Android.
 2. L'app controlla gli avvistamenti inseriti nella giornata secondo il fuso orario del dispositivo.
 3. Se esiste almeno un avvistamento, mostra una notifica locale con il numero di registrazioni e apre il riepilogo giornaliero.
 4. Se non esistono avvistamenti, non invia una notifica vuota.
 5. La funzione deve funzionare senza Firebase e senza connessione.
+6. Non richiede un allarme esatto: ritardi ragionevoli dovuti a risparmio energetico, riavvio o pianificazione del sistema sono previsti e verificati.
 
 ### Suggerimenti “peculiari del posto”
 
@@ -72,6 +76,7 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 - Notifiche: il riepilogo serale deve essere locale e legato al fuso orario corrente, con gestione del permesso Android.
 - Trasparenza: l'app non deve presentare una presenza storica come avvistamento in tempo reale.
 - Costi: nessun servizio a pagamento è indispensabile per il percorso MVP.
+- Verificabilità: ogni fase di sviluppo deve produrre test automatizzati; dalla seconda fase in poi deve rieseguire anche l'intera suite di non regressione accumulata.
 
 ## Fuori ambito iniziale
 

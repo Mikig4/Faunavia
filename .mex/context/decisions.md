@@ -42,10 +42,10 @@ last_updated: 2026-09-14
 ### Manual diary is independent from suggestions
 **Date:** 2026-09-14
 **Status:** Active
-**Decision:** Any animal can be recorded manually, whether suggested, catalogued, or free text; suggestions are a separate curated discovery layer.
-**Reasoning:** The user's observation must never be constrained by the ranking policy that hides common urban animals.
+**Decision:** Any animal can be recorded manually after selecting an accepted Animalia taxon, whether suggested or found through the general catalogue; suggestions are a separate curated discovery layer.
+**Reasoning:** The user's observation must never be constrained by the ranking policy that hides common urban animals, while a stable accepted taxon keeps the diary searchable and unambiguous.
 **Alternatives considered:** Allow only suggested species (rejected because it would lose real observations and personal notes).
-**Consequences:** `Observation.speciesId` is optional and photo/note capture works without taxonomy resolution.
+**Consequences:** `Observation.speciesId` and taxonomic source/version are mandatory; an unresolved name can be searched or previewed but is not persisted as an observation.
 
 ### Local notifications before push messaging
 **Date:** 2026-09-14
@@ -73,11 +73,19 @@ last_updated: 2026-09-14
 
 ### GBIF as the first biodiversity provider
 **Date:** 2026-09-14
-**Status:** Active, pending API spike
+**Status:** Active, API shape validated in F0
 **Decision:** Use GBIF as the first occurrence-search adapter and keep iNaturalist optional.
 **Reasoning:** GBIF exposes a documented occurrence API and is suitable for repeatable, source-backed queries.
 **Alternatives considered:** iNaturalist first (deferred until licensing and rate limits are confirmed for cached use); custom dataset (too much initial curation work).
 **Consequences:** Results are evidence-based and potentially sparse; provider metadata and licenses are first-class fields.
+
+### Lombardia pilot and provisional geographic partition
+**Date:** 2026-09-14
+**Status:** Active for F0; grid decision must be revisited in F5
+**Decision:** Use Lombardia with a synthetic Parco Nord Milano pilot, a configurable 1 km corridor sampled every 500 m, stable WGS84 0.01° cells and 0.05° query chunks.
+**Reasoning:** Five contrasting short routes produced bounded, deterministic queries and made the data-source spike reproducible without treating synthetic paths as navigation data.
+**Alternatives considered:** Italy-wide first spike (too broad for source diagnostics); provider-specific unversioned bounding boxes (rejected because cache and replay identity would drift); immediate EPSG:3035 implementation (deferred to the production route-engine phase).
+**Consequences:** The F0 keys and fingerprints are test contracts only. F5 must measure distortion and edge cases before adopting or replacing the grid.
 
 ### Evidence instead of presence prediction
 **Date:** 2026-09-14

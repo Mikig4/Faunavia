@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "f0.normalized.v1",
+  "kind": "season",
+  "id": "eea-article12:A898:B",
+  "taxon": { "source": "EEA Article 12", "id": "A898", "scientificName": "Accipiter nisus", "kingdom": "Animalia", "rank": "SPECIES", "status": "REPORTING_CONCEPT" },
+  "provenance": {
+    "provider": "European Environment Agency",
+    "dataset": "Article 12 birds 2019–2024 public — layer 0",
+    "sourceVersion": "2019–2024 reporting cycle",
+    "retrievedAt": "2026-09-14T12:36:46Z",
+    "sourceRecordId": "A898:B",
+    "queryId": "eea-article12-parco-nord-v1",
+    "sourceUrl": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article_12/ART12_birds_2019_2024_public/MapServer/0",
+    "license": "EEA data policy; dataset-specific notices prevail",
+    "attribution": "European Environment Agency and reporting countries",
+    "quality": "high",
+    "rawFixture": "fixtures/providers/eea-article12.parco-nord.json"
+  },
+  "data": { "seasonCode": "B", "seasonLabel": "breeding", "trendCode": "Unknown", "trendLabel": "Unknown" }
+}

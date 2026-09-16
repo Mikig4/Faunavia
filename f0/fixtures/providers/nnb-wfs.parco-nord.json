@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "f0.fixture.v1",
+  "fixtureId": "nnb-wfs-parco-nord-2026-09-14",
+  "provider": "Network Nazionale della Biodiversità (ISPRA)",
+  "dataset": "nnb:Osservazioni_puntuali",
+  "retrievedAt": "2026-09-14T12:36:46Z",
+  "query": {
+    "id": "nnb-wfs-parco-nord-v1",
+    "method": "GET",
+    "url": "https://geoserver.nnb.isprambiente.it/geoserver/nnb/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=nnb%3AOsservazioni_puntuali&bbox=9.171%2C45.511%2C9.210%2C45.540%2CEPSG%3A4326&count=3&outputFormat=application%2Fjson",
+    "spatialMode": "bbox",
+    "limit": 3,
+    "httpStatus": 200
+  },
+  "response": {
+    "type": "FeatureCollection",
+    "numberMatched": 95,
+    "numberReturned": 3,
+    "features": [
+      {
+        "type": "Feature",
+        "id": "Osservazioni_puntuali.4171065",
+        "geometry": { "type": "Point", "coordinates": [9.1789, 45.5284] },
+        "properties": {
+          "id_osservazione": 4171065,
+          "nome_scientifico": "Carduelis chloris",
+          "anno": 2014,
+          "banca_dati": "EPE-Euring"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "Osservazioni_puntuali.3068914",
+        "geometry": { "type": "Point", "coordinates": [9.2069, 45.525] },
+        "properties": {
+          "id_osservazione": 3068914,
+          "nome_scientifico": "Passer domesticus italiae",
+          "anno": 2007,
+          "banca_dati": "NNB osservazioni puntuali"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "Osservazioni_puntuali.3013519",
+        "geometry": { "type": "Point", "coordinates": [9.2069, 45.525] },
+        "properties": {
+          "id_osservazione": 3013519,
+          "nome_scientifico": "Passer montanus",
+          "anno": 2007,
+          "banca_dati": "NNB osservazioni puntuali"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "f0.normalized.v1",
+  "kind": "range",
+  "id": "eea-article17:1060:CON",
+  "taxon": { "source": "EEA Article 17", "id": "1060", "scientificName": "Lycaena dispar", "kingdom": "Animalia", "rank": "SPECIES", "status": "REPORTING_CONCEPT" },
+  "provenance": {
+    "provider": "European Environment Agency",
+    "dataset": "Article 17 2019–2024 public — species layer 6",
+    "sourceVersion": "2019–2024 reporting cycle",
+    "retrievedAt": "2026-09-14T12:36:46Z",
+    "sourceRecordId": "1060:CON",
+    "queryId": "eea-article17-parco-nord-v1",
+    "sourceUrl": "https://bio.discomap.eea.europa.eu/arcgis/rest/services/Article17/ART17_2019_2024_public/MapServer/6",
+    "license": "EEA data policy; dataset-specific notices prevail",
+    "attribution": "European Environment Agency and reporting countries",
+    "quality": "high",
+    "rawFixture": "fixtures/providers/eea-article17.parco-nord.json"
+  },
+  "data": { "intersectsPilotEnvelope": true, "spatialScope": "CON biogeographic reporting range", "assessment": "U2 — Bad", "sensitive": false }
+}

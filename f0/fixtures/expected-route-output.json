@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "f0.route-output.v1",
+  "routes": [
+    { "routeId": "f0-it-lom-001", "fingerprint": "4d4dff14d690035ca35bcb3c81b4f80490f60daf64797b9a8217912b80087034", "lengthKm": 4.162, "estimatedCorridorAreaKm2": 11.466, "sampleCount": 13, "cellCount": 17, "queryChunkCount": 2 },
+    { "routeId": "f0-it-lom-002", "fingerprint": "381264c4049de6ac211c4daf77794b688a7a713bf2223881980bdad2824e8cf9", "lengthKm": 5.986, "estimatedCorridorAreaKm2": 15.113, "sampleCount": 15, "cellCount": 31, "queryChunkCount": 5 },
+    { "routeId": "f0-it-lom-003", "fingerprint": "80c3b75cfa2eca47e44116a371e1d6f5745fe19fec2abe729150bdf76b7429ac", "lengthKm": 3.554, "estimatedCorridorAreaKm2": 10.249, "sampleCount": 10, "cellCount": 22, "queryChunkCount": 4 },
+    { "routeId": "f0-it-lom-004", "fingerprint": "a7e8983596a636df4abb630d4b60bbc8bb23c7f199afe4768038193a1b7ae2f7", "lengthKm": 2.192, "estimatedCorridorAreaKm2": 7.525, "sampleCount": 7, "cellCount": 16, "queryChunkCount": 1 },
+    { "routeId": "f0-it-lom-005", "fingerprint": "a9a1285fd34e54aba07d320cf16d8d9467f85d69da559abbaf8268bc23a966a9", "lengthKm": 2.965, "estimatedCorridorAreaKm2": 9.071, "sampleCount": 9, "cellCount": 21, "queryChunkCount": 3 }
+  ]
+}

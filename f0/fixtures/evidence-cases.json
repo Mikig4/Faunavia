@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "f0.evidence-cases.v1",
+  "cases": [
+    { "id": "occurrence-valid", "input": { "occurrenceUsable": true, "rangeCompatible": false, "habitatCompatible": false, "seasonCompatible": true }, "expected": { "level": "documented", "confidenceModifier": "none" } },
+    { "id": "occurrence-out-of-season", "input": { "occurrenceUsable": true, "rangeCompatible": true, "habitatCompatible": true, "seasonCompatible": false }, "expected": { "level": "documented", "confidenceModifier": "season-reduces" } },
+    { "id": "range-habitat-season", "input": { "occurrenceUsable": false, "rangeCompatible": true, "habitatCompatible": true, "seasonCompatible": true }, "expected": { "level": "plausible", "confidenceModifier": "season-supports" } },
+    { "id": "range-habitat-no-season", "input": { "occurrenceUsable": false, "rangeCompatible": true, "habitatCompatible": true, "seasonCompatible": null }, "expected": { "level": "plausible", "confidenceModifier": "season-unknown" } },
+    { "id": "missing-habitat", "input": { "occurrenceUsable": false, "rangeCompatible": true, "habitatCompatible": null, "seasonCompatible": true }, "expected": { "level": "insufficient", "confidenceModifier": "not-applicable" } },
+    { "id": "missing-range", "input": { "occurrenceUsable": false, "rangeCompatible": null, "habitatCompatible": true, "seasonCompatible": true }, "expected": { "level": "insufficient", "confidenceModifier": "not-applicable" } }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://faunavia.local/f0/normalized-record.schema.json",
+  "title": "Faunavia normalized evidence record",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "id", "taxon", "provenance", "data"],
+  "properties": {
+    "schemaVersion": { "const": "f0.normalized.v1" },
+    "kind": { "enum": ["taxon", "occurrence", "range", "habitat", "season"] },
+    "id": { "type": "string", "minLength": 1 },
+    "taxon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "id", "scientificName", "kingdom", "rank", "status"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "id": { "type": "string", "minLength": 1 },
+        "scientificName": { "type": "string", "minLength": 1 },
+        "kingdom": { "const": "Animalia" },
+        "rank": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "dataset",
+        "sourceVersion",
+        "retrievedAt",
+        "sourceRecordId",
+        "queryId",
+        "sourceUrl",
+        "license",
+        "attribution",
+        "quality",
+        "rawFixture"
+      ],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "dataset": { "type": "string", "minLength": 1 },
+        "sourceVersion": { "type": "string", "minLength": 1 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "sourceRecordId": { "type": "string", "minLength": 1 },
+        "queryId": { "type": "string", "minLength": 1 },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "license": { "type": "string", "minLength": 1 },
+        "attribution": { "type": "string", "minLength": 1 },
+        "quality": {
+          "enum": ["high", "medium", "low", "unknown", "stale"]
+        },
+        "rawFixture": { "type": "string", "pattern": "^fixtures/providers/" }
+      }
+    },
+    "data": { "type": "object" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "taxon" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["canonicalName", "matchType", "confidence"],
+            "properties": {
+              "canonicalName": { "type": "string", "minLength": 1 },
+              "matchType": { "type": "string", "minLength": 1 },
+              "confidence": { "type": "integer", "minimum": 0, "maximum": 100 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "occurrence" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["occurrenceStatus", "observedAt", "position", "coordinateUncertaintyM", "basisOfRecord", "issues"],
+            "properties": {
+              "occurrenceStatus": { "const": "PRESENT" },
+              "observedAt": { "type": ["string", "null"] },
+              "position": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["latitude", "longitude", "crs"],
+                "properties": {
+                  "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+                  "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+                  "crs": { "const": "EPSG:4326" }
+                }
+              },
+              "coordinateUncertaintyM": { "type": ["number", "null"], "minimum": 0 },
+              "basisOfRecord": { "type": "string", "minLength": 1 },
+              "issues": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "range" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["intersectsPilotEnvelope", "spatialScope", "assessment", "sensitive"],
+            "properties": {
+              "intersectsPilotEnvelope": { "type": "boolean" },
+              "spatialScope": { "type": "string", "minLength": 1 },
+              "assessment": { "type": "string", "minLength": 1 },
+              "sensitive": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "habitat" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["biogeographicRegion", "ecosystemCode", "associationCode", "associationLabel"],
+            "properties": {
+              "biogeographicRegion": { "type": "string", "minLength": 1 },
+              "ecosystemCode": { "type": "string", "minLength": 1 },
+              "associationCode": { "enum": ["P", "S", "O"] },
+              "associationLabel": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "season" } } },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["seasonCode", "seasonLabel", "trendCode", "trendLabel"],
+            "properties": {
+              "seasonCode": { "enum": ["B", "P", "W"] },
+              "seasonLabel": { "enum": ["breeding", "passage", "winter"] },
+              "trendCode": { "type": "string", "minLength": 1 },
+              "trendLabel": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

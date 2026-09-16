@@ -46,6 +46,14 @@ The general selector searches the adopted taxonomy by common name, scientific na
 
 Taxon search may show a lazy photo preview from an occurrence-media source. Preview metadata must include creator, rights holder, license, source URL, and cache expiry. Missing or non-reusable media must fall back to a placeholder without blocking taxon selection.
 
+## F0 provider baseline
+
+- GBIF polygon occurrence search, GBIF taxonomy match, EEA Article 12/17 envelope queries, the EEA MAES 2014 archive and CLCplus 2021 point identify returned usable bounded fixtures.
+- NNB GeoAPI returned HTTP 503; NNB WFS returned data and is the explicit fallback. The lack of per-record licensing metadata prevents assuming public/commercial reuse.
+- The discoverable CLCplus point service used in F0 is 2021. A guessed 2023 ImageServer returned 404; 2021 remains visibly dated and non-equivalent.
+- CLCplus classes are retained raw. No direct CLCplus-to-MAES mapping is accepted until scientific curation; without it, habitat evidence is `insufficient`.
+- Provider snapshots, source registry, query limits, normalization examples and fallback outcomes are versioned in `f0/fixtures/` and replayed offline with `npm --prefix f0 test`.
+
 ## Optional Firebase boundary
 
 Firestore may later synchronize structured records, regional suggestion profiles, and catalogue versions. Cloud photo storage is not assumed in a zero-cost design; if it is introduced, review the current Firebase billing requirement and security rules first. No provider is allowed to become the only copy of the user's diary.

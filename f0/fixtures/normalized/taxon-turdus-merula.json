@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "f0.normalized.v1",
+  "kind": "taxon",
+  "id": "gbif:2490719",
+  "taxon": { "source": "GBIF", "id": "2490719", "scientificName": "Turdus merula Linnaeus, 1758", "kingdom": "Animalia", "rank": "SPECIES", "status": "ACCEPTED" },
+  "provenance": {
+    "provider": "GBIF",
+    "dataset": "GBIF Species match",
+    "sourceVersion": "GBIF backbone observed 2026-09-14",
+    "retrievedAt": "2026-09-14T12:36:46Z",
+    "sourceRecordId": "2490719",
+    "queryId": "gbif-taxa-initial-v1",
+    "sourceUrl": "https://api.gbif.org/v1/species/2490719",
+    "license": "GBIF API terms; downstream dataset licenses remain applicable",
+    "attribution": "GBIF Backbone Taxonomy",
+    "quality": "high",
+    "rawFixture": "fixtures/providers/gbif-taxa-initial.json"
+  },
+  "data": { "canonicalName": "Turdus merula", "matchType": "EXACT", "confidence": 100 }
+}

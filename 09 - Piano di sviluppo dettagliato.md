@@ -1,192 +1,388 @@
 # Piano di sviluppo dettagliato
 
-Questo è il piano operativo iniziale. Non contiene ancora codice: definisce l'ordine in cui costruire il progetto, cosa deve essere verificato e quando una fase può considerarsi conclusa.
+Questo piano non avvia ancora lo sviluppo. Definisce fasi ordinate, dipendenze, artefatti, test e gate necessari per iniziare senza lasciare decisioni implicite.
 
 ## Regole di esecuzione
 
-- Una fase non si considera conclusa perché “compila”: deve avere un risultato osservabile e un test minimo.
-- Le decisioni che cambiano costi, privacy, licenze o formato dei dati devono essere documentate prima di implementare.
-- Prima si costruisce il percorso locale dell'app; i servizi esterni restano adapter sostituibili.
-- Il catalogo generale degli animali e i suggerimenti peculiari del luogo restano separati.
+- Ogni punto numerato è una fase di sviluppo autonoma e produce un incremento dimostrabile.
+- Una fase parte soltanto quando il gate della precedente è verde.
+- F0 valida assunzioni e fonti; F1 crea l'infrastruttura automatizzata; da F2 ogni fase aggiunge test propri e riesegue la suite di non regressione completa.
+- I test deterministici non dipendono dalla rete: usano fake, snapshot e fixture versionate. Le API reali hanno smoke test separati e controllati.
+- I dati esterni conservano fonte, query, timestamp, licenza, qualità e versione.
+- Il dominio non dipende da Android, Room, HTTP, MapLibre, WorkManager o renderer 3D.
+- Nessun servizio a pagamento, backend o upload di foto entra nel progetto senza una decisione esplicita.
+- Una fase fallita non viene aggirata riducendo la copertura: si corregge il difetto o si documenta una nuova decisione.
 
-## P0 — Conferma del perimetro
+## Gate automatici comuni
+
+- `verifyFast`: compilazione, formattazione/lint, analisi statica e unit test JVM.
+- `verifyDevice`: test strumentati Room, Compose UI e UI Automator su Android Gradle Managed Device.
+- `verifyVisual`: confronto degli screenshot golden e report delle differenze.
+- `verifyAll`: tutti i gate precedenti, validatori dati/asset ed eventuali test end-to-end.
+
+I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva report leggibili e artefatti utili a diagnosticare un errore.
+
+## F0 — Chiusura perimetro e spike dati
+
+**Obiettivo:** trasformare le scelte approvate in contratti verificabili prima di creare l'app.
 
 **Dipendenze:** nessuna.
 
-Definire come assunzioni di partenza: Android nativo, APK installabile manualmente, diario locale, foto locali, notifica alle 20:30, mappa offline rimandata e nessun Firebase nell'MVP.
+**Attività e artefatti:**
 
-**Completamento:** le decisioni sono riportate in `06 - Domande aperte.md` e `.mex/context/decisions.md`.
+1. Scegliere percorso pilota, prima area italiana e set iniziale di gruppi animali.
+2. Validare il corridoio predefinito di 1 km su 3–5 itinerari diversi.
+3. Provare la strategia ibrida: porzioni semplificate + celle di griglia stabili; annotare per ogni provider se accetta poligono o bounding box.
+4. Acquisire piccole fixture riproducibili da GBIF, NNB, Article 12/17, matrice specie–habitat e CLCplus.
+5. Definire contratti normalizzati per taxon, occorrenza, areale, habitat, stagione e provenienza.
+6. Registrare licenza, attribuzione, limiti e comportamento in errore di ogni fonte.
 
-## P1 — Progetto Android vuoto e APK installabile
+**Test della fase:** validazione dello schema delle fixture; replay offline; coordinate WGS84 valide; query sotto i limiti stabiliti; stesso input → stessa chiave di cella e stesso fingerprint; assenza di una fonte → risultato insufficiente, non presenza inventata.
 
-**Dipendenze:** P0.
+**Gate di completamento:** dataset di prova versionato, ADR delle fonti e della strategia geografica, rischi noti e criteri di plausibilità leggibili senza consultare il codice.
 
-1. Creare il progetto Kotlin/Jetpack Compose.
-2. Impostare min/target SDK e verificare compatibilità con il dispositivo di test.
-3. Configurare build debug e release locale.
-4. Creare le schermate vuote: Home, Cerca animale, Nuovo avvistamento, Diario, Percorso, Dettaglio animale, Impostazioni.
-5. Installare l'APK sul telefono.
+**Esito 2026-09-14:** completata. Artefatti, ADR e gate automatico sono in `f0/`; il rapporto leggibile è in [[11 - Rapporto Fase 0]].
 
-**Completamento:** l'APK si installa e apre tutte le schermate placeholder senza rete.
+## F1 — Scaffold Android e fondazione dell'automazione
 
-## P2 — Modello dati locale e Room
+**Obiettivo:** produrre un APK vuoto ma installabile e una pipeline locale completamente automatizzata.
 
-**Dipendenze:** P1.
+**Dipendenze:** F0.
 
-Creare schema e repository per:
+**Attività e artefatti:**
 
-- `Taxon` — identificativo fonte, nome accettato, nomi comuni, sinonimi, rango, fonte/versione;
-- `TaxonPreview` — URL miniatura, autore, licenza, fonte, scadenza cache;
-- `SpeciesProfile` — dati divulgativi e asset associati;
-- `SuggestionProfile` — area, habitat, peculiarità, esclusioni e motivazione;
-- `Observation` — taxon obbligatorio, data/ora, posizione, quantità, note, origine;
-- `ObservationPhoto` — percorso locale, miniatura, hash e metadati di attribuzione se presenti;
-- `Route` — file originale, geometria normalizzata e metadati;
-- `AppSettings` — orario notifica, fuso, preferenze e stato dei pacchetti.
+1. Creare progetto Kotlin/Jetpack Compose e moduli con dipendenze verso il dominio.
+2. Fissare JDK, Gradle, Android SDK, min/target SDK e version catalog.
+3. Creare schermate placeholder e navigazione di base.
+4. Configurare lint, analisi statica, unit test, test strumentati, Compose UI, UI Automator, screenshot golden e Android Gradle Managed Devices.
+5. Implementare i quattro gate comuni e la raccolta automatica dei report.
+6. Preparare fixture, fake clock, fake location e fake provider condivisi.
 
-**Completamento:** inserimento, modifica, cancellazione e lettura di un record di test funzionano con database vuoto e dopo riavvio dell'app.
+**Test della fase:** build debug ripetibile; installazione e avvio su emulatore; navigazione tra tutte le schermate placeholder; test JVM campione; test Compose campione; screenshot baseline; esecuzione deliberatamente fallita che dimostri la pubblicazione del report.
 
-## P3 — Ricerca animale con foto preview
+**Gate di completamento:** un solo comando `verifyAll` compila, installa, prova l'app e restituisce un esito non ambiguo senza operazioni manuali.
 
-**Dipendenze:** P2.
+**Esito 2026-09-14:** completata. `verifyAll` esegue la regressione F0, compila l'APK, applica lint e controlli architetturali, esegue test JVM e tre test strumentati su dispositivo gestito (avvio, navigazione e golden visuale), quindi pubblica un indice dei report. Dettagli e percorsi sono in [[12 - Rapporto Fase 1]].
 
-1. Creare adapter per la Species API tassonomica.
-2. Cercare per nome comune, scientifico e sinonimo.
-3. Applicare debounce e minimo di caratteri.
-4. Limitare i risultati a `Animalia` e a taxa selezionabili.
-5. Mostrare nome scientifico, nome comune, rango e stato accettato.
-6. Caricare lazy una miniatura per i risultati visibili.
-7. Mostrare fonte, autore e licenza della foto.
-8. Usare placeholder quando manca una foto o la licenza non consente riuso locale.
-9. Salvare il taxon scelto e la preview in cache.
+## F2 — Dominio, Room e repository locali
 
-**Completamento:** cercando un animale si vedono risultati con foto quando disponibile; selezionando un risultato si salva un taxon stabile; una foto mancante non impedisce la selezione.
+**Obiettivo:** creare la fonte dati locale e i vincoli che proteggono il diario.
 
-## P4 — Inserimento manuale dell'avvistamento
+**Dipendenze:** F1.
 
-**Dipendenze:** P2, P3.
+**Attività e artefatti:**
 
-1. Aprire “Nuovo avvistamento”.
-2. Cercare e selezionare un animale dal catalogo generale.
-3. Precompilare data, ora e posizione corrente, lasciando la possibilità di modificarle.
-4. Aggiungere quantità e note.
-5. Salvare senza rete.
-6. Mostrare il record nel diario.
+1. Modellare `Taxon`, `TaxonPreview`, `SpeciesProfile`, `SuggestionProfile`, `Observation`, `ObservationPhoto`, `Route`, `SourceEvidence` e `AppSettings`.
+2. Separare entità Room, modelli di dominio, mapper e repository.
+3. Rendere `taxonId` obbligatorio per ogni osservazione persistita, con riferimento a un taxon Animalia accettato.
+4. Introdurre versione schema, migrazione iniziale, clock iniettabile e operazioni transazionali.
+5. Definire cancellazione locale e comportamento per riferimenti mancanti.
 
-**Completamento:** un animale non suggerito può essere scelto, salvato, modificato e visualizzato nel diario offline.
+**Test della fase:** CRUD e query Room; persistenza dopo riavvio; migrazione; rollback transazionale; date/fusi; vincoli di integrità; rifiuto di taxon nullo, non accettato o non Animalia; mapper round-trip; repository con database vuoto.
 
-## P5 — Foto dell'avvistamento
+**Non regressione:** rieseguire build, installazione, navigazione, test Compose e screenshot di F1; aggiungere un sentinel test che riapre un database popolato e verifica che l'osservazione resti leggibile.
 
-**Dipendenze:** P4.
+**Gate di completamento:** `verifyAll` verde e impossibilità, dimostrata dai test, di persistere un avvistamento senza specie valida.
 
-1. Selezionare una foto con Photo Picker.
-2. Prevedere successivamente l'acquisizione da fotocamera.
-3. Copiare una versione controllata nell'area privata dell'app.
-4. Generare una miniatura.
-5. Evitare di esporre automaticamente EXIF e coordinate personali.
-6. Consentire eliminazione della foto senza cancellare l'avvistamento.
+**Esito 2026-09-16:** completata. Nove modelli di dominio, modulo `:core:local`, repository transazionali, schema Room v2 con migrazione iniziale e vincoli SQLite su taxa Animalia accettati. `verifyAll` verde: 13 test F0, 12 JVM e 13 strumentati, incluse migrazioni e riapertura del database. Dettagli in [[13 - Rapporto Fase 2]].
 
-**Completamento:** un avvistamento può avere zero, una o più foto; l'app funziona anche se la foto viene rimossa o non è disponibile.
+## F3 — Ricerca tassonomica e cache
 
-## P6 — Notifica serale locale
+**Obiettivo:** consentire la scelta affidabile di qualsiasi specie animale riconosciuta dal catalogo.
 
-**Dipendenze:** P2, P4.
+**Dipendenze:** F2.
 
-1. Salvare l'orario predefinito 20:30.
-2. Richiedere il permesso notifiche solo nel momento opportuno.
-3. Programmare un controllo giornaliero idempotente.
-4. Calcolare la data nel fuso orario del dispositivo.
-5. Contare solo avvistamenti manuali della giornata.
-6. Notificare soltanto se il conteggio è maggiore di zero.
-7. Aprire il riepilogo giornaliero al tap.
-8. Gestire riavvio, cambio fuso, cambio orario e permesso negato.
+**Attività e artefatti:**
 
-**Completamento:** con avvistamenti viene mostrato il riepilogo; senza avvistamenti non viene inviata una notifica vuota; il diario continua a funzionare anche senza permesso.
+1. Definire l'interfaccia del provider tassonomico e il primo adapter GBIF Species.
+2. Cercare nome comune, scientifico, sinonimi e varianti con debounce e minimo caratteri.
+3. Filtrare `Animalia`, privilegiare specie/sottospecie e salvare il taxon accettato stabile.
+4. Conservare versione/data fonte e cache degli elementi già scelti.
+5. Usare placeholder se preview o licenza immagine non sono disponibili.
 
-## P7 — Catalogo dei suggerimenti peculiari
+**Test della fase:** fake provider per successo, vuoto, timeout e risposta malformata; sinonimo → nome accettato; esclusione di taxa non Animalia; debounce; risultati duplicati; selezione senza preview; cache offline; scadenza controllata; UI con stato loading/errore/vuoto.
 
-**Dipendenze:** P2, P3.
+**Non regressione:** suite completa F1–F2; sentinel su vincolo `taxonId`; riapertura del database; ricerca offline di un taxon precedentemente selezionato.
 
-1. Definire `SuggestionProfile` separato da `Taxon`.
-2. Aggiungere regole `urbanCommon`, `distinctivenessScore`, habitat e area.
-3. Escludere gli animali comuni dalla lista primaria.
-4. Mostrare la motivazione del suggerimento.
-5. Consentire sempre la ricerca nel catalogo generale.
+**Gate di completamento:** un taxon valido può essere cercato, selezionato e riletto offline senza dipendere dalla preview fotografica.
 
-**Completamento:** i suggerimenti mostrano solo la selezione peculiare configurata; la ricerca generale continua a permettere qualunque animale.
+## F4 — Diario manuale
 
-## P8 — Scheda animale e primo asset 3D
+**Obiettivo:** realizzare il primo flusso utente utile completamente locale.
 
-**Dipendenze:** P3, P7.
+**Dipendenze:** F3.
 
-1. Definire il template della scheda.
-2. Collegare nomi, caratteristiche, habitat, stagionalità e fonti.
-3. Creare un primo modello low-poly in Blender.
-4. Esportare GLB.
-5. Registrare autore, fonte, licenza e versione.
-6. Caricare il modello solo quando richiesto.
-7. Prevedere immagine/silhouette di fallback.
+**Attività e artefatti:**
 
-**Completamento:** una specie selezionata ha una scheda leggibile e un modello 3D oppure un fallback funzionante.
+1. Creare, modificare, visualizzare ed eliminare un avvistamento.
+2. Richiedere la selezione di un taxon prima del salvataggio.
+3. Gestire data/ora locale, posizione opzionale, quantità e note.
+4. Mantenere gli avvistamenti manuali separati dalle occorrenze esterne e dai suggerimenti.
+5. Conservare una ricerca incompleta solo nello stato transitorio della UI.
 
-## P9 — Importazione e analisi itinerari
+**Test della fase:** flusso Compose create/edit/delete; salvataggio offline; validazione specie obbligatoria; cambio fuso; quantità limite; note vuote/lunghe; posizione assente; processo ricreato; taxon non suggerito comunque registrabile.
 
-**Dipendenze:** P2, P3.
+**Non regressione:** suite completa F1–F3; sentinel su ricerca tassonomica e cache; database popolato riaperto; nessun record manuale compare tra le evidenze esterne.
 
-1. Importare GPX e GeoJSON.
-2. Validare coordinate e segmenti.
-3. Normalizzare la geometria.
-4. Campionare il percorso.
-5. Creare il corridoio di analisi.
-6. Interrogare le occorrenze GBIF tramite adapter.
-7. Salvare cache, fonte, data e qualità.
+**Gate di completamento:** una persona costruisce e modifica il diario offline; nessun percorso UI o repository salva un record senza specie.
 
-**Completamento:** un itinerario senza tappe produce corridoio, risultati e spiegazione delle evidenze.
+## F5 — Route engine deterministico
 
-## P10 — Mappa online e visualizzazione
+**Obiettivo:** convertire GPX/GeoJSON o posizione in una descrizione spaziale riutilizzabile dai provider.
 
-**Dipendenze:** P9.
+**Dipendenze:** F2.
 
-1. Integrare MapLibre Native.
-2. Visualizzare posizione, percorso, corridoio, osservazioni e risultati.
-3. Mostrare attribuzione della mappa.
-4. Gestire assenza di rete lasciando accessibili diario e risultati salvati.
+**Attività e artefatti:**
 
-**Completamento:** la mappa è una vista dei dati, non una dipendenza per leggere il diario.
+1. Importare e validare GPX e GeoJSON.
+2. Normalizzare WGS84, segmenti, duplicati e coordinate.
+3. Campionare la traccia e costruire il corridoio configurabile.
+4. Suddividere il corridoio in porzioni semplificate e celle di griglia stabili.
+5. Generare fingerprint di ricerca riproducibili per cache e deduplicazione.
 
-## P11 — Export/import e backup locale
+**Test della fase:** fixture con punto, linea, più segmenti e percorso senza tappe; file malformato; coordinate fuori intervallo; duplicati; attraversamento antimeridiano; traccia vuota; densità di campionamento; buffer; stabilità di chunk, celle e fingerprint.
 
-**Dipendenze:** P2, P5, P6.
+**Non regressione:** suite completa F1–F4; sentinel su diario offline e specie obbligatoria; import fallito non altera Room né cancella dati esistenti.
 
-1. Esportare database, foto e manifest in un archivio.
-2. Importare un archivio su un nuovo dispositivo.
-3. Validare versione dello schema.
-4. Gestire file mancanti senza perdere gli avvistamenti.
+**Gate di completamento:** ogni fixture valida produce sempre lo stesso corridoio e le stesse unità di query; ogni fixture invalida fallisce senza effetti collaterali.
 
-**Completamento:** il diario può essere salvato e ripristinato senza Firebase.
+## F6 — Gateway delle occorrenze e provenienza
 
-## P12 — Pacchetto mappa offline per itinerari
+**Obiettivo:** ottenere evidenze documentate senza accoppiare l'app a un singolo provider.
 
-**Dipendenze:** P10, decisione su area e provider.
+**Dipendenze:** F3, F5.
 
-1. Scegliere una sola regione iniziale.
-2. Scegliere fonte e licenza che permettano il download offline.
-3. Generare il pacchetto con livelli di zoom limitati.
-4. Versionare, importare e cancellare il pacchetto.
-5. Testare dimensioni e memoria sul telefono.
+**Attività e artefatti:**
 
-**Completamento:** un itinerario scelto funziona con il pacchetto regionale senza connessione.
+1. Definire un contratto comune e implementare gli adapter iniziali GBIF/NNB.
+2. Lasciare all'adapter la scelta tra poligono e bounding box per ogni porzione.
+3. Normalizzare, deduplicare e conservare query, timestamp, record, licenza e precisione.
+4. Implementare rate limit, retry con backoff, cache TTL e lettura stale esplicita.
+5. Separare smoke test online dai test riproducibili.
 
-## P13 — Sincronizzazione opzionale
+**Test della fase:** contract test comuni agli adapter; fixture HTTP; bbox/poligono fallback; paginazione; duplicati tra porzioni; timeout; 429/5xx; retry limitato; cache hit/miss/stale; provenienza completa; coordinate generalizzate non ricostruite.
 
-**Dipendenze:** P11 e uso reale dell'app.
+**Non regressione:** suite completa F1–F5; sentinel sui fingerprint del route engine; ricerca tassonomica e diario offline; provider indisponibile non rende inutilizzabili i dati salvati.
 
-Valutare Firestore solo se emerge un bisogno concreto di sincronizzare catalogo o diario. Le foto restano escluse finché non esiste una soluzione di backup compatibile con il vincolo economico.
+**Gate di completamento:** un itinerario produce un insieme deduplicato di evidenze documentate e spiegabili, oppure un errore recuperabile senza perdita locale.
 
-**Completamento:** decisione documentata, non semplice aggiunta tecnica.
+## F7 — Motore di plausibilità e fonti istituzionali
 
-## Ordine del primo ciclo
+**Obiettivo:** distinguere in modo prudente “documentato”, “plausibile” e “insufficiente”.
 
-`P0 → P1 → P2 → P3 → P4 → P5 → P6 → P7 → P8 → P9 → P10 → P11`
+**Dipendenze:** F5, F6.
 
-P12 e P13 vengono dopo il primo utilizzo reale dell'app.
+**Attività e artefatti:**
+
+1. Integrare tramite adapter range Article 12/17, matrice specie–habitat e classi CLCplus.
+2. Usare Natura 2000 solo come evidenza positiva di contesto.
+3. Applicare la regola: areale + habitat sono entrambi obbligatori; stagione modifica la confidenza.
+4. Derivare segnali mensili GBIF/NNB solo quando mancano dati stagionali istituzionali e marcarli a qualità inferiore.
+5. Generare una spiegazione strutturata con fonti e passaggi del calcolo.
+
+**Test della fase:** matrice di casi range sì/no × habitat sì/no × stagione sì/no; fonti mancanti; areale confinante; habitat misto; dati vecchi; Natura 2000 assente; fixture Article 12/17 e CLCplus; stesso input → stesso livello e stessa spiegazione.
+
+**Non regressione:** suite completa F1–F6; sentinel che impedisce di promuovere a plausibile una specie con solo areale o solo habitat; distinzione invariata tra osservazioni manuali ed evidenze esterne.
+
+**Gate di completamento:** nessun caso di test sovrastima la presenza e ogni risultato visualizzabile dispone di una spiegazione tracciabile.
+
+## F8 — Risultati, mappa online e primo vertical slice
+
+**Obiettivo:** completare il flusso importazione → analisi → risultati spiegati → mappa.
+
+**Dipendenze:** F4, F7.
+
+**Attività e artefatti:**
+
+1. Integrare MapLibre dietro un map adapter.
+2. Mostrare percorso, corridoio, campioni, evidenze, livello e filtri.
+3. Rendere attribuzioni sempre visibili e coordinate sensibili prudenti.
+4. Consentire lista e diario anche quando mappa o rete non sono disponibili.
+5. Collegare risultato, spiegazione, fonte e taxon senza ancora dipendere dal 3D.
+
+**Test della fase:** end-to-end con GPX/GeoJSON e provider fake; Compose UI dei filtri; screenshot golden di mappa/lista/errore; attribuzione; map adapter fake; rotazione e ricreazione processo; assenza rete e tile; accessibilità dei livelli di evidenza.
+
+**Non regressione:** suite completa F1–F7; sentinel GPX → fingerprint → fixture provider → classificazione attesa; diario e ricerca restano utilizzabili senza mappa.
+
+**Gate di completamento:** il primo vertical slice funziona su emulatore dall'import al risultato spiegato, con report e screenshot automatici.
+
+## F9 — Suggerimenti peculiari del luogo
+
+**Obiettivo:** offrire una selezione curata senza confonderla con il catalogo generale o con tutte le occorrenze.
+
+**Dipendenze:** F3, F7, F8.
+
+**Attività e artefatti:**
+
+1. Versionare `SuggestionProfile` con area, habitat, `urbanCommon`, `distinctivenessScore`, motivazione e fonte.
+2. Escludere o de-prioritizzare specie urbane comuni tramite regole esplicite.
+3. Mostrare sempre la motivazione e il carattere non esaustivo della lista.
+4. Lasciare invariata la possibilità di registrare qualsiasi taxon Animalia accettato.
+
+**Test della fase:** profili curati validi/invalidi; soglia di peculiarità; esclusione `urbanCommon`; ordinamento stabile; motivazione e fonte obbligatorie; lista vuota; specie esclusa dai suggerimenti ma salvabile nel diario.
+
+**Non regressione:** suite completa F1–F8; sentinel sulla separazione fra suggerimenti, catalogo, evidenze e diario; vertical slice cartografico invariato.
+
+**Gate di completamento:** i suggerimenti sono motivati, riproducibili e non limitano il diario.
+
+## F10 — Foto locali e privacy
+
+**Obiettivo:** allegare immagini senza introdurre upload o permessi più ampi del necessario.
+
+**Dipendenze:** F4.
+
+**Attività e artefatti:**
+
+1. Integrare Android Photo Picker.
+2. Copiare una versione controllata nell'area privata e generare una miniatura.
+3. Registrare hash, dimensione, orientamento e relazione con l'avvistamento.
+4. Rimuovere o non esportare EXIF sensibili per default.
+5. Eliminare una foto senza eliminare l'avvistamento.
+
+**Test della fase:** zero/una/più foto; URI revocato; file mancante/corrotto; immagini grandi e ruotate; hash; EXIF; eliminazione indipendente; storage insufficiente; ricreazione processo; Photo Picker tramite UI Automator dove supportato.
+
+**Non regressione:** suite completa F1–F9; sentinel CRUD del diario con e senza foto; ricerca, import e risultati non richiedono permessi galleria.
+
+**Gate di completamento:** le foto restano private e recuperabili localmente; ogni errore degrada al diario testuale senza perdita del record.
+
+## F11 — Notifica locale a orario flessibile
+
+**Obiettivo:** ricordare gli avvistamenti della giornata senza allarme esatto o backend.
+
+**Dipendenze:** F4.
+
+**Attività e artefatti:**
+
+1. Salvare orario locale preferito e pianificare lavoro periodico unico con WorkManager.
+2. Contare soltanto gli avvistamenti manuali della data locale corrente.
+3. Notificare solo se il conteggio è maggiore di zero e aprire il riepilogo.
+4. Gestire cambio orario/fuso, riavvio, risparmio energetico e permesso negato.
+5. Rendere il worker idempotente e indipendente dalla rete.
+
+**Test della fase:** fake clock; zero vs N avvistamenti; finestra temporale; cambio fuso e mezzanotte; ripianificazione; doppia esecuzione; reboot simulato; permesso negato; notifica e deep link verificati con UI Automator.
+
+**Non regressione:** suite completa F1–F10; sentinel sul diario dopo esecuzione del worker; nessuna chiamata GBIF/NNB; nessuna notifica vuota o duplicata.
+
+**Gate di completamento:** comportamento corretto in tutti i casi temporali senza promettere il minuto esatto e senza compromettere il diario se il permesso manca.
+
+## F12 — Export, import e backup locale
+
+**Obiettivo:** rendere recuperabili database e foto senza sincronizzazione cloud.
+
+**Dipendenze:** F10, F11.
+
+**Attività e artefatti:**
+
+1. Definire archivio con manifest, versione schema, hash e inventario file.
+2. Esportare database, foto e impostazioni con Storage Access Framework.
+3. Validare un import in staging prima della sostituzione transazionale.
+4. Gestire versioni incompatibili, file mancanti e spazio insufficiente.
+5. Produrre un report comprensibile senza includere dati sensibili nei log.
+
+**Test della fase:** round-trip su database vuoto/popolato; import su installazione nuova; archivio corrotto; hash errato; file mancante; versione futura; annullamento; spazio insufficiente; rollback dopo errore; conteggi e relazioni invariati.
+
+**Non regressione:** suite completa F1–F11; sentinel su diario, foto, impostazioni e pianificazione notifica prima/dopo round-trip; import fallito lascia intatto lo stato precedente.
+
+**Gate di completamento:** un archivio valido ripristina integralmente i dati; nessun archivio invalido modifica lo stato locale.
+
+## F13 — Scheda specie e fallback 2D
+
+**Obiettivo:** fornire una scheda utile e tracciabile prima di introdurre il renderer 3D.
+
+**Dipendenze:** F3, F7, F8.
+
+**Attività e artefatti:**
+
+1. Definire contenuti, fonti e versionamento del profilo specie.
+2. Mostrare nomi, habitat, stagionalità, dimensioni, dieta, comportamento e note di sicurezza/conservazione.
+3. Collegare spiegazione di evidenza e provenienza.
+4. Offrire immagine o silhouette 2D accessibile e sempre disponibile come fallback.
+5. Conservare offline le schede già viste.
+
+**Test della fase:** profilo completo/parziale; fonte mancante; cache offline; link; testo lungo; localizzazione; screen reader e contrasto; screenshot golden; fallback assente/corrotto gestito senza crash.
+
+**Non regressione:** suite completa F1–F12; sentinel risultato → scheda → ritorno alla mappa; diario e backup non dipendono dal profilo remoto.
+
+**Gate di completamento:** ogni specie selezionabile ha una scheda leggibile o un fallback esplicito senza dipendenza dal 3D.
+
+## F14 — Pipeline 3D e primo asset GLB
+
+**Obiettivo:** aggiungere il 3D come arricchimento verificato, mai come requisito per usare l'app.
+
+**Dipendenze:** F13.
+
+**Attività e artefatti:**
+
+1. Versionare sorgente `.blend`, script Blender Python headless, reference board e licenze.
+2. Automatizzare convenzioni, export GLB, preview e aggiornamento di `asset-manifest.json`.
+3. Eseguire Khronos glTF Validator e controlli di scala, asse, pivot, poligoni, materiali, texture, hash e peso.
+4. Caricare il modello lazy e liberare memoria quando la scheda viene chiusa.
+5. Eseguire revisione umana anatomica, visiva e legale prima dell'approvazione.
+
+**Test della fase:** export ripetibile; validatore glTF; manifest coerente; asset mancante/corrotto; budget dimensione/memoria/tempo; render golden; rotazione/touch; ripresa ciclo vita; test su emulatore e almeno un dispositivo reale.
+
+**Non regressione:** suite completa F1–F13; sentinel che rimuove o corrompe il GLB e verifica scheda 2D, diario, mappa e risultati ancora funzionanti.
+
+**Gate di completamento:** primo modello approvato, validato e performante; fallback automatico sempre verde. Solo dopo il gate si scala a 5–10 specie.
+
+## F15 — Pacchetto mappa regionale offline
+
+**Obiettivo:** analizzare e consultare un'area pilota senza tile online, nel rispetto delle licenze.
+
+**Dipendenze:** F8 e decisione sull'area pilota.
+
+**Attività e artefatti:**
+
+1. Scegliere una sorgente che autorizzi esplicitamente l'uso offline; non fare bulk download delle tile standard OSM.
+2. Limitare regione, zoom, dimensione e frequenza di aggiornamento.
+3. Versionare manifest, licenza, hash e provenienza del pacchetto.
+4. Implementare import, attivazione, aggiornamento e cancellazione recuperabile.
+5. Mantenere lista, coordinate e diario disponibili senza pacchetto.
+
+**Test della fase:** licenza/manifest; pacchetto valido/corrotto; spazio insufficiente; aggiornamento/rollback; regione fuori copertura; assenza totale rete; memoria e prestazioni; cancellazione; attribuzione visibile.
+
+**Non regressione:** suite completa F1–F14; sentinel del vertical slice con rete disattivata; modalità online e fallback testuale invariati; asset 3D non caricato durante la mappa.
+
+**Gate di completamento:** il percorso pilota funziona offline entro limiti dichiarati e la rimozione del pacchetto non elimina dati utente.
+
+## F16 — Valutazione della sincronizzazione opzionale
+
+**Obiettivo:** decidere se esiste un bisogno reale di backend senza indebolire il local-first.
+
+**Dipendenze:** F12 e uso reale dell'app.
+
+**Attività e artefatti:**
+
+1. Raccogliere casi d'uso concreti non risolti dall'export/import.
+2. Redigere un ADR con costi, privacy, conflitti, autenticazione, portabilità e strategia offline.
+3. Se approvato, definire una porta di sincronizzazione separata e mantenere Room come fonte locale.
+4. Escludere le foto finché costi, consenso e recuperabilità non sono risolti esplicitamente.
+5. Se il bisogno non è dimostrato, chiudere la fase con decisione “nessun backend”.
+
+**Test della fase, solo se implementata:** contract test del sync adapter; offline/online; conflitti; retry; idempotenza; cancellazione; migrazione; account assente; server irraggiungibile; nessun upload foto; export sempre disponibile.
+
+**Non regressione:** suite completa F1–F15 in modalità local-only; sentinel che disabilita l'adapter remoto e verifica tutte le funzioni core; un errore server non modifica o perde dati locali.
+
+**Gate di completamento:** ADR approvato. L'eventuale implementazione è accettabile solo se `verifyAll` resta verde anche senza backend.
+
+## Sequenza e traguardi
+
+```text
+F0 → F1 → F2 → F3 → F4 → F5 → F6 → F7 → F8
+                                           ↓
+F9 → F10 → F11 → F12 → F13 → F14 → F15 → F16
+```
+
+- **Primo valore locale:** F4, diario offline con specie obbligatoria.
+- **Primo vertical slice naturalistico:** F8, percorso e risultati spiegati.
+- **MVP completo definito nei requisiti:** F14, con un GLB e fallback 2D.
+- **Estensioni post-MVP:** F15 e F16.
+
+## Strumenti durante lo sviluppo
+
+- Gradle e Android Gradle Managed Devices orchestrano build e test ripetibili.
+- Test JVM, Room instrumentation, Compose UI, UI Automator, screenshot golden e ADB coprono logica, persistenza e interazione nativa.
+- Un Mobile/Android MCP può pilotare emulatore o dispositivo per ispezioni esplorative e controllo schermo; i test di accettazione restano comunque script ripetibili nel repository.
+- Playwright MCP serve soltanto se viene introdotta una superficie browser o WebView; non è lo strumento primario per un'app Android nativa.
+- Blender headless + Python + Khronos glTF Validator costituiscono la pipeline 3D riproducibile. Un Blender MCP è opzionale e va abilitato solo dopo verifica di sicurezza, permessi e telemetria.
+- Il controllo schermo di Codex può aiutare la verifica esplorativa; non sostituisce i gate automatici né i test di non regressione.

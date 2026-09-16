@@ -36,6 +36,8 @@ manifest asset + licenza + preview
 caricamento lazy nella scheda specie
 ```
 
+La pipeline è semi-automatizzata e riproducibile: script Blender Python headless generano o trasformano scene, applicano convenzioni, esportano GLB e producono anteprime; il Khronos glTF Validator controlla il file; una revisione umana verifica anatomia, leggibilità e licenze prima dell'inclusione. La generazione image-to-3D può preparare un prototipo, ma non costituisce da sola un asset approvato.
+
 ## Regole tecniche iniziali
 
 - Una specie = un asset principale e una preview leggera.
@@ -44,6 +46,8 @@ caricamento lazy nella scheda specie
 - Definire una convenzione unica per unità, asse verticale, nome file e origine del modello.
 - Testare sempre su telefono: peso del GLB, tempo di caricamento, memoria e comportamento touch.
 - Aggiungere `asset-manifest.json` con hash, versione, autore, licenza e specie collegata.
+- Rendere deterministici e versionati gli script Blender; non affidare l'asset finale a passaggi manuali non registrati.
+- Validare automaticamente formato, scala, assi, pivot, materiali, texture, peso e collegamento al taxon prima del test Android.
 
 ## Primo set suggerito
 
@@ -76,3 +80,11 @@ L'AI può aiutare molto, ma non dovrebbe essere la fonte finale della biologia d
 5. Export GLB, test su Android e registrazione di licenza/versione nel manifest.
 
 Per il primo set sceglierei modelli statici o con rotazione, senza animazioni complesse. La fedeltà informativa della scheda conta più del realismo cinematografico.
+
+## Strumenti di automazione approvati
+
+- Blender in modalità headless con Python come pipeline primaria e ripetibile.
+- Khronos glTF Validator come gate automatico dell'export.
+- Screenshot/render di riferimento e test su emulatore o dispositivo per regressioni visive e prestazionali.
+- Un eventuale Blender MCP è un acceleratore interattivo, non una dipendenza della build; va collegato solo dopo verifica di origine, permessi e telemetria.
+- La verifica scientifica e delle licenze resta umana e obbligatoria.

@@ -1,0 +1,11 @@
+{
+  "name": "faunavia-f0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "pwsh -NoProfile -File ./scripts/verify-f0.ps1",
+    "test:node": "node --test ./tests/*.test.mjs",
+    "inspect:routes": "node ./scripts/inspect-routes.mjs",
+    "inspect:fixtures": "node ./scripts/inspect-fixtures.mjs"
+  }
+}

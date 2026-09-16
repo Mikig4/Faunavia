@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "f0.smoke.v1",
+  "observedAt": "2026-09-14T12:36:46Z",
+  "checks": [
+    { "id": "gbif-occurrence", "attempts": [{ "endpoint": "GBIF occurrence search", "httpStatus": 200 }], "selected": "GBIF occurrence search", "equivalentFallback": true },
+    { "id": "nnb-occurrence", "attempts": [{ "endpoint": "NNB GeoAPI", "httpStatus": 503 }, { "endpoint": "NNB WFS", "httpStatus": 200 }], "selected": "NNB WFS", "equivalentFallback": true },
+    { "id": "eea-article12", "attempts": [{ "endpoint": "EEA Article 12 layer 0", "httpStatus": 200 }], "selected": "EEA Article 12 layer 0", "equivalentFallback": true },
+    { "id": "eea-article17", "attempts": [{ "endpoint": "EEA Article 17 layer 6", "httpStatus": 200 }], "selected": "EEA Article 17 layer 6", "equivalentFallback": true },
+    { "id": "eea-maes-2014", "attempts": [{ "endpoint": "EEA MAES archive download", "httpStatus": 200 }], "selected": "EEA MAES archive download", "equivalentFallback": true },
+    { "id": "clcplus", "attempts": [{ "endpoint": "CLCplus 2023 guessed ImageServer", "httpStatus": 404 }, { "endpoint": "CLCplus 2021 ImageServer", "httpStatus": 200 }], "selected": "CLCplus 2021 ImageServer", "equivalentFallback": false }
+  ]
+}

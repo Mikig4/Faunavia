@@ -1,6 +1,6 @@
 # Atlante faunistico personale
 
-Stato: scoperta e progettazione — l'applicazione non è ancora implementata.
+Stato: Fasi 0–2 completate e verificate — APK Compose, dominio, Room e repository locali disponibili; `verifyAll` verde con 38 test.
 
 ## Obiettivo
 
@@ -25,6 +25,10 @@ Un'app Android personale che, partendo dalla posizione corrente oppure da un iti
 - [[07 - Strategia mappa e database]] — cosa salvare localmente e quando valutare Firebase.
 - [[08 - Diario avvistamenti e notifiche]] — inserimento libero, foto e riepilogo serale.
 - [[09 - Piano di sviluppo dettagliato]] — attività ordinate, dipendenze e criteri di completamento.
+- [[10 - Valutazione architetturale]] — giudizio aggiornato, problemi chiusi e rischi residui.
+- [[11 - Rapporto Fase 0]] — decisioni del pilot, fixture, test ed esiti delle fonti.
+- [[12 - Rapporto Fase 1]] — scaffold Android, toolchain, gate automatici e risultati dei test.
+- [[13 - Rapporto Fase 2]] — dominio, Room, migrazioni, integrità del diario e 38 test di regressione.
 
 ## Memoria tecnica
 
