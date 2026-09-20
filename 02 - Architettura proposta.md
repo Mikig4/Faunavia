@@ -22,8 +22,8 @@ UI / Android / provider / Room / MapLibre / renderer 3D
 
 ```text
 posizione corrente / GPX / GeoJSON / luogo cercato / nuovo avvistamento manuale
-        ↓
-normalizzazione della traccia e validazione coordinate
+         ↓
+geocoding del luogo cercato oppure normalizzazione della traccia e validazione coordinate
         ↓
 campionamento della geometria + buffer del corridoio
         ↓
@@ -47,6 +47,8 @@ Schermate: Home, Analisi percorso, Risultati, Nuovo avvistamento, Diario, Dettag
 ### 2. Route engine
 
 Importa e valida GPX/GeoJSON, unifica i segmenti, calcola lunghezza e bounding box, campiona la geometria e produce il corridoio di ricerca. La strategia approvata è ibrida: il motore emette porzioni semplificate del corridoio e chiavi di celle di griglia stabili; ogni adapter sceglie poligoni oppure bounding box contenuti in base alle capacità del provider. Il motore deve essere indipendente dalla UI per poter essere testato con fixture geografiche.
+
+L'implementazione F5 vive in `:core:route`, dipende soltanto dal dominio e usa ETRS89 / LAEA Europe (`EPSG:3035`). Le celle sono metriche da 1 km, raggruppate in chunk da 5 km. Il fingerprint di geometria identifica il percorso salvato; un fingerprint distinto include raggio, intervallo, precisione e griglia per identificare una specifica ricerca. Il pilot rifiuta esplicitamente coordinate fuori dall'area europea e attraversamenti dell'antimeridiano invece di applicare una proiezione non valida.
 
 ### 3. Biodiversity gateway
 
@@ -83,6 +85,10 @@ Contiene i profili curati dall'utente, i riferimenti alle fonti e il mapping spe
 ### 11. Map adapter
 
 Rende traccia, corridoio, campioni, risultati e punti del diario. MapLibre Native è il candidato Android; il motore dati non deve dipendere dal formato della mappa. L'attribuzione della fonte deve essere sempre visibile.
+
+### 12. Geographic search adapter
+
+Un caso d'uso separato risolve nomi di paese, regione e città in un luogo canonico con punto, riquadro o poligono. L'adapter di geocoding resta dietro un'interfaccia di dominio: la UI non conosce URL o parametri del provider. F8 usa un servizio online con query limitate, attribuzione, cache locale e conferma dell'utente; F15 può aggiungere un gazetteer regionale offline. Un nome ambiguo o non trovato produce uno stato esplicito e non avvia una query naturalistica.
 
 ## Modello concettuale minimo
 

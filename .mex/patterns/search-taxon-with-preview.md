@@ -14,7 +14,7 @@ edges:
     condition: when the selected taxon becomes a manual observation
   - target: context/android-local.md
     condition: when caching thumbnails or implementing Android image loading
-last_updated: 2026-09-14
+last_updated: 2026-09-18
 ---
 
 # Search a taxon with preview
@@ -35,6 +35,9 @@ last_updated: 2026-09-14
 - A missing image must never make a valid animal unselectable.
 - Do not bundle or permanently copy provider images without checking the image license.
 - Common names may be missing, duplicated, or language-specific; show the scientific name.
+- F3 uses a 350 ms Compose debounce and a five-minute in-memory remote-result TTL. Persist only an explicit accepted Animalia selection, its stable ID and its aliases; offline search must read that local set instead of an expired remote response.
+- The GBIF adapter owns request URLs and maps malformed payloads, timeout and network errors to recoverable states. Resolve a returned synonym through its accepted key before it reaches the selectable list.
+- Compose tests that inject a search fake need an empty activity in the debug app target. Do not call the test rule's `setContent` after an activity that already installs the production composition.
 
 ## Verify
 

@@ -26,7 +26,7 @@ edges:
     condition: when adding a species profile or 3D asset
   - target: patterns/change-local-storage.md
     condition: when changing Room schemas, repositories, migrations or diary integrity
-last_updated: 2026-09-16
+last_updated: 2026-09-20
 ---
 
 # Session Bootstrap
@@ -61,22 +61,29 @@ Then read this file fully before doing anything else in this session.
 - F0 is complete: Lombardia pilot, five synthetic routes, versioned provider fixtures, normalized data contracts, source ADR and a green offline test gate under `f0/`.
 - F1 is complete: installable Compose APK, six placeholder destinations, pure Kotlin domain boundary, shared deterministic fakes and four automated Gradle verification gates.
 - F2 is complete: nine domain models, Room schema v2 with v1 migration, local repositories, accepted-Animalia diary constraints, transactional writes and file-backed reopening tests.
-- `verifyAll` runs F0–F2 regression: 13 F0 tests, 12 JVM tests and 13 API 36 device tests (Room, migrations, launch, navigation and golden). `verifyDevice` fails if any declared instrumented test is absent from the report.
+- F3 is complete: the GBIF Species adapter resolves synonyms to accepted Animalia taxa; the Catalogo UI debounces queries, shows loading/empty/error states and preserves selections offline without requiring a photo preview.
+- F4 is implemented and in verification: the offline Diary creates, edits and deletes manual observations with a mandatory selected taxon, local date/time, quantity, notes and optional coordinates; Room schema v4 preserves legacy rows with quantity one.
+- F5 is implemented and in verification: `:core:route` parses GPX/GeoJSON or a point, preserves segments, samples by distance and emits EPSG:3035 corridor portions, 1 km cells, 5 km chunks and deterministic fingerprints. The Percorsi UI imports locally and stores only normalized geometry.
+- F6 is implemented and in verification: `:core:occurrence` queries GBIF polygons or fallback bounding boxes and NNB WFS bounding boxes behind one gateway, deduplicates provider records and returns bounded retry/failure or explicit stale-cache states. Room schema v5 persists normalized records and complete provenance, never raw payloads.
+- F8 is specified to accept country/region/city names through a bounded online geocoder in addition to coordinates and routes; F15 may add a regional offline gazetteer.
+- The F6 host baseline is green: 13 F0 tests, 38 directly executed core JVM tests, Android/app/test compilation, formatting, boundaries and lint. The live GBIF and NNB WFS smoke checks returned HTTP 200. Device/visual execution is blocked before tests by the host loopback failure.
 
 **Not yet built:**
-- Diary UI, taxonomy search, route engine and map UI beyond the F1 placeholders.
-- Provider adapters, peculiar-species suggestion rules and evidence ranking.
-- Manual observation diary, local photos, daily notification and species catalogue.
+- Map/result UI beyond the local route summary and the device current-location adapter.
+- Peculiar-species suggestion rules and evidence ranking.
+- Local photos, daily notification and complete species profiles.
 - Blender/GLB asset library, regional map package and physical-device tests.
 
 **Known issues:**
 - Offline map source and any Firebase sync boundary are still open decisions; Android build versions are pinned by F1.
-- NNB GeoAPI returned HTTP 503 during F0; WFS works as a fallback, but dataset-specific reuse permission remains unresolved.
+- NNB GeoAPI returned HTTP 503 during F0; WFS is live as the F6 fallback, but its dataset-specific reuse permission remains unresolved and is retained in every record's license field.
 - CLCplus 2023 point access and the scientific CLCplus-to-MAES crosswalk must be resolved before F7; the F0 technical fixture uses 2021 and is marked non-equivalent.
 - The F0 WGS84 0.01° grid is provisional; F5 must compare it with a metric EPSG:3035 implementation.
 - MEX population was completed manually because the interactive Codex TUI was unavailable in this terminal.
 - AGP 9.4 still prints an advisory about the managed-device ABI even though `testedAbi = "x86_64"` is explicit; re-check on the next AGP upgrade.
 - Gradle outputs are redirected to the portable toolchain directory because OneDrive locks incremental build files in the checkout.
+- Gradle JVM test and UTP workers cannot establish their loopback channel on this host. In-process compilation/lint and direct JUnit execution work; managed-device tests stop before instrumentation starts.
+- F5 deliberately supports the European EPSG:3035 area. Extra-European and antimeridian routes fail explicitly until a separate global projection strategy is designed.
 
 ## Routing Table
 

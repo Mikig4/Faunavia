@@ -8,10 +8,10 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [TaxonRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
+    entities = [TaxonRow::class, TaxonAliasRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
-        RouteRow::class, SourceEvidenceRow::class, AppSettingsRow::class],
-    version = 2,
+        RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class],
+    version = 5,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -27,9 +27,51 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        /** F3 indexes selected names locally without bundling a global taxonomy snapshot. */
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS `taxon_aliases` (
+                        `taxonId` TEXT NOT NULL,
+                        `name` TEXT NOT NULL,
+                        `normalizedName` TEXT NOT NULL,
+                        PRIMARY KEY(`taxonId`, `name`),
+                        FOREIGN KEY(`taxonId`) REFERENCES `taxa`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+                    )
+                """.trimIndent())
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_taxon_aliases_taxonId` ON `taxon_aliases` (`taxonId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_taxon_aliases_normalizedName` ON `taxon_aliases` (`normalizedName`)")
+                installIntegrity(db)
+            }
+        }
+
+        /** F4 persists the number of animals while preserving every legacy diary row as one observation. */
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE observations ADD COLUMN quantity INTEGER NOT NULL DEFAULT 1")
+                installIntegrity(db)
+            }
+        }
+
+        /** F6 persists normalized occurrence cache entries with their TTL and full provenance. */
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS `occurrence_cache` (
+                        `key` TEXT NOT NULL,
+                        `cachedAt` TEXT NOT NULL,
+                        `expiresAt` TEXT NOT NULL,
+                        `occurrences` TEXT NOT NULL,
+                        PRIMARY KEY(`key`)
+                    )
+                """.trimIndent())
+                installIntegrity(db)
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 

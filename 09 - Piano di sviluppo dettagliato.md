@@ -146,6 +146,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** ogni fixture valida produce sempre lo stesso corridoio e le stesse unità di query; ogni fixture invalida fallisce senza effetti collaterali.
 
+**Esito 2026-09-20:** implementata nel working tree e in verifica. Il modulo `:core:route` importa GPX e GeoJSON Point/LineString/MultiLineString, conserva i segmenti, campiona per distanza, costruisce porzioni di corridoio, celle metriche EPSG:3035, chunk e fingerprint. La UI Percorsi usa il picker Android e offre anche coordinate WGS84 manuali. I test deterministici F5, build e lint sono verdi; il gate device non è eseguibile su questo host perché il worker UTP fallisce sulla connessione loopback prima dei test. Dettagli in [[15 - Rapporto Fase 5]].
+
 ## F6 — Gateway delle occorrenze e provenienza
 
 **Obiettivo:** ottenere evidenze documentate senza accoppiare l'app a un singolo provider.
@@ -165,6 +167,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 **Non regressione:** suite completa F1–F5; sentinel sui fingerprint del route engine; ricerca tassonomica e diario offline; provider indisponibile non rende inutilizzabili i dati salvati.
 
 **Gate di completamento:** un itinerario produce un insieme deduplicato di evidenze documentate e spiegabili, oppure un errore recuperabile senza perdita locale.
+
+**Esito 2026-09-20:** implementata nel working tree e in verifica. `:core:occurrence` normalizza le risposte iniziali GBIF e NNB WFS, limita paginazione e retry, conserva licenza/attribuzione/query/timestamp/precisione e non ricostruisce coordinate generalizzate. Il gateway usa il fingerprint F5 e l'insieme degli adapter come chiave di cache, restituisce fresh/network/stale in modo esplicito e deduplica soltanto `(provider, recordId)`. Room v5 aggiunge la cache persistente normalizzata con migrazione v4→v5. Sei test JVM F6, compilazione Android e smoke online sono verdi; device/visual restano pendenti per il loopback del worker. Dettagli in [[16 - Rapporto Fase 6]].
 
 ## F7 — Motore di plausibilità e fonti istituzionali
 
@@ -188,19 +192,20 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 ## F8 — Risultati, mappa online e primo vertical slice
 
-**Obiettivo:** completare il flusso importazione → analisi → risultati spiegati → mappa.
+**Obiettivo:** completare il flusso nome/coordinate/GPX/GeoJSON → area confermata → analisi → risultati spiegati → mappa.
 
 **Dipendenze:** F4, F7.
 
 **Attività e artefatti:**
 
 1. Integrare MapLibre dietro un map adapter.
-2. Mostrare percorso, corridoio, campioni, evidenze, livello e filtri.
-3. Rendere attribuzioni sempre visibili e coordinate sensibili prudenti.
-4. Consentire lista e diario anche quando mappa o rete non sono disponibili.
-5. Collegare risultato, spiegazione, fonte e taxon senza ancora dipendere dal 3D.
+2. Integrare un geographic search adapter per paese, regione e città, con debounce, cache, attribuzione e conferma del risultato.
+3. Mostrare percorso, corridoio, campioni, evidenze, livello e filtri.
+4. Rendere attribuzioni sempre visibili e coordinate sensibili prudenti.
+5. Consentire lista e diario anche quando mappa o rete non sono disponibili.
+6. Collegare risultato, spiegazione, fonte e taxon senza ancora dipendere dal 3D.
 
-**Test della fase:** end-to-end con GPX/GeoJSON e provider fake; Compose UI dei filtri; screenshot golden di mappa/lista/errore; attribuzione; map adapter fake; rotazione e ricreazione processo; assenza rete e tile; accessibilità dei livelli di evidenza.
+**Test della fase:** end-to-end con GPX/GeoJSON, coordinate e nomi geografici (risultato unico, ambiguo, vuoto e provider indisponibile) e provider fake; Compose UI dei filtri e della conferma luogo; screenshot golden di mappa/lista/errore; attribuzione; map/geocoder adapter fake; rotazione e ricreazione processo; assenza rete e tile; accessibilità dei livelli di evidenza.
 
 **Non regressione:** suite completa F1–F7; sentinel GPX → fingerprint → fixture provider → classificazione attesa; diario e ricerca restano utilizzabili senza mappa.
 
@@ -327,7 +332,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 ## F15 — Pacchetto mappa regionale offline
 
-**Obiettivo:** analizzare e consultare un'area pilota senza tile online, nel rispetto delle licenze.
+**Obiettivo:** analizzare e consultare un'area pilota, anche cercata per nome, senza tile o geocoder online e nel rispetto delle licenze.
 
 **Dipendenze:** F8 e decisione sull'area pilota.
 
@@ -337,9 +342,10 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 2. Limitare regione, zoom, dimensione e frequenza di aggiornamento.
 3. Versionare manifest, licenza, hash e provenienza del pacchetto.
 4. Implementare import, attivazione, aggiornamento e cancellazione recuperabile.
-5. Mantenere lista, coordinate e diario disponibili senza pacchetto.
+5. Includere un gazetteer regionale versionato per la ricerca di nomi coperti dal pacchetto.
+6. Mantenere lista, coordinate e diario disponibili senza pacchetto.
 
-**Test della fase:** licenza/manifest; pacchetto valido/corrotto; spazio insufficiente; aggiornamento/rollback; regione fuori copertura; assenza totale rete; memoria e prestazioni; cancellazione; attribuzione visibile.
+**Test della fase:** licenza/manifest; pacchetto valido/corrotto; spazio insufficiente; aggiornamento/rollback; ricerca per nome dentro/fuori copertura; regione fuori copertura; assenza totale rete; memoria e prestazioni; cancellazione; attribuzione visibile.
 
 **Non regressione:** suite completa F1–F14; sentinel del vertical slice con rete disattivata; modalità online e fallback testuale invariati; asset 3D non caricato durante la mappa.
 

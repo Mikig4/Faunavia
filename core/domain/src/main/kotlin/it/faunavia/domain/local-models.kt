@@ -35,6 +35,14 @@ data class Taxon(
     val isSelectable: Boolean get() = kingdom == "Animalia" && status == TaxonomicStatus.ACCEPTED
 }
 
+/** A common, scientific or historical name that resolves to the accepted [taxonId]. */
+data class TaxonAlias(
+    val taxonId: String,
+    val name: String,
+) {
+    init { require(taxonId.isNotBlank() && name.isNotBlank()) }
+}
+
 data class TaxonPreview(val taxonId: String, val imageUri: String, val provenance: Provenance) {
     init { require(taxonId.isNotBlank() && imageUri.isNotBlank()) }
 }
@@ -77,10 +85,13 @@ data class Observation(
     val notes: String,
     val createdAt: Instant,
     val updatedAt: Instant,
+    val quantity: Int = 1,
 ) {
     init {
         require(id.isNotBlank() && taxonId.isNotBlank())
         require(!updatedAt.isBefore(createdAt))
+        require(quantity in 1..MAX_OBSERVATION_QUANTITY)
+        require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
     }
     val localDate: LocalDate get() = observedAt.atZone(zoneId).toLocalDate()
 }
@@ -102,8 +113,23 @@ data class ObservationPhoto(
     }
 }
 
-data class Route(val id: String, val name: String, val points: List<GeoPoint>, val importedAt: Instant) {
-    init { require(id.isNotBlank() && name.isNotBlank() && points.size >= 2) }
+enum class RouteSource { LOCATION, GPX, GEOJSON, LEGACY }
+
+data class Route(
+    val id: String,
+    val name: String,
+    val points: List<GeoPoint>,
+    val importedAt: Instant,
+    val source: RouteSource = RouteSource.LEGACY,
+    val segments: List<List<GeoPoint>> = listOf(points),
+    val sourceName: String? = null,
+) {
+    init {
+        require(id.isNotBlank() && name.isNotBlank() && points.isNotEmpty())
+        require(segments.isNotEmpty() && segments.all { it.isNotEmpty() })
+        require(points == segments.flatten()) { "Route points must preserve every segment in order." }
+        require(sourceName == null || sourceName.isNotBlank())
+    }
 }
 
 data class SourceEvidence(
@@ -137,7 +163,17 @@ data class ObservationDraft(
     val zoneId: ZoneId,
     val location: GeoPoint? = null,
     val notes: String = "",
-)
+    val quantity: Int = 1,
+) {
+    init {
+        require(id.isNotBlank() && taxonId.isNotBlank())
+        require(quantity in 1..MAX_OBSERVATION_QUANTITY)
+        require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
+    }
+}
+
+const val MAX_OBSERVATION_QUANTITY = 9_999
+const val MAX_OBSERVATION_NOTES_LENGTH = 2_000
 
 /** Missing reads return null/empty; invalid references and duplicate creates fail without writes. */
 interface DiaryRepository {
@@ -154,7 +190,11 @@ interface DiaryRepository {
 
 interface CatalogueRepository {
     suspend fun saveTaxon(taxon: Taxon)
+    /** Saves the accepted identity and all searchable names in one transaction. */
+    suspend fun saveTaxonWithAliases(taxon: Taxon, aliases: List<String>)
     suspend fun taxon(id: String): Taxon?
+    suspend fun aliases(taxonId: String): List<TaxonAlias>
+    suspend fun searchTaxa(query: String, limit: Int): List<Taxon>
     suspend fun deleteTaxon(id: String)
     suspend fun savePreview(preview: TaxonPreview)
     suspend fun preview(taxonId: String): TaxonPreview?

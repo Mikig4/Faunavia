@@ -6,7 +6,7 @@ Le decisioni approvate non vengono riaperte durante l'implementazione senza una 
 2. **[Chiusa] Area iniziale:** Lombardia; percorso sintetico principale al Parco Nord Milano, con altri quattro contesti regionali di confronto.
 3. **[Chiusa] Gruppi animali:** catalogo Animalia completo; set iniziale di lavoro: uccelli, mammiferi, anfibi e lepidotteri.
 4. **[Chiusa] Significato di “ci sono”:** evidenze documentate e plausibilità sono mostrate separatamente; “plausibile” richiede areale + habitat e usa la stagione come modificatore.
-5. **[Chiusa] Distanza dal percorso:** default modificabile di 1 km, validato nello spike F0 su cinque tracce sintetiche; F5 ne implementa la geometria metrica definitiva.
+5. **[Chiusa] Distanza dal percorso:** default modificabile di 1 km, validato nello spike F0 e implementato in F5 con geometria metrica EPSG:3035, celle da 1 km e chunk da 5 km.
 6. **[Chiusa] Uso della posizione:** aggiornamento su richiesta, non tracking continuo.
 7. **[Chiusa] Stile 3D:** low-poly illustrato, con pipeline semi-automatizzata e revisione umana.
 8. **[Chiusa] Percorsi:** GPX e GeoJSON nell'MVP; KML successivo.
@@ -47,3 +47,4 @@ Le decisioni approvate non vengono riaperte durante l'implementazione senza una 
 14. **[Aperta] Mappa offline:** default mappa online con diario offline; pacchetto regionale in F15.
 15. **[Aperta] Distribuzione Android:** default APK installabile manualmente; Play Store solo dopo una decisione su costi e pubblicazione.
 16. **[Aperta] Catalogo offline:** default ricerca online con cache locale dei taxa già selezionati; catalogo completo offline soltanto se l'uso reale lo richiede.
+17. **[Chiusa] Ricerca geografica:** F8 accetta nomi di paese, regione e città oltre a coordinate e GPX/GeoJSON; il geocoder restituisce un luogo canonico da confermare, mentre il gazetteer offline è rinviato a F15.

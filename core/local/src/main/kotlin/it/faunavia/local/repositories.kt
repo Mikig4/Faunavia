@@ -2,6 +2,8 @@ package it.faunavia.local
 
 import android.content.Context
 import it.faunavia.domain.*
+import it.faunavia.occurrence.OccurrenceCacheEntry
+import it.faunavia.occurrence.OccurrenceCacheStore
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -35,7 +37,17 @@ class LocalRepositories(
         override suspend fun create(draft: ObservationDraft, photos: List<ObservationPhoto>): Observation = write {
             validateTaxon(draft.taxonId)
             val now = Instant.ofEpochMilli(clock.nowEpochMillis())
-            val observation = Observation(draft.id, draft.taxonId, draft.observedAt, draft.zoneId, draft.location, draft.notes, now, now)
+            val observation = Observation(
+                draft.id,
+                draft.taxonId,
+                draft.observedAt,
+                draft.zoneId,
+                draft.location,
+                draft.notes,
+                now,
+                now,
+                draft.quantity,
+            )
             dao.insertObservation(observation.toRow())
             photos.forEach {
                 require(it.observationId == observation.id) { "Photo belongs to another observation." }
@@ -49,7 +61,8 @@ class LocalRepositories(
             val old = requireNotNull(dao.observation(draft.id)) { "Observation does not exist." }.toDomain()
             val now = maxOf(old.updatedAt, Instant.ofEpochMilli(clock.nowEpochMillis()))
             val observation = old.copy(taxonId = draft.taxonId, observedAt = draft.observedAt,
-                zoneId = draft.zoneId, location = draft.location, notes = draft.notes, updatedAt = now)
+                zoneId = draft.zoneId, location = draft.location, notes = draft.notes,
+                quantity = draft.quantity, updatedAt = now)
             check(dao.updateObservation(observation.toRow()) == 1)
             observation
         }
@@ -79,7 +92,29 @@ class LocalRepositories(
 
     val catalogue: CatalogueRepository = object : CatalogueRepository {
         override suspend fun saveTaxon(taxon: Taxon) { write { dao.saveTaxon(taxon.toRow()) } }
+        override suspend fun saveTaxonWithAliases(taxon: Taxon, aliases: List<String>) {
+            require(taxon.isSelectable) { "Only accepted Animalia taxa can be selected." }
+            val normalizedAliases = (aliases + taxon.scientificName + listOfNotNull(taxon.commonName))
+                .map(String::trim)
+                .filter(String::isNotBlank)
+                .distinctBy { it.lowercase() }
+                .map { TaxonAlias(taxon.id, it) }
+            write {
+                dao.saveTaxon(taxon.toRow())
+                dao.deleteAliases(taxon.id)
+                dao.saveAliases(normalizedAliases.map { it.toRow() })
+            }
+        }
         override suspend fun taxon(id: String): Taxon? = read { dao.taxon(id)?.toDomain() }
+        override suspend fun aliases(taxonId: String): List<TaxonAlias> = read {
+            dao.aliases(taxonId).map { it.toDomain() }
+        }
+        override suspend fun searchTaxa(query: String, limit: Int): List<Taxon> {
+            require(query.isNotBlank()) { "A taxon search needs a query." }
+            require(limit > 0) { "A taxon search needs a positive limit." }
+            val pattern = "%${query.trim().lowercase().replace(Regex("\\s+"), " ")}%"
+            return read { dao.searchTaxa(pattern, limit).map { it.toDomain() } }
+        }
         override suspend fun deleteTaxon(id: String) { write { dao.deleteTaxon(id) } }
         override suspend fun savePreview(preview: TaxonPreview) { write { dao.savePreview(preview.toRow()) } }
         override suspend fun preview(taxonId: String): TaxonPreview? = read { dao.preview(taxonId)?.toDomain() }
@@ -89,6 +124,15 @@ class LocalRepositories(
         override suspend fun suggestion(taxonId: String, area: String): SuggestionProfile? = read { dao.suggestion(taxonId, area)?.toDomain() }
         override suspend fun saveEvidence(evidence: SourceEvidence) { write { dao.saveEvidence(evidence.toRow()) } }
         override suspend fun evidence(taxonId: String): List<SourceEvidence> = read { dao.evidence(taxonId).map { it.toDomain() } }
+    }
+
+    val occurrenceCache: OccurrenceCacheStore = object : OccurrenceCacheStore {
+        override suspend fun read(key: String): OccurrenceCacheEntry? = read {
+            dao.occurrenceCache(key)?.toDomain()
+        }
+        override suspend fun save(entry: OccurrenceCacheEntry) { write { dao.saveOccurrenceCache(entry.toRow()) } }
+        override suspend fun delete(key: String) { write { dao.deleteOccurrenceCache(key) } }
+        override suspend fun clear() { write { dao.clearOccurrenceCache() } }
     }
 
     val routes: RouteRepository = object : RouteRepository {

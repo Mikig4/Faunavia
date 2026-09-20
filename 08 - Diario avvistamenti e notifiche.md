@@ -54,3 +54,16 @@ La notifica non deve interrogare Firebase né chiamare GBIF. Non viene richiesto
 - Copiare una versione ridotta nell'area privata dell'app e conservare l'originale solo se l'utente lo desidera.
 - Rimuovere o rendere opzionale la condivisione dei metadati EXIF, soprattutto coordinate e dispositivo.
 - Non caricare foto online nell'MVP.
+
+## Implementazione F4 in verifica
+
+- APK debug generato: `artifacts/Faunavia-f4-debug.apk`, versione `0.4.0-f4` (`versionCode 4`). Build e lint Android sono verdi; i test JVM e i gate device/visual devono essere rieseguiti fuori dall'ambiente che blocca il loopback dei worker Gradle.
+- Il diario salva e rilegge solo record locali Room; crea, modifica ed elimina con conferma esplicita dell'eliminazione.
+- La specie è scelta tra i taxa Animalia già selezionati nel Catalogo: la ricerca del diario è esplicitamente offline e una query incompleta non è persistita.
+- Ogni record conserva data e ora nel fuso locale, quantità da 1 a 9.999, note fino a 2.000 caratteri e coordinate opzionali complete.
+- La migrazione Room v3→v4 aggiunge `quantity` con valore predefinito `1`, senza alterare gli avvistamenti già salvati.
+- Foto locali e notifica giornaliera restano rispettivamente F10 e F11.
+
+## Evoluzioni possibili
+
+Le animazioni decorative possono essere valutate dopo il flusso operativo, ma non sono un requisito del diario. Dovranno essere brevi, non bloccare salvataggio o lettura e rispettare la preferenza di movimento ridotto.

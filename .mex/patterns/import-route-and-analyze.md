@@ -14,7 +14,7 @@ edges:
     condition: when the corridor is sent to an occurrence provider
   - target: context/offline-first.md
     condition: when route files or results are persisted locally
-last_updated: 2026-09-14
+last_updated: 2026-09-20
 ---
 
 # Import route and analyze
@@ -22,15 +22,20 @@ last_updated: 2026-09-14
 ## Steps
 
 1. Accept one input source and report its type and validation errors.
-2. Normalize to WGS84 and preserve original metadata.
-3. Remove only exact duplicates or invalid points with an explicit warning.
-4. Compute length, bounding box, samples and configured corridor.
-5. Query through the biodiversity gateway and persist a cacheable result.
-6. Render map geometry and evidence summaries separately from raw records.
+2. Read at most the configured local size limit; never retain or upload the raw file by default.
+3. Normalize to WGS84 and preserve source type, source filename and every segment boundary.
+4. Remove only consecutive exact duplicates with an explicit warning; reject invalid coordinates before persistence.
+5. Validate the EPSG:3035 pilot area, then compute length, bounding box, geodetic samples and configured metric corridor.
+6. Emit stable 1 km cells, 5 km chunks, a geometry identity and a configuration-sensitive search fingerprint.
+7. Persist only after parsing and analysis succeed; a duplicate geometry reuses the existing route.
+8. Query through the biodiversity gateway in F6 and render map geometry separately in F8.
 
 ## Verify
 
 - [ ] Empty, malformed and multi-segment files produce clear errors.
 - [ ] A route with no stops still returns samples and a corridor.
 - [ ] The same fixture produces deterministic geometry.
+- [ ] Reimporting the same geometry under another filename or radius does not duplicate the stored route.
+- [ ] Changing radius or sampling changes the search fingerprint.
+- [ ] Extra-European and antimeridian routes fail explicitly instead of using a hidden projection fallback.
 - [ ] Results show source timestamp and evidence level.

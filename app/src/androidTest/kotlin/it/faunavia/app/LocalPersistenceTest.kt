@@ -5,6 +5,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import it.faunavia.domain.*
 import it.faunavia.local.*
+import it.faunavia.occurrence.DocumentedOccurrence
+import it.faunavia.occurrence.OccurrenceCacheEntry
+import it.faunavia.occurrence.OccurrenceProviderId
 import it.faunavia.testing.FakeClock
 import java.time.Instant
 import java.time.LocalDate
@@ -28,8 +31,8 @@ class LocalPersistenceTest {
     private val zone = ZoneId.of("Europe/Rome")
     private val source = Provenance("fixture", "record:1", "local replay", instant, "CC0-1.0", "Faunavia synthetic", "test", "v1")
     private val taxon = Taxon("fixture:1", "Turdus merula", "Merlo", "Animalia", TaxonomicStatus.ACCEPTED, "SPECIES", source)
-    private fun draft(id: String = "o", taxonId: String = taxon.id, at: Instant = instant) =
-        ObservationDraft(id, taxonId, at, zone, GeoPoint(45.5, 9.2), "note: è un test")
+    private fun draft(id: String = "o", taxonId: String = taxon.id, at: Instant = instant, quantity: Int = 1) =
+        ObservationDraft(id, taxonId, at, zone, GeoPoint(45.5, 9.2), "note: è un test", quantity)
     private fun photo(id: String = "p", observation: String = "o") =
         ObservationPhoto(id, observation, "photos/$id.jpg", "a".repeat(64), 100, "image/jpeg")
 
@@ -50,10 +53,13 @@ class LocalPersistenceTest {
         assertTrue(local.diary.list().isEmpty())
         assertNull(local.diary.get("missing"))
         assertNull(local.catalogue.taxon("missing"))
+        assertTrue(local.catalogue.aliases("missing").isEmpty())
+        assertTrue(local.catalogue.searchTaxa("missing", 8).isEmpty())
         assertNull(local.catalogue.preview("missing"))
         assertNull(local.catalogue.profile("missing"))
         assertNull(local.catalogue.suggestion("missing", "area"))
         assertTrue(local.catalogue.evidence("missing").isEmpty())
+        assertNull(local.occurrenceCache.read("missing"))
         assertTrue(local.routes.list().isEmpty())
         assertEquals(AppSettings(), local.settings.get())
         assertTrue(local.diary.delete("missing").isEmpty())
@@ -62,15 +68,17 @@ class LocalPersistenceTest {
     }
 
     @Test fun diaryCrudUsesClockAndKeepsPhotosAcrossUpdates() = runBlocking {
-        local.catalogue.saveTaxon(taxon)
-        val created = local.diary.create(draft(), listOf(photo()))
+        local.catalogue.saveTaxonWithAliases(taxon, listOf("Merlo"))
+        val created = local.diary.create(draft(quantity = 3), listOf(photo()))
         assertEquals(Instant.ofEpochMilli(clock.epochMillis), created.createdAt)
+        assertEquals(3, created.quantity)
         assertEquals(created, local.diary.get("o"))
         clock.epochMillis += 1000
-        val changed = local.diary.update(draft().copy(notes = "changed", location = null))
+        val changed = local.diary.update(draft(quantity = 2).copy(notes = "changed", location = null))
         assertEquals(created.createdAt, changed.createdAt)
         assertEquals(Instant.ofEpochMilli(clock.epochMillis), changed.updatedAt)
         assertNull(changed.location)
+        assertEquals(2, changed.quantity)
         assertEquals(listOf(photo()), local.diary.photos("o"))
         clock.epochMillis -= 10000
         assertEquals(changed.updatedAt, local.diary.update(draft()).updatedAt)
@@ -82,6 +90,7 @@ class LocalPersistenceTest {
         assertNull(local.diary.get("o"))
         assertTrue(local.diary.photos("o").isEmpty())
         assertEquals(taxon, local.catalogue.taxon(taxon.id))
+        assertEquals(listOf("Merlo", "Turdus merula"), local.catalogue.aliases(taxon.id).map { it.name })
     }
 
     @Test fun repositoryRejectsMissingNonAnimalAndUnacceptedTaxa() = runBlocking {
@@ -92,6 +101,14 @@ class LocalPersistenceTest {
             local.catalogue.saveTaxon(invalid)
             rejects { local.diary.create(draft()) }
         }
+        assertTrue(local.diary.list().isEmpty())
+    }
+
+    @Test fun repositoryRejectsOutOfRangeQuantityAndOverlongNotes() = runBlocking {
+        local.catalogue.saveTaxon(taxon)
+        rejects { local.diary.create(draft(quantity = 0)) }
+        rejects { local.diary.create(draft(quantity = 10_000)) }
+        rejects { local.diary.create(draft().copy(notes = "n".repeat(2_001))) }
         assertTrue(local.diary.list().isEmpty())
     }
 
@@ -106,7 +123,7 @@ class LocalPersistenceTest {
                 sql.execSQL("UPDATE observations SET taxonId = ? WHERE id = 'o'", arrayOf<Any?>(id))
             }
             assertThrows(SQLiteConstraintException::class.java) {
-                sql.execSQL("INSERT INTO observations SELECT 'bad', ?, observedAt, observedEpochSecond, zoneId, latitude, longitude, notes, createdAt, updatedAt FROM observations WHERE id = 'o'", arrayOf<Any?>(id))
+                sql.execSQL("INSERT INTO observations(id, taxonId, observedAt, observedEpochSecond, zoneId, latitude, longitude, notes, createdAt, updatedAt) SELECT 'bad', ?, observedAt, observedEpochSecond, zoneId, latitude, longitude, notes, createdAt, updatedAt FROM observations WHERE id = 'o'", arrayOf<Any?>(id))
             }
         }
         rejects { local.catalogue.saveTaxon(taxon.copy(kingdom = "Plantae")) }
@@ -142,6 +159,29 @@ class LocalPersistenceTest {
         rejects { local.catalogue.deleteTaxon(taxon.id) }
     }
 
+    @Test fun normalizedOccurrenceCachePersistsFullProvenanceWithoutRawPayload() = runBlocking {
+        val occurrence = DocumentedOccurrence(
+            id = "gbif:fixture",
+            provider = OccurrenceProviderId.GBIF,
+            providerRecordId = "fixture",
+            taxonId = "gbif:2490719",
+            scientificName = "Turdus merula",
+            observedOn = "2026-09-16",
+            location = GeoPoint(45.5, 9.2),
+            coordinateUncertaintyMeters = 800.0,
+            sourceUrl = "https://www.gbif.org/occurrence/fixture",
+            provenance = source,
+        )
+        val entry = OccurrenceCacheEntry("f6-cache", instant, instant.plusSeconds(60), listOf(occurrence))
+        local.occurrenceCache.save(entry)
+        db.close()
+        db = FaunaviaDatabase.open(context, name)
+        local = LocalRepositories(db, clock)
+        assertEquals(entry, local.occurrenceCache.read(entry.key))
+        local.occurrenceCache.delete(entry.key)
+        assertNull(local.occurrenceCache.read(entry.key))
+    }
+
     @Test fun localDayQueriesRespectMidnightAndBothDstTransitions() = runBlocking {
         local.catalogue.saveTaxon(taxon)
         for (date in listOf(LocalDate.of(2026, 3, 29), LocalDate.of(2026, 10, 25))) {
@@ -159,12 +199,24 @@ class LocalPersistenceTest {
     }
 
     @Test fun allMappersAndCatalogueRecordsRoundTripWithoutLosingProvenance() = runBlocking {
-        local.catalogue.saveTaxon(taxon)
+        local.catalogue.saveTaxonWithAliases(taxon, listOf("Merlo", "Turdus merula", "Merula vulgaris"))
         val preview = TaxonPreview(taxon.id, "content:licensed-fixture", source)
         val profile = SpeciesProfile(taxon.id, "Descrizione", listOf("bosco", "prati, umidi"), setOf(1, 4, 12), "dieta", null, "comportamento", "note", source)
         val suggestion = SuggestionProfile(taxon.id, "Lombardia", listOf("bosco"), true, 0.25, "Motivo", source)
         val evidence = SourceEvidence("e", taxon.id, EvidenceLevel.DOCUMENTED, instant.minusSeconds(1000), GeoPoint(45.0, 9.0), 100.0, "Historical record", source)
-        val route = Route("r", "Percorso", listOf(GeoPoint(45.0, 9.0), GeoPoint(45.1, 9.1)), instant)
+        val routeSegments = listOf(
+            listOf(GeoPoint(45.0, 9.0), GeoPoint(45.1, 9.1)),
+            listOf(GeoPoint(45.2, 9.2), GeoPoint(45.3, 9.3)),
+        )
+        val route = Route(
+            id = "r",
+            name = "Percorso",
+            points = routeSegments.flatten(),
+            importedAt = instant,
+            source = RouteSource.GPX,
+            segments = routeSegments,
+            sourceName = "fixture.gpx",
+        )
         local.catalogue.savePreview(preview)
         local.catalogue.saveProfile(profile)
         local.catalogue.saveSuggestion(suggestion)
@@ -174,6 +226,8 @@ class LocalPersistenceTest {
         assertEquals(profile, local.catalogue.profile(taxon.id))
         assertEquals(suggestion, local.catalogue.suggestion(taxon.id, "Lombardia"))
         assertEquals(listOf(evidence), local.catalogue.evidence(taxon.id))
+        assertEquals(listOf("Merlo", "Merula vulgaris", "Turdus merula"), local.catalogue.aliases(taxon.id).map { it.name })
+        assertEquals(listOf(taxon.id), local.catalogue.searchTaxa("vulgaris", 8).map { it.id })
         assertEquals(route, local.routes.get("r"))
         assertEquals(listOf(route), local.routes.list())
         local.routes.save(route.copy(name = "Updated"))
@@ -189,5 +243,6 @@ class LocalPersistenceTest {
         assertNull(local.catalogue.profile(taxon.id))
         assertNull(local.catalogue.suggestion(taxon.id, "Lombardia"))
         assertTrue(local.catalogue.evidence(taxon.id).isEmpty())
+        assertTrue(local.catalogue.aliases(taxon.id).isEmpty())
     }
 }

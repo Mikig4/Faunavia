@@ -12,22 +12,46 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import it.faunavia.taxonomy.MINIMUM_TAXON_QUERY_LENGTH
+import it.faunavia.taxonomy.TaxonomySearch
+import it.faunavia.taxonomy.TaxonomySearchEntry
+import it.faunavia.taxonomy.TaxonomySearchOrigin
+import it.faunavia.taxonomy.TaxonomySearchResult
+import it.faunavia.taxonomy.normalizeQuery
+import it.faunavia.domain.CatalogueRepository
+import it.faunavia.domain.DiaryRepository
+import it.faunavia.domain.RouteRepository
+import it.faunavia.route.RouteImportService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -39,10 +63,10 @@ enum class AppDestination(
     val description: String,
 ) {
     HOME("home", "Home", "Punto di partenza per posizione e itinerari."),
-    ROUTES("routes", "Percorsi", "Importazione GPX e GeoJSON arriverà in F5."),
+    ROUTES("routes", "Percorsi", "Importa GPX o GeoJSON e prepara un corridoio di analisi locale."),
     RESULTS("results", "Risultati", "Evidenze documentate e plausibili resteranno separate."),
     DIARY("diary", "Diario", "Gli avvistamenti locali saranno disponibili offline."),
-    CATALOGUE("catalogue", "Catalogo", "Ricerca di taxa Animalia accettati prevista in F3."),
+    CATALOGUE("catalogue", "Catalogo", "Ricerca di taxa Animalia accettati, con cache locale dei selezionati."),
     SETTINGS("settings", "Impostazioni", "Preferenze locali, cache e notifiche."),
 }
 
@@ -65,7 +89,19 @@ fun FaunaviaTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun FaunaviaApp() {
+fun FaunaviaApp(
+    taxonomySearch: TaxonomySearch? = null,
+    diaryRepository: DiaryRepository? = null,
+    catalogueRepository: CatalogueRepository? = null,
+    routeRepository: RouteRepository? = null,
+    routeImportService: RouteImportService? = null,
+) {
+    val application = LocalContext.current.applicationContext as FaunaviaApplication
+    val catalogueSearch = taxonomySearch ?: application.taxonomySearch
+    val diary = diaryRepository ?: application.repositories.diary
+    val catalogue = catalogueRepository ?: application.repositories.catalogue
+    val routes = routeRepository ?: application.repositories.routes
+    val routeImporter = routeImportService ?: application.routeImportService
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
@@ -96,7 +132,12 @@ fun FaunaviaApp() {
         ) {
             AppDestination.entries.forEach { destination ->
                 composable(destination.route) {
-                    PlaceholderScreen(destination)
+                    when (destination) {
+                        AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch)
+                        AppDestination.DIARY -> DiaryScreen(diary, catalogue, catalogueSearch)
+                        AppDestination.ROUTES -> RouteScreen(routes, routeImporter)
+                        else -> PlaceholderScreen(destination)
+                    }
                 }
             }
         }
@@ -153,6 +194,215 @@ private fun PlaceholderScreen(destination: AppDestination) {
                 color = Color(0xFF52675A),
                 style = MaterialTheme.typography.bodyMedium,
             )
+        }
+    }
+}
+
+@Composable
+internal fun CatalogueScreen(
+    taxonomySearch: TaxonomySearch,
+    debounceMillis: Long = 350,
+) {
+    require(debounceMillis >= 0) { "The catalogue debounce cannot be negative." }
+    var query by rememberSaveable { mutableStateOf("") }
+    var refresh by rememberSaveable { mutableIntStateOf(0) }
+    var result by remember { mutableStateOf<TaxonomySearchResult>(TaxonomySearchResult.AwaitingQuery()) }
+    var loading by remember { mutableStateOf(false) }
+    var selectedName by rememberSaveable { mutableStateOf<String?>(null) }
+    var selectionError by rememberSaveable { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(query, refresh) {
+        if (normalizeQuery(query).length < MINIMUM_TAXON_QUERY_LENGTH) {
+            loading = false
+            result = TaxonomySearchResult.AwaitingQuery()
+            return@LaunchedEffect
+        }
+        loading = true
+        delay(debounceMillis)
+        result = withContext(Dispatchers.IO) { taxonomySearch.search(query) }
+        loading = false
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FaunaviaBackground)
+            .testTag("screen-catalogue"),
+    ) {
+        CatalogueHeader()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+        ) {
+            Text(
+                text = "Cerca un animale",
+                color = Color(0xFF26382E),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = "Nome comune, scientifico o sinonimo. Salviamo solo il taxon accettato.",
+                color = Color(0xFF52675A),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Spacer(Modifier.height(12.dp))
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("catalogue-query"),
+                label = { Text("Cerca, ad esempio merlo") },
+                singleLine = true,
+            )
+            selectedName?.let { name ->
+                Text(
+                    text = "Selezionato: $name. Sarà disponibile anche offline.",
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .testTag("catalogue-selected"),
+                    color = FaunaviaGreen,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            selectionError?.let { message ->
+                Text(
+                    text = message,
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .testTag("catalogue-selection-error"),
+                    color = Color(0xFF9B1C1C),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            Spacer(Modifier.height(12.dp))
+            when {
+                loading -> Text(
+                    text = "Ricerca in corso…",
+                    modifier = Modifier.testTag("catalogue-loading"),
+                    color = Color(0xFF52675A),
+                )
+                else -> CatalogueSearchResult(
+                    result = result,
+                    onRetry = { refresh++ },
+                    onSelect = { entry ->
+                        scope.launch {
+                            selectionError = null
+                            runCatching { withContext(Dispatchers.IO) { taxonomySearch.select(entry) } }
+                                .onSuccess { selectedName = entry.taxon.scientificName }
+                                .onFailure { selectionError = "Non riesco a salvare la selezione. Riprova." }
+                        }
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CatalogueHeader() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(104.dp)
+            .background(FaunaviaGreen)
+            .padding(horizontal = 24.dp),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        Column {
+            Text("Faunavia", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Text(
+                text = "Catalogo",
+                modifier = Modifier.testTag("screen-title-catalogue"),
+                color = Color.White,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CatalogueSearchResult(
+    result: TaxonomySearchResult,
+    onRetry: () -> Unit,
+    onSelect: (TaxonomySearchEntry) -> Unit,
+) {
+    when (result) {
+        is TaxonomySearchResult.AwaitingQuery -> Text(
+            text = "Inserisci almeno ${result.minimumLength} caratteri.",
+            modifier = Modifier.testTag("catalogue-prompt"),
+            color = Color(0xFF52675A),
+        )
+        is TaxonomySearchResult.Empty -> Text(
+            text = if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED) {
+                "Offline: non ci sono taxa selezionati che corrispondono alla ricerca."
+            } else {
+                "Nessun taxon Animalia accettato trovato."
+            },
+            modifier = Modifier.testTag("catalogue-empty"),
+            color = Color(0xFF52675A),
+        )
+        is TaxonomySearchResult.Failure -> {
+            Column(modifier = Modifier.testTag("catalogue-error")) {
+                Text(
+                    text = "La ricerca non è disponibile. I taxa già selezionati restano consultabili offline.",
+                    color = Color(0xFF9B1C1C),
+                )
+                Button(onClick = onRetry, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
+                CatalogueEntries(result.cachedEntries, onSelect)
+            }
+        }
+        is TaxonomySearchResult.Results -> {
+            if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED) {
+                Text(
+                    text = "Offline: risultati già selezionati su questo dispositivo.",
+                    modifier = Modifier.testTag("catalogue-offline"),
+                    color = Color(0xFF52675A),
+                )
+            }
+            CatalogueEntries(result.entries, onSelect)
+        }
+    }
+}
+
+@Composable
+private fun CatalogueEntries(
+    entries: List<TaxonomySearchEntry>,
+    onSelect: (TaxonomySearchEntry) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp)
+            .testTag("catalogue-results"),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(entries, key = { it.taxon.id }) { entry ->
+            Button(
+                onClick = { onSelect(entry) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("catalogue-result-${entry.taxon.id}"),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color(0xFF26382E),
+                ),
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(entry.taxon.scientificName, fontWeight = FontWeight.Bold)
+                    Text(entry.taxon.commonName ?: "Nome comune non disponibile")
+                    Text("${entry.taxon.rank} · ${entry.taxon.provenance.recordId}")
+                    Text(
+                        text = "Anteprima fotografica non disponibile o senza licenza compatibile.",
+                        color = Color(0xFF52675A),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
         }
     }
 }

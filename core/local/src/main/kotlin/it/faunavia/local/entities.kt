@@ -32,6 +32,18 @@ data class TaxonRow(
 )
 
 @Entity(
+    tableName = "taxon_aliases",
+    primaryKeys = ["taxonId", "name"],
+    foreignKeys = [ForeignKey(entity = TaxonRow::class, parentColumns = ["id"], childColumns = ["taxonId"], onDelete = ForeignKey.CASCADE)],
+    indices = [Index("taxonId"), Index("normalizedName")],
+)
+data class TaxonAliasRow(
+    val taxonId: String,
+    val name: String,
+    val normalizedName: String,
+)
+
+@Entity(
     tableName = "taxon_previews",
     primaryKeys = ["taxonId"],
     foreignKeys = [ForeignKey(entity = TaxonRow::class, parentColumns = ["id"], childColumns = ["taxonId"], onDelete = ForeignKey.CASCADE)],
@@ -94,6 +106,7 @@ data class ObservationRow(
     val notes: String,
     val createdAt: String,
     val updatedAt: String,
+    @ColumnInfo(defaultValue = "1") val quantity: Int = 1,
 )
 
 @Entity(
@@ -138,6 +151,18 @@ data class SourceEvidenceRow(
     val uncertaintyMeters: Double?,
     val explanation: String,
     @Embedded(prefix = "source_") val provenance: ProvenanceRow,
+)
+
+/** F6 stores normalized responses only; raw provider payloads are never persisted. */
+@Entity(
+    tableName = "occurrence_cache",
+    primaryKeys = ["key"],
+)
+data class OccurrenceCacheRow(
+    val key: String,
+    val cachedAt: String,
+    val expiresAt: String,
+    val occurrences: String,
 )
 
 @Entity(

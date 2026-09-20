@@ -10,7 +10,7 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 
 1. Usa la posizione corrente tramite geolocalizzazione del dispositivo.
 2. Importa almeno GPX e GeoJSON; KML può arrivare dopo.
-3. Accetta una ricerca manuale di un luogo quando la posizione non è disponibile.
+3. Accetta una ricerca geografica manuale per nome di paese, regione o città quando la posizione non è disponibile; risolve il nome in un luogo canonico e in un punto, riquadro o poligono da confermare.
 4. Gestisce un percorso senza tappe: la geometria della traccia è sufficiente.
 
 ### Catalogo animali e selezione
@@ -35,12 +35,13 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 ### Risultato
 
 1. Mostra mappa, corridoio analizzato, punti di campionamento e specie associate.
-2. Permette di filtrare per gruppo animale, periodo, habitat e livello di evidenza.
-3. Apre una scheda specie con nomi comuni e scientifici, descrizione, dimensioni, dieta, comportamento, habitat, periodo di attività, distribuzione e note di sicurezza/conservazione.
-4. Mostra un modello 3D locale in formato glTF/GLB, con fallback a immagine o silhouette.
-5. Mantiene il link alla fonte e la data di aggiornamento del dato.
-6. Nei risultati del catalogo mostra, quando disponibile, una miniatura dell'animale con fonte, autore e licenza prima della conferma.
-7. Se la foto non è disponibile o non è riutilizzabile, mostra un placeholder senza impedire la selezione.
+2. Permette di cercare e selezionare un paese, una regione o una città per nome, con gestione dei risultati ambigui e dei nomi non trovati.
+3. Permette di filtrare per gruppo animale, periodo, habitat e livello di evidenza.
+4. Apre una scheda specie con nomi comuni e scientifici, descrizione, dimensioni, dieta, comportamento, habitat, periodo di attività, distribuzione e note di sicurezza/conservazione.
+5. Mostra un modello 3D locale in formato glTF/GLB, con fallback a immagine o silhouette.
+6. Mantiene il link alla fonte e la data di aggiornamento del dato.
+7. Nei risultati del catalogo mostra, quando disponibile, una miniatura dell'animale con fonte, autore e licenza prima della conferma.
+8. Se la foto non è disponibile o non è riutilizzabile, mostra un placeholder senza impedire la selezione.
 
 ### Diario personale degli avvistamenti
 
@@ -70,7 +71,7 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 ## Requisiti non funzionali
 
 - Android-first: il primo prodotto distribuibile è un APK installabile senza obbligo di pubblicazione sul Play Store.
-- Local-first: diario, foto, ricerche già effettuate e schede disponibili devono restare consultabili senza rete.
+- Local-first: diario, foto, ricerche geografiche già effettuate e schede disponibili devono restare consultabili senza rete.
 - Privacy: la posizione non viene inviata a un server personale; eventuali richieste esterne usano solo l'area minima necessaria.
 - Prestazioni: la prima schermata deve funzionare su telefono medio senza caricare tutti i modelli 3D insieme.
 - Notifiche: il riepilogo serale deve essere locale e legato al fuso orario corrente, con gestione del permesso Android.

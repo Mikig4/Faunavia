@@ -15,7 +15,7 @@ edges:
     condition: when corridor geometry becomes a provider query
   - target: context/offline-first.md
     condition: when route files or analysis results are cached locally
-last_updated: 2026-09-14
+last_updated: 2026-09-20
 ---
 
 # Route analysis
@@ -42,3 +42,18 @@ Cover a point location, one-segment track, multi-segment GPX, duplicate points, 
 - Reproducibility grid: WGS84 0.01° cells grouped into 0.05° query chunks, with fixed origin and deterministic fingerprint.
 - The degree-based grid deliberately over-covers the corridor and is not a production decision. F5 must compare it with EPSG:3035 and test boundary, distortion and antimeridian cases.
 - Canonical fixture and expected output live under `f0/fixtures/routes/` and are verified by `npm --prefix f0 test`.
+
+## F5 implementation
+
+- `:core:route` accepts GPX tracks/routes, GeoJSON Point/LineString/MultiLineString/Feature/FeatureCollection, and a direct WGS84 point.
+- Only consecutive exact duplicates are removed, with a structured warning. Segment boundaries are preserved in analysis and persistence and are never bridged.
+- Sampling densifies each geodesic edge so adjacent samples are at most the configured interval; the default remains 500 m.
+- The production pilot grid is EPSG:3035, with 1 km cells and 5×5-cell chunks. The default corridor radius remains 1 km and is configurable.
+- A geometry hash identifies the stored route. A separate search fingerprint covers normalized geometry plus radius, sampling, precision and grid configuration.
+- EPSG:3035 is intentionally bounded to Europe. Antimeridian and extra-European inputs return explicit errors; they never fall back silently to the provisional degree grid.
+- Android reads a selected document locally and discards the raw content after parsing. Room stores normalized segments and source metadata in a versioned payload compatible with legacy flat route arrays.
+
+## Verification status
+
+- Thirteen deterministic F5 JVM tests cover valid and invalid formats, points, multiple segments, projection accuracy, density, corridor coverage, cells/chunks, fingerprints, deduplication and write atomicity.
+- Android UI and persistence tests compile. On this host the UTP worker fails its loopback connection before instrumentation begins, so device/visual gates remain pending.

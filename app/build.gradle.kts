@@ -17,8 +17,8 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 2
-        versionName = "0.2.0-f2"
+        versionCode = 6
+        versionName = "0.6.0-f6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
@@ -91,6 +91,10 @@ dependencies {
     // AGP otherwise keeps the app's older serialization-core beside newer test JSON.
     implementation(libs.kotlinx.serialization.json)
     implementation(project(":core:local"))
+    implementation(project(":core:taxonomy"))
+    implementation(project(":core:route"))
+    implementation(project(":core:occurrence"))
+    implementation(libs.coroutines.android)
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(libs.room.runtime)
     androidTestImplementation(libs.coroutines.android)

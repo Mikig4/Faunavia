@@ -16,7 +16,7 @@ edges:
   - target: context/offline-first.md
     condition: when changing local storage or network behavior
 grounds_to: []
-last_updated: 2026-09-14
+last_updated: 2026-09-20
 ---
 
 # Decisions
@@ -65,11 +65,11 @@ last_updated: 2026-09-14
 
 ### Complete selectable animal catalogue via taxonomic backbone
 **Date:** 2026-09-14
-**Status:** Active, pending taxonomy spike
+**Status:** Active, implemented in F3
 **Decision:** Let the user search and select any accepted Animalia species/subspecies from a taxonomic backbone; keep the peculiar-species suggestions as a separate curated subset.
 **Reasoning:** The diary must not be limited to animals suggested for a place, while manually maintaining a global list would become stale and incomplete.
 **Alternatives considered:** Bundle a hand-written global list (rejected as incomplete); bundle an entire taxonomy snapshot in the first APK (deferred because it increases size and update work).
-**Consequences:** Online autocomplete plus local caching is the MVP path; every saved observation stores a stable taxon ID and source/version metadata.
+**Consequences:** F3 uses online GBIF autocomplete plus a local cache of explicitly selected taxa and aliases; every future saved observation stores the stable accepted taxon ID and source/version metadata.
 
 ### GBIF as the first biodiversity provider
 **Date:** 2026-09-14
@@ -94,3 +94,19 @@ last_updated: 2026-09-14
 **Reasoning:** Occurrence data has temporal, spatial and sampling bias; honest uncertainty is essential for a nature app.
 **Alternatives considered:** A single “animals here now” list (rejected because it would overstate the data).
 **Consequences:** Ranking, UI labels and tests must preserve the distinction between evidence levels.
+
+### EPSG:3035 metric route grid for the European pilot
+**Date:** 2026-09-20
+**Status:** Active, implemented in F5
+**Decision:** Replace the provisional WGS84 degree grid in production route analysis with ETRS89 / LAEA Europe (`EPSG:3035`), 1 km metric cells and 5 km query chunks. Reject extra-European and antimeridian routes explicitly in the pilot.
+**Reasoning:** Corridor radius and cache cells must retain metric meaning across Lombardia and the wider European pilot; the F0 `0.01°` grid changes physical width with latitude.
+**Alternatives considered:** Keep the degree grid (rejected because it is not metric); use Web Mercator globally (rejected because its scale distortion is unsuitable for ecological distance); silently fall back outside Europe (rejected because one fingerprint contract would hide different spatial semantics).
+**Consequences:** Provider adapters can consume stable metric partitions in F6. Worldwide support requires a separately versioned projection strategy rather than extending the European contract implicitly.
+
+### Named geographic search in the map flow
+**Date:** 2026-09-20
+**Status:** Active, specified for F8; offline extension deferred to F15
+**Decision:** F8 must accept country, region and city names in addition to coordinates and GPX/GeoJSON. A geocoder resolves the name to a canonical place and point, bounding box or polygon; the user confirms the result before naturalistic analysis. F15 may add a versioned regional gazetteer for the same contract without network access.
+**Reasoning:** “Mappa” alone does not define whether a user can locate an area by name. Making the contract explicit prevents ambiguity in UI, provider queries, privacy boundaries, attribution and test coverage while preserving the route corridor as the precise geometry when a track exists.
+**Alternatives considered:** Coordinate-only map (rejected because it makes ordinary place exploration cumbersome); unrestricted free-text queries sent to a geocoder (rejected because provider policies and ambiguity need explicit handling); global offline gazetteer in the MVP (deferred because size, licensing and update cost are not justified for the personal pilot).
+**Consequences:** F8 adds a bounded online geocoder adapter, autocomplete/debounce, cache, confirmation and explicit empty/ambiguous/offline states. F15 must version the source, license and coverage of any offline gazetteer.

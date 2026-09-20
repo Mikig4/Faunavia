@@ -21,8 +21,11 @@ class LocalModelsTest {
     @Test fun observationRequiresIdentityAndRetainsItsLocalDate() {
         val observation = Observation("o", "t", now, ZoneId.of("Europe/Rome"), null, "", now, now)
         assertEquals(LocalDate.of(2026, 9, 17), observation.localDate)
+        assertEquals(1, observation.quantity)
         assertThrows(IllegalArgumentException::class.java) { observation.copy(taxonId = " ") }
         assertThrows(IllegalArgumentException::class.java) { observation.copy(updatedAt = now.minusSeconds(1)) }
+        assertThrows(IllegalArgumentException::class.java) { observation.copy(quantity = 0) }
+        assertThrows(IllegalArgumentException::class.java) { observation.copy(notes = "n".repeat(MAX_OBSERVATION_NOTES_LENGTH + 1)) }
     }
 
     @Test fun provenanceCannotSilentlyLoseLicenseOrQuality() {

@@ -50,13 +50,21 @@ Cloud Storage per Firebase non è la scelta zero-costi da assumere: la documenta
 
 ## Mappa
 
+### Geometria del percorso
+
+F5 non introduce ancora la basemap: prepara una descrizione geografica indipendente dalla mappa. GPX, GeoJSON e punti WGS84 vengono validati e convertiti in campioni, porzioni di corridoio, celle EPSG:3035 da 1 km e chunk da 5 km. Il file originale non viene conservato; Room salva la geometria normalizzata, i segmenti, il tipo di sorgente e il nome del file. La mappa di F8 consumerà questi risultati senza ridefinire la geometria.
+
 ### Online
 
 Quando c'è rete, l'app può usare MapLibre Native con una sorgente di tile/vector tile compatibile e attribuzione visibile. MapLibre Native Android prevede regioni offline, ma la sorgente deve consentirne il download. Le tile standard di `tile.openstreetmap.org` non vanno pre-scaricate per creare una modalità offline. Riferimenti: [MapLibre offline API](https://maplibre.org/maplibre-native/android/api/-map-libre%20-native%20-android/org.maplibre.android.offline/index.html) e [OSM Tile Usage Policy](https://operations.osmfoundation.org/policies/tiles/).
 
+### Ricerca per nome
+
+In F8 la mappa avrà anche una ricerca geografica per nome di paese, regione o città. Il risultato del geocoder viene normalizzato in un luogo canonico con punto, riquadro o poligono; l'utente lo conferma e può usarlo per centrare la mappa o delimitare l'area di interrogazione. La ricerca per nome non sostituisce la geometria di un percorso: quando è presente una traccia GPX/GeoJSON, il corridoio F5 resta la geometria precisa dell'analisi. Query limitate, attribuzione, cache e fallback testuale sono obbligatori.
+
 ### Offline
 
-Per l'MVP non è necessario salvare il mondo intero. Si può supportare un pacchetto regionale scelto dall'utente, con area e livelli di zoom limitati. Il pacchetto può essere generato da un estratto OSM usando strumenti open source e poi incluso o importato nel telefono; serve verificare licenza, dimensioni e processo di aggiornamento.
+Per l'MVP non è necessario salvare il mondo intero. Si può supportare un pacchetto regionale scelto dall'utente, con area e livelli di zoom limitati, includendo un gazetteer locale coerente per la ricerca di paesi, regioni e città coperte. Il pacchetto può essere generato da un estratto OSM usando strumenti open source e poi incluso o importato nel telefono; serve verificare licenza, dimensioni e processo di aggiornamento.
 
 ### Degrado elegante
 

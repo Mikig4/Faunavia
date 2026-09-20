@@ -1,6 +1,6 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–2 completate e verificate — APK Compose, dominio, Room e repository locali disponibili; `verifyAll` verde con 38 test.
+Stato: Fasi 0–3 completate e verificate. F4–F6 sono implementate nel working tree e in verifica: diario offline, route engine EPSG:3035 e gateway delle occorrenze GBIF/NNB con cache TTL e stato stale esplicito. L'APK debug `0.6.0-f6` è disponibile in `artifacts/Faunavia-f6-debug.apk`. Build, 13 test F0, 38 test JVM core, formattazione, analisi statica, lint e smoke online GBIF/NNB sono verdi; i gate device/visual restano da rieseguire in un ambiente in cui i worker Gradle possano aprire la connessione loopback.
 
 ## Obiettivo
 
@@ -29,6 +29,9 @@ Un'app Android personale che, partendo dalla posizione corrente oppure da un iti
 - [[11 - Rapporto Fase 0]] — decisioni del pilot, fixture, test ed esiti delle fonti.
 - [[12 - Rapporto Fase 1]] — scaffold Android, toolchain, gate automatici e risultati dei test.
 - [[13 - Rapporto Fase 2]] — dominio, Room, migrazioni, integrità del diario e 38 test di regressione.
+- [[14 - Rapporto Fase 3]] — ricerca tassonomica, sinonimi, cache offline, schermata Catalogo e 51 test di regressione.
+- [[15 - Rapporto Fase 5]] — import GPX/GeoJSON, proiezione metrica, corridoio, celle, fingerprint e stato dei gate.
+- [[16 - Rapporto Fase 6]] — gateway GBIF/NNB, cache TTL/stale, provenienza, retry e verifiche.
 
 ## Memoria tecnica
 

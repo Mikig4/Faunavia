@@ -25,11 +25,20 @@ val appBuildDirectory = project(":app").layout.buildDirectory
 val domainBuildDirectory = project(":core:domain").layout.buildDirectory
 val testingBuildDirectory = project(":core:testing").layout.buildDirectory
 val localBuildDirectory = project(":core:local").layout.buildDirectory
+val taxonomyBuildDirectory = project(":core:taxonomy").layout.buildDirectory
+val routeBuildDirectory = project(":core:route").layout.buildDirectory
+val occurrenceBuildDirectory = project(":core:occurrence").layout.buildDirectory
 
 val verifyF0 = tasks.register<Exec>("verifyF0") {
     group = "verification"
     description = "Replays the versioned F0 data spike tests."
     commandLine("pwsh", "-NoProfile", "-File", file("f0/scripts/verify-f0.ps1").absolutePath)
+}
+
+val verifyOccurrenceSmoke = tasks.register<Exec>("verifyOccurrenceSmoke") {
+    group = "verification"
+    description = "Runs explicit online GBIF and NNB occurrence smoke checks; it is never a deterministic gate."
+    commandLine("pwsh", "-NoProfile", "-File", file("scripts/verify-occurrence-smoke.ps1").absolutePath)
 }
 
 val formatCheck = tasks.register<Exec>("formatCheck") {
@@ -52,6 +61,9 @@ val verifyFast = tasks.register("verifyFast") {
         staticAnalysis,
         ":core:domain:test",
         ":core:testing:test",
+        ":core:taxonomy:test",
+        ":core:route:test",
+        ":core:occurrence:test",
         ":core:local:lintDebug",
         ":app:testDebugUnitTest",
         ":app:lintDebug",
@@ -110,6 +122,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
         val domainBuild = domainBuildDirectory.get().asFile
         val testingBuild = testingBuildDirectory.get().asFile
         val localBuild = localBuildDirectory.get().asFile
+        val taxonomyBuild = taxonomyBuildDirectory.get().asFile
         destination.mkdirs()
         val report = destination.resolve("index.html")
         report.writeText(
@@ -121,6 +134,9 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
             <ul>
               <li><a href="${appBuild.resolve("reports/lint-results-debug.html").toURI()}">Android lint</a></li>
               <li><a href="${localBuild.resolve("reports/lint-results-debug.html").toURI()}">Local storage lint</a></li>
+              <li><a href="${taxonomyBuild.resolve("reports/tests/test/index.html").toURI()}">Taxonomy JVM tests</a></li>
+              <li><a href="${routeBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Route engine JVM tests</a></li>
+              <li><a href="${occurrenceBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Occurrence gateway JVM tests</a></li>
               <li><a href="${appBuild.resolve("reports/tests/testDebugUnitTest/index.html").toURI()}">App JVM tests</a></li>
               <li><a href="${domainBuild.resolve("reports/tests/test/index.html").toURI()}">Domain JVM tests</a></li>
               <li><a href="${testingBuild.resolve("reports/tests/test/index.html").toURI()}">Testing fakes JVM tests</a></li>
@@ -133,7 +149,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F2 host, database, device and visual gates and collects reports."
+    description = "Runs F0-F6 host, taxonomy, route, occurrence, database, diary UI, device and visual gates and collects reports."
     dependsOn(collectVerificationReports)
 }
 

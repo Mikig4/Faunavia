@@ -17,7 +17,7 @@ edges:
   - target: context/conventions.md
     condition: when setup introduces project-wide tooling or scripts
 grounds_to: []
-last_updated: 2026-09-16
+last_updated: 2026-09-20
 ---
 
 # Setup
@@ -34,7 +34,7 @@ last_updated: 2026-09-16
 
 1. Run `pwsh -NoProfile -File scripts/bootstrap-android.ps1` once. It downloads checksum-verified pinned tools under `%LOCALAPPDATA%\Faunavia\toolchains`.
 2. In each PowerShell session run `. scripts/android-env.ps1`.
-3. Run `.\gradlew.bat verifyAll --no-daemon` for the complete F0–F2 gate, including Room integrity and migrations.
+3. Run `.\gradlew.bat verifyAll --no-daemon` for the complete F0–F6 gate, including Room integrity and migrations.
 4. Open the project in Android Studio only for interactive development; use the JDK and SDK paths from the manifest generated in the portable toolchain root.
 5. For MEX maintenance, use `mex graph status` and `mex hub`.
 
@@ -51,6 +51,7 @@ last_updated: 2026-09-16
 - `.\gradlew.bat verifyDevice --no-daemon` — install, launch and test on the API 36 managed device.
 - `.\gradlew.bat verifyVisual --no-daemon` — execute and confirm the visual golden test.
 - `.\gradlew.bat verifyAll --no-daemon` — full F0–F2 regression and report index, including Room tests in the app's managed-device suite.
+- `.\gradlew.bat verifyOccurrenceSmoke --no-daemon` — explicit live GBIF/NNB health check; it saves no response and is never part of `verifyFast`.
 - `pwsh -NoProfile -File scripts/verify-failure-report.ps1` — prove that a failed gate still publishes diagnostics.
 - `mex graph status` — inspect the MEX graph.
 - `mex wiki rebuild-index` — rebuild the MEX wiki index after context changes.

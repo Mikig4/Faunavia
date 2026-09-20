@@ -18,7 +18,7 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-09-16
+last_updated: 2026-09-20
 ---
 
 # Android local architecture
@@ -36,6 +36,28 @@ Room/SQLite stores structured data. Photos are files in app-private storage with
 - Missing records return null or empty lists. Updating a missing observation or saving an invalid taxon reference fails. Missing deletes are idempotent.
 - Deleting a taxon used by the diary fails. Deleting an observation cascades photo metadata and returns removed references; independent photo deletion leaves the observation intact. Physical photo management remains F10.
 - Managed-device tests in the app cover CRUD, raw SQL integrity, rollback, mapper round-trips, database reopening and populated/empty migration. Schema copying precedes test asset merging.
+
+## F3 taxonomy cache
+
+- Schema v3 adds `taxon_aliases(taxonId, name, normalizedName)`, with a foreign key cascade and an index on the normalized search name. The v2→v3 migration preserves all existing catalogue and diary records.
+- The catalogue persists an accepted Animalia taxon and all its aliases atomically only after the person selects it. Local SQL search checks scientific name, common name and aliases, filters accepted Animalia, and orders species/subspecies first.
+- The app declares the Internet permission for the GBIF adapter. The catalog UI is still useful without a connection because it falls back to selected local taxa and makes the offline state explicit.
+- A debug-only empty activity hosts injected Compose search states in instrumented tests; it is excluded from release builds.
+
+## F4/F5 local flows
+
+- Schema v4 adds `ObservationRow.quantity` with default one; the Diary UI performs offline create/edit/delete with a required selected taxon.
+- F5 keeps the Room schema at v4. `RouteRow.points` remains a text column but now contains a versioned JSON object with source, source filename and nested segments; the mapper still reads legacy flat point arrays.
+- Android's document picker grants temporary read access. The app reads at most 5 million characters, parses off the main thread, stores only normalized geometry and does not retain the URI or raw file.
+- The Percorsi screen exposes configurable radius/sampling, manual WGS84 coordinates, explicit validation states and offline summaries. MapLibre is still deferred to F8.
+- F8 will add MapLibre plus a geographic search adapter for country/region/city names; online geocoding remains bounded and attributed, while an offline regional gazetteer is deferred to F15.
+- `RouteTestActivity` hosts deterministic Compose tests and remains debug-only.
+
+## F6 occurrence cache
+
+- Schema v5 adds `occurrence_cache(key, cachedAt, expiresAt, occurrences)`. The payload contains normalized records and their provenance, not raw provider responses or route files.
+- `LocalRepositories.occurrenceCache` offers explicit read, save, keyed delete and full clear operations; cache expiry is evaluated in the pure gateway so stale data cannot silently look current.
+- The v4→v5 migration is additive. Instrumented tests cover empty migration/cache access and a file-backed mapper round trip; provider fixtures and gateway tests run off-device.
 
 ## Notifications
 
@@ -56,3 +78,4 @@ Generate and sideload a debug/release APK locally for the zero-cost path. Play S
 - `verifyFast`, `verifyDevice`, `verifyVisual` and `verifyAll` are the canonical Gradle gates.
 - Compose UI tests use the v2 test rule; UI Automator proves launcher install/start; the visual gate compares a versioned home-screen color signature and captures the actual bitmap during the test.
 - Generated output lives under the portable toolchain build root to avoid OneDrive locking; source and baselines remain in Git.
+- On the current host, Gradle can compile and lint in-process when the wrapper JVM matches the build and loads the instrumentation agent. Forked JVM test and UTP workers still fail on loopback; direct JUnit execution verifies host tests while device gates remain pending.

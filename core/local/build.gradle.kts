@@ -26,6 +26,7 @@ room { schemaDirectory("$projectDir/schemas") }
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":core:occurrence"))
     implementation(libs.room.runtime)
     implementation(libs.coroutines.android)
     ksp(libs.room.compiler)

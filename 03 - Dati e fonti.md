@@ -30,6 +30,10 @@ Adapter opzionale per osservazioni e contenuti naturalistici più leggibili. L'A
 
 Usare OSM per la mappa e, se necessario, per contesto geografico. Le tile standard non sono una sorgente da cui fare prefetch offline: la [Tile Usage Policy](https://operations.osmfoundation.org/policies/tiles/) richiede attribuzione, User-Agent identificabile, rispetto della cache e vieta il bulk download/offline sui server standard. Per il geocoding, la [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/) richiede carico limitato e vieta query sistematiche.
 
+### Ricerca geografica per nome
+
+La mappa deve accettare anche nomi di paesi, regioni e città. Il geocoder restituisce un risultato canonico con nome visualizzato, tipo, codice paese e geometria utile alla mappa (punto, bounding box o poligono); l'utente conferma prima di usarlo per centrare la mappa o delimitare l'area della ricerca naturalistica. F8 usa un adapter online con debounce, limite di frequenza, attribuzione e cache locale. Non sono ammesse query sistematiche a Nominatim né l'invio della traccia completa quando basta l'area selezionata. Un risultato ambiguo, non trovato o non disponibile offline resta visibile come stato esplicito. Un gazetteer locale per la ricerca senza rete è rinviato a F15.
+
 ## Pipeline dati
 
 1. Definire il corridoio in locale.

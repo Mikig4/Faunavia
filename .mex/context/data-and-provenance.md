@@ -17,7 +17,7 @@ edges:
     condition: when changing what the app claims about presence
   - target: context/conventions.md
     condition: when implementing adapters, normalization, or source rendering
-last_updated: 2026-09-14
+last_updated: 2026-09-20
 ---
 
 # Data and provenance
@@ -42,9 +42,19 @@ Manual observations are first-party diary records, not provider occurrences. The
 
 ## Taxonomy catalogue
 
-The general selector searches the adopted taxonomy by common name, scientific name, and synonyms, then stores the accepted taxon ID and source/version metadata. The general catalogue is broader than the curated regional suggestion set. A taxonomy snapshot may be cached locally later, but the MVP may use online autocomplete plus caching of selected taxa.
+The F3 selector uses the GBIF Species API v1 behind `:core:taxonomy`. It normalizes common/scientific/synonym queries, resolves a suggested synonym to its accepted GBIF record, filters selectable Animalia and preserves the stable `gbif:<id>` identifier with source/version metadata. The GBIF documentation says Backbone identifiers remain supported in its API even as its primary taxonomy moves to Catalogue of Life XR; a future provider upgrade can choose a checklist without invalidating saved IDs.
 
-Taxon search may show a lazy photo preview from an occurrence-media source. Preview metadata must include creator, rights holder, license, source URL, and cache expiry. Missing or non-reusable media must fall back to a placeholder without blocking taxon selection.
+The MVP does not bundle a global taxonomy snapshot. Room caches only explicitly selected taxa and their searchable aliases; remote suggestions are held in memory for five minutes and never replace selected records. Offline mode returns the local selections with a visible state.
+
+F3 does not fetch or copy occurrence media. It shows an explicit unavailable-preview placeholder, so selection does not imply a media license. A later preview provider must retain creator, rights holder, license, source URL and cache expiry before replacing that placeholder.
+
+## F6 occurrence gateway
+
+- `:core:occurrence` contains the provider-neutral `DocumentedOccurrence` contract. It preserves provider/record identity, scientific name, provider-supplied date, location, uncertainty, source URL and complete `Provenance`; it is not a claim of current presence.
+- GBIF uses bounded pages (at most 300 records per request) and polygon corridor portions, with deterministic fallback to F5 query-chunk bounding boxes. NNB uses its WFS fallback with bounded boxes and `startIndex` pagination.
+- The gateway retries only timeout/network/429/5xx failures, at most three attempts with exponential backoff or a provider `Retry-After`; malformed and other 4xx responses fail immediately. Partial records retain provider failures; all-provider failure returns stale cache explicitly when available.
+- The persistent cache lasts six hours and is keyed by F5's configuration-sensitive fingerprint plus the active adapter set. It stores normalized responses only and offers explicit deletion; the UI must render `fresh`, `network` or `stale` state in F8.
+- GBIF records retain their individual licence and dataset attribution. NNB WFS does not expose a per-record licence, so its stored licence says so and must not be treated as general commercial/public reuse permission.
 
 ## F0 provider baseline
 
@@ -53,6 +63,13 @@ Taxon search may show a lazy photo preview from an occurrence-media source. Prev
 - The discoverable CLCplus point service used in F0 is 2021. A guessed 2023 ImageServer returned 404; 2021 remains visibly dated and non-equivalent.
 - CLCplus classes are retained raw. No direct CLCplus-to-MAES mapping is accepted until scientific curation; without it, habitat evidence is `insufficient`.
 - Provider snapshots, source registry, query limits, normalization examples and fallback outcomes are versioned in `f0/fixtures/` and replayed offline with `npm --prefix f0 test`.
+
+## Geographic search contract
+
+- F8 accepts country, region and city names in addition to coordinates and imported route geometry.
+- The geocoder adapter returns a canonical display name, place type, country code and point/bounding box/polygon geometry; the user confirms before a naturalistic query starts.
+- Online lookup is bounded, attributed, cached locally and never systematic; ambiguous, empty or unavailable responses remain explicit UI states.
+- A regional offline gazetteer is deferred to F15 and must be versioned with its source and license.
 
 ## Optional Firebase boundary
 
