@@ -23,6 +23,13 @@ last_updated: 2026-09-20
 
 ## Decision Log
 
+### Trip planning and connected personal diary
+**Date:** 2026-09-20
+**Status:** Approved functional scope, pending implementation in F7–F17
+**Decision:** Extend the roadmap with saved trips and travel dates, practical evidence-backed suggestions, essential species profiles in F8, a linked diary with persistent unidentified drafts, wishlists, personal animated GLB import and offline trip preparation. Add F17 for documented observation places and trails in a bounded pilot area.
+**Reasoning:** The intended experience connects holiday preparation, animal discovery and personal memories.
+**Consequences:** Drafts remain separate from taxon-required observations; existing F2–F6 outcomes stay intact. Add models and non-destructive migrations in the implementing phases. Observability is distinct from presence evidence; missing data never implies encounter probability or trail accessibility. Worldwide coverage, turn-by-turn navigation and in-app 3D authoring remain excluded. The detailed plan's 2026-09-20 extension section defines additional phase gates and supersedes earlier conflicting functional wording.
+
 ### Local-first PWA before a hosted backend
 **Date:** 2026-09-14
 **Status:** Superseded by "Android-native local-first app"

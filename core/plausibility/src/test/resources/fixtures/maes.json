@@ -1,0 +1,8 @@
+{
+  "response": {
+    "rows": [
+      { "recordId": 219001, "speciesName": "Lycaena dispar", "ecosystem": "grassland", "association": "P" },
+      { "recordId": 219571, "speciesName": "Lycaena dispar", "ecosystem": "wetlands", "association": "P" }
+    ]
+  }
+}

@@ -23,10 +23,10 @@ F6 collega il corridoio deterministico di F5 a evidenze di occorrenza documentat
 - Formattazione, confini architetturali e secret scan: verdi.
 - Smoke online: GBIF HTTP 200 (13.522 match nel campione di Parco Nord) e NNB WFS HTTP 200 (95 match).
 - APK debug: `artifacts/Faunavia-f6-debug.apk`, versione `0.6.0-f6` (`versionCode 6`).
+- Gate cumulativo `verifyAll`: verde con test JVM, lint, 25 test Android sul dispositivo gestito, controllo anti-omissione e golden visuale.
 
 ## Limiti intenzionali
 
 - Le osservazioni NNB WFS restano utilizzabili come evidenza con provenienza completa, ma la loro licenza per-record non è esposta: nessun riuso pubblico/commerciale è implicato.
 - Non c'è ancora UI di risultati o mappa: F8 consumerà gli stati espliciti del gateway.
 - La cache non rende disponibili nuove ricerche offline; mostra solo risultati già ottenuti e marcati come stale quando necessario.
-- I gate Android device/visual non hanno eseguito test: l'host blocca la connessione loopback di worker Gradle/UTP prima dell'avvio.

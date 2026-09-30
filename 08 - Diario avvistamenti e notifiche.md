@@ -55,9 +55,9 @@ La notifica non deve interrogare Firebase né chiamare GBIF. Non viene richiesto
 - Rimuovere o rendere opzionale la condivisione dei metadati EXIF, soprattutto coordinate e dispositivo.
 - Non caricare foto online nell'MVP.
 
-## Implementazione F4 in verifica
+## Implementazione F4 verificata
 
-- APK debug generato: `artifacts/Faunavia-f4-debug.apk`, versione `0.4.0-f4` (`versionCode 4`). Build e lint Android sono verdi; i test JVM e i gate device/visual devono essere rieseguiti fuori dall'ambiente che blocca il loopback dei worker Gradle.
+- APK debug generato: `artifacts/Faunavia-f4-debug.apk`, versione `0.4.0-f4` (`versionCode 4`). Build, lint, test JVM e flussi Android del Diario sono verdi nel gate cumulativo `verifyAll`.
 - Il diario salva e rilegge solo record locali Room; crea, modifica ed elimina con conferma esplicita dell'eliminazione.
 - La specie è scelta tra i taxa Animalia già selezionati nel Catalogo: la ricerca del diario è esplicitamente offline e una query incompleta non è persistita.
 - Ogni record conserva data e ora nel fuso locale, quantità da 1 a 9.999, note fino a 2.000 caratteri e coordinate opzionali complete.

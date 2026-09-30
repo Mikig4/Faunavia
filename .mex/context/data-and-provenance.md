@@ -56,6 +56,13 @@ F3 does not fetch or copy occurrence media. It shows an explicit unavailable-pre
 - The persistent cache lasts six hours and is keyed by F5's configuration-sensitive fingerprint plus the active adapter set. It stores normalized responses only and offers explicit deletion; the UI must render `fresh`, `network` or `stale` state in F8.
 - GBIF records retain their individual licence and dataset attribution. NNB WFS does not expose a per-record licence, so its stored licence says so and must not be treated as general commercial/public reuse permission.
 
+## F7 plausibility engine
+
+- `:core:plausibility` produces `documented`, `plausible` or `insufficient` together with stable calculation steps and complete source records. A direct occurrence is usable only if it has a precise ISO date, location and acceptable age/uncertainty; this preserves a historical record without treating it as current presence.
+- In the absence of usable direct evidence, an Article 12/17 range must intersect and the land-cover samples must match a preferred or suitable MAES association. Adjacent ranges, occasional associations, missing sources, non-equivalent CLCplus input and uncurated translations do not promote a taxon.
+- Institutional monthly windows take precedence. Only when none exists may dated GBIF/NNB occurrences offer a lower-quality empirical monthly signal; absence from those records never reduces confidence because it may be sampling bias.
+- Natura 2000 has a positive-context-only model. Documented habitat/period/time-of-day guidance is distinct from evidence; missing guidance remains unavailable rather than an invented encounter probability.
+
 ## F0 provider baseline
 
 - GBIF polygon occurrence search, GBIF taxonomy match, EEA Article 12/17 envelope queries, the EEA MAES 2014 archive and CLCplus 2021 point identify returned usable bounded fixtures.

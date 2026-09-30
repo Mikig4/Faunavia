@@ -1,6 +1,61 @@
 # Piano di sviluppo dettagliato
 
-Questo piano non avvia ancora lo sviluppo. Definisce fasi ordinate, dipendenze, artefatti, test e gate necessari per iniziare senza lasciare decisioni implicite.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. Le estensioni funzionali del 2026-09-20 descritte sotto sono requisiti futuri, non funzionalità già disponibili.
+
+## Estensioni funzionali approvate il 2026-09-20
+
+Questa sezione integra attività e gate delle fasi indicate. In caso di contrasto funzionale prevale sui precedenti dettagli: i gate originali rimangono richiesti. F2–F6 non vengono riaperte retroattivamente; i nuovi modelli e le migrazioni si realizzano nelle fasi che introducono le nuove funzioni.
+
+### F7 — Periodo del viaggio e osservabilità
+
+- Accettare le date previste del viaggio come periodo dell'analisi, distinto dalla data corrente; spiegare eventuali variazioni stagionali all'interno dell'intervallo.
+- Separare evidenza di presenza e facilità di osservazione. Aggiungere habitat da cercare, periodo e fascia oraria solo se documentati; in assenza di dati mostrare “non disponibile”, senza inventare probabilità.
+- **Gate aggiuntivo:** stessa area con periodi diversi usa i rispettivi segnali stagionali; dati di osservabilità mancanti non alterano il livello di evidenza né generano indicazioni arbitrarie.
+
+### F8A — Esplorazione e scheda essenziale
+
+- Selezionare il periodo di analisi anche senza viaggio salvato e applicare i segnali stagionali F7.
+- Anticipare da F13 nomi, immagine o fallback, riconoscimento documentato e sintesi habitat/periodo.
+- **Gate aggiuntivo:** luogo/percorso + periodo → risultati → mappa → scheda essenziale; cambio periodo e dati mancanti gestiti esplicitamente.
+
+### F8B — Viaggio salvato e diario collegato
+
+- Creare/modificare/eliminare un viaggio con nome, destinazione confermata, date, raggio di spostamento e gruppi animali di interesse. Consentire comunque l'esplorazione senza viaggio.
+- Introdurre uscite salvate nel viaggio, anche manuali o basate su percorsi importati; la scoperta di sentieri nuovi resta F17.
+- Salvare luoghi e risultati scelti, con data e provenienza, e ricalcolare esplicitamente i suggerimenti se cambiano date o area. Dichiarare i limiti di copertura: ricerca geografica e disponibilità di analisi sono distinte.
+- Riutilizzare la scheda essenziale F8A nei viaggi; F13 aggiunge gli approfondimenti.
+- Aggiungere “L'ho visto” da risultato/scheda: precompilare taxon e collegamento al viaggio/uscita, richiedendo conferma di data e posizione effettive. Non copiare automaticamente il punto di un'osservazione esterna come luogo dell'avvistamento personale.
+- Collegare osservazioni a viaggio/uscita e consultarle per calendario, mappa e filtro specie; le osservazioni senza coordinate restano in lista/calendario. Riepilogare specie e prime osservazioni personali, aggiornandole dopo modifiche o cancellazioni.
+- Introdurre bozze persistenti “da identificare” con data, luogo opzionale e note. Restano separate dalle osservazioni con taxon obbligatorio e dai conteggi di specie osservate. Permettere modifica, eliminazione e conversione atomica dopo scelta del taxon, senza duplicare il ricordo. Le foto arrivano in F10.
+- Eliminare viaggio/uscita scollega ma non elimina osservazioni e bozze; introdurre migrazioni non distruttive per i nuovi dati.
+- **Gate aggiuntivo:** viaggio → risultati per le date scelte → scheda → conferma osservazione → riepilogo; riavvio/offline conserva viaggi e bozze; conversione bozza senza duplicati; cancellazione viaggio senza perdita del diario; filtri/calendario/mappa e migrazione del diario preesistente verificati. Le bozze non entrano nei conteggi delle notifiche F11.
+
+### F9 — Lista desideri e suggerimenti personali
+
+- Salvare/rimuovere taxa dalla lista “vorrei vederlo” e indicarne la pertinenza al viaggio usando le evidenze disponibili.
+- Offrire viste “tipici del luogo”, “più facili da osservare” e “mai osservati da me”, con motivazioni e ordinamento stabile. L'ultima vista dipende solo da osservazioni personali identificate, non da bozze o evidenze esterne.
+- Le specie urbane comuni possono essere de-prioritizzate nella vista dei taxa tipici, senza esclusione rigida nelle altre viste. Se manca una base per stimare l'osservabilità, dichiararlo invece di simulare un ordinamento affidabile.
+- **Gate aggiuntivo:** desideri persistenti offline; specie comune ma nuova per l'utente selezionabile; modifica/eliminazione del diario aggiorna la vista dei mai osservati; nessuna vista modifica la classificazione dell'evidenza.
+
+### F10–F12 — Ricordi e recuperabilità
+
+- F10: consentire foto anche nelle bozze da identificare, preservandole durante la conversione; riutilizzare le regole di privacy e gestione file del diario.
+- F11: riepiloghi e notifiche contano solo osservazioni identificate, escludendo le bozze.
+- F12: includere viaggi, uscite, luoghi/risultati salvati, desideri, bozze, foto e collegamenti nel backup versionato. Prevedere l'importazione degli archivi precedenti, senza inventare dati mancanti.
+- **Gate aggiuntivo:** conversione bozza con foto senza perdita/orfani; round-trip completo e import di archivio precedente; rollback conserva tutti i dati e collegamenti.
+
+### F14 — Libreria personale di modelli e animazioni
+
+- Oltre al primo asset incluso, offrire importazione locale di GLB, associazione a un taxon, anteprima, sostituzione e rimozione. Raccogliere provenienza e licenza; un file non valido non sostituisce un asset funzionante.
+- Per file con animazioni supportate mostrare le clip disponibili, selezione e riproduci/pausa; per file statici mantenere rotazione e zoom. Creare o animare modelli dentro l'app resta fuori perimetro.
+- La rimozione di un asset non elimina scheda o osservazioni. Modelli personali e metadati devono essere recuperabili tramite estensione versionata del backup F12.
+- **Gate aggiuntivo:** import statico/animato, clip assenti/multiple/non supportate, sostituzione fallita, riavvio, rimozione e backup/ripristino; fallback 2D e diario sempre utilizzabili. Restano obbligatori i controlli di provenienza, validità e prestazioni della fase.
+
+### F15 — Prepara il viaggio offline
+
+- Un'azione raccoglie luoghi, risultati con provenienza/data, schede essenziali e mappe autorizzate del viaggio; F17 estende il pacchetto alle uscite suggerite. Non promettere nuove analisi offline se i dati richiesti non sono inclusi.
+- Mostrare copertura, dimensione prevista, avanzamento, data dei dati e stato completo/parziale; consentire aggiornamento e rimozione senza cancellare diario, viaggi, desideri o asset personali.
+- **Gate aggiuntivo:** in modalità aereo viaggio, risultati e schede preparati sono consultabili; download interrotto o spazio insufficiente non dichiarano il viaggio pronto; aree fuori copertura e materiali mancanti hanno un fallback esplicito.
 
 ## Regole di esecuzione
 
@@ -146,7 +201,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** ogni fixture valida produce sempre lo stesso corridoio e le stesse unità di query; ogni fixture invalida fallisce senza effetti collaterali.
 
-**Esito 2026-09-20:** implementata nel working tree e in verifica. Il modulo `:core:route` importa GPX e GeoJSON Point/LineString/MultiLineString, conserva i segmenti, campiona per distanza, costruisce porzioni di corridoio, celle metriche EPSG:3035, chunk e fingerprint. La UI Percorsi usa il picker Android e offre anche coordinate WGS84 manuali. I test deterministici F5, build e lint sono verdi; il gate device non è eseguibile su questo host perché il worker UTP fallisce sulla connessione loopback prima dei test. Dettagli in [[15 - Rapporto Fase 5]].
+**Esito 2026-09-20:** completata e verificata. Il modulo `:core:route` importa GPX e GeoJSON Point/LineString/MultiLineString, conserva i segmenti, campiona per distanza, costruisce porzioni di corridoio, celle metriche EPSG:3035, chunk e fingerprint. La UI Percorsi usa il picker Android e offre anche coordinate WGS84 manuali. I test deterministici F5, build, lint e flussi Android Percorsi sono verdi. Dettagli in [[15 - Rapporto Fase 5]].
 
 ## F6 — Gateway delle occorrenze e provenienza
 
@@ -168,7 +223,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** un itinerario produce un insieme deduplicato di evidenze documentate e spiegabili, oppure un errore recuperabile senza perdita locale.
 
-**Esito 2026-09-20:** implementata nel working tree e in verifica. `:core:occurrence` normalizza le risposte iniziali GBIF e NNB WFS, limita paginazione e retry, conserva licenza/attribuzione/query/timestamp/precisione e non ricostruisce coordinate generalizzate. Il gateway usa il fingerprint F5 e l'insieme degli adapter come chiave di cache, restituisce fresh/network/stale in modo esplicito e deduplica soltanto `(provider, recordId)`. Room v5 aggiunge la cache persistente normalizzata con migrazione v4→v5. Sei test JVM F6, compilazione Android e smoke online sono verdi; device/visual restano pendenti per il loopback del worker. Dettagli in [[16 - Rapporto Fase 6]].
+**Esito 2026-09-20:** completata e verificata. `:core:occurrence` normalizza le risposte iniziali GBIF e NNB WFS, limita paginazione e retry, conserva licenza/attribuzione/query/timestamp/precisione e non ricostruisce coordinate generalizzate. Il gateway usa il fingerprint F5 e l'insieme degli adapter come chiave di cache, restituisce fresh/network/stale in modo esplicito e deduplica soltanto `(provider, recordId)`. Room v5 aggiunge la cache persistente normalizzata con migrazione v4→v5. Sei test JVM F6, test Room v5, gate device/visual e smoke online sono verdi. Dettagli in [[16 - Rapporto Fase 6]].
 
 ## F7 — Motore di plausibilità e fonti istituzionali
 
@@ -190,9 +245,11 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** nessun caso di test sovrastima la presenza e ogni risultato visualizzabile dispone di una spiegazione tracciabile.
 
-## F8 — Risultati, mappa online e primo vertical slice
+**Esito 2026-09-20:** implementata nel working tree e in verifica. `:core:plausibility` rende deterministica la regola di F7, separa osservabilità e presenza, usa gli adapter Article 12/17, MAES e CLCplus con errori/provenienza espliciti e non traduce classi CLCplus in MAES senza un crosswalk scientificamente curato. I 15 test JVM F7 coprono matrice, fonti mancanti, areale confinante, habitat misto, dati vecchi, Natura 2000, fixture e ripetibilità. La suite F0 e i controlli statici sono verdi; il gate Gradle cumulativo deve ancora avviarsi fuori dal runner che nega il loopback.
 
-**Obiettivo:** completare il flusso nome/coordinate/GPX/GeoJSON → area confermata → analisi → risultati spiegati → mappa.
+## F8A — Esplorazione naturalistica, mappa e scheda essenziale
+
+**Obiettivo:** completare il flusso nome/coordinate/GPX/GeoJSON + periodo → area confermata → analisi → risultati spiegati → mappa → scheda essenziale, senza richiedere un viaggio salvato.
 
 **Dipendenze:** F4, F7.
 
@@ -209,13 +266,34 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Non regressione:** suite completa F1–F7; sentinel GPX → fingerprint → fixture provider → classificazione attesa; diario e ricerca restano utilizzabili senza mappa.
 
-**Gate di completamento:** il primo vertical slice funziona su emulatore dall'import al risultato spiegato, con report e screenshot automatici.
+**Gate di completamento:** il primo vertical slice funziona su emulatore da luogo/percorso e periodo al risultato spiegato e alla scheda essenziale, inclusi i gate aggiuntivi F8A, con report e screenshot automatici.
+
+## F8B — Viaggi e diario collegato
+
+**Obiettivo:** conservare la preparazione della vacanza e collegarla ai ricordi personali.
+
+**Dipendenze:** F8A e diario F4.
+
+**Attività e artefatti:**
+
+1. Implementare viaggi con destinazione, date, raggio e interessi e uscite manuali o da percorsi importati.
+2. Salvare luoghi e risultati con provenienza; riutilizzare F8A e aggiornare esplicitamente l'analisi al cambio di date o destinazione.
+3. Collegare diario e uscite; aggiungere “L'ho visto” con conferma dei dati effettivi.
+4. Introdurre bozze persistenti separate dalle osservazioni identificate; foto in F10.
+5. Aggiungere calendario, mappa del diario, filtri specie e riepiloghi delle prime osservazioni personali.
+6. Applicare migrazioni non distruttive; eliminare viaggi/uscite scollega senza cancellare i ricordi.
+
+**Test della fase:** casi F8B delle estensioni approvate, inclusi riavvio/offline, conversione atomica delle bozze, collegamenti, cancellazioni, filtri e migrazione del diario esistente.
+
+**Non regressione:** suite completa F1–F8A; esplorazione senza viaggio, scheda essenziale e diario preesistente restano utilizzabili.
+
+**Gate di completamento:** viaggio → risultati → uscita → osservazione/bozza → diario e riepilogo funzionano dopo riavvio; cancellare un viaggio non elimina ricordi. F9 parte solo dopo il gate F8B.
 
 ## F9 — Suggerimenti peculiari del luogo
 
 **Obiettivo:** offrire una selezione curata senza confonderla con il catalogo generale o con tutte le occorrenze.
 
-**Dipendenze:** F3, F7, F8.
+**Dipendenze:** F3, F7, F8A e F8B.
 
 **Attività e artefatti:**
 
@@ -226,7 +304,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Test della fase:** profili curati validi/invalidi; soglia di peculiarità; esclusione `urbanCommon`; ordinamento stabile; motivazione e fonte obbligatorie; lista vuota; specie esclusa dai suggerimenti ma salvabile nel diario.
 
-**Non regressione:** suite completa F1–F8; sentinel sulla separazione fra suggerimenti, catalogo, evidenze e diario; vertical slice cartografico invariato.
+**Non regressione:** suite completa F1–F8B (incluse F8A e F8B); sentinel sulla separazione fra suggerimenti, catalogo, evidenze e diario; vertical slice cartografico invariato.
 
 **Gate di completamento:** i suggerimenti sono motivati, riproducibili e non limitano il diario.
 
@@ -294,7 +372,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Obiettivo:** fornire una scheda utile e tracciabile prima di introdurre il renderer 3D.
 
-**Dipendenze:** F3, F7, F8.
+**Dipendenze:** F3, F7, F8A e F8B.
 
 **Attività e artefatti:**
 
@@ -334,7 +412,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Obiettivo:** analizzare e consultare un'area pilota, anche cercata per nome, senza tile o geocoder online e nel rispetto delle licenze.
 
-**Dipendenze:** F8 e decisione sull'area pilota.
+**Dipendenze:** F8A, F8B e decisione sull'area pilota.
 
 **Attività e artefatti:**
 
@@ -371,18 +449,40 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** ADR approvato. L'eventuale implementazione è accettabile solo se `verifyAll` resta verde anche senza backend.
 
+## F17 — Scoperta di luoghi e sentieri naturalistici
+
+**Obiettivo:** partire dalla destinazione e dalle date per scegliere dove andare a osservare animali, senza dover già possedere una traccia.
+
+**Dipendenze:** viaggi e uscite F8B, suggerimenti F9, backup F12 e preparazione offline F15. F16 può essere chiusa senza backend.
+
+**Attività e artefatti:**
+
+1. Selezionare fonti riutilizzabili per un'area pilota di punti di osservazione e sentieri; iniziare anche con un catalogo curato e delimitato. Non derivare un sentiero percorribile dai soli punti di presenza animale.
+2. Proporre uscite pertinenti a destinazione, date, raggio di spostamento, interessi e lista desideri, motivando il collegamento con le specie e il livello delle evidenze.
+3. Mostrare punto di partenza, lunghezza, durata indicativa, difficoltà e distanza dalla base quando documentati; distinguere distanza geografica e tempo di trasferimento, senza inventare quest'ultimo. Indicare fonte/data ed eventuali informazioni di accessibilità o chiusura disponibili; dato assente non significa accesso garantito.
+4. Confrontare e filtrare le uscite; salvare una proposta nel viaggio, visualizzarne la geometria quando disponibile e collegare osservazioni/bozze all'uscita. Conservare la proposta salvata anche se la fonte diventa indisponibile, indicandone l'anzianità.
+5. Estendere backup e pacchetto offline ai dettagli e alle geometrie delle uscite consentite dalle licenze. Rispettare la precisione delle coordinate e la protezione delle località sensibili già prevista per le evidenze.
+6. Gestire copertura assente o dati insufficienti con luoghi documentati, percorsi importati e pianificazione manuale. Restano esclusi navigazione turn-by-turn, generazione automatica di sentieri e copertura mondiale implicita.
+
+**Test della fase:** destinazione con/senza copertura; date/interessi diversi; campi mancanti; proposta senza traccia; fonte indisponibile; dati datati; geometrie e coordinate sensibili; ordinamento riproducibile; salvataggio senza duplicati; uscita → osservazione/bozza → diario; backup e consultazione in modalità aereo.
+
+**Non regressione:** suite cumulativa F1–F16 per le funzioni implementate; viaggio, desideri, diario e import di percorsi rimangono indipendenti dalla disponibilità del catalogo sentieri.
+
+**Gate di completamento:** nell'area pilota una persona inserisce destinazione e periodo, confronta uscite motivate, ne salva una, consulta i materiali preparati offline e registra un ricordo collegato senza confondere suggerimento e avvistamento.
+
 ## Sequenza e traguardi
 
 ```text
-F0 → F1 → F2 → F3 → F4 → F5 → F6 → F7 → F8
-                                           ↓
-F9 → F10 → F11 → F12 → F13 → F14 → F15 → F16
+F0 → F1 → F2 → F3 → F4 → F5 → F6 → F7 → F8A → F8B
+                                                    ↓
+F9 → F10 → F11 → F12 → F13 → F14 → F15 → F16 → F17
 ```
 
 - **Primo valore locale:** F4, diario offline con specie obbligatoria.
-- **Primo vertical slice naturalistico:** F8, percorso e risultati spiegati.
+- **Primo vertical slice naturalistico:** F8A, luogo/percorso e periodo, risultati spiegati, mappa e scheda essenziale.
+- **Vacanza e ricordi collegati:** F8B, viaggi e uscite salvati, diario collegato e bozze persistenti.
 - **MVP completo definito nei requisiti:** F14, con un GLB e fallback 2D.
-- **Estensioni post-MVP:** F15 e F16.
+- **Estensioni post-MVP:** F15 viaggio offline, F16 valutazione sync e F17 scoperta di luoghi/sentieri.
 
 ## Strumenti durante lo sviluppo
 

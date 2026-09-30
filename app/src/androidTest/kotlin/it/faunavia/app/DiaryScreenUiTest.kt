@@ -2,9 +2,11 @@ package it.faunavia.app
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -57,9 +59,12 @@ class DiaryScreenUiTest {
 
         composeRule.onNodeWithTag("diary-new").performClick()
         composeRule.onNodeWithTag("diary-taxon-query").performTextInput("me")
+        scrollEditorTo("diary-save")
         composeRule.onNodeWithTag("diary-save").performClick()
 
-        composeRule.onNodeWithTag("diary-editor-error").assertIsDisplayed().assertTextContains("Scegli una specie")
+        composeRule.onNodeWithTag("diary-editor-error")
+            .assertIsDisplayed()
+            .assertTextContains("Scegli una specie", substring = true)
         assertFalse(runBlocking { local.diary.list().isNotEmpty() })
     }
 
@@ -71,12 +76,15 @@ class DiaryScreenUiTest {
         composeRule.onNodeWithTag("diary-taxon-result-gbif:2490719").assertIsDisplayed().performClick()
         composeRule.onNodeWithTag("diary-quantity").performTextReplacement("2")
         composeRule.onNodeWithTag("diary-notes").performTextInput("Due merli sul prato")
+        scrollEditorTo("diary-save")
         composeRule.onNodeWithTag("diary-save").performClick()
 
         waitFor { local.diary.get("ui-observation") != null }
         composeRule.onNodeWithTag("diary-entry-ui-observation").assertIsDisplayed()
         composeRule.onNodeWithTag("diary-edit-ui-observation").performClick()
+        scrollEditorTo("diary-notes")
         composeRule.onNodeWithTag("diary-notes").performTextReplacement("Osservazione corretta")
+        scrollEditorTo("diary-save")
         composeRule.onNodeWithTag("diary-save").performClick()
 
         waitFor { local.diary.get("ui-observation")?.notes == "Osservazione corretta" }
@@ -103,6 +111,11 @@ class DiaryScreenUiTest {
 
     private fun waitFor(condition: suspend () -> Boolean) {
         composeRule.waitUntil(timeoutMillis = 5_000) { runBlocking { condition() } }
+    }
+
+    private fun scrollEditorTo(tag: String) {
+        composeRule.onNodeWithTag("diary-editor").performScrollToNode(hasTestTag(tag))
+        composeRule.onNodeWithTag(tag).assertIsDisplayed()
     }
 
     private class OfflineTaxonomySearch(

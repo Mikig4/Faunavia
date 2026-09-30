@@ -26,7 +26,9 @@ edges:
     condition: when adding a species profile or 3D asset
   - target: patterns/change-local-storage.md
     condition: when changing Room schemas, repositories, migrations or diary integrity
-last_updated: 2026-09-20
+  - target: patterns/debug-gradle-android-gates.md
+    condition: when Gradle, JVM workers, managed devices, UTP or Compose UI gates fail
+last_updated: 2026-09-21
 ---
 
 # Session Bootstrap
@@ -46,6 +48,7 @@ Then read this file fully before doing anything else in this session.
      - Core CRUD operations for all main entities
 
      **Not yet built:**
+- Roadmap F8 is split into F8A (place/period exploration, map and essential species profile) and F8B (saved trips/outings, linked diary and persistent unidentified drafts). F9 follows F8B; subsequent numbering including F17 is unchanged. Both phases remain planned.
      - Email notification system
      - Admin dashboard
 
@@ -62,13 +65,16 @@ Then read this file fully before doing anything else in this session.
 - F1 is complete: installable Compose APK, six placeholder destinations, pure Kotlin domain boundary, shared deterministic fakes and four automated Gradle verification gates.
 - F2 is complete: nine domain models, Room schema v2 with v1 migration, local repositories, accepted-Animalia diary constraints, transactional writes and file-backed reopening tests.
 - F3 is complete: the GBIF Species adapter resolves synonyms to accepted Animalia taxa; the Catalogo UI debounces queries, shows loading/empty/error states and preserves selections offline without requiring a photo preview.
-- F4 is implemented and in verification: the offline Diary creates, edits and deletes manual observations with a mandatory selected taxon, local date/time, quantity, notes and optional coordinates; Room schema v4 preserves legacy rows with quantity one.
-- F5 is implemented and in verification: `:core:route` parses GPX/GeoJSON or a point, preserves segments, samples by distance and emits EPSG:3035 corridor portions, 1 km cells, 5 km chunks and deterministic fingerprints. The Percorsi UI imports locally and stores only normalized geometry.
-- F6 is implemented and in verification: `:core:occurrence` queries GBIF polygons or fallback bounding boxes and NNB WFS bounding boxes behind one gateway, deduplicates provider records and returns bounded retry/failure or explicit stale-cache states. Room schema v5 persists normalized records and complete provenance, never raw payloads.
-- F8 is specified to accept country/region/city names through a bounded online geocoder in addition to coordinates and routes; F15 may add a regional offline gazetteer.
-- The F6 host baseline is green: 13 F0 tests, 38 directly executed core JVM tests, Android/app/test compilation, formatting, boundaries and lint. The live GBIF and NNB WFS smoke checks returned HTTP 200. Device/visual execution is blocked before tests by the host loopback failure.
+- F4 is complete: the offline Diary creates, edits and deletes manual observations with a mandatory selected taxon, local date/time, quantity, notes and optional coordinates; Room schema v4 preserves legacy rows with quantity one.
+- F5 is complete: `:core:route` parses GPX/GeoJSON or a point, preserves segments, samples by distance and emits EPSG:3035 corridor portions, 1 km cells, 5 km chunks and deterministic fingerprints. The Percorsi UI imports locally and stores only normalized geometry.
+- F6 is complete: `:core:occurrence` queries GBIF polygons or fallback bounding boxes and NNB WFS bounding boxes behind one gateway, deduplicates provider records and returns bounded retry/failure or explicit stale-cache states. Room schema v5 persists normalized records and complete provenance, never raw payloads.
+- F7 is complete in `:core:plausibility`: Article 12/17, MAES and bounded CLCplus adapters normalize provenance; direct evidence, range, habitat, season and positive Natura 2000 context produce a deterministic trace. Range and habitat remain jointly mandatory for `plausible`.
+- F8A is specified to accept country/region/city names through a bounded online geocoder in addition to coordinates and routes; F15 may add a regional offline gazetteer.
+- The F7 cumulative baseline is green: 13 F0 tests, 55 Gradle JVM tests including 15 plausibility tests, Android/app/test compilation, formatting, boundaries, lint, 25 managed-device tests, omission detection and the visual golden. The live GBIF and NNB WFS smoke checks returned HTTP 200 during F6 verification.
 
 **Not yet built:**
+- Roadmap F8 is split into F8A (place/period exploration, map and essential species profile) and F8B (saved trips/outings, linked diary and persistent unidentified drafts). F9 follows F8B; subsequent numbering including F17 is unchanged. Both phases remain planned.
+- Functional expansion approved on 2026-09-20, specified in roadmap and detailed plan F8A–F17: saved trips/dates, practical suggestions, essential profiles, linked diary and persistent unidentified drafts, wishlists, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These are planned requirements, not implemented behavior; existing F2–F7 outcomes are unchanged.
 - Map/result UI beyond the local route summary and the device current-location adapter.
 - Peculiar-species suggestion rules and evidence ranking.
 - Local photos, daily notification and complete species profiles.
@@ -77,12 +83,11 @@ Then read this file fully before doing anything else in this session.
 **Known issues:**
 - Offline map source and any Firebase sync boundary are still open decisions; Android build versions are pinned by F1.
 - NNB GeoAPI returned HTTP 503 during F0; WFS is live as the F6 fallback, but its dataset-specific reuse permission remains unresolved and is retained in every record's license field.
-- CLCplus 2023 point access and the scientific CLCplus-to-MAES crosswalk must be resolved before F7; the F0 technical fixture uses 2021 and is marked non-equivalent.
-- The F0 WGS84 0.01° grid is provisional; F5 must compare it with a metric EPSG:3035 implementation.
+- CLCplus Backbone 2023 is publicly released, but a bounded sampling endpoint and a scientifically curated CLCplus-to-MAES crosswalk are still required before live land-cover data can support `plausible`; F7 therefore keeps non-equivalent 2021 input and uncurated mappings `insufficient`.
 - MEX population was completed manually because the interactive Codex TUI was unavailable in this terminal.
 - AGP 9.4 still prints an advisory about the managed-device ABI even though `testedAbi = "x86_64"` is explicit; re-check on the next AGP upgrade.
 - Gradle outputs are redirected to the portable toolchain directory because OneDrive locks incremental build files in the checkout.
-- Gradle JVM test and UTP workers cannot establish their loopback channel on this host. In-process compilation/lint and direct JUnit execution work; managed-device tests stop before instrumentation starts.
+- The Windows Gradle launcher and project JVM arguments are aligned so `--no-daemon` can run in-process. Test workers inherit a JDK option that activates the built-in TCP fallback instead of the restricted Unix-domain socket; recovery is recorded in `GUIDA-GRADLE-LOOPBACK.md`.
 - F5 deliberately supports the European EPSG:3035 area. Extra-European and antimeridian routes fail explicitly until a separate global projection strategy is designed.
 
 ## Routing Table
@@ -102,6 +107,7 @@ Load the relevant file based on the current task. Always load `context/architect
 | Searching and selecting a taxon | `patterns/search-taxon-with-preview.md` |
 | Adding an observation or notification | `patterns/add-observation-and-notification.md` |
 | Adding a species profile or 3D asset | `patterns/add-species-and-3d-asset.md` |
+| Debugging Gradle, JVM tests, managed devices or Compose UI gates | `patterns/debug-gradle-android-gates.md` |
 | Route import, sampling, or corridor analysis | `context/route-analysis.md` |
 | Provider, occurrence, licensing, or privacy work | `context/data-and-provenance.md` |
 | 3D model, GLB, Blender, or species asset work | `context/assets-3d.md` |

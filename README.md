@@ -1,6 +1,6 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–3 completate e verificate. F4–F6 sono implementate nel working tree e in verifica: diario offline, route engine EPSG:3035 e gateway delle occorrenze GBIF/NNB con cache TTL e stato stale esplicito. L'APK debug `0.6.0-f6` è disponibile in `artifacts/Faunavia-f6-debug.apk`. Build, 13 test F0, 38 test JVM core, formattazione, analisi statica, lint e smoke online GBIF/NNB sono verdi; i gate device/visual restano da rieseguire in un ambiente in cui i worker Gradle possano aprire la connessione loopback.
+Stato: Fasi 0–7 completate e verificate. Il motore F7 distingue evidenza documentata, plausibile e insufficiente con una spiegazione tracciabile, senza usare un CLCplus 2021 non equivalente o un crosswalk CLCplus→MAES non curato per promuovere una specie. Il gate cumulativo è verde: 13 test F0, 55 test JVM (15 F7), 25 test su dispositivo gestito, lint, controlli statici e golden visuale. La configurazione JVM evita il daemon monouso e il canale Unix che causavano l'errore loopback.
 
 ## Obiettivo
 
@@ -32,6 +32,7 @@ Un'app Android personale che, partendo dalla posizione corrente oppure da un iti
 - [[14 - Rapporto Fase 3]] — ricerca tassonomica, sinonimi, cache offline, schermata Catalogo e 51 test di regressione.
 - [[15 - Rapporto Fase 5]] — import GPX/GeoJSON, proiezione metrica, corridoio, celle, fingerprint e stato dei gate.
 - [[16 - Rapporto Fase 6]] — gateway GBIF/NNB, cache TTL/stale, provenienza, retry e verifiche.
+- [[GUIDA-GRADLE-LOOPBACK]] — recupero rapido se Gradle non riesce a stabilire la connessione loopback.
 
 ## Memoria tecnica
 

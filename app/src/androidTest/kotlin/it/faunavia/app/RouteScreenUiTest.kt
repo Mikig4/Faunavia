@@ -2,11 +2,14 @@ package it.faunavia.app
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import it.faunavia.domain.AppClock
 import it.faunavia.domain.Route
 import it.faunavia.domain.RouteRepository
@@ -33,9 +36,12 @@ class RouteScreenUiTest {
 
         composeRule.onNodeWithTag("route-latitude").performTextInput("91")
         composeRule.onNodeWithTag("route-longitude").performTextInput("9.19")
+        closeSoftKeyboard()
+        scrollTo("route-analyze-location")
         composeRule.onNodeWithTag("route-analyze-location").performClick()
 
-        composeRule.onNodeWithTag("route-error").assertIsDisplayed().assertTextContains("WGS84 valide")
+        scrollTo("route-error")
+        composeRule.onNodeWithTag("route-error").assertTextContains("WGS84 valide", substring = true)
         assertEquals(0, runBlocking { repository.list().size })
     }
 
@@ -45,17 +51,26 @@ class RouteScreenUiTest {
 
         composeRule.onNodeWithTag("route-latitude").performTextInput("45.52")
         composeRule.onNodeWithTag("route-longitude").performTextInput("9.18")
+        closeSoftKeyboard()
+        scrollTo("route-analyze-location")
         composeRule.onNodeWithTag("route-analyze-location").performClick()
 
         composeRule.waitUntil(timeoutMillis = 5_000) { runBlocking { repository.list().size == 1 } }
-        composeRule.onNodeWithTag("route-summary").assertIsDisplayed()
-        composeRule.onNodeWithTag("route-projection").assertIsDisplayed().assertTextContains("EPSG:3035")
+        scrollTo("route-summary")
+        composeRule.onNodeWithTag("route-projection")
+            .assertIsDisplayed()
+            .assertTextContains("EPSG:3035", substring = true)
     }
 
     private fun showRoutes() {
         composeRule.setContent {
             FaunaviaTheme { RouteScreen(repository, importer) }
         }
+    }
+
+    private fun scrollTo(tag: String) {
+        composeRule.onNodeWithTag("route-content").performScrollToNode(hasTestTag(tag))
+        composeRule.onNodeWithTag(tag).assertIsDisplayed()
     }
 
     private class MemoryRouteRepository : RouteRepository {

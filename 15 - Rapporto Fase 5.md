@@ -4,7 +4,7 @@
 
 F5 trasforma un GPX, un GeoJSON o una posizione WGS84 in una descrizione spaziale deterministica e riutilizzabile. Il risultato non è ancora una lista di animali e non disegna ancora una mappa: prepara lunghezza, campioni, corridoio, celle, chunk di query e fingerprint che F6 userà per interrogare i provider e F8 per mostrare la geometria.
 
-La fase è implementata nel working tree e resta **in verifica** finché il gate Android device/visual non può essere eseguito fuori dall'ambiente che blocca il loopback dei worker Gradle/UTP.
+La fase è **completata e verificata**. Il gate cumulativo `verifyAll` esegue con successo i test JVM, la suite Android sul dispositivo gestito e il golden visuale.
 
 ## Cosa è stato implementato
 
@@ -56,7 +56,7 @@ Un errore avviene prima della scrittura nel repository; un file invalido non mod
 - Compilazione app, test JVM e test Android: verde.
 - Formattazione, confini architetturali, secret scan e lint Android: verdi.
 - APK debug: `artifacts/Faunavia-f5-debug.apk`, versione `0.5.0-f5` (`versionCode 5`).
-- Gate device/visual: non eseguito. Il worker UTP fallisce prima dei test con `Unable to establish loopback connection`; gli APK applicazione/test vengono comunque prodotti.
+- Gate device/visual: verde nel `verifyAll` cumulativo; la suite Android include i flussi Percorsi e il golden visuale, senza test omessi.
 
 ## Confini intenzionali
 

@@ -17,7 +17,7 @@ edges:
   - target: context/conventions.md
     condition: when setup introduces project-wide tooling or scripts
 grounds_to: []
-last_updated: 2026-09-20
+last_updated: 2026-09-21
 ---
 
 # Setup
@@ -42,7 +42,8 @@ last_updated: 2026-09-20
 
 - `FAUNAVIA_TOOLCHAIN_ROOT` optionally relocates the portable toolchain.
 - `FAUNAVIA_BUILD_ROOT` optionally relocates generated build output; `android-env.ps1` defaults it outside OneDrive.
-- `FAUNAVIA_SHORT_TEMP` optionally selects a short temporary directory when a sandboxed Windows Java process cannot open its loopback socket.
+- `FAUNAVIA_SHORT_TEMP` optionally selects a short temporary directory for Windows path/temp issues; it does not bypass sandbox network isolation.
+- `android-env.ps1` normalizes `JAVA_OPTS` to the heap and encoding expected by `gradle.properties`, allowing `--no-daemon` to run in-process on Windows. It also sets `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=NUL`, inherited by test workers, so the JDK uses its TCP fallback instead of the blocked Unix-domain socket.
 - Provider keys are not assumed; if a provider later requires one, document it as optional and keep a no-key fallback.
 
 ## Common Commands
@@ -62,4 +63,4 @@ last_updated: 2026-09-20
 - **Geolocation denied:** allow GPX/GeoJSON import or manual place search; never block at the permission dialog.
 - **MEX indexes stale:** run explicit graph/wiki maintenance after reviewing working-tree changes.
 - **OneDrive file locks:** always source `scripts/android-env.ps1`; it places generated Gradle outputs outside the synchronized checkout.
-- **Sandboxed Java loopback failure:** set `$env:FAUNAVIA_SHORT_TEMP='C:\ftmp'` before sourcing `android-env.ps1`.
+- **Java/Gradle loopback failure:** source `scripts/android-env.ps1` again, then run `gradlew.bat help --no-daemon`. The project aligns `-Xms64m`, `-Xmx3g`, encoding and the instrumentation-agent setting so Gradle can remain in-process; `jdk.net.unixdomain.tmpdir=NUL` makes the JDK use its TCP fallback for Gradle test-worker channels. If the sandbox instead denies toolchain file access, repeat the canonical command in a normal PowerShell session or an explicitly permitted out-of-sandbox execution. See `GUIDA-GRADLE-LOOPBACK.md`.

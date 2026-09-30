@@ -11,6 +11,8 @@ if (-not (Test-Path -LiteralPath (Join-Path $jdkHome 'bin/java.exe'))) {
 }
 
 $env:JAVA_HOME = $jdkHome
+$env:JAVA_OPTS = '-Xmx3g -Dfile.encoding=UTF-8'
+$env:JAVA_TOOL_OPTIONS = '-Djdk.net.unixdomain.tmpdir=NUL'
 $env:ANDROID_HOME = Join-Path $toolchainRoot 'android-sdk'
 $env:ANDROID_SDK_ROOT = $env:ANDROID_HOME
 if (-not $env:FAUNAVIA_BUILD_ROOT) {

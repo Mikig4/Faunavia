@@ -18,7 +18,7 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-09-20
+last_updated: 2026-09-21
 ---
 
 # Android local architecture
@@ -78,4 +78,4 @@ Generate and sideload a debug/release APK locally for the zero-cost path. Play S
 - `verifyFast`, `verifyDevice`, `verifyVisual` and `verifyAll` are the canonical Gradle gates.
 - Compose UI tests use the v2 test rule; UI Automator proves launcher install/start; the visual gate compares a versioned home-screen color signature and captures the actual bitmap during the test.
 - Generated output lives under the portable toolchain build root to avoid OneDrive locking; source and baselines remain in Git.
-- On the current host, Gradle can compile and lint in-process when the wrapper JVM matches the build and loads the instrumentation agent. Forked JVM test and UTP workers still fail on loopback; direct JUnit execution verifies host tests while device gates remain pending.
+- The Windows launcher/build JVM settings are synchronized for in-process `--no-daemon` execution. Test workers inherit `jdk.net.unixdomain.tmpdir=NUL`, which triggers the JDK TCP fallback when Unix-domain sockets are restricted; `GUIDA-GRADLE-LOOPBACK.md` records the recovery command.

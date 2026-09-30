@@ -1,7 +1,7 @@
 ---
 name: patterns-index
 description: Task-specific implementation and verification runbooks.
-last_updated: 2026-09-16
+last_updated: 2026-09-21
 ---
 
 # Pattern Index
@@ -31,7 +31,9 @@ Lookup table for all pattern files in this directory. Check here before starting
 |---------|----------|
 | [add-data-provider.md](add-data-provider.md) | Adding or changing GBIF/iNaturalist or another biodiversity provider adapter |
 | [add-observation-and-notification.md](add-observation-and-notification.md) | Adding manual observations, photos, peculiar-species rules, or the daily summary notification |
+| [add-plausibility-evidence.md](add-plausibility-evidence.md) | Changing range, habitat, season, Natura 2000 or observability evidence rules |
 | [add-species-and-3d-asset.md](add-species-and-3d-asset.md) | Adding a species profile, Blender source, GLB model, or 2D fallback |
 | [change-local-storage.md](change-local-storage.md) | Changing Room schemas, local repositories, migrations or diary integrity constraints |
+| [debug-gradle-android-gates.md](debug-gradle-android-gates.md) | Diagnosing Gradle, JVM worker, managed-device, UTP or Compose UI gate failures |
 | [import-route-and-analyze.md](import-route-and-analyze.md) | Importing a route, sampling it, building a corridor, and querying evidence |
 | [search-taxon-with-preview.md](search-taxon-with-preview.md) | Searching the complete animal catalogue and showing a licensed photo preview before selection |

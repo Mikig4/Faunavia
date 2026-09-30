@@ -17,10 +17,12 @@ edges:
     condition: when naming files or adding asset manifests
   - target: context/data-and-provenance.md
     condition: when a model or image needs license/author/source metadata
-last_updated: 2026-09-14
+last_updated: 2026-09-20
 ---
 
 # 3D assets
+
+Planned F14 extension approved 2026-09-20: local personal GLB import, taxon association, preview, replacement and removal; supported animation clip selection and play/pause. In-app modeling/animation authoring is excluded. Invalid imports preserve existing assets, and versioned backup must cover personal models and provenance. This is specified, not implemented.
 
 Every species profile has a working non-3D fallback. A GLB is optional enrichment and is loaded lazily. The asset manifest records species ID, asset version, file hash, author, source URL, license, modifications, and attribution text.
 

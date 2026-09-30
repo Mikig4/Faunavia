@@ -94,6 +94,13 @@ last_updated: 2026-09-20
 - `OccurrenceGateway` returns a fresh cache, network records, or a clearly marked stale cache with provider failures. It never infers coordinates or precision absent from the provider response.
 - `:core:local` schema v5 stores only normalized occurrence-cache records plus cached/expiry instants in one transactional entry. `FaunaviaApplication` composes GBIF and NNB adapters; result rendering remains F8.
 
+## F7 plausibility boundary
+
+- `:core:plausibility` depends on `:core:domain` and the normalized F6 occurrence contract; it contains no Android or Compose code. F8 will compose it after an explicit area/period selection.
+- `PlausibilityEngine` calls a record `documented` only when it is recent, dated, located and within the configured uncertainty threshold. Without usable direct evidence, both an intersecting reporting range and compatible habitat are required for `plausible`.
+- Article 12/17 reporting ranges, MAES associations and raw CLCplus samples remain adapters. CLCplus is translated only by a separately sourced, scientifically curated crosswalk; 2021/non-equivalent samples and uncurated mappings yield `insufficient`.
+- Institutional monthly season windows override a bounded lower-quality monthly signal derived from dated GBIF/NNB records. Natura 2000 contributes positive context only; observability guidance is separate from evidence level.
+
 ## External Dependencies
 
 - **GBIF API** — primary occurrence search candidate; bounded requests, caching and source metadata required.

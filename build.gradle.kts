@@ -28,6 +28,7 @@ val localBuildDirectory = project(":core:local").layout.buildDirectory
 val taxonomyBuildDirectory = project(":core:taxonomy").layout.buildDirectory
 val routeBuildDirectory = project(":core:route").layout.buildDirectory
 val occurrenceBuildDirectory = project(":core:occurrence").layout.buildDirectory
+val plausibilityBuildDirectory = project(":core:plausibility").layout.buildDirectory
 
 val verifyF0 = tasks.register<Exec>("verifyF0") {
     group = "verification"
@@ -64,6 +65,7 @@ val verifyFast = tasks.register("verifyFast") {
         ":core:taxonomy:test",
         ":core:route:test",
         ":core:occurrence:test",
+        ":core:plausibility:test",
         ":core:local:lintDebug",
         ":app:testDebugUnitTest",
         ":app:lintDebug",
@@ -137,6 +139,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
               <li><a href="${taxonomyBuild.resolve("reports/tests/test/index.html").toURI()}">Taxonomy JVM tests</a></li>
               <li><a href="${routeBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Route engine JVM tests</a></li>
               <li><a href="${occurrenceBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Occurrence gateway JVM tests</a></li>
+              <li><a href="${plausibilityBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Plausibility engine JVM tests</a></li>
               <li><a href="${appBuild.resolve("reports/tests/testDebugUnitTest/index.html").toURI()}">App JVM tests</a></li>
               <li><a href="${domainBuild.resolve("reports/tests/test/index.html").toURI()}">Domain JVM tests</a></li>
               <li><a href="${testingBuild.resolve("reports/tests/test/index.html").toURI()}">Testing fakes JVM tests</a></li>
@@ -149,7 +152,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F6 host, taxonomy, route, occurrence, database, diary UI, device and visual gates and collects reports."
+    description = "Runs F0-F7 host, taxonomy, route, occurrence, plausibility, database, diary UI, device and visual gates and collects reports."
     dependsOn(collectVerificationReports)
 }
 

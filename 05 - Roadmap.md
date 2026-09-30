@@ -1,6 +1,6 @@
 # Roadmap
 
-La roadmap contiene 17 fasi, da F0 a F16, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi.
+La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. Le estensioni funzionali approvate il 2026-09-20 sono pianificate, non già implementate; non cambiano retroattivamente gli esiti delle fasi precedenti.
 
 | Fase | Incremento | Gate principale |
 |---|---|---|
@@ -12,7 +12,8 @@ La roadmap contiene 17 fasi, da F0 a F16, chiuse da gate verificabili. Una fase 
 | F5 | route engine | GPX/GeoJSON → corridoio, porzioni e celle stabili |
 | F6 | gateway occorrenze | adapter, cache, provenienza, retry e deduplicazione |
 | F7 | motore di plausibilità | areale + habitat obbligatori, stagione come modificatore |
-| F8 | risultati, ricerca geografica e mappa online | nome/coordinate/percorso → area confermata → risultati spiegati → mappa |
+| F8A | esplorazione naturalistica | luogo/percorso + periodo → risultati spiegati → mappa → scheda essenziale |
+| F8B | viaggi e diario collegato | viaggio/uscita → osservazione o bozza → calendario e riepilogo |
 | F9 | suggerimenti peculiari | distinzione dai taxa comuni e dal catalogo generale |
 | F10 | foto locali | Photo Picker, copie controllate, privacy e gestione errori |
 | F11 | notifica flessibile | WorkManager, fuso, permessi, zero notifiche vuote |
@@ -21,16 +22,34 @@ La roadmap contiene 17 fasi, da F0 a F16, chiuse da gate verificabili. Una fase 
 | F14 | pipeline e primo asset 3D | GLB validato, manifest, budget mobile e fallback integro |
 | F15 | mappa e gazetteer regionali offline | licenza, pacchetto versionato, ricerca per nome, import/cancellazione |
 | F16 | sincronizzazione opzionale | decisione architetturale motivata prima di qualsiasi backend |
+| F17 | scoperta di luoghi e sentieri naturalistici | destinazione/date/interessi → uscite documentate → viaggio → diario |
+
+## Esperienza funzionale prevista
+
+Il flusso principale è: preparo un viaggio → scelgo animali e luoghi → osservo → conservo i ricordi. La copertura iniziale rimane regionale/europea entro i limiti dichiarati; una destinazione ricercabile non implica copertura naturalistica disponibile.
+
+- **F7–F8B, viaggio e suggerimenti pratici:** viaggio salvato con destinazione confermata, date, raggio di spostamento e gruppi animali di interesse; risultati riferiti alle date della vacanza, zone e habitat consigliati, periodo e fascia oraria quando documentati. Presenza documentata/plausibile e facilità di osservazione sono informazioni distinte, senza percentuali inventate.
+- **F8A, scheda essenziale; F8B, diario collegato:** anticipare nomi, immagine disponibile, caratteri di riconoscimento e informazioni essenziali; F13 completa la scheda. Il pulsante “L'ho visto” precompila un'osservazione da confermare. Viaggi e uscite raccolgono osservazioni consultabili per calendario, mappa e specie, con riepilogo delle prime osservazioni personali.
+- **F8B–F10, bozze da identificare:** appunti persistenti separati dalle osservazioni identificate, con data, luogo, note e successivamente foto; conversione in osservazione solo dopo selezione di un taxon valido. Non modificare il vincolo della specie obbligatoria nelle osservazioni.
+- **F9, desideri e personalizzazione:** lista “vorrei vederlo” e viste “tipici del luogo”, “più facili da osservare” e “mai osservati da me”. Le specie comuni sono de-prioritizzabili, non escluse rigidamente da ogni vista.
+- **F12, backup completo:** includere viaggi, uscite, collegamenti, desideri e bozze con foto, oltre al diario esistente.
+- **F14, contenuti 3D personali:** importare un modello, associarlo a una specie, visualizzarlo, sostituirlo e rimuoverlo; per modelli animati selezionare una clip e riprodurla/metterla in pausa. Il fallback 2D resta disponibile.
+- **F15, prepara il viaggio offline:** salvare insieme luoghi, risultati, schede e mappe autorizzate, con copertura, data dei dati, dimensione e stato di disponibilità espliciti.
+- **F17, suggerire uscite:** scoprire punti di osservazione e sentieri anche senza importare una traccia, confrontando durata, difficoltà, distanza dalla base e specie pertinenti quando i dati sono disponibili. Salvare l'uscita nel viaggio e collegarla al diario; nessuna navigazione turn-by-turn richiesta.
+
+F8A permette di scegliere il periodo anche senza salvare un viaggio; F8B conserva destinazione, date e preferenze e le collega al diario. F9 parte dopo F8B. Le fasi successive mantengono la numerazione, inclusa F17 per i sentieri.
+
+Priorità di prodotto: viaggio, suggerimenti utilizzabili e diario collegato prima degli arricchimenti 3D; scoperta automatica dei sentieri nella nuova F17. I dettagli e i gate delle estensioni sono nel piano di sviluppo.
 
 ## Stato corrente
 
 F3 è completata: il Catalogo cerca il primo provider GBIF con debounce, risolve i sinonimi al taxon Animalia accettato e conserva localmente solo le scelte esplicite con relativi nomi ricercabili. Le scelte restano utilizzabili offline; i suggerimenti remoti in memoria hanno una scadenza controllata. Il dettaglio è in [[14 - Rapporto Fase 3]].
 
-F4 è implementata nel working tree e in verifica: il Diario crea, modifica ed elimina avvistamenti offline, richiede un taxon selezionato e registra data/ora locale, quantità, note e coordinate opzionali. La migrazione Room v3→v4 aggiunge la quantità preservando i record esistenti come un esemplare. L'APK debug `0.4.0-f4` è stato generato; build, formattazione, analisi statica e lint sono verdi. La fase non è ancora dichiarata completata finché test JVM e gate device/visual, bloccati in questo ambiente dalla connessione loopback dei worker Gradle, non tornano verdi.
+F4 è completata e verificata: il Diario crea, modifica ed elimina avvistamenti offline, richiede un taxon selezionato e registra data/ora locale, quantità, note e coordinate opzionali. La migrazione Room v3→v4 aggiunge la quantità preservando i record esistenti come un esemplare. Il flusso Compose di creazione, modifica, eliminazione e validazione della specie è verde nel gate Android cumulativo.
 
-F5 è implementata nel working tree e in verifica: la schermata Percorsi importa GPX/GeoJSON tramite il picker Android oppure analizza coordinate WGS84, conserva localmente la geometria normalizzata e mostra lunghezza, campioni, celle, chunk e fingerprint. Il modulo puro Kotlin `:core:route` usa EPSG:3035 con celle metriche da 1 km e chunk da 5 km; preserva i segmenti, deduplica per geometria e genera fingerprint di ricerca sensibili alla configurazione. I 13 test F5 sono verdi; compilazione Android e lint sono verdi. Il gate device è ancora bloccato prima dell'esecuzione dal loopback del worker UTP, quindi F5 non è dichiarata completata. Dettagli in [[15 - Rapporto Fase 5]].
+F5 è completata e verificata: la schermata Percorsi importa GPX/GeoJSON tramite il picker Android oppure analizza coordinate WGS84, conserva localmente la geometria normalizzata e mostra lunghezza, campioni, celle, chunk e fingerprint. Il modulo puro Kotlin `:core:route` usa EPSG:3035 con celle metriche da 1 km e chunk da 5 km; preserva i segmenti, deduplica per geometria e genera fingerprint di ricerca sensibili alla configurazione. I 13 test F5 e i flussi Android Percorsi sono verdi. Dettagli in [[15 - Rapporto Fase 5]].
 
-F6 è implementata nel working tree e in verifica: il modulo puro Kotlin `:core:occurrence` espone un gateway comune per GBIF e NNB WFS, riceve dal motore F5 solo porzioni/celle aggregate, usa paginazione limitata e deduplica per provider più identificativo del record. GBIF preferisce poligoni e può ripiegare sui bounding box; NNB usa bounding box WFS. La cache Room v5 conserva record normalizzati, timestamp e scadenza, mentre un refresh fallito restituisce esplicitamente la cache stale con l'errore del provider. I sei test F6, la compilazione Android e lo smoke online GBIF/NNB sono verdi; i gate device/visual restano bloccati dal loopback. Dettagli in [[16 - Rapporto Fase 6]].
+F6 è completata e verificata: il modulo puro Kotlin `:core:occurrence` espone un gateway comune per GBIF e NNB WFS, riceve dal motore F5 solo porzioni/celle aggregate, usa paginazione limitata e deduplica per provider più identificativo del record. GBIF preferisce poligoni e può ripiegare sui bounding box; NNB usa bounding box WFS. La cache Room v5 conserva record normalizzati, timestamp e scadenza, mentre un refresh fallito restituisce esplicitamente la cache stale con l'errore del provider. I sei test F6, la migrazione/cache Room v5, `verifyAll` e gli smoke online GBIF/NNB sono verdi. Dettagli in [[16 - Rapporto Fase 6]].
 
 ## Politica dei test
 
@@ -43,6 +62,6 @@ F6 è implementata nel working tree e in verifica: il modulo puro Kotlin `:core:
 
 ## Criteri per non espandere troppo il progetto
 
-Una funzione entra nel backlog solo se migliora direttamente: (a) trovare specie lungo un percorso, (b) capire perché sono state mostrate, oppure (c) esplorare la scheda dell'animale. Account, social, AI di riconoscimento e copertura mondiale restano fuori finché l'MVP non è piacevole e affidabile.
+Una funzione entra nel backlog solo se migliora direttamente: (a) preparare un viaggio e trovare specie o uscite pertinenti, (b) capire perché sono state mostrate, (c) registrare e ritrovare osservazioni e ricordi, oppure (d) esplorare e arricchire la scheda dell'animale. Account, social, AI di riconoscimento e copertura mondiale restano fuori finché l'MVP non è piacevole e affidabile.
 
 Per la sequenza operativa dettagliata vedere [[09 - Piano di sviluppo dettagliato]].
