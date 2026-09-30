@@ -29,6 +29,7 @@ val taxonomyBuildDirectory = project(":core:taxonomy").layout.buildDirectory
 val routeBuildDirectory = project(":core:route").layout.buildDirectory
 val occurrenceBuildDirectory = project(":core:occurrence").layout.buildDirectory
 val plausibilityBuildDirectory = project(":core:plausibility").layout.buildDirectory
+val explorationBuildDirectory = project(":core:exploration").layout.buildDirectory
 
 val verifyF0 = tasks.register<Exec>("verifyF0") {
     group = "verification"
@@ -66,6 +67,7 @@ val verifyFast = tasks.register("verifyFast") {
         ":core:route:test",
         ":core:occurrence:test",
         ":core:plausibility:test",
+        ":core:exploration:test",
         ":core:local:lintDebug",
         ":app:testDebugUnitTest",
         ":app:lintDebug",
@@ -96,21 +98,20 @@ val verifyDevice = tasks.register("verifyDevice") {
 
 val verifyVisual = tasks.register("verifyVisual") {
     group = "verification"
-    description = "Verifies that the managed-device run executed the screenshot golden test."
+    description = "Verifies that the managed-device run executed home and exploration screenshot golden tests."
     dependsOn(verifyDevice)
     doLast {
         val resultFiles = fileTree(appBuildDirectory.get().dir("outputs/androidTest-results")) {
             include("**/*.xml")
         }.files
-        val goldenWasRun = resultFiles.any { file ->
-            file.readText().contains("HomeGoldenTest")
-        }
-        check(goldenWasRun) {
-            "No managed-device result contains HomeGoldenTest; visual verification is incomplete."
+        val combinedResults = resultFiles.joinToString("\n") { it.readText() }
+        val requiredGoldenTests = listOf("homeMatchesVersionedColorSignature", "mapListAndErrorScreenshotsMatchVersionedSignature")
+        check(requiredGoldenTests.all(combinedResults::contains)) {
+            "Managed-device results omitted screenshot tests: ${requiredGoldenTests.filterNot(combinedResults::contains)}"
         }
         val report = reportRoot.get().file("visual-summary.txt").asFile
         report.parentFile.mkdirs()
-        report.writeText("PASS HomeGoldenTest ${Instant.now()}\n")
+        report.writeText("PASS home and exploration golden tests ${Instant.now()}\n")
     }
 }
 
@@ -140,6 +141,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
               <li><a href="${routeBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Route engine JVM tests</a></li>
               <li><a href="${occurrenceBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Occurrence gateway JVM tests</a></li>
               <li><a href="${plausibilityBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Plausibility engine JVM tests</a></li>
+              <li><a href="${explorationBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Exploration JVM tests</a></li>
               <li><a href="${appBuild.resolve("reports/tests/testDebugUnitTest/index.html").toURI()}">App JVM tests</a></li>
               <li><a href="${domainBuild.resolve("reports/tests/test/index.html").toURI()}">Domain JVM tests</a></li>
               <li><a href="${testingBuild.resolve("reports/tests/test/index.html").toURI()}">Testing fakes JVM tests</a></li>
@@ -152,7 +154,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F7 host, taxonomy, route, occurrence, plausibility, database, diary UI, device and visual gates and collects reports."
+    description = "Runs F0-F8A host, taxonomy, route, occurrence, plausibility, exploration, database, UI, device and visual gates."
     dependsOn(collectVerificationReports)
 }
 

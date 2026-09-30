@@ -48,6 +48,8 @@ import it.faunavia.domain.CatalogueRepository
 import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.RouteRepository
 import it.faunavia.route.RouteImportService
+import it.faunavia.exploration.ExplorationService
+import it.faunavia.exploration.PlaceSearch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -95,6 +97,9 @@ fun FaunaviaApp(
     catalogueRepository: CatalogueRepository? = null,
     routeRepository: RouteRepository? = null,
     routeImportService: RouteImportService? = null,
+    explorationService: ExplorationService? = null,
+    placeSearch: PlaceSearch? = null,
+    mapAdapter: ExplorationMapAdapter = MapLibreExplorationMapAdapter,
 ) {
     val application = LocalContext.current.applicationContext as FaunaviaApplication
     val catalogueSearch = taxonomySearch ?: application.taxonomySearch
@@ -102,6 +107,8 @@ fun FaunaviaApp(
     val catalogue = catalogueRepository ?: application.repositories.catalogue
     val routes = routeRepository ?: application.repositories.routes
     val routeImporter = routeImportService ?: application.routeImportService
+    val explorer = explorationService ?: application.explorationService
+    val geocoder = placeSearch ?: application.placeSearch
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
@@ -136,6 +143,7 @@ fun FaunaviaApp(
                         AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch)
                         AppDestination.DIARY -> DiaryScreen(diary, catalogue, catalogueSearch)
                         AppDestination.ROUTES -> RouteScreen(routes, routeImporter)
+                        AppDestination.RESULTS -> ExplorationScreen(explorer, geocoder, catalogue, mapAdapter, routes)
                         else -> PlaceholderScreen(destination)
                     }
                 }

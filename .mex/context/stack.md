@@ -16,7 +16,7 @@ edges:
   - target: context/offline-first.md
     condition: when choosing storage, caching, or installable-app behavior
 grounds_to: []
-last_updated: 2026-09-16
+last_updated: 2026-09-30
 ---
 
 # Stack
@@ -28,13 +28,14 @@ last_updated: 2026-09-16
 - **Room 2.8.4 / SQLite, KSP 2.3.6** — implemented local source of truth in `:core:local`; explicit mappers, schema history and migration tests.
 - **Kotlin coroutines 1.10.2** — IO-dispatched suspend repository implementations; domain interfaces remain framework-independent.
 - **Kotlin serialization 1.8.1** — aligned app/test runtime for Navigation and Room migration testing; AGP's consistent resolution otherwise combines core 1.7.3 with test JSON 1.8.1.
-- **MapLibre Native Android** — proposed map renderer with a path to regional offline packages.
+- **MapLibre Native Android 13.6.1 OpenGL** — F8A map renderer behind an adapter; OkHttp 4.12.0 supplies an identified tile User-Agent and HTTP cache. Regional offline packages remain future work.
 - **WorkManager + local notifications** — proposed background scheduling; use a precise alarm only if the UX requires it.
 
 ## Key Libraries
 
-- **Provider/route payload parsing** — adapter-specific codecs remain future work; the F2 storage mapper uses Android JSON only inside `:core:local`.
+- **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
+- **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.
 - **Filament/SceneView or equivalent** (candidate) — render GLB with an accessible 2D fallback.
 - **JUnit 4.13.2 + AndroidX Test** — JVM, Compose, UI Automator and managed-device verification.

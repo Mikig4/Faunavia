@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "name": "exploration-v1",
+  "header": "FF1F5C3F",
+  "listCard": "FFFFFFFF",
+  "fakeMap": "FFDFEDE2",
+  "states": ["map", "list", "error"]
+}

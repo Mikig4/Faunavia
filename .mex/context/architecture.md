@@ -22,7 +22,7 @@ edges:
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-09-20
+last_updated: 2026-09-30
 ---
 
 # Architecture
@@ -93,6 +93,12 @@ last_updated: 2026-09-20
 - A record remains identified by `(provider, providerRecordId)`, preventing overlapping spatial requests from duplicating it without merging distinct providers' provenance.
 - `OccurrenceGateway` returns a fresh cache, network records, or a clearly marked stale cache with provider failures. It never infers coordinates or precision absent from the provider response.
 - `:core:local` schema v5 stores only normalized occurrence-cache records plus cached/expiry instants in one transactional entry. `FaunaviaApplication` composes GBIF and NNB adapters; result rendering remains F8.
+
+## F8A exploration boundary
+
+- `:core:exploration` is pure Kotlin and connects F5 route analysis, F6 gateway and F7 assessments without requiring a stored trip. It also owns the Nominatim place-search port/adapter; Android owns only the bounded preferences cache and explicit-confirmation UI.
+- `FaunaviaApplication` composes the explorer and geocoder. Risultati can use a confirmed place, coordinate, imported file or saved local route, plus a selected period and radius. F5 fingerprints reuse F6 cache across equivalent geometries.
+- `ExplorationMapAdapter` isolates MapLibre from data logic. The map renders route, corridor and samples but not exact occurrence points. The list carries evidence levels, calculation steps and provenance; absent institutional range/habitat cannot become `plausible`.
 
 ## F7 plausibility boundary
 

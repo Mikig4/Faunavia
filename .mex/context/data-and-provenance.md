@@ -17,7 +17,7 @@ edges:
     condition: when changing what the app claims about presence
   - target: context/conventions.md
     condition: when implementing adapters, normalization, or source rendering
-last_updated: 2026-09-20
+last_updated: 2026-09-30
 ---
 
 # Data and provenance
@@ -27,7 +27,7 @@ Provider adapters are the only place that knows remote API parameters. They retu
 ## Evidence semantics
 
 - `documented`: records in or near the corridor meet configured quality and recency thresholds.
-- `plausible`: habitat/season/taxonomy support the species, but direct records are weak or absent.
+- `plausible`: documented range and habitat jointly support the species while usable direct records are absent; season is a separate confidence modifier.
 - `insufficient`: the app cannot justify showing a stronger claim.
 
 These labels are product semantics, not biological certainty. Every ranking reason must be inspectable.
@@ -77,6 +77,9 @@ F3 does not fetch or copy occurrence media. It shows an explicit unavailable-pre
 - The geocoder adapter returns a canonical display name, place type, country code and point/bounding box/polygon geometry; the user confirms before a naturalistic query starts.
 - Online lookup is bounded, attributed, cached locally and never systematic; ambiguous, empty or unavailable responses remain explicit UI states.
 - A regional offline gazetteer is deferred to F15 and must be versioned with its source and license.
+- F8A implements public Nominatim as an explicit-submit adapter, not client-side autocomplete: maximum five candidates, one request/second per process, identified User-Agent, 30-day local cache and OSM/Nominatim attribution. Empty, ambiguous and unavailable states differ. A country/region result is confirmed as a 20 km maximum sample around its center, not full territorial coverage.
+- A single live query for “Milano, Italia” returned an omonymous locality as its first candidate; successful HTTP status does not prove the top hit is the intended city. Keep the complete canonical display name visible and require confirmation instead of automatically accepting the first result.
+- F8A result cards retain the source link, attribution, date, license, quality and an Italian plain-language rendering of the F7 calculation trace. The map shows only route/corridor/samples and area-level evidence counts, never exact external occurrence pins. Range/habitat data are not yet fed live, so a taxon lacking a usable direct record remains `insufficient`.
 
 ## Optional Firebase boundary
 

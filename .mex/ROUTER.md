@@ -28,7 +28,9 @@ edges:
     condition: when changing Room schemas, repositories, migrations or diary integrity
   - target: patterns/debug-gradle-android-gates.md
     condition: when Gradle, JVM workers, managed devices, UTP or Compose UI gates fail
-last_updated: 2026-09-21
+  - target: patterns/explore-place-and-map.md
+    condition: when changing the F8A geographic search, exploration screen or MapLibre adapter
+last_updated: 2026-09-30
 ---
 
 # Session Bootstrap
@@ -36,24 +38,6 @@ last_updated: 2026-09-21
 If you haven't already read `AGENTS.md`, read it now — it contains the project identity, non-negotiables, and commands.
 
 Then read this file fully before doing anything else in this session.
-
-## Current Project State
-<!-- What is working. What is not yet built. Known issues.
-     Update this section whenever significant work is completed.
-     This is the primary drift prevention mechanism — it re-grounds the agent every session.
-     Length: 3 sections (Working / Not Built / Known Issues), 3-7 items each.
-     Example:
-     **Working:**
-     - User authentication and session management
-     - Core CRUD operations for all main entities
-
-     **Not yet built:**
-- Roadmap F8 is split into F8A (place/period exploration, map and essential species profile) and F8B (saved trips/outings, linked diary and persistent unidentified drafts). F9 follows F8B; subsequent numbering including F17 is unchanged. Both phases remain planned.
-     - Email notification system
-     - Admin dashboard
-
-     **Known issues:**
-     - Pagination breaks on filtered queries with more than 1000 results -->
 
 ## Current Project State
 
@@ -69,13 +53,13 @@ Then read this file fully before doing anything else in this session.
 - F5 is complete: `:core:route` parses GPX/GeoJSON or a point, preserves segments, samples by distance and emits EPSG:3035 corridor portions, 1 km cells, 5 km chunks and deterministic fingerprints. The Percorsi UI imports locally and stores only normalized geometry.
 - F6 is complete: `:core:occurrence` queries GBIF polygons or fallback bounding boxes and NNB WFS bounding boxes behind one gateway, deduplicates provider records and returns bounded retry/failure or explicit stale-cache states. Room schema v5 persists normalized records and complete provenance, never raw payloads.
 - F7 is complete in `:core:plausibility`: Article 12/17, MAES and bounded CLCplus adapters normalize provenance; direct evidence, range, habitat, season and positive Natura 2000 context produce a deterministic trace. Range and habitat remain jointly mandatory for `plausible`.
-- F8A is specified to accept country/region/city names through a bounded online geocoder in addition to coordinates and routes; F15 may add a regional offline gazetteer.
-- The F7 cumulative baseline is green: 13 F0 tests, 55 Gradle JVM tests including 15 plausibility tests, Android/app/test compilation, formatting, boundaries, lint, 25 managed-device tests, omission detection and the visual golden. The live GBIF and NNB WFS smoke checks returned HTTP 200 during F6 verification.
+- F8A is implemented: the Risultati screen accepts confirmed names, coordinates, GPX/GeoJSON and saved local routes, then period/radius → F5/F6/F7 analysis → explained cards, filters and MapLibre map with list fallback. Country/region queries explicitly cover a bounded sample, not the entire administrative area.
+- The F8A cumulative gate is green: 13 F0 tests, 66 Gradle JVM tests, 32 managed-device tests, formatting, boundaries, lint, omission detection and home/exploration visual goldens. The live GBIF and NNB WFS smoke checks returned HTTP 200 during F6 verification.
 
 **Not yet built:**
-- Roadmap F8 is split into F8A (place/period exploration, map and essential species profile) and F8B (saved trips/outings, linked diary and persistent unidentified drafts). F9 follows F8B; subsequent numbering including F17 is unchanged. Both phases remain planned.
-- Functional expansion approved on 2026-09-20, specified in roadmap and detailed plan F8A–F17: saved trips/dates, practical suggestions, essential profiles, linked diary and persistent unidentified drafts, wishlists, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These are planned requirements, not implemented behavior; existing F2–F7 outcomes are unchanged.
-- Map/result UI beyond the local route summary and the device current-location adapter.
+- Roadmap F8B (saved trips/outings, linked diary and persistent unidentified drafts) remains planned. F9 follows F8B; subsequent numbering including F17 is unchanged.
+- Later expansion specified in roadmap F8B–F17 includes saved trips/dates, practical suggestions, linked diary and persistent unidentified drafts, richer profiles, wishlists, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. F8A's essential profile is implemented; these later features are not.
+- Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Peculiar-species suggestion rules and evidence ranking.
 - Local photos, daily notification and complete species profiles.
 - Blender/GLB asset library, regional map package and physical-device tests.
@@ -89,6 +73,8 @@ Then read this file fully before doing anything else in this session.
 - Gradle outputs are redirected to the portable toolchain directory because OneDrive locks incremental build files in the checkout.
 - The Windows Gradle launcher and project JVM arguments are aligned so `--no-daemon` can run in-process. Test workers inherit a JDK option that activates the built-in TCP fallback instead of the restricted Unix-domain socket; recovery is recorded in `GUIDA-GRADLE-LOOPBACK.md`.
 - F5 deliberately supports the European EPSG:3035 area. Extra-European and antimeridian routes fail explicitly until a separate global projection strategy is designed.
+- F8A uses public Nominatim only on explicit submit (not autocomplete), with one-request-per-second process limit and 30-day place cache; the public service is not a production-scale/offline geocoder. MapLibre uses online OSM raster tiles with attribution and HTTP cache, not an offline map package.
+- F8A live search has no institutional range/habitat feed yet; without direct usable occurrences the F7 level remains `insufficient`, never invented `plausible`.
 
 ## Routing Table
 
@@ -108,6 +94,7 @@ Load the relevant file based on the current task. Always load `context/architect
 | Adding an observation or notification | `patterns/add-observation-and-notification.md` |
 | Adding a species profile or 3D asset | `patterns/add-species-and-3d-asset.md` |
 | Debugging Gradle, JVM tests, managed devices or Compose UI gates | `patterns/debug-gradle-android-gates.md` |
+| Changing place search, F8A exploration or MapLibre | `patterns/explore-place-and-map.md` |
 | Route import, sampling, or corridor analysis | `context/route-analysis.md` |
 | Provider, occurrence, licensing, or privacy work | `context/data-and-provenance.md` |
 | 3D model, GLB, Blender, or species asset work | `context/assets-3d.md` |

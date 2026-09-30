@@ -14,7 +14,7 @@ edges:
     condition: when the corridor is sent to an occurrence provider
   - target: context/offline-first.md
     condition: when route files or results are persisted locally
-last_updated: 2026-09-20
+last_updated: 2026-09-30
 ---
 
 # Import route and analyze
@@ -27,8 +27,8 @@ last_updated: 2026-09-20
 4. Remove only consecutive exact duplicates with an explicit warning; reject invalid coordinates before persistence.
 5. Validate the EPSG:3035 pilot area, then compute length, bounding box, geodetic samples and configured metric corridor.
 6. Emit stable 1 km cells, 5 km chunks, a geometry identity and a configuration-sensitive search fingerprint.
-7. Persist only after parsing and analysis succeed; a duplicate geometry reuses the existing route.
-8. Query through the biodiversity gateway in F6 and render map geometry separately in F8.
+7. In Percorsi, persist only after parsing and analysis succeed; a duplicate geometry reuses the existing route. In F8A Risultati, analyze an ephemeral route without persistence unless the person selects a previously saved route.
+8. Query through the biodiversity gateway in F6 and render map geometry separately through the F8A adapter. A matching fingerprint reuses the normalized occurrence cache.
 
 ## Verify
 

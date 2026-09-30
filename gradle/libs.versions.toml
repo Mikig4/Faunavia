@@ -16,6 +16,8 @@ room = "2.8.4"
 ksp = "2.3.6"
 coroutines = "1.10.2"
 serialization = "1.8.1"
+maplibre = "13.6.1"
+okhttp = "4.12.0"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
@@ -42,6 +44,8 @@ androidx-test-orchestrator = { module = "androidx.test:orchestrator", version.re
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 junit4 = { module = "junit:junit", version.ref = "junit4" }
+maplibre-opengl = { module = "org.maplibre.gl:android-sdk-opengl", version.ref = "maplibre" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }

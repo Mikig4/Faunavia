@@ -18,7 +18,7 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-09-21
+last_updated: 2026-09-30
 ---
 
 # Android local architecture
@@ -49,8 +49,10 @@ Room/SQLite stores structured data. Photos are files in app-private storage with
 - Schema v4 adds `ObservationRow.quantity` with default one; the Diary UI performs offline create/edit/delete with a required selected taxon.
 - F5 keeps the Room schema at v4. `RouteRow.points` remains a text column but now contains a versioned JSON object with source, source filename and nested segments; the mapper still reads legacy flat point arrays.
 - Android's document picker grants temporary read access. The app reads at most 5 million characters, parses off the main thread, stores only normalized geometry and does not retain the URI or raw file.
-- The Percorsi screen exposes configurable radius/sampling, manual WGS84 coordinates, explicit validation states and offline summaries. MapLibre is still deferred to F8.
-- F8 will add MapLibre plus a geographic search adapter for country/region/city names; online geocoding remains bounded and attributed, while an offline regional gazetteer is deferred to F15.
+- The Percorsi screen exposes configurable radius/sampling, manual WGS84 coordinates, explicit validation states and offline summaries. Its saved routes can now be selected in Risultati.
+- F8A adds MapLibre OpenGL 13.6.1 behind `ExplorationMapAdapter`, an OSM raster style asset, HTTP cache/User-Agent, route/corridor/sample overlays and an always-visible attribution under the map. A failed/missing tile does not hide the list or diary. The regional offline map package remains F15.
+- F8A geocoding uses `NominatimPlaceSearch` in the pure exploration module on explicit submit only, bounded to five results and one request/second, with a 30-day Android preferences cache. User confirmation is required. Country/region analysis is a bounded 20 km sample. The offline regional gazetteer remains F15.
+- An OpenDocument URI is retained in saveable screen state and a persistable read grant is requested for process restoration; providers that do not grant one require re-selection after process death. No raw document is stored as a trip in F8A.
 - `RouteTestActivity` hosts deterministic Compose tests and remains debug-only.
 
 ## F6 occurrence cache
@@ -65,7 +67,7 @@ Use WorkManager or a one-shot local scheduling strategy for the daily summary. T
 
 ## Maps
 
-MapLibre Native Android is the proposed renderer. Online sources must be used according to their terms. Offline regions must come from a source/process that permits offline packaging; standard OSM tile servers are not a source for bulk offline downloads.
+MapLibre Native Android is the F8A renderer, isolated from F5/F6/F7 behind an Android adapter. Online sources must be used according to their terms. Offline regions must come from a source/process that permits offline packaging; standard OSM tile servers are not a source for bulk offline downloads.
 
 ## Distribution
 
@@ -75,7 +77,7 @@ Generate and sideload a debug/release APK locally for the zero-cost path. Play S
 
 - The portable bootstrap pins JDK 17.0.20.1+1, Gradle 9.6.0, AGP 9.4.0, build tools 36.0.0 and compile SDK 37.2.
 - The app targets API 37, supports API 26+, and runs automated managed-device tests on an API 36 Pixel 2 x86_64 image.
-- `verifyFast`, `verifyDevice`, `verifyVisual` and `verifyAll` are the canonical Gradle gates.
+- `verifyFast`, `verifyDevice`, `verifyVisual` and `verifyAll` are the canonical Gradle gates. F8A adds `:core:exploration:test` and a second versioned visual golden for map/list/error.
 - Compose UI tests use the v2 test rule; UI Automator proves launcher install/start; the visual gate compares a versioned home-screen color signature and captures the actual bitmap during the test.
 - Generated output lives under the portable toolchain build root to avoid OneDrive locking; source and baselines remain in Git.
 - The Windows launcher/build JVM settings are synchronized for in-process `--no-daemon` execution. Test workers inherit `jdk.net.unixdomain.tmpdir=NUL`, which triggers the JDK TCP fallback when Unix-domain sockets are restricted; `GUIDA-GRADLE-LOOPBACK.md` records the recovery command.

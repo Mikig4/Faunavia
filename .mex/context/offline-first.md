@@ -18,7 +18,7 @@ edges:
     condition: when choosing Room, photo storage, MapLibre offline regions, or APK packaging
   - target: context/decisions.md
     condition: when choosing between cached results, downloadable datasets, and a backend
-last_updated: 2026-09-14
+last_updated: 2026-09-30
 ---
 
 # Offline-first
@@ -36,3 +36,5 @@ The MVP must show previously loaded routes, diary entries, source metadata, loca
 - Deliver the daily summary from local data; network is not a prerequisite for notification.
 
 True offline analysis requires a deliberately packaged dataset and an offline-capable map source. A regional map package may be added later; standard OSM tile servers must not be bulk-downloaded for offline use. Treat this as a product decision, not as a side effect of adding a cache.
+
+F8A caches confirmed place candidates in Android preferences for 30 days, normalized occurrence results in the F6 Room cache for six hours, and ordinary viewed OSM tiles in an HTTP cache. These caches do not promise full offline geocoding or a new biodiversity search. An offline map failure leaves the textual result and local diary available; stale occurrence results are visibly marked.

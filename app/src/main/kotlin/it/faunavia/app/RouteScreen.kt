@@ -157,7 +157,7 @@ internal fun RouteScreen(
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
-                        text = "Il file resta sul dispositivo. Salviamo la geometria normalizzata, non il documento originale, e non contattiamo provider in questa fase.",
+                        text = "Il file resta sul dispositivo. Qui salviamo la geometria normalizzata, non il documento originale. Per cercare evidenze apri Risultati.",
                         color = RouteMuted,
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -231,7 +231,7 @@ internal fun RouteScreen(
                     Text("Percorsi locali", color = RouteInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     Text(
                         if (savedRoutes.isEmpty()) "Nessun percorso salvato. Importa un file o analizza una posizione."
-                        else "Disponibili offline e pronti per i provider delle fasi successive.",
+                        else "Disponibili offline. Puoi selezionarli nella schermata Risultati per cercare evidenze.",
                         color = RouteMuted,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.testTag("route-empty"),
@@ -418,9 +418,9 @@ private fun routeErrorMessage(error: Throwable): String = when (error) {
     else -> "Non riesco ad analizzare il percorso. Riprova."
 }
 
-private data class SelectedRouteDocument(val name: String, val content: String)
+internal data class SelectedRouteDocument(val name: String, val content: String)
 
-private fun readRouteDocument(context: Context, uri: Uri): SelectedRouteDocument {
+internal fun readRouteDocument(context: Context, uri: Uri): SelectedRouteDocument {
     val name = context.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
         if (cursor.moveToFirst()) cursor.getString(0) else null
     }?.takeIf { it.isNotBlank() } ?: uri.lastPathSegment ?: "percorso"
