@@ -17,10 +17,16 @@ edges:
     condition: when changing what the app claims about presence
   - target: context/conventions.md
     condition: when implementing adapters, normalization, or source rendering
-last_updated: 2026-09-30
+last_updated: 2026-10-01
 ---
 
 # Data and provenance
+
+## Common-name catalogue and planned routes
+
+- GBIF `/species/suggest` is scientific autocomplete, not reliable Italian common-name search. The common-name path is `/species/search?qField=VERNACULAR`, restricted to the GBIF Backbone and Animalia; then scientific autocomplete if no selectable common candidates exist. Search records use `taxonomicStatus` and `vernacularNames[]`; suggest uses `status`. Normalize both and resolve accepted synonym keys.
+- Prefer an Italian common name and exact displayed-name matches before foreign aliases; the live query `merlo` also matches the Spanish fish name, so alphabetical sorting alone is misleading. Keep scientific name/ID/provenance visible. GBIF live smoke validates the shape; fixture-only success cannot establish live lookup correctness.
+- OSRM receives only the confirmed departure/destination coordinates after explicit calculation. The user authorized this external destination. Store the complete selected geometry with source, retrieval date, ODbL attribution and the provided map version (or explicitly missing version); do not invent traffic accuracy or replace errors with straight lines. Google Maps directions receive only endpoints on click and may differ from the saved trace.
 
 Provider adapters are the only place that knows remote API parameters. They return internal occurrence records with provider, source ID, timestamp, license, coordinate precision, and raw-query metadata. UI code consumes normalized records and evidence summaries.
 

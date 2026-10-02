@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "name": "trips-v1",
+  "header": "FF1F5C3F",
+  "states": ["trips", "draft"]
+}

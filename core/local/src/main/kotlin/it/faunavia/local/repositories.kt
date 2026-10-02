@@ -29,40 +29,42 @@ class LocalRepositories(
         database.runInTransaction(Callable { block() })
     }
 
+    private fun validateLink(tripId: String?, outingId: String?) {
+        require(tripId == null || dao.trip(tripId) != null) { "Trip does not exist." }
+        require(outingId == null || (tripId != null && dao.outing(outingId)?.tripId == tripId)) { "Outing does not belong to this trip." }
+    }
+
+    private fun createObservation(draft: ObservationDraft, photos: List<ObservationPhoto> = emptyList(), createdAt: Instant? = null): Observation {
+        require(dao.taxon(draft.taxonId)?.toDomain()?.isSelectable == true) { "Choose an accepted Animalia taxon." }
+        validateLink(draft.tripId, draft.outingId)
+        val now = maxOf(createdAt ?: Instant.MIN, Instant.ofEpochMilli(clock.nowEpochMillis()))
+        val observation = Observation(draft.id, draft.taxonId, draft.observedAt, draft.zoneId,
+            draft.location, draft.notes, createdAt ?: now, now, draft.quantity, draft.tripId, draft.outingId)
+        dao.insertObservation(observation.toRow())
+        photos.forEach {
+            require(it.observationId == observation.id) { "Photo belongs to another observation." }
+            dao.insertPhoto(it.toRow())
+        }
+        return observation
+    }
+
     val diary: DiaryRepository = object : DiaryRepository {
         private fun validateTaxon(id: String) {
             require(dao.taxon(id)?.toDomain()?.isSelectable == true) { "Choose an accepted Animalia taxon." }
         }
 
         override suspend fun create(draft: ObservationDraft, photos: List<ObservationPhoto>): Observation = write {
-            validateTaxon(draft.taxonId)
-            val now = Instant.ofEpochMilli(clock.nowEpochMillis())
-            val observation = Observation(
-                draft.id,
-                draft.taxonId,
-                draft.observedAt,
-                draft.zoneId,
-                draft.location,
-                draft.notes,
-                now,
-                now,
-                draft.quantity,
-            )
-            dao.insertObservation(observation.toRow())
-            photos.forEach {
-                require(it.observationId == observation.id) { "Photo belongs to another observation." }
-                dao.insertPhoto(it.toRow())
-            }
-            observation
+            createObservation(draft, photos)
         }
 
         override suspend fun update(draft: ObservationDraft): Observation = write {
             validateTaxon(draft.taxonId)
+            validateLink(draft.tripId, draft.outingId)
             val old = requireNotNull(dao.observation(draft.id)) { "Observation does not exist." }.toDomain()
             val now = maxOf(old.updatedAt, Instant.ofEpochMilli(clock.nowEpochMillis()))
             val observation = old.copy(taxonId = draft.taxonId, observedAt = draft.observedAt,
                 zoneId = draft.zoneId, location = draft.location, notes = draft.notes,
-                quantity = draft.quantity, updatedAt = now)
+                quantity = draft.quantity, updatedAt = now, tripId = draft.tripId, outingId = draft.outingId)
             check(dao.updateObservation(observation.toRow()) == 1)
             observation
         }
@@ -87,6 +89,57 @@ class LocalRepositories(
             val photos = dao.photos(id).map { it.toDomain() }
             dao.deleteObservation(id)
             photos
+        }
+    }
+
+    val trips: TripRepository = object : TripRepository {
+        override suspend fun save(trip: Trip) { write {
+            val old = dao.trip(trip.id)?.toDomain()
+            val stored = if (old == null) trip else trip.copy(createdAt = old.createdAt,
+                updatedAt = maxOf(old.updatedAt, trip.updatedAt, Instant.ofEpochMilli(clock.nowEpochMillis())))
+            dao.saveTrip(stored.toRow())
+        } }
+        override suspend fun get(id: String): Trip? = read { dao.trip(id)?.toDomain() }
+        override suspend fun list(): List<Trip> = read { dao.trips().map { it.toDomain() }.sortedWith(compareBy(Trip::startsOn, Trip::id)) }
+        override suspend fun delete(id: String) { write { dao.deleteTrip(id) } }
+        override suspend fun saveOuting(outing: Outing) { write {
+            val trip = requireNotNull(dao.trip(outing.tripId)?.toDomain()) { "Trip does not exist." }
+            require(outing.date in trip.startsOn..trip.endsOn) { "Outing date must be within the trip." }
+            require(dao.outing(outing.id)?.tripId.let { it == null || it == outing.tripId }) { "An outing cannot change trip." }
+            dao.saveOuting(outing.toRow())
+        } }
+        override suspend fun outing(id: String): Outing? = read { dao.outing(id)?.toDomain() }
+        override suspend fun outings(tripId: String): List<Outing> = read { dao.outings(tripId).map { it.toDomain() }.sortedWith(compareBy(Outing::date, Outing::id)) }
+        override suspend fun deleteOuting(id: String) { write { dao.deleteOuting(id) } }
+        override suspend fun savePlace(place: SavedTripPlace) { write { dao.saveTripPlace(place.toRow()) } }
+        override suspend fun places(tripId: String): List<SavedTripPlace> = read { dao.tripPlaces(tripId).map { it.toDomain() } }
+        override suspend fun deletePlace(id: String) { write { dao.deleteTripPlace(id) } }
+        override suspend fun saveResult(result: SavedTripResult) { write {
+            validateLink(result.tripId, result.outingId)
+            if (result.stageId != null) require(dao.trip(result.tripId)?.toDomain()?.stages?.any { it.id == result.stageId } == true) {
+                "Stage does not belong to this trip."
+            }
+            dao.saveTripResult(result.toRow())
+        } }
+        override suspend fun results(tripId: String): List<SavedTripResult> = read { dao.tripResults(tripId).map { it.toDomain() } }
+        override suspend fun deleteResult(id: String) { write { dao.deleteTripResult(id) } }
+    }
+
+    val unidentified: UnidentifiedRepository = object : UnidentifiedRepository {
+        override suspend fun save(input: UnidentifiedInput): UnidentifiedDraft = write {
+            validateLink(input.tripId, input.outingId)
+            require(dao.observation(input.id) == null) { "This memory is already identified." }
+            val old = dao.unidentified(input.id)?.toDomain()
+            val now = maxOf(old?.updatedAt ?: Instant.MIN, Instant.ofEpochMilli(clock.nowEpochMillis()))
+            UnidentifiedDraft(input, old?.createdAt ?: now, now).also { dao.saveUnidentified(it.toRow()) }
+        }
+        override suspend fun get(id: String): UnidentifiedDraft? = read { dao.unidentified(id)?.toDomain() }
+        override suspend fun list(): List<UnidentifiedDraft> = read { dao.unidentifiedDrafts().map { it.toDomain() } }
+        override suspend fun delete(id: String) { write { dao.deleteUnidentified(id) } }
+        override suspend fun convert(draft: ObservationDraft): Observation = write {
+            val old = requireNotNull(dao.unidentified(draft.id)?.toDomain()) { "Draft does not exist or was already converted." }
+            dao.deleteUnidentified(draft.id)
+            createObservation(draft, createdAt = old.createdAt)
         }
     }
 

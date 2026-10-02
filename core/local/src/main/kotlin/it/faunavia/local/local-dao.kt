@@ -9,6 +9,24 @@ import androidx.room.Upsert
 /** Blocking DAO is confined to the repository IO dispatcher; Room still rejects main-thread access. */
 @Dao
 interface LocalDao {
+    @Upsert fun saveTrip(row: TripRow)
+    @Query("SELECT * FROM trips WHERE id = :id") fun trip(id: String): TripRow?
+    @Query("SELECT * FROM trips ORDER BY id") fun trips(): List<TripRow>
+    @Query("DELETE FROM trips WHERE id = :id") fun deleteTrip(id: String)
+    @Upsert fun saveOuting(row: OutingRow)
+    @Query("SELECT * FROM outings WHERE id = :id") fun outing(id: String): OutingRow?
+    @Query("SELECT * FROM outings WHERE tripId = :tripId ORDER BY id") fun outings(tripId: String): List<OutingRow>
+    @Query("DELETE FROM outings WHERE id = :id") fun deleteOuting(id: String)
+    @Upsert fun saveTripPlace(row: SavedTripPlaceRow)
+    @Query("SELECT * FROM saved_trip_places WHERE tripId = :tripId ORDER BY id") fun tripPlaces(tripId: String): List<SavedTripPlaceRow>
+    @Query("DELETE FROM saved_trip_places WHERE id = :id") fun deleteTripPlace(id: String)
+    @Upsert fun saveTripResult(row: SavedTripResultRow)
+    @Query("SELECT * FROM saved_trip_results WHERE tripId = :tripId ORDER BY id") fun tripResults(tripId: String): List<SavedTripResultRow>
+    @Query("DELETE FROM saved_trip_results WHERE id = :id") fun deleteTripResult(id: String)
+    @Upsert fun saveUnidentified(row: UnidentifiedRow)
+    @Query("SELECT * FROM unidentified_drafts WHERE id = :id") fun unidentified(id: String): UnidentifiedRow?
+    @Query("SELECT * FROM unidentified_drafts ORDER BY observedAt, id") fun unidentifiedDrafts(): List<UnidentifiedRow>
+    @Query("DELETE FROM unidentified_drafts WHERE id = :id") fun deleteUnidentified(id: String)
     @Upsert fun saveTaxon(row: TaxonRow)
     @Query("SELECT * FROM taxa WHERE id = :id") fun taxon(id: String): TaxonRow?
     @Upsert fun saveAliases(rows: List<TaxonAliasRow>)

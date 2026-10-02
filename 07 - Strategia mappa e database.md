@@ -62,6 +62,16 @@ Quando c'è rete, l'app può usare MapLibre Native con una sorgente di tile/vect
 
 In F8 la mappa avrà anche una ricerca geografica per nome di paese, regione o città. Il risultato del geocoder viene normalizzato in un luogo canonico con punto, riquadro o poligono; l'utente lo conferma e può usarlo per centrare la mappa o delimitare l'area di interrogazione. La ricerca per nome non sostituisce la geometria di un percorso: quando è presente una traccia GPX/GeoJSON, il corridoio F5 resta la geometria precisa dell'analisi. Query limitate, attribuzione, cache e fallback testuale sono obbligatori.
 
+### Collegamento a Google Maps
+
+Viaggi apre le indicazioni con partenza e destinazione confermate tramite Maps URLs; le uscite e i vecchi viaggi senza partenza mantengono il collegamento al punto. Se l'app Maps non è disponibile, il link può essere gestito dal browser. L'azione parte solo dal pulsante dell'utente; non include diario, date o traccia completa. Google Maps ricalcola le indicazioni e non restituisce il percorso scelto a Faunavia. La geometria salvata in Faunavia resta quella scelta sulla mappa interna. Un errore di apertura lascia disponibili viaggio e diario. Fonte: [Maps URLs](https://developers.google.com/maps/documentation/urls/get-started).
+
+### Scelta e salvataggio del tracciato
+
+Il prototipo usa il servizio pubblico OSRM per percorsi in auto: invia soltanto le coordinate dei due estremi premendo “Calcola percorso”, propone fino a tre alternative quando disponibili e conserva tutti i punti della geometria scelta nel viaggio. L'utente ha autorizzato esplicitamente l'invio degli estremi a OSRM. Nessuna richiesta al cambio di testo, nessuna ricostruzione con una retta in caso di errore. Cache transitoria di dieci minuti e limite di una richiesta al secondo; la scelta salvata è durevole e separata dalla cache. Modificare un estremo invalida la scelta prima del salvataggio.
+
+OSRM pubblico è adatto al prototipo personale con uso moderato, senza garanzie di disponibilità, latenza o aggiornamento e senza traffico in tempo reale. La traccia locale resta consultabile offline; calcolo di nuove strade e basemap offline sono capacità separate. Un uso più ampio richiede un provider adeguato o un'istanza propria, da concordare. Fonti: [API OSRM](https://project-osrm.org/docs/v5.24.0/api/), [policy del demo server](https://github.com/Project-OSRM/osrm-backend/wiki/Demo-server).
+
 ### Offline
 
 Per l'MVP non è necessario salvare il mondo intero. Si può supportare un pacchetto regionale scelto dall'utente, con area e livelli di zoom limitati, includendo un gazetteer locale coerente per la ricerca di paesi, regioni e città coperte. Il pacchetto può essere generato da un estratto OSM usando strumenti open source e poi incluso o importato nel telefono; serve verificare licenza, dimensioni e processo di aggiornamento.

@@ -6,7 +6,7 @@ product
 
 ## Users
 
-Una singola persona usa Faunavia sul proprio telefono per annotare osservazioni naturalistiche e, in futuro, per esplorare le specie associate a una posizione o a un itinerario. Il compito principale del diario è registrare un avvistamento affidabile anche senza connessione.
+Una singola persona usa Faunavia sul proprio telefono per esplorare le specie associate a una posizione o a un itinerario, pianificare viaggi e annotare osservazioni naturalistiche. Il diario conserva avvistamenti identificati e bozze da identificare separate, anche senza connessione.
 
 ## Product Purpose
 
@@ -22,6 +22,9 @@ Non deve sembrare un social network, un gioco a punti o una dashboard affollata.
 
 ## Design Principles
 
+- Organizzare facoltativamente il viaggio in tappe libere con giorni separati; mostrare ordine, località e data, consentendo la scelta del singolo tratto per mappa e ricerca animali. Più tappe possono condividere un giorno.
+- Aprire sul viaggio: partenza, destinazione, date e scelta del tracciato sulla mappa; risultati e ricordi restano nello stesso contesto. Nome, raggio, interessi e uscite sono facoltativi. Google Maps apre le indicazioni, ricalcolate autonomamente.
+- Cercare le specie del catalogo generale direttamente nel Diario, conservando la possibilità di usare le scelte locali offline.
 - Rendere immediata la registrazione locale di un avvistamento.
 - Esplicitare le condizioni importanti, in particolare specie obbligatoria e dati opzionali.
 - Conservare la distinzione tra diario personale, evidenze importate e suggerimenti curati.

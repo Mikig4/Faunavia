@@ -30,7 +30,9 @@ edges:
     condition: when Gradle, JVM workers, managed devices, UTP or Compose UI gates fail
   - target: patterns/explore-place-and-map.md
     condition: when changing the F8A geographic search, exploration screen or MapLibre adapter
-last_updated: 2026-09-30
+  - target: patterns/plan-trip-and-record-memory.md
+    condition: when changing saved trips, outings, result snapshots, diary links or unidentified drafts
+last_updated: 2026-10-02
 ---
 
 # Session Bootstrap
@@ -55,10 +57,16 @@ Then read this file fully before doing anything else in this session.
 - F7 is complete in `:core:plausibility`: Article 12/17, MAES and bounded CLCplus adapters normalize provenance; direct evidence, range, habitat, season and positive Natura 2000 context produce a deterministic trace. Range and habitat remain jointly mandatory for `plausible`.
 - F8A is implemented: the Risultati screen accepts confirmed names, coordinates, GPX/GeoJSON and saved local routes, then period/radius → F5/F6/F7 analysis → explained cards, filters and MapLibre map with list fallback. Country/region queries explicitly cover a bounded sample, not the entire administrative area.
 - The F8A cumulative gate is green: 13 F0 tests, 66 Gradle JVM tests, 32 managed-device tests, formatting, boundaries, lint, omission detection and home/exploration visual goldens. The live GBIF and NNB WFS smoke checks returned HTTP 200 during F6 verification.
+- F8B is complete: saved trips/outings, confirmed destinations, dates/radius/interests, chosen place/result snapshots, shared essential cards, confirmed personal-sighting prefills, linked diary filters/calendar/map/global personal firsts and persistent unidentified drafts. Room v6 migrates additively; conversion is atomic and planning deletion only unlinks memories.
+- The cumulative F8B gate is green: 13 F0, 71 JVM and 54 managed-device tests, build, lint, formatting, boundaries, omission detection and three visual golden tests. Recovery and limits are in `GUIDA-FASE-8B.md` and `20 - Rapporto Fase 8B.md`.
+- The first F8B usability refinement was verified: trips-first navigation, destination/date-only creation, external point Maps links and diary catalogue search with local fallback. Its gate passed 13 F0, 73 JVM and 60 Android tests, lint, boundaries, omission detection and three goldens. This is the historical 0.8.1 baseline in `21 - Rifinitura Viaggi e Diario.md`, superseded functionally by the clarified route requirement below; F9/F13 scope is unchanged.
+- The clarified F8B extension is verified: departure/destination/dates, explicit full-route selection on the internal map via authorized endpoint-only OSRM calculation, persisted trace, Maps directions and corrected real GBIF common-name lookup. Its full gate passed 13 F0, 82 JVM and 66 Android tests, lint, boundaries, omission detection and three visual goldens. Live API 36 checks confirmed Italian “merlo” search and Milano–Como route persistence. APK `artifacts/Faunavia-f8b-viaggi-debug.apk` is 0.8.2-f8b (11); see `22 - Tracciato viaggio e Catalogo.md`. The physical phone remains untested; F9/F13 scope is unchanged.
+
+- The 2026-10-02 F8B extension for freely ordered dated stages is verified: per-leg route selection, full-trip/stage views, stage-day evidence and Maps directions, with backward-compatible Trip payload v3 and Room schema 6. The cumulative gate passed 13 F0, 84 JVM and 70 Android tests, lint, boundaries, omission detection and three visual goldens. APK `artifacts/Faunavia-f8b-tappe-debug.apk` is 0.8.3-f8b (12); see `23 - Tappe e giorni del viaggio.md`. The new Android tests use deterministic providers/maps; no new live or physical-device test was performed.
 
 **Not yet built:**
-- Roadmap F8B (saved trips/outings, linked diary and persistent unidentified drafts) remains planned. F9 follows F8B; subsequent numbering including F17 is unchanged.
-- Later expansion specified in roadmap F8B–F17 includes saved trips/dates, practical suggestions, linked diary and persistent unidentified drafts, richer profiles, wishlists, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. F8A's essential profile is implemented; these later features are not.
+- F9 follows the completed F8B; subsequent numbering including F17 is unchanged.
+- F9–F17 expansion includes personal suggestions/wishlists, photos, notifications, backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented.
 - Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Peculiar-species suggestion rules and evidence ranking.
 - Local photos, daily notification and complete species profiles.
@@ -75,6 +83,7 @@ Then read this file fully before doing anything else in this session.
 - F5 deliberately supports the European EPSG:3035 area. Extra-European and antimeridian routes fail explicitly until a separate global projection strategy is designed.
 - F8A uses public Nominatim only on explicit submit (not autocomplete), with one-request-per-second process limit and 30-day place cache; the public service is not a production-scale/offline geocoder. MapLibre uses online OSM raster tiles with attribution and HTTP cache, not an offline map package.
 - F8A live search has no institutional range/habitat feed yet; without direct usable occurrences the F7 level remains `insufficient`, never invented `plausible`.
+- F8B animal interests are persisted preferences; occurrence records lack complete group classification, so result choice is explicitly manual rather than an invented taxonomic filter. Saved evidence snapshots remain distinct from the expiring provider cache and personal observations.
 
 ## Routing Table
 
@@ -95,6 +104,7 @@ Load the relevant file based on the current task. Always load `context/architect
 | Adding a species profile or 3D asset | `patterns/add-species-and-3d-asset.md` |
 | Debugging Gradle, JVM tests, managed devices or Compose UI gates | `patterns/debug-gradle-android-gates.md` |
 | Changing place search, F8A exploration or MapLibre | `patterns/explore-place-and-map.md` |
+| Saved trips/outings, evidence snapshots, linked diary or unidentified drafts | `patterns/plan-trip-and-record-memory.md` |
 | Route import, sampling, or corridor analysis | `context/route-analysis.md` |
 | Provider, occurrence, licensing, or privacy work | `context/data-and-provenance.md` |
 | 3D model, GLB, Blender, or species asset work | `context/assets-3d.md` |

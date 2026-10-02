@@ -22,14 +22,14 @@ edges:
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-09-30
+last_updated: 2026-10-02
 ---
 
 # Architecture
 
 ## System Overview
 
-- User selects current location, a GPX/GeoJSON track, a searched place, or creates a manual observation.
+- User starts with confirmed departure/destination, dates and a chosen trace. Optional ordered stages have destinations, days and chosen leg geometry; exploration without a trip, imported tracks and manual coordinates remain optional tools.
 - The route engine validates coordinates, samples the geometry, and builds a configurable corridor.
 - Provider adapters query bounded areas; the local store caches raw metadata and normalized records.
 - The evidence engine deduplicates species, scores recency/distance/quality, and preserves provenance.
@@ -99,6 +99,19 @@ last_updated: 2026-09-30
 - `:core:exploration` is pure Kotlin and connects F5 route analysis, F6 gateway and F7 assessments without requiring a stored trip. It also owns the Nominatim place-search port/adapter; Android owns only the bounded preferences cache and explicit-confirmation UI.
 - `FaunaviaApplication` composes the explorer and geocoder. Risultati can use a confirmed place, coordinate, imported file or saved local route, plus a selected period and radius. F5 fingerprints reuse F6 cache across equivalent geometries.
 - `ExplorationMapAdapter` isolates MapLibre from data logic. The map renders route, corridor and samples but not exact occurrence points. The list carries evidence levels, calculation steps and provenance; absent institutional range/habitat cannot become `plausible`.
+
+## F8B trip and memory boundary
+
+- Viaggi is the launch destination; primary navigation contains Viaggi, Diario, Catalogo and Impostazioni. New trips confirm departure/destination and dates, calculate driving choices, preview/select the full route on MapLibre, and persist it. Optional exploration/import stay reachable; name defaults to the destination and radius/interests/manual coordinates are disclosed on demand.
+- `TripRouting` and the OSRM adapter live in pure `:core:exploration`. The user authorized sending the two endpoints to the public demo on explicit calculation, limited to one request/second with transient cache; chosen route geometry/provenance is durable. Changed endpoints invalidate unsaved choices and obsolete responses are ignored. No straight-line fallback is invented.
+- `mapsDirectionsUrl` and `mapsSearchUrl` live in pure `:core:exploration`; Android opens directions for two endpoints or a legacy/outing point after a click, catching missing activity/security failures. No API key, date, complete route or diary content is included. Google Maps recalculates directions; it cannot return the selected trace through the link.
+- Diary catalogue lookup reuses F3 with a 350 ms debounce, error/retry and selected-local fallback. Explicit selection persists the accepted taxon and aliases before the editor accepts it; observation writes remain local. Failed selection retains fields and never creates an observation. Selected prefills require no lookup to save.
+- Pure domain models and repository ports separate saved planning, evidence snapshots, identified observations and unidentified drafts. `PersonalDiaryViews` derives filters/calendar/located map points and global personal firsts from identified memories only.
+- `:core:local` schema v6 adds planning/draft tables and nullable diary links without rebuilding observations. SQLite triggers validate trip/outing membership, unlink memories on planning deletion and prohibit one identity in both memory tables.
+- Trip payload v3 adds ordered `TripStage` entries with date, destination and copied `TripRoute` to the v2 departure/trace fields; v1/v2 remain readable and Room stays at schema 6. Combined geometry preserves every stage segment. `stageScope` uses only the selected leg and its day; whole-trip analysis uses the full corridor/date interval. Legacy analysis keys remain unchanged. Saved results retain nullable stage IDs; removed/changed stages mark snapshots outdated without deleting them or diary memories. Saved traces reopen without OSRM; large unsaved traces do not enter instance-state bundles.
+- `UnidentifiedRepository.convert` deletes the draft and creates the accepted-Animalia observation in one transaction, preserving ID and original creation time; failure rolls back both operations.
+- Android Viaggi composes existing F5–F8A services, confirms destinations and explicitly recalculates after scope changes. Saved results retain original period/area, explanation and provenance independently of provider cache expiry. Outings copy imported geometry rather than depend on the original route row.
+- The shared essential species card may prefill an accepted taxon and planning links, but never external occurrence coordinates. The user confirms actual observation date/location. `PersonalMapAdapter` draws only located personal memories; unlocated entries stay in lists and calendar.
 
 ## F7 plausibility boundary
 

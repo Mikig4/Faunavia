@@ -12,6 +12,8 @@ import it.faunavia.exploration.ExplorationService
 import it.faunavia.exploration.NominatimPlaceSearch
 import it.faunavia.exploration.PlaceSearch
 import it.faunavia.exploration.UrlConnectionPlaceHttpClient
+import it.faunavia.exploration.OsrmTripRouting
+import it.faunavia.exploration.UrlConnectionRoutingHttpClient
 import it.faunavia.taxonomy.CatalogueTaxonSelectionStore
 import it.faunavia.taxonomy.GbifTaxonomyProvider
 import it.faunavia.taxonomy.TaxonomySearch
@@ -53,6 +55,7 @@ class FaunaviaApplication : Application() {
     }
 
     val explorationService by lazy { ExplorationService(occurrenceGateway) }
+    val tripRouting by lazy { OsrmTripRouting(UrlConnectionRoutingHttpClient()) }
 
     val placeSearch: PlaceSearch by lazy {
         NominatimPlaceSearch(UrlConnectionPlaceHttpClient(), PlaceCachePreferences(this))

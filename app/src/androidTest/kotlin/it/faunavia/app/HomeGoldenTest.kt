@@ -23,7 +23,7 @@ class HomeGoldenTest {
 
     @Test
     fun homeMatchesVersionedColorSignature() {
-        val image = composeRule.onNodeWithTag("screen-home").captureToImage()
+        val image = composeRule.onNodeWithTag("screen-trips").captureToImage()
         val pixels = image.toPixelMap()
         val baseline = readBaseline()
         val samples = baseline.getJSONArray("samples")
@@ -36,10 +36,10 @@ class HomeGoldenTest {
             assertEquals(sample.getString("argb"), actual)
         }
 
-        val outputDirectory = File(
-            InstrumentationRegistry.getInstrumentation().targetContext.filesDir,
-            "golden-output",
-        ).apply { mkdirs() }
+        val outputPath = InstrumentationRegistry.getArguments().getString("additionalTestOutputDir")
+        val outputDirectory = (outputPath?.let(::File) ?: File(
+            InstrumentationRegistry.getInstrumentation().targetContext.filesDir, "golden-output",
+        )).apply { mkdirs() }
         File(outputDirectory, "home-actual.png").outputStream().use { stream ->
             image.asAndroidBitmap().compress(android.graphics.Bitmap.CompressFormat.PNG, 100, stream)
         }

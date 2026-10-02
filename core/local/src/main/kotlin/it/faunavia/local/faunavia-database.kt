@@ -10,8 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(
     entities = [TaxonRow::class, TaxonAliasRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
-        RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class],
-    version = 5,
+        RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class,
+        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class],
+    version = 6,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -69,9 +70,31 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        /** Add nullable links without rebuilding the diary table or cascading its existing photos. */
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE observations ADD COLUMN tripId TEXT")
+                db.execSQL("ALTER TABLE observations ADD COLUMN outingId TEXT")
+                db.execSQL("CREATE INDEX index_observations_tripId ON observations(tripId)")
+                db.execSQL("CREATE INDEX index_observations_outingId ON observations(outingId)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS trips (id TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY(id))")
+                for (table in listOf("outings", "saved_trip_places")) {
+                    db.execSQL("CREATE TABLE IF NOT EXISTS $table (id TEXT NOT NULL, tripId TEXT NOT NULL, payload TEXT NOT NULL, PRIMARY KEY(id), FOREIGN KEY(tripId) REFERENCES trips(id) ON UPDATE NO ACTION ON DELETE CASCADE)")
+                    db.execSQL("CREATE INDEX index_${table}_tripId ON $table(tripId)")
+                }
+                db.execSQL("CREATE TABLE IF NOT EXISTS saved_trip_results (id TEXT NOT NULL, tripId TEXT NOT NULL, outingId TEXT, payload TEXT NOT NULL, PRIMARY KEY(id), FOREIGN KEY(tripId) REFERENCES trips(id) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(outingId) REFERENCES outings(id) ON UPDATE NO ACTION ON DELETE SET NULL)")
+                db.execSQL("CREATE INDEX index_saved_trip_results_tripId ON saved_trip_results(tripId)")
+                db.execSQL("CREATE INDEX index_saved_trip_results_outingId ON saved_trip_results(outingId)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS unidentified_drafts (id TEXT NOT NULL, observedAt TEXT NOT NULL, zoneId TEXT NOT NULL, latitude REAL, longitude REAL, notes TEXT NOT NULL, quantity INTEGER NOT NULL, tripId TEXT, outingId TEXT, createdAt TEXT NOT NULL, updatedAt TEXT NOT NULL, PRIMARY KEY(id))")
+                db.execSQL("CREATE INDEX index_unidentified_drafts_tripId ON unidentified_drafts(tripId)")
+                db.execSQL("CREATE INDEX index_unidentified_drafts_outingId ON unidentified_drafts(outingId)")
+                installIntegrity(db)
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 
@@ -97,6 +120,48 @@ abstract class FaunaviaDatabase : RoomDatabase() {
                     AND EXISTS (SELECT 1 FROM observations WHERE taxonId = OLD.id)
                 BEGIN SELECT RAISE(ABORT, 'Taxon is referenced by diary'); END
             """.trimIndent())
+            db.query("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'trips'").use {
+                if (!it.moveToFirst()) return
+            }
+            for (table in listOf("observations", "unidentified_drafts", "saved_trip_results")) {
+                for (operation in listOf("INSERT", "UPDATE")) {
+                    db.execSQL("""
+                        CREATE TRIGGER IF NOT EXISTS ${table}_link_${operation.lowercase()}
+                        BEFORE $operation ON $table
+                        WHEN (NEW.tripId IS NOT NULL AND NOT EXISTS (SELECT 1 FROM trips WHERE id = NEW.tripId))
+                          OR (NEW.outingId IS NOT NULL AND (NEW.tripId IS NULL OR NOT EXISTS
+                            (SELECT 1 FROM outings WHERE id = NEW.outingId AND tripId = NEW.tripId)))
+                        BEGIN SELECT RAISE(ABORT, 'Memory requires a matching trip and outing'); END
+                    """.trimIndent())
+                }
+            }
+            db.execSQL("""
+                CREATE TRIGGER IF NOT EXISTS unlink_trip_memories BEFORE DELETE ON trips
+                BEGIN
+                  UPDATE observations SET tripId = NULL, outingId = NULL WHERE tripId = OLD.id;
+                  UPDATE unidentified_drafts SET tripId = NULL, outingId = NULL WHERE tripId = OLD.id;
+                END
+            """.trimIndent())
+            db.execSQL("""
+                CREATE TRIGGER IF NOT EXISTS unlink_outing_memories BEFORE DELETE ON outings
+                BEGIN
+                  UPDATE observations SET outingId = NULL WHERE outingId = OLD.id;
+                  UPDATE unidentified_drafts SET outingId = NULL WHERE outingId = OLD.id;
+                END
+            """.trimIndent())
+            db.execSQL("""
+                CREATE TRIGGER IF NOT EXISTS protect_outing_trip BEFORE UPDATE OF tripId ON outings
+                WHEN NEW.tripId != OLD.tripId
+                BEGIN SELECT RAISE(ABORT, 'An outing cannot move between trips'); END
+            """.trimIndent())
+            for ((table, other) in listOf("observations" to "unidentified_drafts", "unidentified_drafts" to "observations")) {
+                for (operation in listOf("INSERT", "UPDATE")) db.execSQL("""
+                    CREATE TRIGGER IF NOT EXISTS ${table}_identity_${operation.lowercase()}
+                    BEFORE $operation ON $table
+                    WHEN EXISTS (SELECT 1 FROM $other WHERE id = NEW.id)
+                    BEGIN SELECT RAISE(ABORT, 'Memory identity already exists'); END
+                """.trimIndent())
+            }
         }
     }
 }

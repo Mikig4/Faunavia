@@ -17,7 +17,6 @@ import it.faunavia.route.RouteAnalysisConfig
 import it.faunavia.route.RouteDocumentParser
 import it.faunavia.route.RouteEngine
 import java.time.Instant
-import java.time.LocalDate
 
 data class ExploredTaxon(
     val id: String,
@@ -92,7 +91,7 @@ class ExplorationService(
                         PlausibilityRequest(
                             taxon = reference,
                             period = period,
-                            evaluatedOn = LocalDate.ofInstant(now(), java.time.ZoneOffset.UTC),
+                            evaluatedOn = now().atZone(java.time.ZoneOffset.UTC).toLocalDate(),
                             occurrences = evidence,
                         ),
                     ),

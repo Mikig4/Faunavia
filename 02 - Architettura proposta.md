@@ -21,7 +21,9 @@ UI / Android / provider / Room / MapLibre / renderer 3D
 ## Flusso principale
 
 ```text
-posizione corrente / GPX / GeoJSON / luogo cercato / nuovo avvistamento manuale
+partenza + destinazione confermate + date → scelta del tracciato sulla mappa → viaggio salvato
+         ↓
+analisi del viaggio (oppure esplorazione senza viaggio / GPX / GeoJSON facoltativi)
          ↓
 geocoding del luogo cercato oppure normalizzazione della traccia e validazione coordinate
         ↓
@@ -42,13 +44,15 @@ diario personale + foto locali + riepilogo serale + notifica locale
 
 ### 1. UI e stato applicativo
 
-Schermate: Home, Analisi percorso, Risultati, Nuovo avvistamento, Diario, Dettaglio specie, Libreria locale e Impostazioni. Lo stato transitorio resta nella UI; diario, foto, preferenze, cache e dati normalizzati finiscono nella persistenza locale.
+Navigazione principale: Viaggi, Diario, Catalogo e Impostazioni. Viaggi è l'ingresso dell'app e contiene analisi, evidenze e accesso ai ricordi. Esplorazione senza viaggio e importazione di percorsi sono strumenti facoltativi raggiungibili da Viaggi, con ritorno esplicito. Lo stato transitorio resta nella UI; diario, foto, preferenze, cache e dati normalizzati finiscono nella persistenza locale.
 
 ### 2. Route engine
 
 Importa e valida GPX/GeoJSON, unifica i segmenti, calcola lunghezza e bounding box, campiona la geometria e produce il corridoio di ricerca. La strategia approvata è ibrida: il motore emette porzioni semplificate del corridoio e chiavi di celle di griglia stabili; ogni adapter sceglie poligoni oppure bounding box contenuti in base alle capacità del provider. Il motore deve essere indipendente dalla UI per poter essere testato con fixture geografiche.
 
 L'implementazione F5 vive in `:core:route`, dipende soltanto dal dominio e usa ETRS89 / LAEA Europe (`EPSG:3035`). Le celle sono metriche da 1 km, raggruppate in chunk da 5 km. Il fingerprint di geometria identifica il percorso salvato; un fingerprint distinto include raggio, intervallo, precisione e griglia per identificare una specifica ricerca. Il pilot rifiuta esplicitamente coordinate fuori dall'area europea e attraversamenti dell'antimeridiano invece di applicare una proiezione non valida.
+
+La F8B collega anche `TripRouting` in `:core:exploration`: OSRM propone percorsi in auto tra due punti confermati, su richiesta esplicita e con limite di una richiesta al secondo. La UI mostra la geometria completa con MapLibre e salva solo la scelta confermata nel viaggio, con provenienza. `TripStage` aggiunge tappe ordinate con giorno e percorso; l'analisi di una tappa usa il suo tratto e la sua data, quella complessiva l'intero corridoio e intervallo. Il payload locale v3 legge i precedenti viaggi v1/v2; Room resta allo schema 6. Google Maps riceve gli estremi della tappa selezionata per le sue indicazioni e non sostituisce la geometria salvata.
 
 ### 3. Biodiversity gateway
 
@@ -64,11 +68,11 @@ Fornisce autocomplete per nomi comuni, scientifici e sinonimi. Ogni scelta viene
 
 ### 6. Observation diary
 
-Registra avvistamenti manuali anche quando l'animale non è tra i suggeriti. L'animale viene scelto dal catalogo generale; foto locale, posizione, data, ora, note e numero di esemplari restano dati dell'utente.
+Registra avvistamenti manuali anche quando l'animale non è tra i suggeriti. Il Diario cerca direttamente nel catalogo generale e conserva una specie e i suoi alias dopo selezione esplicita; senza rete usa le scelte locali. Data, ora, posizione opzionale, note e quantità restano dati dell'utente. Viaggio e uscita sono collegamenti opzionali indipendenti dalle coordinate; le bozze da identificare restano separate.
 
 ### 7. Suggestion engine
 
-Seleziona solo specie curate come peculiari dell'area e dell'habitat. Il catalogo conserva `suggested`, `urbanCommon`, `distinctivenessScore` e motivazione dell'inclusione. Gli animali comuni non vengono mostrati tra i suggeriti, ma possono sempre essere inseriti nel diario.
+Seleziona specie curate come peculiari dell'area e dell'habitat. Il profilo conserva `urbanCommon`, `distinctivenessScore` e motivazione dell'inclusione. Gli animali comuni possono avere priorità inferiore secondo la vista già prevista dalla F9 e possono sempre essere inseriti nel diario.
 
 ### 8. Local store
 

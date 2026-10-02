@@ -86,12 +86,15 @@ data class Observation(
     val createdAt: Instant,
     val updatedAt: Instant,
     val quantity: Int = 1,
+    val tripId: String? = null,
+    val outingId: String? = null,
 ) {
     init {
         require(id.isNotBlank() && taxonId.isNotBlank())
         require(!updatedAt.isBefore(createdAt))
         require(quantity in 1..MAX_OBSERVATION_QUANTITY)
         require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
+        validateMemoryLink(tripId, outingId)
     }
     val localDate: LocalDate get() = observedAt.atZone(zoneId).toLocalDate()
 }
@@ -113,7 +116,7 @@ data class ObservationPhoto(
     }
 }
 
-enum class RouteSource { LOCATION, GPX, GEOJSON, LEGACY }
+enum class RouteSource { LOCATION, GPX, GEOJSON, PLANNED, LEGACY }
 
 data class Route(
     val id: String,
@@ -164,11 +167,14 @@ data class ObservationDraft(
     val location: GeoPoint? = null,
     val notes: String = "",
     val quantity: Int = 1,
+    val tripId: String? = null,
+    val outingId: String? = null,
 ) {
     init {
         require(id.isNotBlank() && taxonId.isNotBlank())
         require(quantity in 1..MAX_OBSERVATION_QUANTITY)
         require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
+        validateMemoryLink(tripId, outingId)
     }
 }
 

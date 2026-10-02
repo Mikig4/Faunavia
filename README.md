@@ -1,10 +1,10 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–7 completate e verificate. Il motore F7 distingue evidenza documentata, plausibile e insufficiente con una spiegazione tracciabile, senza usare un CLCplus 2021 non equivalente o un crosswalk CLCplus→MAES non curato per promuovere una specie. Il gate cumulativo è verde: 13 test F0, 55 test JVM (15 F7), 25 test su dispositivo gestito, lint, controlli statici e golden visuale. La configurazione JVM evita il daemon monouso e il canale Unix che causavano l'errore loopback.
+Stato: Fasi 0–8B e rifiniture verificate. Il gate completo è verde a 13 F0, 84 JVM e 70 Android, con lint, confini e tre controlli visivi. Viaggi permette di scegliere partenza, destinazione, date e tracciato completo in auto sulla mappa interna e organizzarlo in tappe libere con giorni separati. La singola tappa usa il proprio tratto e giorno per l'analisi e apre le relative indicazioni Google Maps. Il Catalogo cerca anche i nomi comuni italiani; il Diario cerca nel catalogo generale e collega i ricordi al viaggio anche senza coordinate. Le evidenze esterne restano separate dagli avvistamenti personali; eliminare un viaggio non cancella i ricordi. F9 e F13 mantengono il perimetro pianificato. APK `artifacts/Faunavia-f8b-tappe-debug.apk`, versione `0.8.3-f8b` (12); verifiche e limiti in [[23 - Tappe e giorni del viaggio]].
 
 ## Obiettivo
 
-Un'app Android personale che, partendo dalla posizione corrente oppure da un itinerario importato, suggerisce specie peculiari dell'area e permette di registrare qualsiasi avvistamento con foto, diario, scheda informativa e modello tridimensionale.
+Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Suggerimenti personali, foto, schede complete e 3D arrivano nelle fasi già pianificate.
 
 ## Vincoli guida
 
@@ -32,6 +32,11 @@ Un'app Android personale che, partendo dalla posizione corrente oppure da un iti
 - [[14 - Rapporto Fase 3]] — ricerca tassonomica, sinonimi, cache offline, schermata Catalogo e 51 test di regressione.
 - [[15 - Rapporto Fase 5]] — import GPX/GeoJSON, proiezione metrica, corridoio, celle, fingerprint e stato dei gate.
 - [[16 - Rapporto Fase 6]] — gateway GBIF/NNB, cache TTL/stale, provenienza, retry e verifiche.
+- [[19 - Rapporto Fase 8A]] — esplorazione per luogo, percorso e periodo, scheda essenziale e mappa.
+- [[20 - Rapporto Fase 8B]] — viaggi, uscite, diario collegato, bozze persistenti e test cumulativi.
+- [[GUIDA-FASE-8B]] — verifica e recupero dei flussi viaggio e diario senza perdere dati.
+- [[21 - Rifinitura Viaggi e Diario]] — ingresso semplificato, collegamento a Maps e catalogo generale nel Diario.
+- [[22 - Tracciato viaggio e Catalogo]] — precisazione di partenza e traccia completa, calcolo OSRM autorizzato e correzione della ricerca comune.
 - [[GUIDA-GRADLE-LOOPBACK]] — recupero rapido se Gradle non riesce a stabilire la connessione loopback.
 
 ## Memoria tecnica

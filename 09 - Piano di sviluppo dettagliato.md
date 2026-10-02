@@ -1,6 +1,6 @@
 # Piano di sviluppo dettagliato
 
-Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. Le estensioni funzionali del 2026-09-20 descritte sotto sono requisiti futuri, non funzionalità già disponibili.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. F0–F8B sono completate; le estensioni delle fasi successive rimangono requisiti futuri.
 
 ## Estensioni funzionali approvate il 2026-09-20
 
@@ -20,6 +20,11 @@ Questa sezione integra attività e gate delle fasi indicate. In caso di contrast
 
 ### F8B — Viaggio salvato e diario collegato
 
+- Estensione del 2026-10-02: tappe libere ordinate, ciascuna con località, giorno e percorso scelto. Consentire inserimento, riordino e rimozione; date comprese nel viaggio e non decrescenti, anche più tappe nello stesso giorno. Offrire vista/analisi del viaggio completo o del singolo tratto nel suo giorno, Maps della tappa e conservazione dei risultati precedenti con invalidazione esplicita. Dettagli in [[23 - Tappe e giorni del viaggio]].
+- Rifinitura concordata e precisata: Viaggi è l'ingresso principale; partenza, destinazione, date e tracciato scelto sulla mappa interna, con nome automatico e opzioni facoltative. Risultati resta uno strumento di esplorazione senza viaggio, Percorsi un'importazione facoltativa raggiungibile da Viaggi.
+- Calcolare percorsi in auto con OSRM solo su richiesta, inviando i due estremi autorizzati, con rate limit/cache/errori e geometria completa. Salvare la scelta nel viaggio, invalidarla quando cambia un estremo e mantenere leggibili i viaggi precedenti senza traccia.
+- Aggiungere le indicazioni Google Maps con partenza/destinazione, su azione esplicita; Maps ricalcola le proprie indicazioni e non restituisce la traccia. Gestire assenza di app/browser senza bloccare i dati locali. Le uscite conservano il link al luogo; date e tracciato restano in Faunavia.
+- Cercare il catalogo generale direttamente nell'editor del Diario con debounce, retry e scelte locali se la rete manca. Persistenza del taxon/alias dopo selezione esplicita, prima dell'avvistamento; aggiunta manuale dal viaggio anche senza risultato o coordinate.
 - Creare/modificare/eliminare un viaggio con nome, destinazione confermata, date, raggio di spostamento e gruppi animali di interesse. Consentire comunque l'esplorazione senza viaggio.
 - Introdurre uscite salvate nel viaggio, anche manuali o basate su percorsi importati; la scoperta di sentieri nuovi resta F17.
 - Salvare luoghi e risultati scelti, con data e provenienza, e ricalcolare esplicitamente i suggerimenti se cambiano date o area. Dichiarare i limiti di copertura: ricerca geografica e disponibilità di analisi sono distinte.
@@ -276,18 +281,24 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Attività e artefatti:**
 
-1. Implementare viaggi con destinazione, date, raggio e interessi e uscite manuali o da percorsi importati.
+1. Implementare viaggi con partenza, destinazione, date, tracciato scelto sulla mappa, raggio e interessi e uscite manuali o da percorsi importati. Conservare la geometria completa con fonte/data/licenza; i viaggi precedenti senza traccia rimangono leggibili.
 2. Salvare luoghi e risultati con provenienza; riutilizzare F8A e aggiornare esplicitamente l'analisi al cambio di date o destinazione.
 3. Collegare diario e uscite; aggiungere “L'ho visto” con conferma dei dati effettivi.
 4. Introdurre bozze persistenti separate dalle osservazioni identificate; foto in F10.
 5. Aggiungere calendario, mappa del diario, filtri specie e riepiloghi delle prime osservazioni personali.
 6. Applicare migrazioni non distruttive; eliminare viaggi/uscite scollega senza cancellare i ricordi.
+7. Rifinire la navigazione attorno a Viaggi e rendere facoltativi nome, coordinate manuali, raggio, interessi e importazione percorso. Calcolare e scegliere il tracciato interno tramite OSRM su richiesta; aggiungere le indicazioni esterne Maps e il fallback dei vecchi viaggi. Il payload JSON v2 resta nello schema Room 6.
+8. Integrare la ricerca completa del catalogo nell'editor Diario, con selezione persistita e fallback locale; verificare creazione con estremi/date/traccia, avvistamento diretto collegato, nomi comuni reali, errori/retry del catalogo e fallimento apertura Maps.
 
 **Test della fase:** casi F8B delle estensioni approvate, inclusi riavvio/offline, conversione atomica delle bozze, collegamenti, cancellazioni, filtri e migrazione del diario esistente.
 
 **Non regressione:** suite completa F1–F8A; esplorazione senza viaggio, scheda essenziale e diario preesistente restano utilizzabili.
 
 **Gate di completamento:** viaggio → risultati → uscita → osservazione/bozza → diario e riepilogo funzionano dopo riavvio; cancellare un viaggio non elimina ricordi. F9 parte solo dopo il gate F8B.
+
+**Esito F8B:** completata e verificata con `verifyAll --no-daemon`: 13 test F0, 71 JVM e 54 Android, senza errori o test omessi. Dettagli e limiti in [[20 - Rapporto Fase 8B]], recupero in [[GUIDA-FASE-8B]]. F9 rimane da implementare.
+
+**Prima rifinitura F8B:** verificata con 13 F0, 73 JVM e 60 Android; dettagli storici in [[21 - Rifinitura Viaggi e Diario]]. La successiva precisazione aggiunge partenza e tracciato completo scelto nella mappa interna e corregge la ricerca comune del Catalogo; stato e verifiche in [[22 - Tracciato viaggio e Catalogo]]. F9 e F13 conservano il perimetro precedente.
 
 ## F9 — Suggerimenti peculiari del luogo
 

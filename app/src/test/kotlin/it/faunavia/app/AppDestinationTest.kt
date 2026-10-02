@@ -6,10 +6,14 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AppDestinationTest {
+    @Test fun primaryNavigationStartsWithTripsAndKeepsAnalysisToolsOptional() {
+        assertEquals(listOf(AppDestination.TRIPS, AppDestination.DIARY, AppDestination.CATALOGUE,
+            AppDestination.SETTINGS), PrimaryDestinations)
+    }
     @Test
     fun routesAreUniqueAndComplete() {
-        assertEquals(6, AppDestination.entries.size)
-        assertEquals(6, AppDestination.entries.map { it.route }.toSet().size)
+        assertEquals(7, AppDestination.entries.size)
+        assertEquals(7, AppDestination.entries.map { it.route }.toSet().size)
     }
 
     @Test

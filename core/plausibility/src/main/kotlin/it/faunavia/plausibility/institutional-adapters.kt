@@ -346,6 +346,6 @@ private fun malformedFailure(source: String): InstitutionalSourceFailure = Insti
 )
 
 private fun GeoBounds.describe(): String = "$west,$south,$east,$north"
-private fun String.urlEncode(): String = URLEncoder.encode(this, Charsets.UTF_8)
+private fun String.urlEncode(): String = URLEncoder.encode(this, Charsets.UTF_8.name())
 private fun JsonObject.string(key: String): String? = get(key)?.jsonPrimitive?.contentOrNull
 private val json = Json { ignoreUnknownKeys = true }

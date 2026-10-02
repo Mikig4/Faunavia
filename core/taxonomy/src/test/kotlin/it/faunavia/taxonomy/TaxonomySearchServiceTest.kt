@@ -80,6 +80,17 @@ class TaxonomySearchServiceTest {
         assertEquals(listOf("gbif:1"), failure.cachedEntries.map { it.taxon.id })
     }
 
+    @Test fun exactCommonNameIsShownBeforeAlphabeticalPartialMatches() = runBlocking {
+        val partial = animal("gbif:2", "Aves fixture").copy(commonName = "Merlo dal collare")
+        val exact = animal("gbif:1", "Turdus merula")
+        val foreign = animal("gbif:3", "Labrus merula").copy(commonName = "Labride verde")
+        val result = service(FakeProvider(TaxonomyProviderResult.Success(listOf(
+            TaxonomyCandidate(partial, listOf("Merlo dal collare")), TaxonomyCandidate(exact, listOf("Merlo")),
+            TaxonomyCandidate(foreign, listOf("Merlo")),
+        )))).search("merlo") as TaxonomySearchResult.Results
+        assertEquals(listOf("gbif:1", "gbif:3", "gbif:2"), result.entries.map { it.taxon.id })
+    }
+
     private fun service(
         provider: TaxonomyProvider,
         cacheTtlMillis: Long = 5 * 60 * 1000L,

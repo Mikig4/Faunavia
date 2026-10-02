@@ -16,7 +16,7 @@ edges:
   - target: context/offline-first.md
     condition: when choosing storage, caching, or installable-app behavior
 grounds_to: []
-last_updated: 2026-09-30
+last_updated: 2026-10-01
 ---
 
 # Stack
@@ -36,6 +36,7 @@ last_updated: 2026-09-30
 - **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
+- **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.
 - **Filament/SceneView or equivalent** (candidate) — render GLB with an accessible 2D fallback.
 - **JUnit 4.13.2 + AndroidX Test** — JVM, Compose, UI Automator and managed-device verification.

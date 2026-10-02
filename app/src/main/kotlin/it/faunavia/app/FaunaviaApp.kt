@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,14 +45,18 @@ import it.faunavia.taxonomy.TaxonomySearch
 import it.faunavia.taxonomy.TaxonomySearchEntry
 import it.faunavia.taxonomy.TaxonomySearchOrigin
 import it.faunavia.taxonomy.TaxonomySearchResult
+import it.faunavia.taxonomy.TaxonomyFailure
 import it.faunavia.taxonomy.normalizeQuery
 import it.faunavia.domain.CatalogueRepository
 import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.RouteRepository
+import it.faunavia.domain.TripRepository
+import it.faunavia.domain.UnidentifiedRepository
 import it.faunavia.route.RouteImportService
 import it.faunavia.exploration.ExplorationService
 import it.faunavia.exploration.PlaceSearch
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -67,10 +73,15 @@ enum class AppDestination(
     HOME("home", "Home", "Punto di partenza per posizione e itinerari."),
     ROUTES("routes", "Percorsi", "Importa GPX o GeoJSON e prepara un corridoio di analisi locale."),
     RESULTS("results", "Risultati", "Evidenze documentate e plausibili resteranno separate."),
+    TRIPS("trips", "Viaggi", "Destinazioni, uscite e ricordi personali salvati localmente."),
     DIARY("diary", "Diario", "Gli avvistamenti locali saranno disponibili offline."),
     CATALOGUE("catalogue", "Catalogo", "Ricerca di taxa Animalia accettati, con cache locale dei selezionati."),
     SETTINGS("settings", "Impostazioni", "Preferenze locali, cache e notifiche."),
 }
+
+internal val PrimaryDestinations = listOf(
+    AppDestination.TRIPS, AppDestination.DIARY, AppDestination.CATALOGUE, AppDestination.SETTINGS,
+)
 
 private val FaunaviaBackground = Color(0xFFF4F7F2)
 private val FaunaviaGreen = Color(0xFF1F5C3F)
@@ -100,6 +111,8 @@ fun FaunaviaApp(
     explorationService: ExplorationService? = null,
     placeSearch: PlaceSearch? = null,
     mapAdapter: ExplorationMapAdapter = MapLibreExplorationMapAdapter,
+    tripRepository: TripRepository? = null,
+    unidentifiedRepository: UnidentifiedRepository? = null,
 ) {
     val application = LocalContext.current.applicationContext as FaunaviaApplication
     val catalogueSearch = taxonomySearch ?: application.taxonomySearch
@@ -109,42 +122,67 @@ fun FaunaviaApp(
     val routeImporter = routeImportService ?: application.routeImportService
     val explorer = explorationService ?: application.explorationService
     val geocoder = placeSearch ?: application.placeSearch
+    val trips = tripRepository ?: application.repositories.trips
+    val unidentified = unidentifiedRepository ?: application.repositories.unidentified
+    var observationSeed by remember { mutableStateOf<DiaryPrefill?>(null) }
+    val scope = rememberCoroutineScope()
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
 
+    fun navigate(destination: AppDestination) {
+        navController.navigate(destination.route) {
+            popUpTo(AppDestination.TRIPS.route) { saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(FaunaviaBackground)
+            .background(FaunaviaGreen)
             .testTag("app-root"),
         bottomBar = {
             DestinationBar(
-                selectedRoute = currentDestination?.route,
-                onDestinationSelected = { destination ->
-                    navController.navigate(destination.route) {
-                        popUpTo(AppDestination.HOME.route) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
+                selectedRoute = if (currentDestination?.route in listOf("results", "routes")) "trips" else currentDestination?.route,
+                onDestinationSelected = ::navigate,
             )
         },
-        containerColor = FaunaviaBackground,
+        containerColor = FaunaviaGreen,
     ) { padding ->
-        NavHost(
-            navController = navController,
-            startDestination = AppDestination.HOME.route,
-            modifier = Modifier.padding(padding),
-        ) {
-            AppDestination.entries.forEach { destination ->
-                composable(destination.route) {
-                    when (destination) {
-                        AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch)
-                        AppDestination.DIARY -> DiaryScreen(diary, catalogue, catalogueSearch)
-                        AppDestination.ROUTES -> RouteScreen(routes, routeImporter)
-                        AppDestination.RESULTS -> ExplorationScreen(explorer, geocoder, catalogue, mapAdapter, routes)
-                        else -> PlaceholderScreen(destination)
+        Column(Modifier.fillMaxSize().padding(padding).background(FaunaviaBackground)) {
+            if (currentDestination?.route in listOf("results", "routes")) {
+                TextButton(onClick = { navigate(AppDestination.TRIPS) }, modifier = Modifier.testTag("back-to-trips")) {
+                    Text("Torna ai viaggi")
+                }
+            }
+            NavHost(
+                navController = navController,
+                startDestination = AppDestination.TRIPS.route,
+                modifier = Modifier.weight(1f),
+            ) {
+                AppDestination.entries.forEach { destination ->
+                    composable(destination.route) {
+                        when (destination) {
+                            AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch)
+                            AppDestination.DIARY -> DiaryScreen(diary, catalogue, catalogueSearch,
+                                unidentifiedRepository = unidentified, tripRepository = trips, prefill = observationSeed,
+                                onExitEditor = { observationSeed = null })
+                            AppDestination.ROUTES -> RouteScreen(routes, routeImporter)
+                            AppDestination.RESULTS -> ExplorationScreen(explorer, geocoder, catalogue, mapAdapter, routes,
+                                onSaw = { taxon -> scope.launch {
+                                    observationSeed = runCatching { withContext(Dispatchers.IO) {
+                                        observationPrefill(taxon.id, taxon.scientificName, catalogue, catalogueSearch)
+                                    } }.getOrElse { DiaryPrefill(query = taxon.scientificName) }
+                                    navController.navigate(AppDestination.DIARY.route) { launchSingleTop = true }
+                                } })
+                            AppDestination.TRIPS -> TripsScreen(trips, diary, unidentified, catalogue, catalogueSearch,
+                                geocoder, explorer, routes, mapAdapter,
+                                onExplore = { navigate(AppDestination.RESULTS) },
+                                onImportRoute = { navigate(AppDestination.ROUTES) }, routing = application.tripRouting)
+                            else -> PlaceholderScreen(destination)
+                        }
                     }
                 }
             }
@@ -218,18 +256,29 @@ internal fun CatalogueScreen(
     var loading by remember { mutableStateOf(false) }
     var selectedName by rememberSaveable { mutableStateOf<String?>(null) }
     var selectionError by rememberSaveable { mutableStateOf<String?>(null) }
+    var searchError by remember { mutableStateOf<String?>(null) }
+    var searchGeneration by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(query, refresh) {
+        val generation = ++searchGeneration
+        searchError = null
         if (normalizeQuery(query).length < MINIMUM_TAXON_QUERY_LENGTH) {
             loading = false
             result = TaxonomySearchResult.AwaitingQuery()
             return@LaunchedEffect
         }
         loading = true
-        delay(debounceMillis)
-        result = withContext(Dispatchers.IO) { taxonomySearch.search(query) }
-        loading = false
+        try {
+            delay(debounceMillis)
+            result = withContext(Dispatchers.IO) { taxonomySearch.search(query) }
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: Exception) {
+            if (generation == searchGeneration) searchError = "Non riesco a completare la ricerca. Riprova; le specie salvate sono conservate."
+        } finally {
+            if (generation == searchGeneration) loading = false
+        }
     }
 
     Column(
@@ -293,6 +342,11 @@ internal fun CatalogueScreen(
                     modifier = Modifier.testTag("catalogue-loading"),
                     color = Color(0xFF52675A),
                 )
+                searchError != null -> Column {
+                    Text(requireNotNull(searchError), color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.testTag("catalogue-error"))
+                    Button(onClick = { refresh++ }, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
+                }
                 else -> CatalogueSearchResult(
                     result = result,
                     onRetry = { refresh++ },
@@ -357,7 +411,7 @@ private fun CatalogueSearchResult(
         is TaxonomySearchResult.Failure -> {
             Column(modifier = Modifier.testTag("catalogue-error")) {
                 Text(
-                    text = "La ricerca non è disponibile. I taxa già selezionati restano consultabili offline.",
+                    text = "${taxonomyFailureMessage(result.reason)} I taxa già selezionati restano consultabili offline.",
                     color = Color(0xFF9B1C1C),
                 )
                 Button(onClick = onRetry, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
@@ -375,6 +429,12 @@ private fun CatalogueSearchResult(
             CatalogueEntries(result.entries, onSelect)
         }
     }
+}
+
+internal fun taxonomyFailureMessage(reason: TaxonomyFailure): String = when (reason) {
+    TaxonomyFailure.TIMEOUT -> "Il catalogo sta impiegando troppo tempo a rispondere. Riprova."
+    TaxonomyFailure.NETWORK -> "Non riesco a raggiungere il catalogo. Controlla la connessione e riprova."
+    TaxonomyFailure.MALFORMED_RESPONSE -> "Il catalogo ha restituito una risposta non leggibile. Riprova."
 }
 
 @Composable
@@ -424,11 +484,12 @@ private fun DestinationBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(FaunaviaNavigation)
+            .navigationBarsPadding()
             .testTag("destination-bar"),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        items(AppDestination.entries, key = { it.route }) { destination ->
+        items(PrimaryDestinations, key = { it.route }) { destination ->
             val selected = currentRouteMatches(selectedRoute, destination)
             Button(
                 onClick = { onDestinationSelected(destination) },

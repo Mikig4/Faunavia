@@ -124,4 +124,39 @@ class LocalMigrationTest {
             assertTrue(local.occurrenceCache.read("empty")!!.occurrences.isEmpty())
         } finally { db.close() }
     }
+
+    @Test fun migrationFromF8APreservesDiaryPhotosTaxaSettingsAndCacheAndStartsPlanningEmpty() = runBlocking<Unit> {
+        helper.createDatabase(name, 5).apply {
+            execSQL("""
+                INSERT INTO taxa VALUES ('fixture:1', 'Turdus merula', 'Merlo', 'Animalia', 'ACCEPTED', 'SPECIES',
+                    'fixture', 'record:1', 'local', '2026-09-16T10:00:00Z', 'CC0', 'Faunavia', 'synthetic', 'v5')
+            """.trimIndent())
+            execSQL("""
+                INSERT INTO observations VALUES ('legacy', 'fixture:1', '2026-09-16T10:00:00.123456789Z', 1789552800,
+                    'Europe/Rome', NULL, NULL, 'ricordo precedente', '2026-09-16T10:00:00Z', '2026-09-16T10:00:00Z', 3)
+            """.trimIndent())
+            execSQL("INSERT INTO observation_photos VALUES ('p', 'legacy', 'photos/p.jpg', ?, 100, 'image/jpeg')", arrayOf("a".repeat(64)))
+            execSQL("INSERT INTO occurrence_cache VALUES ('legacy', '2026-09-16T10:00:00Z', '2026-09-17T10:00:00Z', '[]')")
+            execSQL("INSERT INTO app_settings VALUES (1, 1, 1200, 'Europe/Rome')")
+            close()
+        }
+        helper.runMigrationsAndValidate(name, 6, true, FaunaviaDatabase.MIGRATION_5_6).close()
+        val db = FaunaviaDatabase.open(instrumentation.targetContext, name)
+        try {
+            val local = LocalRepositories(db, FakeClock(0))
+            val memory = local.diary.get("legacy")!!
+            assertEquals("ricordo precedente", memory.notes)
+            assertEquals(3, memory.quantity)
+            assertEquals(Instant.parse("2026-09-16T10:00:00.123456789Z"), memory.observedAt)
+            assertNull(memory.tripId); assertNull(memory.outingId)
+            assertEquals("p", local.diary.photos("legacy").single().id)
+            assertEquals("v5", local.catalogue.taxon("fixture:1")!!.provenance.version)
+            assertEquals(ZoneId.of("Europe/Rome"), local.settings.get().zoneId)
+            assertNotNull(local.occurrenceCache.read("legacy"))
+            assertTrue(local.trips.list().isEmpty()); assertTrue(local.unidentified.list().isEmpty())
+            assertThrows(SQLiteConstraintException::class.java) {
+                db.openHelper.writableDatabase.execSQL("UPDATE observations SET tripId = 'missing' WHERE id = 'legacy'")
+            }
+        } finally { db.close() }
+    }
 }

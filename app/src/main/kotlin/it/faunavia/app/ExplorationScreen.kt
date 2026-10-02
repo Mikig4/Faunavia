@@ -84,6 +84,7 @@ internal fun ExplorationScreen(
     catalogue: CatalogueRepository,
     mapAdapter: ExplorationMapAdapter = MapLibreExplorationMapAdapter,
     routeRepository: RouteRepository? = null,
+    onSaw: ((ExploredTaxon) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -357,7 +358,7 @@ internal fun ExplorationScreen(
                             filter == EvidenceFilter.ALL.name || taxon.assessment.level.name == filter
                         }
                         if (visible.isEmpty()) item { Text("Nessun risultato per questo filtro.", color = ExploreMuted) }
-                        items(visible, key = { it.id }) { taxon -> ExploredTaxonCard(taxon, catalogue) }
+                        items(visible, key = { it.id }) { taxon -> ExploredTaxonCard(taxon, catalogue, onSaw?.let { { it(taxon) } }) }
                     }
                 }
                 null -> Unit
@@ -367,36 +368,18 @@ internal fun ExplorationScreen(
 }
 
 @Composable
-private fun ExploredTaxonCard(taxon: ExploredTaxon, catalogue: CatalogueRepository) {
+internal fun ExploredTaxonCard(taxon: ExploredTaxon, catalogue: CatalogueRepository,
+    onSaw: (() -> Unit)? = null, onSave: (() -> Unit)? = null) {
     val context = LocalContext.current
-    var localTaxon by remember(taxon.id) { mutableStateOf<Taxon?>(null) }
-    var profile by remember(taxon.id) { mutableStateOf<SpeciesProfile?>(null) }
-    LaunchedEffect(taxon.id) {
-        withContext(Dispatchers.IO) {
-            localTaxon = catalogue.taxon(taxon.id)
-            profile = catalogue.profile(taxon.id)
-        }
-    }
     Column(Modifier.fillMaxWidth().background(Color.White, RoundedCornerShape(12.dp))
         .border(1.dp, Color(0xFFCCD8CE), RoundedCornerShape(12.dp)).padding(16.dp)
         .testTag("explore-taxon-${taxon.id}"), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        Text(localTaxon?.commonName ?: taxon.scientificName, color = ExploreInk, fontWeight = FontWeight.Bold)
-        if (localTaxon?.commonName != null) Text(taxon.scientificName, color = ExploreMuted)
+        EssentialSpeciesDetails(taxon.id, taxon.scientificName, catalogue)
         Text(when (taxon.assessment.level) {
             EvidenceLevel.DOCUMENTED -> "Documentato · osservazione storica utilizzabile, non presenza garantita oggi"
             EvidenceLevel.PLAUSIBLE -> "Plausibile · area e habitat compatibili"
             EvidenceLevel.INSUFFICIENT -> "Dati insufficienti · non è prova di assenza"
         }, color = ExploreGreen, modifier = Modifier.testTag("explore-level-${taxon.id}"))
-        Text("Immagine non disponibile: nessuna fotografia con licenza verificata.", color = ExploreMuted,
-            style = MaterialTheme.typography.bodySmall)
-        Text("Riconoscimento: ${profile?.description?.takeIf(String::isNotBlank) ?: "descrizione documentata non disponibile"}",
-            color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-        Text("Habitat: ${profile?.habitats?.takeIf(List<String>::isNotEmpty)?.joinToString() ?: "dato documentato non disponibile"}",
-            color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-        profile?.let { stored ->
-            Text("Scheda: ${stored.provenance.attribution} · licenza ${stored.provenance.license}",
-                color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-        }
         val season = taxon.assessment.season
         val seasonSource = when (season.quality) {
             SeasonDataQuality.INSTITUTIONAL -> "fonte istituzionale"
@@ -424,7 +407,27 @@ private fun ExploredTaxonCard(taxon: ExploredTaxon, catalogue: CatalogueReposito
                     modifier = Modifier.testTag("explore-source-${occurrence.providerRecordId}")) { Text("Apri fonte") }
             }
         }
+        onSave?.let { Button(onClick = it, modifier = Modifier.testTag("trip-save-result-${taxon.id}")) { Text("Salva risultato nel viaggio") } }
+        onSaw?.let { Button(onClick = it, modifier = Modifier.testTag("saw-${taxon.id}")) { Text("L’ho visto") } }
     }
+}
+
+/** Shared essential profile for ephemeral exploration and offline saved trip results. */
+@Composable
+internal fun EssentialSpeciesDetails(id: String, scientificName: String, catalogue: CatalogueRepository) {
+    var localTaxon by remember(id) { mutableStateOf<Taxon?>(null) }
+    var profile by remember(id) { mutableStateOf<SpeciesProfile?>(null) }
+    LaunchedEffect(id) {
+        val loaded = withContext(Dispatchers.IO) { catalogue.taxon(id) to catalogue.profile(id) }
+        localTaxon = loaded.first
+        profile = loaded.second
+    }
+    Text(localTaxon?.commonName ?: scientificName, color = ExploreInk, fontWeight = FontWeight.Bold)
+    if (localTaxon?.commonName != null) Text(scientificName, color = ExploreMuted)
+    Text("Immagine non disponibile: nessuna fotografia con licenza verificata.", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+    Text("Riconoscimento: ${profile?.description?.takeIf(String::isNotBlank) ?: "descrizione documentata non disponibile"}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+    Text("Habitat: ${profile?.habitats?.takeIf(List<String>::isNotEmpty)?.joinToString() ?: "dato documentato non disponibile"}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+    profile?.let { Text("Scheda: ${it.provenance.attribution} · licenza ${it.provenance.license}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall) }
 }
 
 internal fun explanationText(step: PlausibilityExplanationStep): String = when (step.kind) {

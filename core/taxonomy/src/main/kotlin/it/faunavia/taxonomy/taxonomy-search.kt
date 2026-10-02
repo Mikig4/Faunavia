@@ -117,23 +117,23 @@ class TaxonomySearchService(
 
         val selected = entriesFor(store.searchSelected(normalizedQuery, resultLimit).map {
             TaxonomyCandidate(it.taxon, it.aliases)
-        })
+        }, normalizedQuery)
         if (!online) {
             return resultsOrEmpty(selected, TaxonomySearchOrigin.OFFLINE_SELECTED)
         }
 
         val now = clock.nowEpochMillis()
         memory[normalizedQuery]?.takeIf { now < it.expiresAtMillis }?.let { cached ->
-            return resultsOrEmpty(merge(selected, cached.entries), TaxonomySearchOrigin.MEMORY_CACHE)
+            return resultsOrEmpty(merge(selected, cached.entries, normalizedQuery), TaxonomySearchOrigin.MEMORY_CACHE)
         }
 
         return when (val remote = provider.suggest(normalizedQuery, resultLimit)) {
             TaxonomyProviderResult.Empty -> resultsOrEmpty(selected, TaxonomySearchOrigin.LIVE)
             is TaxonomyProviderResult.Failure -> TaxonomySearchResult.Failure(remote.reason, selected)
             is TaxonomyProviderResult.Success -> {
-                val remoteEntries = entriesFor(remote.candidates)
+                val remoteEntries = entriesFor(remote.candidates, normalizedQuery)
                 memory[normalizedQuery] = CachedSuggestions(remoteEntries, now + memoryCacheTtlMillis)
-                resultsOrEmpty(merge(selected, remoteEntries), TaxonomySearchOrigin.LIVE)
+                resultsOrEmpty(merge(selected, remoteEntries, normalizedQuery), TaxonomySearchOrigin.LIVE)
             }
         }
     }
@@ -152,11 +152,12 @@ class TaxonomySearchService(
     private fun merge(
         first: List<TaxonomySearchEntry>,
         second: List<TaxonomySearchEntry>,
+        query: String,
     ): List<TaxonomySearchEntry> = entriesFor((first + second).map {
         TaxonomyCandidate(it.taxon, it.aliases)
-    })
+    }, query)
 
-    private fun entriesFor(candidates: List<TaxonomyCandidate>): List<TaxonomySearchEntry> {
+    private fun entriesFor(candidates: List<TaxonomyCandidate>, query: String): List<TaxonomySearchEntry> {
         val byId = linkedMapOf<String, TaxonomyCandidate>()
         candidates.filter { it.taxon.isSelectable }.forEach { candidate ->
             val existing = byId[candidate.taxon.id]
@@ -173,7 +174,10 @@ class TaxonomySearchService(
                     .filter(String::isNotBlank)
                     .distinctBy(::normalizeQuery),
             )
-        }.sortedWith(compareBy(::rankOrder, { it.taxon.scientificName.lowercase() }, { it.taxon.id })).take(resultLimit)
+        }.sortedWith(compareBy(::rankOrder,
+            { entry -> if (normalizeQuery(entry.taxon.commonName.orEmpty()) == query) 0 else 1 },
+            { entry -> if (entry.aliases.any { normalizeQuery(it) == query }) 0 else 1 },
+            { it.taxon.scientificName.lowercase() }, { it.taxon.id })).take(resultLimit)
     }
 
     private fun rankOrder(entry: TaxonomySearchEntry): Int = when (entry.taxon.rank.uppercase()) {

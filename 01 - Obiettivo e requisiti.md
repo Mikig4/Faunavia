@@ -2,16 +2,19 @@
 
 ## Visione
 
-Quando l'utente apre l'app, può usare la posizione corrente oppure importare un itinerario. L'app interpreta l'area attraversata e restituisce una lista ragionata di specie animali, con evidenze geografiche e temporali, habitat, stagionalità, peculiarità e modello 3D.
+Quando l'utente apre l'app, sceglie partenza, destinazione, date e tracciato del viaggio sulla mappa interna. Nello stesso viaggio consulta gli animali pertinenti e registra i ricordi nel Diario. Può aprire le indicazioni anche in Google Maps, che le ricalcola autonomamente. Esplorazione senza viaggio, posizione corrente e importazione di un itinerario sono ingressi facoltativi. L'app distingue evidenze documentate, plausibilità e suggerimenti personali; schede e 3D arrivano nelle rispettive fasi.
 
 ## Requisiti funzionali
 
 ### Ingresso
 
-1. Usa la posizione corrente tramite geolocalizzazione del dispositivo.
-2. Importa almeno GPX e GeoJSON; KML può arrivare dopo.
-3. Accetta una ricerca geografica manuale per nome di paese, regione o città quando la posizione non è disponibile; risolve il nome in un luogo canonico e in un punto, riquadro o poligono da confermare.
-4. Gestisce un percorso senza tappe: la geometria della traccia è sufficiente.
+Il viaggio può essere organizzato in tappe libere ordinate, con un giorno e un tracciato scelto per ogni tratto. Località, ordine e date sono modificabili; la vista e l'analisi possono riguardare l'intero viaggio oppure la singola tappa nel suo giorno. Sono ammessi più tratti nello stesso giorno e giorni di sosta. Specifica F8B in [[23 - Tappe e giorni del viaggio]].
+
+1. Apre Viaggi: partenza e destinazione confermate, date e scelta del percorso sulla mappa. Salva l'intero tracciato scelto; nome personalizzato, raggio, interessi e uscite sono facoltativi. I vecchi viaggi senza partenza/traccia rimangono leggibili e modificabili.
+2. Offre un collegamento alle indicazioni Google Maps con partenza e destinazione, solo su richiesta. Maps ricalcola le proprie indicazioni e non restituisce automaticamente la traccia scelta; date e percorso salvato restano gestiti da Faunavia. Le uscite mantengono il collegamento al loro luogo.
+3. Consente esplorazione senza viaggio e ricerca per nome di paese, regione o città; risolve il nome in un luogo canonico da confermare.
+4. Mantiene importazione GPX/GeoJSON e analisi della traccia senza tappe come opzioni; KML può arrivare dopo.
+5. L'adapter della posizione corrente rimane un'estensione da completare; le coordinate manuali sono già supportate.
 
 ### Catalogo animali e selezione
 
@@ -34,7 +37,7 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 
 ### Risultato
 
-1. Mostra mappa, corridoio analizzato, punti di campionamento e specie associate.
+1. Mostra i risultati dentro il viaggio; con un percorso può mostrare anche corridoio e punti di campionamento. L'esplorazione senza viaggio resta accessibile come azione facoltativa.
 2. Permette di cercare e selezionare un paese, una regione o una città per nome, con gestione dei risultati ambigui e dei nomi non trovati.
 3. Permette di filtrare per gruppo animale, periodo, habitat e livello di evidenza.
 4. Apre una scheda specie con nomi comuni e scientifici, descrizione, dimensioni, dieta, comportamento, habitat, periodo di attività, distribuzione e note di sicurezza/conservazione.
@@ -46,11 +49,13 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 ### Diario personale degli avvistamenti
 
 1. L'utente può creare un avvistamento indipendentemente dai suggerimenti dell'app.
-2. Può scegliere una specie suggerita oppure cercare qualunque specie esistente nel catalogo generale.
+2. Può scegliere una specie suggerita oppure cercare direttamente dal Diario qualunque specie selezionabile del catalogo generale, senza una selezione preventiva nella schermata Catalogo. Senza rete rimangono disponibili le specie già salvate.
 3. Ogni avvistamento può contenere data e ora locali, posizione scelta o corrente, note, numero di esemplari e una o più foto.
 4. Le foto restano locali nell'MVP; l'utente può esportare un backup manuale insieme ai dati.
 5. Gli avvistamenti dell'utente sono distinti dalle osservazioni importate da GBIF/iNaturalist.
-6. La specie è obbligatoria: un avvistamento persistito deve riferirsi a un taxon animale accettato e stabile; una ricerca incompleta può restare soltanto come bozza non salvata.
+6. La specie è obbligatoria per un avvistamento identificato: deve riferirsi a un taxon animale accettato e stabile. Una ricerca incompleta non viene salvata come avvistamento identificato.
+7. Ogni avvistamento può essere collegato a un viaggio e, facoltativamente, a un'uscita; il collegamento non richiede coordinate. Eliminare la pianificazione conserva i ricordi.
+8. Le bozze persistenti da identificare conservano appunti e collegamenti separatamente dalle osservazioni identificate e dai conteggi delle specie.
 
 ### Notifica di fine giornata
 
@@ -89,4 +94,4 @@ Quando l'utente apre l'app, può usare la posizione corrente oppure importare un
 
 ## Definition of Done dell'MVP
 
-Una persona può aprire l'app, consentire la posizione oppure importare un GPX, vedere il corridoio sulla mappa, ottenere almeno una lista di specie da una fonte documentata, aprire una scheda e visualizzare almeno un modello 3D locale senza account né costo ricorrente.
+Una persona può aprire l'app, confermare partenza e destinazione, scegliere date e tracciato sulla mappa interna, salvare il viaggio e consultare evidenze e suggerimenti motivati lungo il percorso. Può aprire le indicazioni in Maps e registrare dal catalogo generale un avvistamento collegato al viaggio, anche senza coordinate. Può aprire una scheda e visualizzare almeno un modello 3D locale senza account né costo ricorrente; percorsi importati ed esplorazione senza viaggio restano facoltativi.

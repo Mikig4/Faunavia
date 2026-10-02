@@ -27,7 +27,7 @@ class GbifHttpException(message: String) : IOException(message)
 /** Small blocking client: the app invokes search from Dispatchers.IO. */
 class UrlConnectionGbifHttpClient(
     private val connectTimeoutMillis: Int = 5_000,
-    private val readTimeoutMillis: Int = 5_000,
+    private val readTimeoutMillis: Int = 15_000,
 ) : GbifHttpClient {
     override fun get(url: String): String {
         val connection = (URL(url).openConnection() as HttpURLConnection)
@@ -45,13 +45,14 @@ class UrlConnectionGbifHttpClient(
     }
 }
 
-/** GBIF Species API v1 adapter. It resolves a suggested synonym to its accepted backbone key. */
+/** Searches common names before scientific autocomplete and resolves accepted backbone identities. */
 class GbifTaxonomyProvider(
     private val http: GbifHttpClient,
     private val clock: AppClock,
 ) : TaxonomyProvider {
     companion object {
         private const val ENDPOINT = "https://api.gbif.org/v1/species"
+        private const val BACKBONE = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"
         private const val SOURCE = "GBIF Backbone Taxonomy"
         private const val VERSION = "GBIF Species API v1"
         private const val LICENSE = "GBIF API terms; downstream dataset licenses remain applicable"
@@ -60,40 +61,46 @@ class GbifTaxonomyProvider(
     private val json = Json { ignoreUnknownKeys = true }
 
     override suspend fun suggest(query: String, limit: Int): TaxonomyProviderResult = try {
-        val encoded = URLEncoder.encode(query, Charsets.UTF_8)
-        val request = "$ENDPOINT/suggest?q=$encoded&limit=${limit.coerceIn(1, 20)}"
-        val suggestions = json.parseToJsonElement(http.get(request)).jsonArray
-        val candidates = suggestions.mapNotNull { item ->
-            val suggestion = item.jsonObject
-            when (suggestion.string("status")?.uppercase()) {
-                "SYNONYM" -> resolveSynonym(suggestion, query)
-                else -> candidateFrom(suggestion, query)
-            }
+        val encoded = URLEncoder.encode(query, "UTF-8")
+        val commonRequest = "$ENDPOINT/search?q=$encoded&qField=VERNACULAR&highertaxon_key=1&datasetKey=$BACKBONE&limit=40"
+        val commonResponse = json.parseToJsonElement(http.get(commonRequest)).jsonObject
+        val commonRecords = requireNotNull(commonResponse["results"]) { "Missing search results" }.jsonArray
+        val common = commonRecords.mapNotNull { resolve(it.jsonObject, query, "search (vernacular)") }
+            .filter { it.taxon.isSelectable }
+        val candidates = if (common.isNotEmpty()) common else {
+            val request = "$ENDPOINT/suggest?q=$encoded&limit=${limit.coerceIn(1, 20)}"
+            json.parseToJsonElement(http.get(request)).jsonArray
+                .mapNotNull { resolve(it.jsonObject, query, "suggest (scientific)") }
+                .filter { it.taxon.isSelectable }
         }
         if (candidates.isEmpty()) TaxonomyProviderResult.Empty else TaxonomyProviderResult.Success(candidates)
-    } catch (_: SocketTimeoutException) {
+    } catch (error: SocketTimeoutException) {
         TaxonomyProviderResult.Failure(TaxonomyFailure.TIMEOUT)
-    } catch (_: InterruptedIOException) {
+    } catch (error: InterruptedIOException) {
         TaxonomyProviderResult.Failure(TaxonomyFailure.TIMEOUT)
-    } catch (_: SerializationException) {
+    } catch (error: SerializationException) {
         TaxonomyProviderResult.Failure(TaxonomyFailure.MALFORMED_RESPONSE)
-    } catch (_: IllegalArgumentException) {
+    } catch (error: IllegalArgumentException) {
         TaxonomyProviderResult.Failure(TaxonomyFailure.MALFORMED_RESPONSE)
-    } catch (_: IOException) {
+    } catch (error: IOException) {
         TaxonomyProviderResult.Failure(TaxonomyFailure.NETWORK)
     }
 
-    private fun resolveSynonym(suggestion: JsonObject, query: String): TaxonomyCandidate? {
-        val acceptedKey = suggestion.string("acceptedKey") ?: return null
+    private fun resolve(record: JsonObject, query: String, operation: String): TaxonomyCandidate? =
+        if (record.status() == "SYNONYM") resolveSynonym(record, query, operation)
+        else candidateFrom(record, query, operation)
+
+    private fun resolveSynonym(suggestion: JsonObject, query: String, operation: String): TaxonomyCandidate? {
+        val acceptedKey = suggestion.string("acceptedKey") ?: suggestion.string("acceptedTaxonKey") ?: return null
         val accepted = json.parseToJsonElement(http.get("$ENDPOINT/$acceptedKey")).jsonObject
-        val resolved = candidateFrom(accepted, query) ?: return null
+        val resolved = candidateFrom(accepted, query, operation) ?: return null
         return resolved.copy(aliases = resolved.aliases + suggestion.names())
     }
 
-    private fun candidateFrom(record: JsonObject, query: String): TaxonomyCandidate? {
+    private fun candidateFrom(record: JsonObject, query: String, operation: String): TaxonomyCandidate? {
         val key = record.string("key") ?: return null
         val scientificName = record.string("scientificName") ?: record.string("canonicalName") ?: return null
-        val status = when (record.string("status")?.uppercase()) {
+        val status = when (record.status()) {
             "ACCEPTED" -> TaxonomicStatus.ACCEPTED
             "SYNONYM" -> TaxonomicStatus.SYNONYM
             else -> TaxonomicStatus.DOUBTFUL
@@ -101,18 +108,18 @@ class GbifTaxonomyProvider(
         val taxon = Taxon(
             id = "gbif:$key",
             scientificName = scientificName,
-            commonName = record.string("vernacularName"),
+            commonName = record.commonName(query),
             kingdom = record.string("kingdom") ?: "Unknown",
             status = status,
             rank = record.string("rank") ?: "UNRANKED",
             provenance = Provenance(
                 source = SOURCE,
                 recordId = key,
-                query = "GBIF Species suggest: $query",
+                query = "GBIF Species $operation: $query",
                 retrievedAt = java.time.Instant.ofEpochMilli(clock.nowEpochMillis()),
                 license = LICENSE,
                 attribution = SOURCE,
-                quality = "provider autocomplete",
+                quality = "provider $operation",
                 version = VERSION,
             ),
         )
@@ -123,7 +130,24 @@ class GbifTaxonomyProvider(
         string("scientificName"),
         string("canonicalName"),
         string("vernacularName"),
-    )
+    ) + vernaculars().mapNotNull { it.string("vernacularName") }
+
+    private fun JsonObject.vernaculars(): List<JsonObject> = get("vernacularNames")?.jsonArray
+        ?.map { it.jsonObject }.orEmpty()
+
+    private fun JsonObject.commonName(query: String): String? {
+        val names = vernaculars()
+        val italian = names.filter { it.string("language") in listOf("ita", "it") }
+        val exact: (JsonObject) -> Boolean = { normalizeQuery(it.string("vernacularName").orEmpty()) == normalizeQuery(query) }
+        return italian.firstOrNull(exact)?.string("vernacularName")
+            ?: italian.firstOrNull()?.string("vernacularName")
+            ?: string("vernacularName")
+            ?: names.firstOrNull(exact)?.string("vernacularName")
+            ?: names.firstOrNull { it.string("language") in listOf("eng", "en") }?.string("vernacularName")
+            ?: names.firstOrNull()?.string("vernacularName")
+    }
+
+    private fun JsonObject.status(): String? = (string("taxonomicStatus") ?: string("status"))?.uppercase()
 
     private fun JsonObject.string(key: String): String? = get(key)?.jsonPrimitive?.contentOrNull
 }

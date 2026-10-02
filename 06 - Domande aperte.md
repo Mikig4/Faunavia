@@ -27,6 +27,9 @@ Le decisioni approvate non vengono riaperte durante l'implementazione senza una 
 
 ## Decisioni emerse nella discussione
 
+- L'ingresso principale è Viaggi: partenza, destinazione, date e tracciato scelto sulla mappa interna; raggio/interessi, nome e uscite sono opzioni. Esplorazione senza viaggio resta disponibile.
+- Il calcolo in auto tramite OSRM pubblico, con invio dei due estremi su richiesta, è autorizzato per il prototipo personale. Google Maps apre le indicazioni fra gli estremi e le ricalcola; Faunavia conserva la propria traccia completa. Nessuna chiave Google o servizio a pagamento obbligatorio.
+- Il Diario cerca direttamente nel catalogo generale, con selezioni conservate offline e collegamento opzionale al viaggio indipendente dalla posizione. Questa rifinitura appartiene alla F8B; F9 e F13 non vengono ampliate.
 - Ogni avvistamento persistito richiede una specie Animalia accettata; nessun nome libero o taxon irrisolto viene salvato.
 - Il diario è manuale: i suggerimenti non limitano ciò che si può registrare.
 - Le foto sono locali nell'MVP.

@@ -93,7 +93,7 @@ class NominatimPlaceSearch(
             (1_000L - (nowMillis() - lastNetworkRequestAt)).coerceAtLeast(0L)
         if (remaining > 0L) waitMillis(remaining)
         lastNetworkRequestAt = nowMillis()
-        val encoded = URLEncoder.encode(normalized, StandardCharsets.UTF_8)
+        val encoded = URLEncoder.encode(normalized, StandardCharsets.UTF_8.name())
         val url = "https://nominatim.openstreetmap.org/search?q=$encoded&format=jsonv2&addressdetails=1&limit=5"
         val response = runCatching { http.get(url) }.getOrNull()
             ?: return@withLock PlaceSearchResult.Unavailable(cache.read(normalized).orEmpty())

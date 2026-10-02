@@ -109,7 +109,7 @@ class NnbOccurrenceProvider(
         )
     }
 
-    private fun encode(value: String): String = URLEncoder.encode(value, Charsets.UTF_8)
+    private fun encode(value: String): String = URLEncoder.encode(value, Charsets.UTF_8.name())
     private fun JsonObject.requiredArray(key: String): JsonArray = get(key)?.jsonArray
         ?: throw SerializationException("Missing NNB '$key' array.")
     private fun JsonObject.string(key: String): String? = get(key)?.jsonPrimitive?.contentOrNull

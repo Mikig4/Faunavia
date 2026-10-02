@@ -1,6 +1,8 @@
 # Roadmap
 
-La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. Le estensioni funzionali approvate il 2026-09-20 sono pianificate, non già implementate; non cambiano retroattivamente gli esiti delle fasi precedenti.
+Estensione della pianificazione F8B del 2026-10-02: [[23 - Tappe e giorni del viaggio]], con località libere, ordine, giorni e analisi del singolo tratto.
+
+La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F8B sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]].
 
 | Fase | Incremento | Gate principale |
 |---|---|---|
@@ -25,6 +27,8 @@ La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B
 | F17 | scoperta di luoghi e sentieri naturalistici | destinazione/date/interessi → uscite documentate → viaggio → diario |
 
 ## Esperienza funzionale prevista
+
+La rifinitura F8B rende Viaggi l'ingresso principale, con partenza, destinazione, date e scelta del tracciato sulla mappa interna, indicazioni esterne Google Maps e ricerca del catalogo generale dentro il Diario. Esplorazione senza viaggio, importazione di percorsi, raggio e interessi restano facoltativi. La precisazione del percorso completo e la correzione del Catalogo sono documentate in [[22 - Tracciato viaggio e Catalogo]]. Le fasi F9 e F13 mantengono il perimetro già concordato; queste correzioni sono assegnate alla F8B, non rinviate alle schede complete.
 
 Il flusso principale è: preparo un viaggio → scelgo animali e luoghi → osservo → conservo i ricordi. La copertura iniziale rimane regionale/europea entro i limiti dichiarati; una destinazione ricercabile non implica copertura naturalistica disponibile.
 

@@ -18,7 +18,7 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-09-30
+last_updated: 2026-10-02
 ---
 
 # Android local architecture
@@ -60,6 +60,23 @@ Room/SQLite stores structured data. Photos are files in app-private storage with
 - Schema v5 adds `occurrence_cache(key, cachedAt, expiresAt, occurrences)`. The payload contains normalized records and their provenance, not raw provider responses or route files.
 - `LocalRepositories.occurrenceCache` offers explicit read, save, keyed delete and full clear operations; cache expiry is evaluated in the pure gateway so stale data cannot silently look current.
 - The v4→v5 migration is additive. Instrumented tests cover empty migration/cache access and a file-backed mapper round trip; provider fixtures and gateway tests run off-device.
+
+## F8B planning and memory storage
+
+- The usability refinement changes no Room schema. Viaggi is the app start with four primary destinations; exploration and route import are optional tools. Destination/date-only creation uses a generated name and the existing radius default, while custom name/radius/interests are optional.
+- The custom bottom navigation must apply `navigationBarsPadding`; unlike Material NavigationBar, its LazyRow does not consume those insets automatically. Scaffold paints the reserved status area green and content stays light. API 27+ overrides the base theme with a pale system navigation bar and dark icons; API 26 uses green with light icons. Manual API 36 review caught the prior overlap.
+- Date conversion in the trip form and exploration uses `instant.atZone(zone).toLocalDate()` for minSdk 26; `LocalDate.ofInstant` requires newer Android APIs without desugaring.
+- Use `URLEncoder.encode(value, "UTF-8")` (or the encoding name) in pure JVM dependency modules too: the Charset overload requires API 33 and app lint did not detect the dependency call. The static boundary gate now rejects it.
+- Trip JSON payload v3 retains Room schema 6 and reads v1/v2 with missing stage/departure/route fields. Ordered stages and each complete trace/provenance survive reopening; legacy snapshot keys are preserved. `TripStagesForm` saves small draft fields only in the instance bundle, retaining existing routes only when both endpoints still match. Changed origins/destinations invalidate affected selected legs; stale in-flight responses cannot restore them. MapLibre fits full or selected-stage bounds; explicit per-leg calculations reuse the OSRM port and its process rate limit/cache.
+- Diary reuses the taxonomy port online and falls back to selected local taxa; selecting a new entry persists aliases/provenance before local diary writes. Maps URLs are built outside UI, and Android launches them only on click with a visible failure state.
+- Schema v6 adds `trips`, `outings`, `saved_trip_places`, `saved_trip_results` and `unidentified_drafts`. Migration 5→6 adds nullable indexed diary links and preserves legacy diary/photo/settings/cache data, including timestamp precision.
+- Planning rows use explicit JSON mappers with full place provenance, copied route segments and chosen-result original dates/area/evidence. Saved-result `outingId` is read from the row so SQLite `SET NULL` is honored after an outing is deleted.
+- Trip deletion unlinks both memory links before cascading planning data; outing deletion retains the trip link. Raw SQL membership/identity triggers protect both observations and drafts; conversion deletes the draft before insertion within a single rollback-safe transaction.
+- Viaggi and Diary use injected repository ports. Save failures retain editor fields; saveable editor identity/confirmed place waits for existing Room data after restoration, preventing an edit from becoming a new record.
+- `PersonalMapAdapter` shares MapLibre lifecycle handling with exploration but draws only confirmed personal points. No external occurrence coordinate is used as the personal location; no line connecting observations is invented.
+- The original F8B adds 5 domain JVM, 10 persistence, 11 Compose UI and 1 migration tests, with cumulative Android count 54. Its first usability refinement passed 73 JVM and 60 Android tests, plus 13 F0 (historical report `21 - Rifinitura Viaggi e Diario.md`). The clarified departure/full-route/catalogue extension passed the complete gate with 82 JVM, 66 Android and 13 F0, no test failures or skipped tests, lint, boundaries and omission detection. Three visual goldens cover home, exploration and trips/draft; signatures are not full pixel comparisons. Live API 36 checks confirmed “merlo” and a saved Milano–Como route; no physical-phone test was performed. Final APK `artifacts/Faunavia-f8b-viaggi-debug.apk` is 0.8.2-f8b (11); see `22 - Tracciato viaggio e Catalogo.md`.
+
+The 2026-10-02 staged-itinerary extension passed the cumulative gate: 13 F0, 84 JVM and 70 Android tests, no failures/skips, lint, boundaries, omission detection and three visual signatures. New coverage includes v2 compatibility, stage persistence/deletion without diary loss, ordering/date constraints, retry, stage Maps endpoints and stage-day analysis. APK `artifacts/Faunavia-f8b-tappe-debug.apk` is 0.8.3-f8b (12). These new UI tests use fakes on API 36; no physical-device claim. See `23 - Tappe e giorni del viaggio.md`.
 
 ## Notifications
 

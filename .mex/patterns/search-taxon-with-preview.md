@@ -14,7 +14,7 @@ edges:
     condition: when the selected taxon becomes a manual observation
   - target: context/android-local.md
     condition: when caching thumbnails or implementing Android image loading
-last_updated: 2026-09-18
+last_updated: 2026-10-01
 ---
 
 # Search a taxon with preview
@@ -30,6 +30,10 @@ last_updated: 2026-09-18
 7. Save the accepted taxon ID only after explicit selection.
 
 ## Gotchas
+
+- Use the GBIF vernacular search response for common-name fixtures, including `taxonomicStatus` and multilingual `vernacularNames`. `/suggest?q=merlo` does not demonstrate Italian Merlo lookup. Test the actual adapter through the UI and perform a bounded live APK smoke separately.
+- Prefer the displayed Italian exact common name before exact foreign aliases. `Merlo` in Spanish may identify `Labrus merula`; the expected Italian bird is `gbif:2490719` / `Turdus merula`.
+- The `URLEncoder.encode(String, Charset)` overload requires Android API 33 even in pure JVM dependency modules. Use the encoding-name overload for minSdk 26; the boundary guard prevents recurrence. Search UI always clears loading in `finally`, propagates cancellation and offers retry/fallback after typed or unexpected failures.
 
 - Taxonomic search results and occurrence images are separate API operations.
 - A missing image must never make a valid animal unselectable.

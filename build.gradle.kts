@@ -105,13 +105,13 @@ val verifyVisual = tasks.register("verifyVisual") {
             include("**/*.xml")
         }.files
         val combinedResults = resultFiles.joinToString("\n") { it.readText() }
-        val requiredGoldenTests = listOf("homeMatchesVersionedColorSignature", "mapListAndErrorScreenshotsMatchVersionedSignature")
+        val requiredGoldenTests = listOf("homeMatchesVersionedColorSignature", "mapListAndErrorScreenshotsMatchVersionedSignature", "tripsAndDraftScreensMatchVersionedSignature")
         check(requiredGoldenTests.all(combinedResults::contains)) {
             "Managed-device results omitted screenshot tests: ${requiredGoldenTests.filterNot(combinedResults::contains)}"
         }
         val report = reportRoot.get().file("visual-summary.txt").asFile
         report.parentFile.mkdirs()
-        report.writeText("PASS home and exploration golden tests ${Instant.now()}\n")
+        report.writeText("PASS home, exploration and trips golden tests ${Instant.now()}\n")
     }
 }
 
@@ -154,7 +154,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F8A host, taxonomy, route, occurrence, plausibility, exploration, database, UI, device and visual gates."
+    description = "Runs F0-F8B host, taxonomy, route, occurrence, plausibility, exploration, database, UI, device and visual gates."
     dependsOn(collectVerificationReports)
 }
 

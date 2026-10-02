@@ -32,8 +32,8 @@ fun SpeciesProfile.toRow() = SpeciesProfileRow(taxonId, description, habitats.js
 fun SpeciesProfileRow.toDomain() = SpeciesProfile(taxonId, description, habitats.strings(), activeMonths.strings().map { it.toInt() }.toSet(), diet, size, behavior, conservation, provenance.toDomain())
 fun SuggestionProfile.toRow() = SuggestionProfileRow(taxonId, area, habitats.json(), urbanCommon, distinctivenessScore, reason, provenance.toRow())
 fun SuggestionProfileRow.toDomain() = SuggestionProfile(taxonId, area, habitats.strings(), urbanCommon, distinctivenessScore, reason, provenance.toDomain())
-fun Observation.toRow() = ObservationRow(id, taxonId, observedAt.toString(), observedAt.epochSecond, zoneId.id, location?.latitude, location?.longitude, notes, createdAt.toString(), updatedAt.toString(), quantity)
-fun ObservationRow.toDomain() = Observation(id, taxonId, Instant.parse(observedAt), ZoneId.of(zoneId), point(latitude, longitude), notes, Instant.parse(createdAt), Instant.parse(updatedAt), quantity)
+fun Observation.toRow() = ObservationRow(id, taxonId, observedAt.toString(), observedAt.epochSecond, zoneId.id, location?.latitude, location?.longitude, notes, createdAt.toString(), updatedAt.toString(), quantity, tripId, outingId)
+fun ObservationRow.toDomain() = Observation(id, taxonId, Instant.parse(observedAt), ZoneId.of(zoneId), point(latitude, longitude), notes, Instant.parse(createdAt), Instant.parse(updatedAt), quantity, tripId, outingId)
 fun ObservationPhoto.toRow() = ObservationPhotoRow(id, observationId, relativePath, sha256, byteSize, mimeType)
 fun ObservationPhotoRow.toDomain() = ObservationPhoto(id, observationId, relativePath, sha256, byteSize, mimeType)
 fun Route.toRow(): RouteRow {

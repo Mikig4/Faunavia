@@ -64,6 +64,12 @@ La notifica non deve interrogare Firebase né chiamare GBIF. Non viene richiesto
 - La migrazione Room v3→v4 aggiunge `quantity` con valore predefinito `1`, senza alterare gli avvistamenti già salvati.
 - Foto locali e notifica giornaliera restano rispettivamente F10 e F11.
 
+## Rifinitura F8B: catalogo nel Diario
+
+La limitazione ai taxa già selezionati descritta nell'esito storico F4 è superata dalla rifinitura F8B: il Diario cerca direttamente nel catalogo generale con debounce, stato di ricerca, errore e retry. La selezione esplicita salva localmente il taxon accettato e gli alias prima di associarlo all'editor; un errore mantiene i campi e consente un nuovo tentativo. La registrazione del ricordo resta locale e non richiede rete. Se il catalogo remoto non risponde, le specie già salvate restano selezionabili.
+
+È possibile associare un viaggio e un'uscita anche senza posizione; “Aggiungi avvistamento” nel viaggio precompila questi collegamenti senza richiedere un risultato esterno. Foto, notifiche e schede complete restano nelle fasi già previste.
+
 ## Evoluzioni possibili
 
 Le animazioni decorative possono essere valutate dopo il flusso operativo, ma non sono un requisito del diario. Dovranno essere brevi, non bloccare salvataggio o lettura e rispettare la preferenza di movimento ridotto.

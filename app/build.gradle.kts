@@ -17,11 +17,12 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 8
-        versionName = "0.8.0-f8a"
+        versionCode = 12
+        versionName = "0.8.3-f8b"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
+        testInstrumentationRunnerArguments["additionalTestOutputDir"] = "/sdcard/Android/media/it.faunavia.app/additional_test_output"
     }
 
     buildTypes {

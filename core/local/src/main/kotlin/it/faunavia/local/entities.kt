@@ -93,7 +93,7 @@ data class SuggestionProfileRow(
     tableName = "observations",
     primaryKeys = ["id"],
     foreignKeys = [ForeignKey(entity = TaxonRow::class, parentColumns = ["id"], childColumns = ["taxonId"], onDelete = ForeignKey.RESTRICT)],
-    indices = [Index("taxonId"), Index("observedEpochSecond")],
+    indices = [Index("taxonId"), Index("observedEpochSecond"), Index("tripId"), Index("outingId")],
 )
 data class ObservationRow(
     val id: String,
@@ -107,6 +107,8 @@ data class ObservationRow(
     val createdAt: String,
     val updatedAt: String,
     @ColumnInfo(defaultValue = "1") val quantity: Int = 1,
+    val tripId: String? = null,
+    val outingId: String? = null,
 )
 
 @Entity(
