@@ -99,15 +99,6 @@ private fun DocumentedOccurrence.toJson(): JSONObject = JSONObject()
     .put("coordinateUncertaintyMeters", coordinateUncertaintyMeters ?: JSONObject.NULL)
     .put("sourceUrl", sourceUrl)
     .put("provenance", provenance.toJson())
-private fun Provenance.toJson(): JSONObject = JSONObject()
-    .put("source", source)
-    .put("recordId", recordId)
-    .put("query", query)
-    .put("retrievedAt", retrievedAt.toString())
-    .put("license", license)
-    .put("attribution", attribution)
-    .put("quality", quality)
-    .put("version", version)
 private fun JSONObject.toOccurrence(): DocumentedOccurrence = DocumentedOccurrence(
     id = getString("id"),
     provider = OccurrenceProviderId.valueOf(getString("provider")),
@@ -119,16 +110,6 @@ private fun JSONObject.toOccurrence(): DocumentedOccurrence = DocumentedOccurren
     coordinateUncertaintyMeters = if (isNull("coordinateUncertaintyMeters")) null else getDouble("coordinateUncertaintyMeters"),
     sourceUrl = getString("sourceUrl"),
     provenance = getJSONObject("provenance").toProvenance(),
-)
-private fun JSONObject.toProvenance(): Provenance = Provenance(
-    source = getString("source"),
-    recordId = getString("recordId"),
-    query = getString("query"),
-    retrievedAt = Instant.parse(getString("retrievedAt")),
-    license = getString("license"),
-    attribution = getString("attribution"),
-    quality = getString("quality"),
-    version = getString("version"),
 )
 private fun JSONObject.getNullableString(name: String): String? = if (isNull(name)) null else getString(name)
 fun AppSettings.toRow() = AppSettingsRow(1, reminderEnabled, reminderTime.hour * 60 + reminderTime.minute, zoneId.id)

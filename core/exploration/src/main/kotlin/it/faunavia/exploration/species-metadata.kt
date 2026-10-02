@@ -1,11 +1,12 @@
 package it.faunavia.exploration
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import it.faunavia.domain.AppClock
 import it.faunavia.domain.Provenance
 import java.io.IOException
-import java.net.HttpURLConnection
 import java.net.URI
-import java.net.URL
 import java.net.URLEncoder
 import java.time.Duration
 import java.time.Instant
@@ -38,28 +39,13 @@ interface SpeciesMetadataCache {
 interface SpeciesMetadataHttp { fun get(url: String): String }
 
 class UrlConnectionSpeciesMetadataHttp : SpeciesMetadataHttp {
-    override fun get(url: String): String {
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connectTimeout = 5_000
-        connection.readTimeout = 10_000
-        connection.setRequestProperty("User-Agent", FAUNAVIA_HTTP_USER_AGENT)
-        connection.setRequestProperty("Accept", "application/json")
-        try {
-            if (connection.responseCode !in 200..299) throw IOException("Species metadata HTTP ${connection.responseCode}")
-            val bytes = connection.inputStream.use { input ->
-                val output = java.io.ByteArrayOutputStream()
-                val buffer = ByteArray(8_192)
-                var count = input.read(buffer)
-                while (count >= 0) {
-                    if (output.size() + count > 1_048_576) throw IOException("Species metadata response too large")
-                    output.write(buffer, 0, count)
-                    count = input.read(buffer)
-                }
-                output.toByteArray()
-            }
-            return bytes.toString(Charsets.UTF_8)
-        } finally { connection.disconnect() }
-    }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(readTimeoutMillis = 10_000, userAgent = FAUNAVIA_HTTP_USER_AGENT,
+        maxBodyBytes = 1_048_576, bodyTooLargeMessage = "Species metadata response too large")
+
+    override fun get(url: String): String = transport.get(url, policy) { status ->
+        if (status in 200..299) null else IOException("Species metadata HTTP $status")
+    }.body
 }
 
 /** Presentation only: never selects a diary taxon or contributes range evidence to plausibility. */

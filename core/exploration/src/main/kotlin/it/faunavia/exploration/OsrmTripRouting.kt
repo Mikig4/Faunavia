@@ -1,10 +1,11 @@
 package it.faunavia.exploration
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import it.faunavia.domain.*
 import it.faunavia.route.RouteEngine
 import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 import java.time.Instant
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -15,27 +16,13 @@ fun interface RoutingHttpClient {
 }
 
 class UrlConnectionRoutingHttpClient : RoutingHttpClient {
-    override fun get(url: String): String {
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connectTimeout = 5_000
-        connection.readTimeout = 15_000
-        connection.setRequestProperty("Accept", "application/json")
-        connection.setRequestProperty("User-Agent", FAUNAVIA_HTTP_USER_AGENT)
-        try {
-            if (connection.responseCode !in 200..299) throw IOException("Routing unavailable")
-            return connection.inputStream.bufferedReader().use { reader ->
-                val content = StringBuilder()
-                val buffer = CharArray(8_192)
-                while (true) {
-                    val count = reader.read(buffer)
-                    if (count < 0) break
-                    content.append(buffer, 0, count)
-                    if (content.length > 5_000_000) throw IOException("Routing response too large")
-                }
-                content.toString()
-            }
-        } finally { connection.disconnect() }
-    }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(readTimeoutMillis = 15_000, userAgent = FAUNAVIA_HTTP_USER_AGENT,
+        maxBodyChars = 5_000_000, bodyTooLargeMessage = "Routing response too large")
+
+    override fun get(url: String): String = transport.get(url, policy) { status ->
+        if (status in 200..299) null else IOException("Routing unavailable")
+    }.body
 }
 
 /** Public OSRM demo: personal prototype only, at most one request/second and no auto retries. */

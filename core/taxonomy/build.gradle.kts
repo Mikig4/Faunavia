@@ -10,6 +10,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":core:network"))
     api(project(":core:domain"))
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.coroutines.core)

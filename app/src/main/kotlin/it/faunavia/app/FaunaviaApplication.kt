@@ -1,6 +1,7 @@
 package it.faunavia.app
 
 import android.app.Application
+import androidx.work.WorkManager
 import it.faunavia.domain.AppClock
 import it.faunavia.local.LocalRepositories
 import it.faunavia.occurrence.GbifOccurrenceProvider
@@ -19,6 +20,10 @@ import it.faunavia.taxonomy.GbifTaxonomyProvider
 import it.faunavia.taxonomy.TaxonomySearch
 import it.faunavia.taxonomy.TaxonomySearchService
 import it.faunavia.taxonomy.UrlConnectionGbifHttpClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class FaunaviaApplication : Application() {
     private val clock = object : AppClock {
@@ -29,6 +34,22 @@ class FaunaviaApplication : Application() {
         LocalRepositories.open(this, clock)
     }
     internal val privatePhotos by lazy { PrivatePhotoStore(this) }
+    internal val summaryNotifications by lazy { DailySummaryNotifications(this) }
+    internal val reminderPreferences by lazy {
+        ReminderPreferences(repositories.settings, ReminderScheduler(WorkManager.getInstance(this)), summaryNotifications)
+    }
+    internal val reminderRunner by lazy {
+        ReminderRunner(repositories.dailyReminder, clock, { java.time.ZoneId.systemDefault() },
+            summaryNotifications::allowed, summaryNotifications::post)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+            try { reminderPreferences.reconcile() }
+            catch (failure: Exception) { reminderRecoveryWarning(failure, "Cannot restore reminder; next app opening retries.") }
+        }
+    }
 
     val speciesMetadata: it.faunavia.exploration.SpeciesMetadataLookup by lazy {
         it.faunavia.exploration.RemoteSpeciesMetadata(it.faunavia.exploration.UrlConnectionSpeciesMetadataHttp(),

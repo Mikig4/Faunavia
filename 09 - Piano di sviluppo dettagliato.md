@@ -348,6 +348,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Obiettivo:** ricordare gli avvistamenti della giornata senza allarme esatto o backend.
 
+**Stato:** completata e verificata. `verifyAll`: 13 F0, 115 JVM, 123 Android, zero errori/skipped/omissioni. Rapporto [[29 - Rapporto Fase 11]], uso [[GUIDA-FASE-11]]; riavvio simulato tramite persistenza, nessuna promessa al minuto.
+
 **Dipendenze:** F4.
 
 **Attività e artefatti:**

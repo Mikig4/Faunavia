@@ -1,12 +1,13 @@
 package it.faunavia.plausibility
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import it.faunavia.domain.AppClock
 import it.faunavia.domain.GeoPoint
 import it.faunavia.domain.Provenance
 import it.faunavia.route.GeoBounds
 import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.URLEncoder
 import java.time.Instant
 import kotlinx.serialization.json.Json
@@ -27,22 +28,14 @@ interface PlausibilityHttpClient {
 
 /** Small blocking client; callers must invoke an adapter from an IO dispatcher. */
 class UrlConnectionPlausibilityHttpClient(
-    private val connectTimeoutMillis: Int = 5_000,
-    private val readTimeoutMillis: Int = 5_000,
+    connectTimeoutMillis: Int = 5_000,
+    readTimeoutMillis: Int = 5_000,
 ) : PlausibilityHttpClient {
-    override fun get(url: String): PlausibilityHttpResponse {
-        val connection = (URL(url).openConnection() as HttpURLConnection)
-        connection.connectTimeout = connectTimeoutMillis
-        connection.readTimeout = readTimeoutMillis
-        connection.requestMethod = "GET"
-        connection.setRequestProperty("Accept", "application/json")
-        try {
-            val status = connection.responseCode
-            val stream = if (status in 200..299) connection.inputStream else connection.errorStream
-            return PlausibilityHttpResponse(status, stream?.bufferedReader()?.use { it.readText() }.orEmpty())
-        } finally {
-            connection.disconnect()
-        }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(connectTimeoutMillis, readTimeoutMillis)
+
+    override fun get(url: String): PlausibilityHttpResponse = transport.get(url, policy).let {
+        PlausibilityHttpResponse(it.status, it.body)
     }
 }
 

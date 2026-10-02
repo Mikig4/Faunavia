@@ -53,8 +53,9 @@ last_updated: 2026-10-02
 ## Implemented F1 module boundary
 
 - `:app` owns Android, Compose navigation and platform tests.
-- `:core:domain` is pure Kotlin and exposes clock, location and species-provider ports plus provenance-aware evidence types.
-- `:core:testing` provides deterministic fake clock, location and provider implementations.
+- `:core:domain` is pure Kotlin and exposes the clock, current repository/model contracts and provenance-aware evidence types. Unused F1 location/species ports and summary were removed after F10.
+- `:core:testing` provides `FakeClock`; obsolete standalone location/provider fakes were removed.
+- `:core:network` owns blocking JSON GET; typed provider clients retain timeout, size, status/error and User-Agent policies.
 - A static boundary gate rejects Android imports in the domain and provider URLs in UI source.
 
 ## F2 local persistence boundary
@@ -77,6 +78,7 @@ last_updated: 2026-10-02
 
 - The Compose Diary reads and writes only through `DiaryRepository`; incomplete taxon searches remain transient UI state.
 - Schema v4 adds observation quantity with a non-destructive v3→v4 migration and keeps manual records separate from external evidence.
+- Post-F10, `parseDiaryInput` shares observation/draft validation; `rememberTaxonomyLookup` shares catalogue/diary search lifecycles. Provenance JSON conversion is shared in `:core:local`, preserving Room 8 and stored payloads.
 
 ## F5 route boundary
 
@@ -88,7 +90,7 @@ last_updated: 2026-10-02
 
 ## F6 occurrence boundary
 
-- `:core:occurrence` is pure Kotlin and depends only on `:core:domain` and `:core:route`; it owns provider request shapes, bounded pagination, normalized records, retries and de-duplication.
+- `:core:occurrence` is pure Kotlin and depends on `:core:domain`, `:core:route` and `:core:network`; it owns provider request shapes, bounded pagination, normalized records, retries and de-duplication.
 - The gateway receives F5 corridor portions/chunks, not a raw GPX/GeoJSON document. GBIF selects polygons unless its configured vertex bound requires chunk bounding boxes; NNB WFS uses bounded query-chunk boxes.
 - A record remains identified by `(provider, providerRecordId)`, preventing overlapping spatial requests from duplicating it without merging distinct providers' provenance.
 - `OccurrenceGateway` returns a fresh cache, network records, or a clearly marked stale cache with provider failures. It never infers coordinates or precision absent from the provider response.
@@ -133,6 +135,13 @@ F9 refinement 2026-10-02: `typicalTaxa` reuses the pure suggestion engine on exi
 - Pure domain photo metadata adds dimensions, normalized orientation and optional thumbnail path while retaining legacy defaults. Unidentified repository photo ports share the stable memory ID without relaxing accepted-Animalia observation constraints.
 - Room 8 adds draft-photo foreign keys and additive observation-photo columns. Draft conversion copies metadata into observation photos within its existing transaction before a successful commit; failed conversion rolls back cascades. Planning deletion only unlinks memories.
 - Android owns `PrivatePhotoStore`, `MemoryPhotos` and `PhotoGalleryModel`: bounded input/bitmap IO, EXIF orientation, metadata-free encoding, private no-backup files, checked hashes, explicit errors, temporary cleanup and grace-period orphan recovery. No provider/upload dependency or photo-gallery permission is introduced. Text is saved before attachment; file/DB ordering protects existing memories. Committed photos survive process recreation; ongoing jobs survive configuration changes. Backup remains F12.
+
+## F11 local reminder boundary
+
+- Pure domain `DailyReminderPolicy` computes eligibility and initial delay using an explicit Instant/ZoneId. `DailyReminderRepository` exposes one serialized local delivery operation.
+- Room 9 adds only `daily_summary_deliveries(date, zoneId, notifiedAt)`. Existing diary/photo/planning/settings tables and all earlier migrations remain unchanged. The worker queries identified records for the current local day; drafts and provider evidence are excluded.
+- Android `ReminderScheduler`, `ReminderPreferences`, `ReminderRunner`, `DailyReminderWorker` and `DailySummaryNotifications` own persistent periodic scheduling, runtime/channel permission, time-change reconciliation and system posting. MainActivity consumes valid summary extras both on cold start and onNewIntent; saveable navigation retains the requested date/zone. Settings and summary use only local repositories.
+- Durable date ledger and stable per-date notification tags reduce duplicate effects; the cross-system crash gap is explicit. Scheduling is flexible, without exact alarms, server or network dependency. Backup remains F12.
 
 ## External Dependencies
 

@@ -1,0 +1,23 @@
+{
+  "versionName": "0.10.1-f10",
+  "versionCode": 17,
+  "roomVersion": 8,
+  "apk": "artifacts/Faunavia-f10-refactor-debug.apk",
+  "bytes": 55794007,
+  "sha256": "75AB16D2AB7E5C10B1B203E8D40A4737DFF4E01189B628922D0A7139E41703D0",
+  "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "gate": "verifyAll",
+  "result": "PASS",
+  "f0Tests": 13,
+  "jvmTests": 111,
+  "androidTests": 110,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "omissions": 0,
+  "visualSignatures": 3,
+  "productionLinesBefore": 9261,
+  "productionLinesAfter": 9194,
+  "physicalPhoneTest": false,
+  "newLiveProviderSmoke": false
+}

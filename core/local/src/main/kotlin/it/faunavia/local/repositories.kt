@@ -10,6 +10,7 @@ import java.time.ZoneId
 import java.util.concurrent.Callable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 
 /** Own one instance per application; all disk operations run off the caller's thread. */
@@ -27,6 +28,26 @@ class LocalRepositories(
     private suspend fun <T> read(block: () -> T): T = withContext(io) { block() }
     private suspend fun <T> write(block: () -> T): T = withContext(io) {
         database.runInTransaction(Callable { block() })
+    }
+
+    val dailyReminder: DailyReminderRepository = object : DailyReminderRepository {
+        override suspend fun deliver(now: Instant, zone: ZoneId, post: (DailySummary) -> Boolean): ReminderDelivery =
+            withContext(io + NonCancellable) {
+                // Keep the short platform post and marker together even if WorkManager cancels this coroutine.
+                database.runInTransaction(Callable {
+                    val preferences = dao.settings()?.toDomain() ?: AppSettings()
+                    if (!preferences.reminderEnabled) return@Callable ReminderDelivery.DISABLED
+                    val date = DailyReminderPolicy.eligibleDate(now, zone, preferences.reminderTime)
+                        ?: return@Callable ReminderDelivery.BEFORE_TIME
+                    if (dao.summaryDelivery(date.toString()) != null) return@Callable ReminderDelivery.ALREADY_SENT
+                    val count = dao.observationsBetween(date.atStartOfDay(zone).toEpochSecond(),
+                        date.plusDays(1).atStartOfDay(zone).toEpochSecond()).size
+                    if (count == 0) return@Callable ReminderDelivery.EMPTY
+                    if (!post(DailySummary(date, zone, count))) return@Callable ReminderDelivery.POST_FAILED
+                    dao.insertSummaryDelivery(DailySummaryDeliveryRow(date.toString(), zone.id, now.toString()))
+                    ReminderDelivery.SENT
+                })
+            }
     }
 
     private fun validateLink(tripId: String?, outingId: String?) {

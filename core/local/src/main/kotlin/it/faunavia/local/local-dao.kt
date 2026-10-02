@@ -85,4 +85,6 @@ interface LocalDao {
     @Query("DELETE FROM routes WHERE id = :id") fun deleteRoute(id: String)
     @Upsert fun saveSettings(row: AppSettingsRow)
     @Query("SELECT * FROM app_settings WHERE id = 1") fun settings(): AppSettingsRow?
+    @Query("SELECT * FROM daily_summary_deliveries WHERE date = :date") fun summaryDelivery(date: String): DailySummaryDeliveryRow?
+    @Insert fun insertSummaryDelivery(row: DailySummaryDeliveryRow)
 }

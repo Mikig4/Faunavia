@@ -30,11 +30,12 @@ last_updated: 2026-10-02
 - **Kotlin coroutines 1.10.2** — IO-dispatched suspend repository implementations; domain interfaces remain framework-independent.
 - **Kotlin serialization 1.8.1** — aligned app/test runtime for Navigation and Room migration testing; AGP's consistent resolution otherwise combines core 1.7.3 with test JSON 1.8.1.
 - **MapLibre Native Android 13.6.1 OpenGL** — F8A map renderer behind an adapter; OkHttp 4.12.0 supplies an identified tile User-Agent and HTTP cache. Regional offline packages remain future work.
-- **WorkManager + local notifications** — proposed background scheduling; use a precise alarm only if the UX requires it.
+- **AndroidX WorkManager 2.12.0 + local notifications** — F11 unique periodic work, CoroutineWorker, persisted scheduling and work-testing. On-device Room summaries, explicit Android 13+ notification permission, date-specific PendingIntent and channel. No exact alarm or cloud dependency.
 
 ## Key Libraries
 
 - **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
+- **HttpURLConnection** — post-F10 `:core:network` centralizes blocking JSON GET without a new external library. Six typed clients retain provider-specific status/error, timeout, size and User-Agent policies; transport tests use fake connections.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
 - **GBIF Maps v2 + Wikimedia Commons/MediaWiki imageinfo + Wikidata Action API** — F9 internal distribution presentation: historical observation density, attributed reusable range illustrations and exact P225/P181 association. Separate from F7 range evidence and accepted taxonomy selection; no new backend or account.
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.

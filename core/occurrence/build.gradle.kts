@@ -10,6 +10,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":core:network"))
     api(project(":core:domain"))
     api(project(":core:route"))
     implementation(libs.kotlinx.serialization.json)

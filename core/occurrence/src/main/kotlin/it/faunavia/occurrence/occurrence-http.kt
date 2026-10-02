@@ -1,10 +1,11 @@
 package it.faunavia.occurrence
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import java.io.IOException
 import java.io.InterruptedIOException
-import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
-import java.net.URL
 
 data class OccurrenceHttpResponse(
     val status: Int,
@@ -18,24 +19,14 @@ interface OccurrenceHttpClient {
 
 /** Small blocking client: Android invokes the gateway from an IO dispatcher. */
 class UrlConnectionOccurrenceHttpClient(
-    private val connectTimeoutMillis: Int = 5_000,
-    private val readTimeoutMillis: Int = 5_000,
+    connectTimeoutMillis: Int = 5_000,
+    readTimeoutMillis: Int = 5_000,
 ) : OccurrenceHttpClient {
-    override fun get(url: String): OccurrenceHttpResponse {
-        val connection = (URL(url).openConnection() as HttpURLConnection)
-        connection.connectTimeout = connectTimeoutMillis
-        connection.readTimeout = readTimeoutMillis
-        connection.requestMethod = "GET"
-        connection.setRequestProperty("Accept", "application/json")
-        try {
-            val status = connection.responseCode
-            val stream = if (status in 200..299) connection.inputStream else connection.errorStream
-            val body = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
-            val retryAfter = connection.getHeaderField("Retry-After")
-            return OccurrenceHttpResponse(status, body, mapOf("Retry-After" to retryAfter.orEmpty()))
-        } finally {
-            connection.disconnect()
-        }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(connectTimeoutMillis, readTimeoutMillis)
+
+    override fun get(url: String): OccurrenceHttpResponse = transport.get(url, policy).let {
+        OccurrenceHttpResponse(it.status, it.body, mapOf("Retry-After" to it.retryAfter.orEmpty()))
     }
 }
 

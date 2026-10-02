@@ -8,13 +8,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,22 +25,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import it.faunavia.domain.GeoPoint
 import it.faunavia.domain.Route
 import it.faunavia.domain.RouteRepository
@@ -59,9 +55,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val RouteInk = Color(0xFF26382E)
-private val RouteMuted = Color(0xFF52675A)
-private val RouteError = Color(0xFF9B1C1C)
 private val RouteSurface = Color.White
 
 private data class SavedRouteAnalysis(
@@ -136,10 +129,10 @@ internal fun RouteScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F7F2))
+            .background(FaunaviaColors.Background)
             .testTag("screen-routes"),
     ) {
-        RouteHeader()
+        FaunaviaHeader("Percorsi", "screen-title-routes")
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -152,13 +145,13 @@ internal fun RouteScreen(
                 Column {
                     Text(
                         text = "Prepara l’area da analizzare",
-                        color = RouteInk,
+                        color = FaunaviaColors.Ink,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         text = "Il file resta sul dispositivo. Qui salviamo la geometria normalizzata, non il documento originale. Per cercare evidenze apri Risultati.",
-                        color = RouteMuted,
+                        color = FaunaviaColors.Muted,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -173,10 +166,10 @@ internal fun RouteScreen(
             }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Importa un percorso", color = RouteInk, fontWeight = FontWeight.Bold)
+                    Text("Importa un percorso", color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
                     Text(
                         "Formati accettati: GPX e GeoJSON, inclusi percorsi con più segmenti.",
-                        color = RouteMuted,
+                        color = FaunaviaColors.Muted,
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Button(
@@ -218,7 +211,7 @@ internal fun RouteScreen(
                 item {
                     Text(
                         text = message,
-                        color = RouteError,
+                        color = FaunaviaColors.Error,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.testTag("route-error"),
                     )
@@ -228,11 +221,11 @@ internal fun RouteScreen(
             item { HorizontalDivider(color = Color(0xFFCCD8CE)) }
             item {
                 Column {
-                    Text("Percorsi locali", color = RouteInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text("Percorsi locali", color = FaunaviaColors.Ink, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     Text(
                         if (savedRoutes.isEmpty()) "Nessun percorso salvato. Importa un file o analizza una posizione."
                         else "Disponibili offline. Puoi selezionarli nella schermata Risultati per cercare evidenze.",
-                        color = RouteMuted,
+                        color = FaunaviaColors.Muted,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.testTag("route-empty"),
                     )
@@ -245,28 +238,6 @@ internal fun RouteScreen(
     }
 }
 
-@Composable
-private fun RouteHeader() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(Color(0xFF1F5C3F))
-            .padding(horizontal = 24.dp),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Column {
-            Text("Faunavia", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Text(
-                text = "Percorsi",
-                modifier = Modifier.testTag("screen-title-routes"),
-                color = Color.White,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    }
-}
 
 @Composable
 private fun AnalysisConfiguration(
@@ -276,7 +247,7 @@ private fun AnalysisConfiguration(
     onSamplingChange: (String) -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Parametri", color = RouteInk, fontWeight = FontWeight.Bold)
+        Text("Parametri", color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
         OutlinedTextField(
             value = radiusKilometers,
             onValueChange = onRadiusChange,
@@ -306,8 +277,8 @@ private fun ManualLocation(
     onAnalyze: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("Oppure analizza una posizione", color = RouteInk, fontWeight = FontWeight.Bold)
-        Text("Coordinate WGS84 nel pilot europeo EPSG:3035.", color = RouteMuted, style = MaterialTheme.typography.bodyMedium)
+        Text("Oppure analizza una posizione", color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
+        Text("Coordinate WGS84 nel pilot europeo EPSG:3035.", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodyMedium)
         Row(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
                 value = latitude,
@@ -345,23 +316,23 @@ private fun AnalysisSummary(analysis: RouteAnalysis, heading: String) {
             .testTag("route-summary"),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Text(heading, color = RouteInk, fontWeight = FontWeight.Bold)
-        Text(analysis.routeName, color = RouteInk, style = MaterialTheme.typography.titleMedium)
+        Text(heading, color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
+        Text(analysis.routeName, color = FaunaviaColors.Ink, style = MaterialTheme.typography.titleMedium)
         Text(
             "${formatKilometers(analysis.totalLengthMeters)} km · ${analysis.samples.size} campioni · ${analysis.cells.size} celle · ${analysis.queryChunks.size} porzioni query",
-            color = RouteMuted,
+            color = FaunaviaColors.Muted,
             style = MaterialTheme.typography.bodyMedium,
         )
         Text(
             "${analysis.projection} · ${analysis.fingerprint.take(16)}…",
             modifier = Modifier.testTag("route-projection"),
-            color = RouteMuted,
+            color = FaunaviaColors.Muted,
             style = MaterialTheme.typography.bodySmall,
         )
         if (analysis.warnings.isNotEmpty()) {
             Text(
                 "Normalizzazione: ${analysis.warnings.sumOf { it.count }} elementi corretti.",
-                color = RouteMuted,
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodySmall,
             )
         }
@@ -377,19 +348,19 @@ private fun SavedRoute(saved: SavedRouteAnalysis) {
             .testTag("route-saved-${saved.route.id}"),
         verticalArrangement = Arrangement.spacedBy(3.dp),
     ) {
-        Text(saved.route.name, color = RouteInk, fontWeight = FontWeight.Bold)
+        Text(saved.route.name, color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
         Text(
             saved.analysis?.let { analysis ->
                 "${saved.route.source.name} · ${saved.route.segments.size} segmenti · ${formatKilometers(analysis.totalLengthMeters)} km"
             } ?: "${saved.route.source.name} · ${saved.route.segments.size} segmenti",
-            color = RouteMuted,
+            color = FaunaviaColors.Muted,
             style = MaterialTheme.typography.bodyMedium,
         )
         saved.analysis?.let { analysis ->
-            Text("Fingerprint ${analysis.fingerprint.take(16)}…", color = RouteMuted, style = MaterialTheme.typography.bodySmall)
+            Text("Fingerprint ${analysis.fingerprint.take(16)}…", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall)
         }
         saved.failure?.let { failure ->
-            Text(failure, color = RouteError, style = MaterialTheme.typography.bodySmall)
+            Text(failure, color = FaunaviaColors.Error, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

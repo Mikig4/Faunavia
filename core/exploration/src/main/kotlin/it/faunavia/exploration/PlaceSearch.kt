@@ -1,10 +1,11 @@
 package it.faunavia.exploration
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import it.faunavia.domain.GeoPoint
 import it.faunavia.route.GeoBounds
-import java.net.HttpURLConnection
 import java.net.URLEncoder
-import java.net.URL
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import kotlinx.serialization.json.Json
@@ -57,21 +58,11 @@ fun interface PlaceHttpClient {
 }
 
 class UrlConnectionPlaceHttpClient : PlaceHttpClient {
-    override fun get(url: String): PlaceHttpResponse {
-        val connection = URL(url).openConnection() as HttpURLConnection
-        connection.connectTimeout = 5_000
-        connection.readTimeout = 5_000
-        connection.requestMethod = "GET"
-        connection.setRequestProperty("Accept", "application/json")
-        connection.setRequestProperty("User-Agent", FAUNAVIA_HTTP_USER_AGENT)
-        try {
-            val status = connection.responseCode
-            val body = (if (status in 200..299) connection.inputStream else connection.errorStream)
-                ?.bufferedReader()?.use { it.readText() }.orEmpty()
-            return PlaceHttpResponse(status, body)
-        } finally {
-            connection.disconnect()
-        }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(userAgent = FAUNAVIA_HTTP_USER_AGENT)
+
+    override fun get(url: String): PlaceHttpResponse = transport.get(url, policy).let {
+        PlaceHttpResponse(it.status, it.body)
     }
 }
 

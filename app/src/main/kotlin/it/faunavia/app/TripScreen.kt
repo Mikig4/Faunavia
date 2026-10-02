@@ -35,9 +35,9 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val TripInk = Color(0xFF26382E)
-private val TripMuted = Color(0xFF52675A)
-private val TripError = Color(0xFF9B1C1C)
+private val TripInk = FaunaviaColors.Ink
+private val TripMuted = FaunaviaColors.Muted
+private val TripError = FaunaviaColors.Error
 
 internal fun tripAnalysisKey(trip: Trip, outing: Outing?, stageId: String? = null): String {
     if (stageId != null && trip.stages.none { it.id == stageId }) return "removed-stage:$stageId"

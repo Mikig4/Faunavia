@@ -71,12 +71,15 @@ The 2026-10-02 F9 correction is verified: readable species titles (green Scaffol
 
 - F10 is complete: private Photo Picker galleries for identified observations and unidentified drafts, controlled JPEG/thumbnail copies with all EXIF orientations applied and sensitive metadata omitted, recorded hash/size/dimensions, offline reopening, independent photo deletion, transactional conversion preserving photos and visible recovery/cleanup errors. Room 8 migrates 7→8 additively. Final `verifyAll` passed 13 F0, 103 JVM and 109 Android tests with zero failures/skips/omissions, lint, boundaries, formatting and three existing visual signatures; a real API 36 picker and Activity recreation are tested with synthetic photos. APK `artifacts/Faunavia-f10-debug.apk` is 0.10.0-f10 (16), same signing identity as F9. See `27 - Rapporto Fase 10.md` and `GUIDA-FASE-10.md`; no physical-phone check, export/import remains F12.
 
+- Post-F10 refactoring is verified: unused F1 ports/fakes removed; shared diary parsing, catalogue/diary lookup lifecycle, headers/colors, JSON provenance and six-client HTTP transport in `:core:network`. Room stays 8, existing payloads and provider policies are preserved; drafts now trim quantity whitespace consistently. `verifyAll`: 13 F0, 111 JVM, 110 Android, zero failures/skips/omissions, lint/boundaries/format and three visual signatures. APK `artifacts/Faunavia-f10-refactor-debug.apk`, `0.10.1-f10` (17), same signing identity; 67 fewer production Kotlin lines. See `28 - Semplificazione del codice.md` and `patterns/refactor-shared-code.md`. No new live-provider or physical-phone test.
+
+- F11 is complete: local flexible reminders, permission/settings, current-day identified record counts, persistent daily delivery markers and summary deep links with private photos. Room 9 and WorkManager 2.12.0; final `verifyAll` passed 13 F0, 115 JVM, 123 Android with zero failures/skips/omissions, lint/boundaries/format and three existing visual signatures. Includes real permission denial, notification tap, Activity recreation, unique work, populated migration and cancellation between preferences/save scheduling. APK `artifacts/Faunavia-f11-debug.apk`, 0.11.0-f11 (18), same signing identity. Reboot is simulated through persistence reopening, no physical-phone or prolonged Doze check. See `29 - Rapporto Fase 11.md` and `GUIDA-FASE-11.md`; backup remains F12.
+
 **Not yet built:**
-- F11 follows the completed F10; subsequent numbering including F17 is unchanged.
-- F11–F17 expansion includes notifications, backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented.
+- F12–F17 expansion includes backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented; subsequent numbering including F17 is unchanged.
 - Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Broader curated-species coverage and sourced comparable ease estimates; the F9 pilot does not invent them.
-- Daily notification and complete species profiles.
+- Complete species profiles beyond the existing F9 presentation.
 - Blender/GLB asset library, regional map package and physical-device tests.
 
 **Known issues:**

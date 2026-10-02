@@ -1,14 +1,15 @@
 package it.faunavia.taxonomy
 
+import it.faunavia.network.JsonHttpPolicy
+import it.faunavia.network.JsonHttpTransport
+
 import it.faunavia.domain.AppClock
 import it.faunavia.domain.Provenance
 import it.faunavia.domain.Taxon
 import it.faunavia.domain.TaxonomicStatus
 import java.io.IOException
 import java.io.InterruptedIOException
-import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
-import java.net.URL
 import java.net.URLEncoder
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -26,23 +27,15 @@ class GbifHttpException(message: String) : IOException(message)
 
 /** Small blocking client: the app invokes search from Dispatchers.IO. */
 class UrlConnectionGbifHttpClient(
-    private val connectTimeoutMillis: Int = 5_000,
-    private val readTimeoutMillis: Int = 15_000,
+    connectTimeoutMillis: Int = 5_000,
+    readTimeoutMillis: Int = 15_000,
 ) : GbifHttpClient {
-    override fun get(url: String): String {
-        val connection = (URL(url).openConnection() as HttpURLConnection)
-        connection.connectTimeout = connectTimeoutMillis
-        connection.readTimeout = readTimeoutMillis
-        connection.requestMethod = "GET"
-        connection.setRequestProperty("Accept", "application/json")
-        try {
-            val status = connection.responseCode
-            if (status !in 200..299) throw GbifHttpException("GBIF responded with HTTP $status")
-            return connection.inputStream.bufferedReader().use { it.readText() }
-        } finally {
-            connection.disconnect()
-        }
-    }
+    private val transport = JsonHttpTransport()
+    private val policy = JsonHttpPolicy(connectTimeoutMillis, readTimeoutMillis)
+
+    override fun get(url: String): String = transport.get(url, policy) { status ->
+        if (status in 200..299) null else GbifHttpException("GBIF responded with HTTP $status")
+    }.body
 }
 
 /** Searches common names before scientific autocomplete and resolves accepted backbone identities. */

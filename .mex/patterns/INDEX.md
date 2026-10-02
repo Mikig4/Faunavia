@@ -1,7 +1,7 @@
 ---
 name: patterns-index
 description: Task-specific implementation and verification runbooks.
-last_updated: 2026-09-30
+last_updated: 2026-10-02
 ---
 
 # Pattern Index
@@ -38,4 +38,5 @@ Lookup table for all pattern files in this directory. Check here before starting
 | [explore-place-and-map.md](explore-place-and-map.md) | Changing F8A geographic search, period exploration, MapLibre rendering or fallback |
 | [import-route-and-analyze.md](import-route-and-analyze.md) | Importing a route, sampling it, building a corridor, and querying evidence |
 | [plan-trip-and-record-memory.md](plan-trip-and-record-memory.md) | Changing saved trips/outings, result snapshots, personal diary links or unidentified-draft conversion |
+| [refactor-shared-code.md](refactor-shared-code.md) | Removing unused code or sharing transport, validation, serializers and Compose state |
 | [search-taxon-with-preview.md](search-taxon-with-preview.md) | Searching the complete animal catalogue and showing a licensed photo preview before selection |

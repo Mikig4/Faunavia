@@ -2,7 +2,7 @@
 
 Estensione della pianificazione F8B del 2026-10-02: [[23 - Tappe e giorni del viaggio]], con località libere, ordine, giorni e analisi del singolo tratto.
 
-La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F10 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]].
+La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F11 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]], riepilogo locale F11 in [[29 - Rapporto Fase 11]].
 
 | Fase | Incremento | Gate principale |
 |---|---|---|

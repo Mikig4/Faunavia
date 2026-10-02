@@ -11,8 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
     entities = [TaxonRow::class, TaxonAliasRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
         RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class,
-        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class, DraftPhotoRow::class],
-    version = 8,
+        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class, DraftPhotoRow::class,
+        DailySummaryDeliveryRow::class],
+    version = 9,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -113,9 +114,15 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS daily_summary_deliveries (date TEXT NOT NULL, zoneId TEXT NOT NULL, notifiedAt TEXT NOT NULL, PRIMARY KEY(date))")
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 

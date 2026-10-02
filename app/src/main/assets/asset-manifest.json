@@ -1,0 +1,10 @@
+{
+  "assets": [
+    {
+      "path": "res/drawable/ic_notification.xml",
+      "purpose": "Monochrome local daily summary notification icon",
+      "origin": "Original project-native vector geometry; no imported image",
+      "license": "Project-original asset, no third-party license or attribution required"
+    }
+  ]
+}

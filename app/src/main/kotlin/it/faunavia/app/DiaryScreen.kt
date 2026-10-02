@@ -2,7 +2,6 @@ package it.faunavia.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,15 +22,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +38,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import it.faunavia.domain.CatalogueRepository
 import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.GeoPoint
@@ -57,27 +55,17 @@ import it.faunavia.domain.UnidentifiedInput
 import it.faunavia.domain.PersonalDiaryViews
 import it.faunavia.taxonomy.MINIMUM_TAXON_QUERY_LENGTH
 import it.faunavia.taxonomy.TaxonomySearch
-import it.faunavia.taxonomy.TaxonomySearchEntry
 import it.faunavia.taxonomy.TaxonomySearchResult
 import it.faunavia.taxonomy.TaxonomySearchOrigin
 import it.faunavia.taxonomy.normalizeQuery
 import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val DiaryInk = Color(0xFF26382E)
-private val DiaryMuted = Color(0xFF52675A)
-private val DiaryError = Color(0xFF9B1C1C)
-private val DiaryDateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
-private val DiaryTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
 private data class DiaryListEntry(
     val observation: Observation,
@@ -151,44 +139,26 @@ private data class DiaryEditor(
 
     fun draft(id: String): ObservationDraft {
         val taxon = requireNotNull(selectedTaxon) { "Scegli una specie prima di salvare." }
-        val localDate = runCatching { LocalDate.parse(date.trim(), DiaryDateFormatter) }
-            .getOrElse { throw IllegalArgumentException("Inserisci una data valida nel formato AAAA-MM-GG.") }
-        val localTime = runCatching { LocalTime.parse(time.trim(), DiaryTimeFormatter) }
-            .getOrElse { throw IllegalArgumentException("Inserisci un'ora valida nel formato HH:MM.") }
-        val parsedQuantity = quantity.trim().toIntOrNull()
-            ?: throw IllegalArgumentException("Inserisci una quantità intera.")
-        require(parsedQuantity in 1..MAX_OBSERVATION_QUANTITY) {
-            "La quantità deve essere tra 1 e $MAX_OBSERVATION_QUANTITY."
-        }
+        val parsed = parseDiaryInput(date, time, quantity, zoneId)
         val location = optionalLocation(latitude, longitude)
         return ObservationDraft(
             id = id,
             taxonId = taxon.id,
-            observedAt = localDate.atTime(localTime).atZone(zoneId).toInstant(),
+            observedAt = parsed.observedAt,
             zoneId = zoneId,
             location = location,
             notes = notes,
-            quantity = parsedQuantity,
+            quantity = parsed.quantity,
             tripId = tripId,
             outingId = outingId,
         )
     }
 
     fun unidentifiedInput(id: String): UnidentifiedInput {
-        val parsed = draftForUnidentified(id)
-        return UnidentifiedInput(id, parsed.first, zoneId, optionalLocation(latitude, longitude), notes,
-            parsed.second, tripId, outingId)
-    }
-
-    private fun draftForUnidentified(id: String): Pair<Instant, Int> {
         require(id.isNotBlank())
-        val dateValue = runCatching { LocalDate.parse(date.trim(), DiaryDateFormatter) }
-            .getOrElse { throw IllegalArgumentException("Inserisci una data valida nel formato AAAA-MM-GG.") }
-        val timeValue = runCatching { LocalTime.parse(time.trim(), DiaryTimeFormatter) }
-            .getOrElse { throw IllegalArgumentException("Inserisci un'ora valida nel formato HH:MM.") }
-        val count = quantity.toIntOrNull() ?: throw IllegalArgumentException("Inserisci una quantità intera.")
-        require(count in 1..MAX_OBSERVATION_QUANTITY) { "Controlla la quantità." }
-        return dateValue.atTime(timeValue).atZone(zoneId).toInstant() to count
+        val parsed = parseDiaryInput(date, time, quantity, zoneId)
+        return UnidentifiedInput(id, parsed.observedAt, zoneId, optionalLocation(latitude, longitude), notes,
+            parsed.quantity, tripId, outingId)
     }
 }
 
@@ -272,7 +242,7 @@ internal fun DiaryScreen(
             .background(MaterialTheme.colorScheme.background)
             .testTag("screen-diary"),
     ) {
-        DiaryHeader()
+        FaunaviaHeader("Diario", "screen-title-diary", MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.onPrimary)
         val activeEditor = editor
         if (activeEditor == null) {
             val scoped = entries.filter { entry ->
@@ -305,7 +275,7 @@ internal fun DiaryScreen(
                 },
                 extra = {
                     if (tripRepository != null) item {
-                        Text("Filtri e viste", color = DiaryInk, fontWeight = FontWeight.Bold)
+                        Text("Filtri e viste", color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
                         if (fixedTripId == null) LazyRow(modifier = Modifier.testTag("diary-trip-filters"), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             item { OutlinedButton(onClick = { selectedTrip = null; selectedOuting = null }, modifier = Modifier.testTag("diary-filter-all")) { Text("Tutti") } }
                             items(trips, key = { it.id }) { trip ->
@@ -327,18 +297,18 @@ internal fun DiaryScreen(
                         }
                         val allSummary = PersonalDiaryViews.species(entries.map { it.observation }).associateBy { it.taxonId }
                         val summaries = PersonalDiaryViews.species(scoped.map { it.observation })
-                        Text("${scoped.size} avvistamenti · ${summaries.size} specie · bozze escluse", modifier = Modifier.testTag("diary-summary"), color = DiaryInk)
+                        Text("${scoped.size} avvistamenti · ${summaries.size} specie · bozze escluse", modifier = Modifier.testTag("diary-summary"), color = FaunaviaColors.Ink)
                         summaries.forEach { summary ->
                             val name = entries.firstOrNull { it.observation.taxonId == summary.taxonId }?.taxon?.scientificName ?: summary.taxonId
-                            Text("$name · prima osservazione personale ${allSummary.getValue(summary.taxonId).first.localDate}", color = DiaryMuted)
+                            Text("$name · prima osservazione personale ${allSummary.getValue(summary.taxonId).first.localDate}", color = FaunaviaColors.Muted)
                         }
                         if (view == "calendar") PersonalDiaryViews.calendar(scoped.map { it.observation }).forEach { (day, memories) ->
-                            Text("$day · ${memories.size} avvistamenti", modifier = Modifier.testTag("diary-calendar-$day"), color = DiaryInk)
+                            Text("$day · ${memories.size} avvistamenti", modifier = Modifier.testTag("diary-calendar-$day"), color = FaunaviaColors.Ink)
                         }
                         if (view == "map") {
                             val points = PersonalDiaryViews.map(scoped.map { it.observation })
                             Text("${points.size} avvistamenti sulla mappa; ${scoped.size - points.size} senza coordinate restano nell’elenco e nel calendario.",
-                                modifier = Modifier.testTag("diary-map-count"), color = DiaryMuted)
+                                modifier = Modifier.testTag("diary-map-count"), color = FaunaviaColors.Muted)
                             if (points.isNotEmpty()) personalMap.Render(points)
                         }
                     }
@@ -346,20 +316,20 @@ internal fun DiaryScreen(
                         item {
                             Button(onClick = { editor = DiaryEditor.new(now(), deviceZone).copy(unidentified = true, tripId = selectedTrip, outingId = selectedOuting) },
                                 modifier = Modifier.testTag("diary-new-draft")) { Text("Nuova bozza da identificare") }
-                            Text("Le bozze conservano il ricordo e non contano come specie osservate.", color = DiaryMuted)
+                            Text("Le bozze conservano il ricordo e non contano come specie osservate.", color = FaunaviaColors.Muted)
                         }
                         items(drafts.filter { (selectedTrip == null || it.input.tripId == selectedTrip) &&
                             (selectedOuting == null || it.input.outingId == selectedOuting) && speciesFilter.isBlank() &&
                             (dateFilter.isBlank() || it.input.observedAt.atZone(it.input.zoneId).toLocalDate().toString() == dateFilter) }, key = { "draft-${it.input.id}" }) { draft ->
                             Column(Modifier.fillMaxWidth().testTag("diary-draft-${draft.input.id}"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text("Da identificare · ${draft.input.observedAt.atZone(draft.input.zoneId).toLocalDate()}", fontWeight = FontWeight.Bold, color = DiaryInk)
-                                Text(draft.input.notes.ifBlank { "Nessuna nota" }, color = DiaryMuted)
+                                Text("Da identificare · ${draft.input.observedAt.atZone(draft.input.zoneId).toLocalDate()}", fontWeight = FontWeight.Bold, color = FaunaviaColors.Ink)
+                                Text(draft.input.notes.ifBlank { "Nessuna nota" }, color = FaunaviaColors.Muted)
                                 OutlinedButton(onClick = { photoMemoryId = draft.input.id }, modifier = Modifier.testTag("diary-photos-${draft.input.id}")) {
                                     Text("Foto (${draftPhotoCounts[draft.input.id] ?: 0})")
                                 }
                                 OutlinedButton(onClick = { editor = DiaryEditor.from(draft) }, modifier = Modifier.testTag("diary-draft-edit-${draft.input.id}")) { Text("Modifica o identifica") }
                                 if (deletingDraft == draft.input.id) {
-                                    Text("Eliminare questa bozza?", color = DiaryError)
+                                    Text("Eliminare questa bozza?", color = FaunaviaColors.Error)
                                     Button(onClick = { scope.launch {
                                         runCatching { photos.deleteMemory(draft.input.id, identified = false) }
                                             .onSuccess {
@@ -400,28 +370,6 @@ internal fun DiaryScreen(
     photoMemoryId?.let { id -> PhotoGallery(id, photos, onClose = { photoMemoryId = null; refresh++ }) }
 }
 
-@Composable
-private fun DiaryHeader() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = 24.dp),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Column {
-            Text("Faunavia", color = MaterialTheme.colorScheme.onPrimary, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Text(
-                text = "Diario",
-                modifier = Modifier.testTag("screen-title-diary"),
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    }
-}
 
 @Composable
 private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
@@ -446,26 +394,26 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Text("I tuoi avvistamenti", color = DiaryInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text("I tuoi avvistamenti", color = FaunaviaColors.Ink, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text(
                 "Salvati su questo dispositivo. La specie è sempre obbligatoria.",
-                color = DiaryMuted,
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(Modifier.height(12.dp))
             Button(onClick = onCreate, modifier = Modifier.testTag("diary-new")) { Text("Nuovo avvistamento") }
         }
         error?.let { message ->
-            item { Text(message, modifier = Modifier.testTag("diary-list-error"), color = DiaryError) }
+            item { Text(message, modifier = Modifier.testTag("diary-list-error"), color = FaunaviaColors.Error) }
         }
         extra()
         when {
-            loading -> item { Text("Caricamento del diario…", modifier = Modifier.testTag("diary-loading"), color = DiaryMuted) }
+            loading -> item { Text("Caricamento del diario…", modifier = Modifier.testTag("diary-loading"), color = FaunaviaColors.Muted) }
             entries.isEmpty() -> item {
                 Text(
                     "Nessun avvistamento ancora. Registra il primo anche senza connessione.",
                     modifier = Modifier.testTag("diary-empty"),
-                    color = DiaryMuted,
+                    color = FaunaviaColors.Muted,
                 )
             }
             else -> items(entries, key = { it.observation.id }) { entry ->
@@ -483,7 +431,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
         item {
             Text(
                 "Aggiungi le foto dall’elenco dopo aver salvato il ricordo. Le immagini restano private; il diario funziona anche senza foto.",
-                color = DiaryMuted,
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodySmall,
             )
         }
@@ -508,23 +456,23 @@ private fun DiaryEntry(
         colors = CardDefaults.cardColors(containerColor = Color.White),
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(entry.taxon?.scientificName ?: observation.taxonId, color = DiaryInk, fontWeight = FontWeight.Bold)
-            entry.taxon?.commonName?.let { Text(it, color = DiaryMuted, style = MaterialTheme.typography.bodyMedium) }
+            Text(entry.taxon?.scientificName ?: observation.taxonId, color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
+            entry.taxon?.commonName?.let { Text(it, color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodyMedium) }
             Text(
                 "${DiaryDateFormatter.format(observation.observedAt.atZone(observation.zoneId))} · " +
                     "${DiaryTimeFormatter.format(observation.observedAt.atZone(observation.zoneId))} · " +
                     "${observation.quantity} ${if (observation.quantity == 1) "esemplare" else "esemplari"}",
-                color = DiaryMuted,
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            if (observation.notes.isNotBlank()) Text(observation.notes, color = DiaryInk, style = MaterialTheme.typography.bodyMedium)
+            if (observation.notes.isNotBlank()) Text(observation.notes, color = FaunaviaColors.Ink, style = MaterialTheme.typography.bodyMedium)
             if (observation.location != null) {
-                Text("Posizione salvata", color = DiaryMuted, style = MaterialTheme.typography.bodySmall)
+                Text("Posizione salvata", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall)
             }
-            if (observation.tripId != null) Text("Collegato al viaggio${if (observation.outingId != null) " e all’uscita" else ""}", color = DiaryMuted)
+            if (observation.tripId != null) Text("Collegato al viaggio${if (observation.outingId != null) " e all’uscita" else ""}", color = FaunaviaColors.Muted)
             OutlinedButton(onClick = onPhotos, modifier = Modifier.testTag("diary-photos-${observation.id}")) { Text("Foto (${entry.photoCount})") }
             if (deleteConfirmation) {
-                Text("Eliminare definitivamente questo avvistamento?", color = DiaryError, style = MaterialTheme.typography.bodyMedium)
+                Text("Eliminare definitivamente questo avvistamento?", color = FaunaviaColors.Error, style = MaterialTheme.typography.bodyMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedButton(onClick = onCancelDelete, modifier = Modifier.testTag("diary-delete-cancel-${observation.id}")) {
                         Text("Annulla")
@@ -556,62 +504,32 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
     trips: List<Trip>,
     outings: List<Outing>,
 ) {
-    var searchEntries by remember { mutableStateOf<List<TaxonomySearchEntry>>(emptyList()) }
-    var searchMessage by remember { mutableStateOf<String?>(null) }
-    var searchRefresh by remember { mutableIntStateOf(0) }
-    var searchGeneration by remember { mutableIntStateOf(0) }
-    var searching by remember { mutableStateOf(false) }
+    val lookup = rememberTaxonomyLookup(taxonomySearch, editor.taxonQuery, enabled = editor.selectedTaxon == null)
+    var selectionError by remember(editor.taxonQuery, editor.selectedTaxon?.id) { mutableStateOf<String?>(null) }
     var selecting by remember { mutableStateOf(false) }
     val latestEditor by rememberUpdatedState(editor)
-    var retrySearch by remember { mutableStateOf(false) }
     var saveError by remember { mutableStateOf<String?>(null) }
     var saving by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(editor.taxonQuery, editor.selectedTaxon?.id, searchRefresh) {
-        val generation = ++searchGeneration
-        val query = normalizeQuery(editor.taxonQuery)
-        searchEntries = emptyList()
-        retrySearch = false
-        searching = false
-        searchMessage = null
-        if (editor.selectedTaxon != null || query.length < MINIMUM_TAXON_QUERY_LENGTH) {
-            if (editor.selectedTaxon == null && query.isNotEmpty()) searchMessage = "Inserisci almeno $MINIMUM_TAXON_QUERY_LENGTH caratteri."
-            return@LaunchedEffect
-        }
-        searching = true
-        try {
-            delay(350)
-            val result = withContext(Dispatchers.IO) { taxonomySearch.search(query) }
-            searchEntries = when (result) {
-                is TaxonomySearchResult.Results -> {
-                    if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED) searchMessage = "Mostro le specie già salvate sul dispositivo."
-                    result.entries
-                }
-                is TaxonomySearchResult.Empty -> {
-                    searchMessage = if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED)
-                        "Nessuna specie salvata corrisponde. Cerca nel catalogo quando torni online."
-                    else "Nessuna specie trovata. Prova un nome comune, scientifico o un sinonimo."
-                    emptyList()
-                }
-                is TaxonomySearchResult.AwaitingQuery -> emptyList()
-                is TaxonomySearchResult.Failure -> {
-                    retrySearch = true
-                    searchMessage = "${taxonomyFailureMessage(result.reason)} Puoi scegliere le specie già salvate."
-                    result.cachedEntries
-                }
-            }
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (_: Exception) {
-            if (generation == searchGeneration) {
-                retrySearch = true
-                searchMessage = "La ricerca non è disponibile. Riprova; i ricordi salvati sono conservati."
-            }
-        } finally {
-            if (generation == searchGeneration) searching = false
-        }
+    val result = lookup.result
+    val searchEntries = when (result) {
+        is TaxonomySearchResult.Results -> result.entries
+        is TaxonomySearchResult.Failure -> result.cachedEntries
+        else -> emptyList()
     }
+    val searchMessage = selectionError ?: when {
+        lookup.unexpectedFailure -> "La ricerca non è disponibile. Riprova; i ricordi salvati sono conservati."
+        result is TaxonomySearchResult.Results && result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED ->
+            "Mostro le specie già salvate sul dispositivo."
+        result is TaxonomySearchResult.Empty -> if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED)
+            "Nessuna specie salvata corrisponde. Cerca nel catalogo quando torni online."
+            else "Nessuna specie trovata. Prova un nome comune, scientifico o un sinonimo."
+        result is TaxonomySearchResult.Failure -> "${taxonomyFailureMessage(result.reason)} Puoi scegliere le specie già salvate."
+        editor.selectedTaxon == null && normalizeQuery(editor.taxonQuery).length in 1 until MINIMUM_TAXON_QUERY_LENGTH ->
+            "Inserisci almeno $MINIMUM_TAXON_QUERY_LENGTH caratteri."
+        else -> null
+    }
+    val retrySearch = lookup.unexpectedFailure || result is TaxonomySearchResult.Failure
 
     LazyColumn(
         modifier = Modifier
@@ -624,14 +542,14 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
         item {
             Text(
                 if (editor.unidentified) "Bozza da identificare" else if (editor.id == null) "Nuovo avvistamento" else "Modifica avvistamento",
-                color = DiaryInk,
+                color = FaunaviaColors.Ink,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
-            Text("I campi con specie, data, ora e quantità sono salvati localmente.", color = DiaryMuted, style = MaterialTheme.typography.bodyMedium)
-            Text("Conferma la data e la posizione effettive. Nessuna coordinata esterna viene copiata.", color = DiaryMuted, modifier = Modifier.testTag("diary-confirm-actual"))
+            Text("I campi con specie, data, ora e quantità sono salvati localmente.", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodyMedium)
+            Text("Conferma la data e la posizione effettive. Nessuna coordinata esterna viene copiata.", color = FaunaviaColors.Muted, modifier = Modifier.testTag("diary-confirm-actual"))
             Text("Dopo il salvataggio puoi aggiungere foto dall’elenco. Anche le bozze conservano le foto quando vengono identificate.",
-                color = DiaryMuted, style = MaterialTheme.typography.bodySmall)
+                color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall)
         }
         item {
             OutlinedTextField(
@@ -653,10 +571,10 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            if (searching) Text("Ricerca nel catalogo…", color = DiaryMuted, modifier = Modifier.testTag("diary-taxon-loading"))
-            if (selecting) Text("Salvataggio della specie…", color = DiaryMuted)
-            searchMessage?.let { Text(it, color = DiaryMuted, style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("diary-taxon-message")) }
-            if (retrySearch) OutlinedButton(onClick = { searchRefresh++ }, enabled = !searching && !selecting,
+            if (lookup.loading) Text("Ricerca nel catalogo…", color = FaunaviaColors.Muted, modifier = Modifier.testTag("diary-taxon-loading"))
+            if (selecting) Text("Salvataggio della specie…", color = FaunaviaColors.Muted)
+            searchMessage?.let { Text(it, color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("diary-taxon-message")) }
+            if (retrySearch) OutlinedButton(onClick = lookup::retry, enabled = !lookup.loading && !selecting,
                 modifier = Modifier.testTag("diary-taxon-retry")) { Text("Riprova ricerca") }
         }
         if (searchEntries.isNotEmpty()) {
@@ -664,7 +582,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
                 OutlinedButton(
                     onClick = {
                         selecting = true
-                        searchMessage = null
+                        selectionError = null
                         scope.launch {
                             try {
                                 withContext(Dispatchers.IO) { taxonomySearch.select(entry) }
@@ -672,7 +590,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
                             } catch (cancelled: CancellationException) {
                                 throw cancelled
                             } catch (_: Exception) {
-                                searchMessage = "Non riesco a salvare questa specie sul dispositivo. Selezionala di nuovo per riprovare."
+                                selectionError = "Non riesco a salvare questa specie sul dispositivo. Selezionala di nuovo per riprovare."
                             } finally {
                                 selecting = false
                             }
@@ -689,7 +607,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
             }
         }
         if (trips.isNotEmpty()) item {
-            Text("Collegamento al viaggio", color = DiaryInk)
+            Text("Collegamento al viaggio", color = FaunaviaColors.Ink)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 item { OutlinedButton(onClick = { onEditorChange(editor.copy(tripId = null, outingId = null)) }) { Text("Senza viaggio") } }
                 items(trips, key = { it.id }) { trip ->
@@ -697,14 +615,14 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
                 }
             }
             editor.tripId?.let { tripId ->
-                Text("Viaggio: ${trips.firstOrNull { it.id == tripId }?.name ?: tripId}", color = DiaryMuted)
+                Text("Viaggio: ${trips.firstOrNull { it.id == tripId }?.name ?: tripId}", color = FaunaviaColors.Muted)
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     item { OutlinedButton(onClick = { onEditorChange(editor.copy(outingId = null)) }) { Text("Senza uscita") } }
                     items(outings.filter { it.tripId == tripId }, key = { it.id }) { outing ->
                         OutlinedButton(onClick = { onEditorChange(editor.copy(outingId = outing.id)) }, modifier = Modifier.testTag("diary-link-outing-${outing.id}")) { Text(outing.name) }
                     }
                 }
-                Text("Uscita: ${outings.firstOrNull { it.id == editor.outingId }?.name ?: "nessuna"}", color = DiaryMuted)
+                Text("Uscita: ${outings.firstOrNull { it.id == editor.outingId }?.name ?: "nessuna"}", color = FaunaviaColors.Muted)
             }
         }
         item {
@@ -747,8 +665,8 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
             )
         }
         item {
-            Text("Posizione opzionale", color = DiaryInk, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-            Text("Lascia entrambi i campi vuoti se non vuoi salvarla.", color = DiaryMuted, style = MaterialTheme.typography.bodySmall)
+            Text("Posizione opzionale", color = FaunaviaColors.Ink, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            Text("Lascia entrambi i campi vuoti se non vuoi salvarla.", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall)
             Spacer(Modifier.height(6.dp))
             Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
@@ -768,7 +686,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
             }
         }
         saveError?.let { message ->
-            item { Text(message, modifier = Modifier.testTag("diary-editor-error"), color = DiaryError) }
+            item { Text(message, modifier = Modifier.testTag("diary-editor-error"), color = FaunaviaColors.Error) }
         }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {

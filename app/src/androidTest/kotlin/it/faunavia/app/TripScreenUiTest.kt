@@ -70,6 +70,20 @@ class TripScreenUiTest {
     }
     @After fun close() { db.close(); context.deleteDatabase(name) }
 
+    @Test fun draftQuantityUsesSharedValidationAndAcceptsOuterSpaces() {
+        composeRule.setContent { FaunaviaTheme { TestDiary() } }
+        click("diary-list", "diary-new-draft")
+        type("diary-editor", "diary-quantity", "0")
+        click("diary-editor", "diary-save")
+        composeRule.onNodeWithTag("diary-editor-error")
+            .assertTextContains("La quantità deve essere tra 1 e $MAX_OBSERVATION_QUANTITY.")
+        assertTrue(runBlocking { local.unidentified.list().isEmpty() })
+        type("diary-editor", "diary-quantity", " 2 ")
+        click("diary-editor", "diary-save")
+        waitForNode("diary-draft-ui-memory")
+        assertEquals(2, runBlocking { checkNotNull(local.unidentified.get("ui-memory")).input.quantity })
+    }
+
     @Test fun freeStagesValidateDaysPersistAndUseTheSelectedLegForMapsAndEvidence() {
         val planned = trip.copy(departure = trip.destination.copy(name = "Partenza", center = GeoPoint(45.1, 9.1)), route = testTripRoute())
         runBlocking { local.trips.save(planned) }

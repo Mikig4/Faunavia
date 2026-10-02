@@ -51,9 +51,15 @@ Room schema 7 persists accepted-Animalia wishlist identities, with idempotent ad
 
 Usage and migration notes: `GUIDA-FASE-9.md`. Automated F9 coverage: `PersonalSuggestionsTest`, `F9PersistenceTest`, `F9UiTest`.
 
-## Planned daily summary
+## Implemented F11 daily summary
 
-Schedule a local check at the user's chosen local time. The worker reads Room using the device timezone, counts manual observations for the local date, and emits a notification only when the count is greater than zero. It must be idempotent across reboot and timezone changes, and tolerate Android's scheduling flex.
+Settings starts disabled and stores a minute-precision local time. Explicit activation requests POST_NOTIFICATIONS on Android 13+. Permission/channel denial leaves the diary available; startup/resume reconciliation disables a previously enabled reminder when permission is revoked. Disabling cancels the unique work and pending summary notifications. Settings also opens today's summary without a notification or network.
+
+WorkManager 2.12.0 owns one unique periodic 15-minute check, initially delayed to the chosen time. The worker reads the current device zone, allows only the window from preferred time through that local day's end, and counts identified observation records, excluding drafts, quantities and provider evidence. Empty/before-time/disabled runs do not post. Delayed work after midnight evaluates the new day. KEEP preserves persisted scheduling on normal reopening; changing time/zone/system clock realigns via CANCEL_AND_REENQUEUE. Preference persistence plus scheduling runs in a short NonCancellable section under a mutex, so leaving Settings cannot interrupt between the two. WorkManager restores work after boot; a force-stop waits for the next app opening.
+
+Room 9 adds an additive delivery ledger keyed by local date, deliberately not by zone. A short serialized transaction reads settings/day, posts through the local Android sink, and marks only successful sends. NonCancellable protects post-to-marker ordering from coroutine cancellation. Concurrent/repeated workers and returning to an already delivered date stay silent. A date-specific Android tag plus onlyAlertOnce replaces the same card on crash retry but alerts for a new day. SQLite and NotificationManager have no shared transaction; abrupt process death between post and commit cannot promise strict exactly-once effects.
+
+Notification tap preserves date and zone, showing local catalogue names, count, time, quantity, notes and private photo gallery. A current-day shortcut and empty/error/retry states are available. Summary/gallery navigation survives Activity recreation; all photo recovery includes both identified and draft references. No GBIF, NNB, Firebase, exact alarm or network constraint is introduced. See `GUIDA-FASE-11.md` and `29 - Rapporto Fase 11.md` for evidence and limits.
 
 ## Photos
 

@@ -68,10 +68,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val ExploreInk = Color(0xFF26382E)
-private val ExploreMuted = Color(0xFF52675A)
-private val ExploreError = Color(0xFF9B1C1C)
-private val ExploreGreen = Color(0xFF1F5C3F)
+private val ExploreInk = FaunaviaColors.Ink
+private val ExploreMuted = FaunaviaColors.Muted
+private val ExploreError = FaunaviaColors.Error
+private val ExploreGreen = FaunaviaColors.Green
 
 private enum class EvidenceFilter(val label: String) {
     ALL("Tutti"), DOCUMENTED("Documentati"), PLAUSIBLE("Plausibili"), INSUFFICIENT("Dati insufficienti"),
@@ -169,7 +169,7 @@ internal fun ExplorationScreen(
         }
     }
 
-    Column(Modifier.fillMaxSize().background(Color(0xFFF4F7F2)).testTag("screen-results")) {
+    Column(Modifier.fillMaxSize().background(FaunaviaColors.Background).testTag("screen-results")) {
         Box(Modifier.fillMaxWidth().height(104.dp).background(ExploreGreen).padding(horizontal = 24.dp),
             contentAlignment = Alignment.CenterStart) {
             Column {

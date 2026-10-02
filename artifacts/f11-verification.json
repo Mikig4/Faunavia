@@ -1,0 +1,49 @@
+{
+  "phase": "F11",
+  "version": "0.11.0-f11",
+  "versionCode": 18,
+  "roomSchema": 9,
+  "command": "./gradlew.bat verifyAll --no-daemon",
+  "status": "PASS",
+  "verifiedAtUtc": "2026-10-02T19:52:09.8796781Z",
+  "tests": {
+    "skipped": 0,
+    "jvm": 115,
+    "android": 123,
+    "failures": 0,
+    "omissions": 0,
+    "f0": 13
+  },
+  "checks": [
+    "build",
+    "lint",
+    "format",
+    "boundaries",
+    "three-existing-visual-signatures",
+    "notification-permission-grant-denial",
+    "real-notification-tap",
+    "migration-8-9",
+    "cancellation-during-settings-save"
+  ],
+  "apk": {
+    "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+    "bytes": 56707897,
+    "targetSdk": 37,
+    "path": "C:\\Users\\MicheleGreco\\OneDrive - Fusion AI Labs\\Desktop\\Progetti\\Faunavia\\artifacts\\Faunavia-f11-debug.apk",
+    "minSdk": 26,
+    "sha256": "D6AE7478231D2EC5C3A3D187946BF027388D1DC289F161BBE9E77C9771BC4F86"
+  },
+  "evidence": [
+    "f11-all.log",
+    "f11-android-results.xml",
+    "f11-visual-summary.txt",
+    "f11-signature.txt",
+    "f11-android-report/index.html"
+  ],
+  "limits": [
+    "Flexible scheduling, no exact-minute guarantee",
+    "Reboot simulated by persistence reopening, no physical reboot or prolonged Doze test",
+    "No physical phone or new live provider check",
+    "No shared atomic transaction between Room and Android NotificationManager"
+  ]
+}

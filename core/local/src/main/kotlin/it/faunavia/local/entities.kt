@@ -208,3 +208,7 @@ data class AppSettingsRow(
     val reminderMinute: Int,
     @ColumnInfo(defaultValue = "'UTC'") val zoneId: String,
 )
+
+/** The date is the key even after a timezone change, so returning to that date stays silent. */
+@Entity(tableName = "daily_summary_deliveries", primaryKeys = ["date"])
+data class DailySummaryDeliveryRow(val date: String, val zoneId: String, val notifiedAt: String)

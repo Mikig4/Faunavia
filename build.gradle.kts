@@ -23,6 +23,7 @@ providers.environmentVariable("FAUNAVIA_BUILD_ROOT").orNull
 val reportRoot = layout.buildDirectory.dir("reports/verification")
 val appBuildDirectory = project(":app").layout.buildDirectory
 val domainBuildDirectory = project(":core:domain").layout.buildDirectory
+val networkBuildDirectory = project(":core:network").layout.buildDirectory
 val testingBuildDirectory = project(":core:testing").layout.buildDirectory
 val localBuildDirectory = project(":core:local").layout.buildDirectory
 val taxonomyBuildDirectory = project(":core:taxonomy").layout.buildDirectory
@@ -62,6 +63,7 @@ val verifyFast = tasks.register("verifyFast") {
         formatCheck,
         staticAnalysis,
         ":core:domain:test",
+        ":core:network:test",
         ":core:testing:test",
         ":core:taxonomy:test",
         ":core:route:test",
@@ -144,6 +146,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
               <li><a href="${explorationBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Exploration JVM tests</a></li>
               <li><a href="${appBuild.resolve("reports/tests/testDebugUnitTest/index.html").toURI()}">App JVM tests</a></li>
               <li><a href="${domainBuild.resolve("reports/tests/test/index.html").toURI()}">Domain JVM tests</a></li>
+              <li><a href="${networkBuildDirectory.get().asFile.resolve("reports/tests/test/index.html").toURI()}">Shared HTTP transport JVM tests</a></li>
               <li><a href="${testingBuild.resolve("reports/tests/test/index.html").toURI()}">Testing fakes JVM tests</a></li>
               <li><a href="${appBuild.resolve("reports/androidTests/managedDevice/debug/allDevices/index.html").toURI()}">Room CRUD, integrity, migration, UI and screenshot tests</a></li>
             </ul></body></html>
@@ -154,7 +157,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F10 host, taxonomy, route, occurrence, plausibility, exploration, database, photos, UI, device and visual gates."
+    description = "Runs F0-F11 host, taxonomy, route, occurrence, plausibility, exploration, database, photos, reminders, UI, device and visual gates."
     dependsOn(collectVerificationReports)
 }
 

@@ -92,9 +92,9 @@ Room schema 8 migrates 7→8 additively, preserving diary/wishlist/draft data an
 
 Metadata is written after complete files; failed Room writes remove new files. Metadata deletion precedes file deletion, exposing incomplete cleanup. A shared mutex and 24-hour grace protect referenced/recent files during orphan recovery. Gallery state/jobs survive Activity recreation; committed copies reopen from Room after process restart, while interrupted imports require explicit re-selection. Tests include real UI Automator picker selection with synthetic MediaStore images, actual rotated-image pixels, Activity recreation, migration, reopening and failure/rollback cases. See `GUIDA-FASE-10.md`; export/import remains F12.
 
-## Planned notification scheduling
+## F11 notification scheduling
 
-Use WorkManager or a one-shot local scheduling strategy for the daily summary. The job must not require network. Android 13+ requires runtime notification permission; denial should disable only the reminder, not the diary.
+Current schema is 9: migration 8→9 adds a daily delivery ledger without changing any existing row. WorkManager 2.12.0 uses unique 15-minute periodic work with initial delay, KEEP for reopening and CANCEL_AND_REENQUEUE for time/zone changes. Its boot restoration is supplied by the library; the app receiver handles TIME_SET/TIMEZONE_CHANGED and onCreate/onResume reconcile persisted settings. Runtime permission and notification channel blocks prevent posting; disabling leaves the diary intact. Notification intents are immutable and retain date/zone. No network constraint or exact alarm is used. See `GUIDA-FASE-11.md`.
 
 ## Maps
 

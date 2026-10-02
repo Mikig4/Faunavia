@@ -46,6 +46,9 @@ Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tr
 - [[GUIDA-GRADLE-LOOPBACK]] — recupero rapido se Gradle non riesce a stabilire la connessione loopback.
 - [[GUIDA-FASE-10]] — foto private, bozze, rimozione e gestione degli errori.
 - [[27 - Rapporto Fase 10]] — incremento foto, migrazione, verifiche e APK.
+- [[28 - Semplificazione del codice]] — residui rimossi, validazione/ricerca condivise e trasporto HTTP comune.
+- [[GUIDA-FASE-11]] — attivazione, orario flessibile, permessi e riepilogo locale.
+- [[29 - Rapporto Fase 11]] — notifiche giornaliere, migrazione Room e verifiche.
 
 ## Memoria tecnica
 

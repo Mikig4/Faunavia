@@ -10,12 +10,6 @@ data class GeoPoint(
     }
 }
 
-data class SpeciesSummary(
-    val taxonId: String,
-    val scientificName: String,
-    val evidenceLevel: EvidenceLevel,
-)
-
 enum class EvidenceLevel {
     DOCUMENTED,
     PLAUSIBLE,
@@ -24,12 +18,4 @@ enum class EvidenceLevel {
 
 interface AppClock {
     fun nowEpochMillis(): Long
-}
-
-interface LocationSource {
-    fun currentLocation(): GeoPoint?
-}
-
-interface SpeciesProvider {
-    fun speciesNear(point: GeoPoint): List<SpeciesSummary>
 }

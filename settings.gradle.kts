@@ -18,6 +18,7 @@ rootProject.name = "Faunavia"
 
 include(":app")
 include(":core:domain")
+include(":core:network")
 include(":core:testing")
 include(":core:local")
 include(":core:taxonomy")

@@ -129,15 +129,16 @@ data class ObservationPhoto(
 ) {
     init {
         require(id.isNotBlank() && observationId.isNotBlank())
-        require(relativePath.isNotBlank() && !relativePath.startsWith('/') && ':' !in relativePath && '\\' !in relativePath)
-        require(relativePath.split('/').none { it == ".." || it == "." || it.isEmpty() })
+        validatePhotoPath(relativePath)
         require(sha256.matches(Regex("[a-f0-9]{64}")) && byteSize > 0 && mimeType.startsWith("image/"))
         require(width >= 0 && height >= 0 && orientation in 1..8)
-        thumbnailPath?.let {
-            require(it.isNotBlank() && !it.startsWith('/') && ':' !in it && '\\' !in it)
-            require(it.split('/').none { part -> part == ".." || part == "." || part.isEmpty() })
-        }
+        thumbnailPath?.let(::validatePhotoPath)
     }
+}
+
+private fun validatePhotoPath(path: String) {
+    require(path.isNotBlank() && !path.startsWith('/') && ':' !in path && '\\' !in path)
+    require(path.split('/').none { it == ".." || it == "." || it.isEmpty() })
 }
 
 enum class RouteSource { LOCATION, GPX, GEOJSON, PLANNED, LEGACY }

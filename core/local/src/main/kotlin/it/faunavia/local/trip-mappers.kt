@@ -7,15 +7,10 @@ import java.time.ZoneId
 import org.json.JSONArray
 import org.json.JSONObject
 
-private fun Provenance.json() = JSONObject().put("source", source).put("recordId", recordId)
-    .put("query", query).put("retrievedAt", retrievedAt.toString()).put("license", license)
-    .put("attribution", attribution).put("quality", quality).put("version", version)
-private fun JSONObject.provenance() = Provenance(getString("source"), getString("recordId"), getString("query"),
-    Instant.parse(getString("retrievedAt")), getString("license"), getString("attribution"), getString("quality"), getString("version"))
 private fun TripPlace.json() = JSONObject().put("name", name).put("lat", center.latitude)
-    .put("lon", center.longitude).put("kind", kind).put("provenance", provenance.json())
+    .put("lon", center.longitude).put("kind", kind).put("provenance", provenance.toJson())
 private fun JSONObject.place() = TripPlace(getString("name"), GeoPoint(getDouble("lat"), getDouble("lon")),
-    getString("kind"), getJSONObject("provenance").provenance())
+    getString("kind"), getJSONObject("provenance").toProvenance())
 private fun JSONObject.nullable(name: String) = if (isNull(name)) null else getString(name)
 private fun JSONArray.strings() = List(length()) { getString(it) }
 
@@ -26,9 +21,9 @@ private fun JSONObject.geometry(): Route = RouteRow(getString("id"), getString("
     getString("points"), getString("importedAt")).toDomain()
 
 private fun TripRoute.json() = JSONObject().put("geometry", geometry.geometryJson())
-    .put("distance", distanceMeters).put("duration", durationSeconds).put("provenance", provenance.json())
+    .put("distance", distanceMeters).put("duration", durationSeconds).put("provenance", provenance.toJson())
 private fun JSONObject.tripRoute() = TripRoute(getJSONObject("geometry").geometry(), getDouble("distance"),
-    getDouble("duration"), getJSONObject("provenance").provenance())
+    getDouble("duration"), getJSONObject("provenance").toProvenance())
 
 fun Trip.toRow() = TripRow(id, JSONObject().put("version", 3).put("name", name)
     .put("destination", destination.json()).put("startsOn", startsOn.toString()).put("endsOn", endsOn.toString())
@@ -77,7 +72,7 @@ fun SavedTripResult.toRow() = SavedTripResultRow(id, tripId, outingId, JSONObjec
         .put("level", source.level.name).put("eventAt", source.eventAt?.toString() ?: JSONObject.NULL)
         .put("lat", source.location?.latitude ?: JSONObject.NULL).put("lon", source.location?.longitude ?: JSONObject.NULL)
         .put("uncertainty", source.uncertaintyMeters ?: JSONObject.NULL).put("explanation", source.explanation)
-        .put("provenance", source.provenance.json()) })).toString())
+        .put("provenance", source.provenance.toJson()) })).toString())
 fun SavedTripResultRow.toDomain(): SavedTripResult = JSONObject(payload).let { root ->
     val taxonId = root.getString("taxonId")
     val evidence = root.getJSONArray("evidence").let { items -> List(items.length()) { index ->
@@ -86,7 +81,7 @@ fun SavedTripResultRow.toDomain(): SavedTripResult = JSONObject(payload).let { r
             item.nullable("eventAt")?.let(Instant::parse),
             if (item.isNull("lat")) null else GeoPoint(item.getDouble("lat"), item.getDouble("lon")),
             if (item.isNull("uncertainty")) null else item.getDouble("uncertainty"),
-            item.getString("explanation"), item.getJSONObject("provenance").provenance())
+            item.getString("explanation"), item.getJSONObject("provenance").toProvenance())
     } }
     SavedTripResult(id, tripId, outingId, taxonId, root.getString("scientificName"),
         EvidenceLevel.valueOf(root.getString("level")), root.getJSONArray("explanation").strings(),

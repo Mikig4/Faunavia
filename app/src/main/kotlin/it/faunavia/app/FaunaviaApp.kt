@@ -2,7 +2,6 @@ package it.faunavia.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,12 +25,11 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,14 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import it.faunavia.taxonomy.MINIMUM_TAXON_QUERY_LENGTH
 import it.faunavia.taxonomy.TaxonomySearch
 import it.faunavia.taxonomy.TaxonomySearchEntry
 import it.faunavia.taxonomy.TaxonomySearchOrigin
 import it.faunavia.taxonomy.TaxonomySearchResult
 import it.faunavia.taxonomy.TaxonomyFailure
-import it.faunavia.taxonomy.normalizeQuery
 import it.faunavia.domain.CatalogueRepository
 import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.RouteRepository
@@ -59,8 +54,6 @@ import it.faunavia.route.RouteImportService
 import it.faunavia.exploration.ExplorationService
 import it.faunavia.exploration.PlaceSearch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.navigation.compose.NavHost
@@ -86,26 +79,23 @@ internal val PrimaryDestinations = listOf(
     AppDestination.TRIPS, AppDestination.DIARY, AppDestination.CATALOGUE, AppDestination.SETTINGS,
 )
 
-private val FaunaviaBackground = Color(0xFFF4F7F2)
-private val FaunaviaGreen = Color(0xFF1F5C3F)
-private val FaunaviaNavigation = Color(0xFFE4EEE5)
 
 @Composable
 fun FaunaviaTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = lightColorScheme(
-            primary = FaunaviaGreen,
+            primary = FaunaviaColors.Green,
             onPrimary = Color.White,
-            background = FaunaviaBackground,
-            surface = FaunaviaBackground,
-            surfaceVariant = FaunaviaNavigation,
+            background = FaunaviaColors.Background,
+            surface = FaunaviaColors.Background,
+            surfaceVariant = FaunaviaColors.Navigation,
         ),
         content = content,
     )
 }
 
 @Composable
-fun FaunaviaApp(
+internal fun FaunaviaApp(
     taxonomySearch: TaxonomySearch? = null,
     diaryRepository: DiaryRepository? = null,
     catalogueRepository: CatalogueRepository? = null,
@@ -117,6 +107,8 @@ fun FaunaviaApp(
     tripRepository: TripRepository? = null,
     unidentifiedRepository: UnidentifiedRepository? = null,
     wishlistRepository: WishlistRepository? = null,
+    summaryLink: SummaryLink? = null,
+    onSummaryLinkConsumed: () -> Unit = {},
 ) {
     val application = LocalContext.current.applicationContext as FaunaviaApplication
     val catalogueSearch = taxonomySearch ?: application.taxonomySearch
@@ -129,6 +121,8 @@ fun FaunaviaApp(
     val trips = tripRepository ?: application.repositories.trips
     val unidentified = unidentifiedRepository ?: application.repositories.unidentified
     val wishes = wishlistRepository ?: application.repositories.wishlist
+    var summaryDate by rememberSaveable { mutableStateOf(java.time.LocalDate.now().toString()) }
+    var summaryZone by rememberSaveable { mutableStateOf(java.time.ZoneId.systemDefault().id) }
     var observationSeed by remember { mutableStateOf<DiaryPrefill?>(null) }
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -143,21 +137,34 @@ fun FaunaviaApp(
         }
     }
 
+    fun openSummary(link: SummaryLink) {
+        summaryDate = link.date.toString()
+        summaryZone = link.zoneId.id
+        navController.navigate("daily-summary") { launchSingleTop = true }
+    }
+    LaunchedEffect(summaryLink) {
+        summaryLink?.let { openSummary(it); onSummaryLinkConsumed() }
+    }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(FaunaviaGreen)
+            .background(FaunaviaColors.Green)
             .testTag("app-root"),
         bottomBar = {
             DestinationBar(
-                selectedRoute = if (currentDestination?.route in listOf("results", "routes")) "trips" else currentDestination?.route,
+                selectedRoute = when (currentDestination?.route) {
+                    "results", "routes" -> "trips"
+                    "daily-summary" -> "diary"
+                    else -> currentDestination?.route
+                },
                 onDestinationSelected = ::navigate,
             )
         },
-        containerColor = FaunaviaGreen,
+        containerColor = FaunaviaColors.Green,
         contentColor = MaterialTheme.colorScheme.onBackground,
     ) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).background(FaunaviaBackground)) {
+        Column(Modifier.fillMaxSize().padding(padding).background(FaunaviaColors.Background)) {
             if (currentDestination?.route in listOf("results", "routes")) {
                 TextButton(onClick = { navigate(AppDestination.TRIPS) }, modifier = Modifier.testTag("back-to-trips")) {
                     Text("Torna ai viaggi")
@@ -168,6 +175,11 @@ fun FaunaviaApp(
                 startDestination = AppDestination.TRIPS.route,
                 modifier = Modifier.weight(1f),
             ) {
+                composable("daily-summary") {
+                    val photos = remember(diary, unidentified) { MemoryPhotos(application.privatePhotos, diary, unidentified) }
+                    DailySummaryScreen(SummaryLink(java.time.LocalDate.parse(summaryDate), java.time.ZoneId.of(summaryZone)),
+                        diary, catalogue, photos, onBack = { navigate(AppDestination.DIARY) })
+                }
                 AppDestination.entries.forEach { destination ->
                     composable(destination.route) {
                         when (destination) {
@@ -189,6 +201,8 @@ fun FaunaviaApp(
                                 onExplore = { navigate(AppDestination.RESULTS) },
                                 onImportRoute = { navigate(AppDestination.ROUTES) }, routing = application.tripRouting,
                                 wishlist = wishes)
+                            AppDestination.SETTINGS -> SettingsScreen(application.reminderPreferences,
+                                application.summaryNotifications, onSummary = ::openSummary)
                             else -> PlaceholderScreen(destination)
                         }
                     }
@@ -203,33 +217,10 @@ private fun PlaceholderScreen(destination: AppDestination) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FaunaviaBackground)
+            .background(FaunaviaColors.Background)
             .testTag("screen-${destination.route}"),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(104.dp)
-                .background(FaunaviaGreen)
-                .padding(horizontal = 24.dp),
-            contentAlignment = Alignment.CenterStart,
-        ) {
-            Column {
-                Text(
-                    text = "Faunavia",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                )
-                Text(
-                    text = destination.label,
-                    modifier = Modifier.testTag("screen-title-${destination.route}"),
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-        }
+        FaunaviaHeader(destination.label, "screen-title-${destination.route}")
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -239,13 +230,13 @@ private fun PlaceholderScreen(destination: AppDestination) {
         ) {
             Text(
                 text = destination.description,
-                color = Color(0xFF26382E),
+                color = FaunaviaColors.Ink,
                 style = MaterialTheme.typography.bodyLarge,
             )
             Spacer(Modifier.height(12.dp))
             Text(
                 text = "Placeholder F1 — nessuna rete o dato personale richiesto.",
-                color = Color(0xFF52675A),
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
@@ -262,15 +253,10 @@ internal fun CatalogueScreen(
 ) {
     var showWishes by rememberSaveable { mutableStateOf(false) }
     var selectedTaxon by remember { mutableStateOf<Taxon?>(null) }
-    require(debounceMillis >= 0) { "The catalogue debounce cannot be negative." }
     var query by rememberSaveable { mutableStateOf("") }
-    var refresh by rememberSaveable { mutableIntStateOf(0) }
-    var result by remember { mutableStateOf<TaxonomySearchResult>(TaxonomySearchResult.AwaitingQuery()) }
-    var loading by remember { mutableStateOf(false) }
+    val lookup = rememberTaxonomyLookup(taxonomySearch, query, debounceMillis = debounceMillis)
     var selectedName by rememberSaveable { mutableStateOf<String?>(null) }
     var selectionError by rememberSaveable { mutableStateOf<String?>(null) }
-    var searchError by remember { mutableStateOf<String?>(null) }
-    var searchGeneration by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
 
     if (showWishes && wishlist != null && catalogue != null && diary != null) {
@@ -279,34 +265,13 @@ internal fun CatalogueScreen(
         return
     }
 
-    LaunchedEffect(query, refresh) {
-        val generation = ++searchGeneration
-        searchError = null
-        if (normalizeQuery(query).length < MINIMUM_TAXON_QUERY_LENGTH) {
-            loading = false
-            result = TaxonomySearchResult.AwaitingQuery()
-            return@LaunchedEffect
-        }
-        loading = true
-        try {
-            delay(debounceMillis)
-            result = withContext(Dispatchers.IO) { taxonomySearch.search(query) }
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (_: Exception) {
-            if (generation == searchGeneration) searchError = "Non riesco a completare la ricerca. Riprova; le specie salvate sono conservate."
-        } finally {
-            if (generation == searchGeneration) loading = false
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FaunaviaBackground)
+            .background(FaunaviaColors.Background)
             .testTag("screen-catalogue"),
     ) {
-        CatalogueHeader()
+        FaunaviaHeader("Catalogo", "screen-title-catalogue")
         wishlist?.let { TextButton(onClick = { showWishes = true }, modifier = Modifier.testTag("catalogue-wishlist")) { Text("Lista: vorrei vederlo") } }
         Column(
             modifier = Modifier
@@ -316,13 +281,13 @@ internal fun CatalogueScreen(
         ) {
             Text(
                 text = "Cerca un animale",
-                color = Color(0xFF26382E),
+                color = FaunaviaColors.Ink,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 text = "Nome comune, scientifico o sinonimo. Salviamo solo il taxon accettato.",
-                color = Color(0xFF52675A),
+                color = FaunaviaColors.Muted,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(Modifier.height(12.dp))
@@ -341,7 +306,7 @@ internal fun CatalogueScreen(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .testTag("catalogue-selected"),
-                    color = FaunaviaGreen,
+                    color = FaunaviaColors.Green,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -351,7 +316,7 @@ internal fun CatalogueScreen(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .testTag("catalogue-selection-error"),
-                    color = Color(0xFF9B1C1C),
+                    color = FaunaviaColors.Error,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -364,19 +329,19 @@ internal fun CatalogueScreen(
             } }
             Spacer(Modifier.height(12.dp))
             when {
-                loading -> Text(
+                lookup.loading -> Text(
                     text = "Ricerca in corso…",
                     modifier = Modifier.testTag("catalogue-loading"),
-                    color = Color(0xFF52675A),
+                    color = FaunaviaColors.Muted,
                 )
-                searchError != null -> Column {
-                    Text(requireNotNull(searchError), color = MaterialTheme.colorScheme.error,
+                lookup.unexpectedFailure -> Column {
+                    Text("Non riesco a completare la ricerca. Riprova; le specie salvate sono conservate.", color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.testTag("catalogue-error"))
-                    Button(onClick = { refresh++ }, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
+                    Button(onClick = lookup::retry, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
                 }
                 else -> CatalogueSearchResult(
-                    result = result,
-                    onRetry = { refresh++ },
+                    result = lookup.result,
+                    onRetry = lookup::retry,
                     onSelect = { entry ->
                         scope.launch {
                             selectionError = null
@@ -391,28 +356,6 @@ internal fun CatalogueScreen(
     }
 }
 
-@Composable
-private fun CatalogueHeader() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(FaunaviaGreen)
-            .padding(horizontal = 24.dp),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Column {
-            Text("Faunavia", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Text(
-                text = "Catalogo",
-                modifier = Modifier.testTag("screen-title-catalogue"),
-                color = Color.White,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    }
-}
 
 @Composable
 private fun CatalogueSearchResult(
@@ -424,7 +367,7 @@ private fun CatalogueSearchResult(
         is TaxonomySearchResult.AwaitingQuery -> Text(
             text = "Inserisci almeno ${result.minimumLength} caratteri.",
             modifier = Modifier.testTag("catalogue-prompt"),
-            color = Color(0xFF52675A),
+            color = FaunaviaColors.Muted,
         )
         is TaxonomySearchResult.Empty -> Text(
             text = if (result.origin == TaxonomySearchOrigin.OFFLINE_SELECTED) {
@@ -433,13 +376,13 @@ private fun CatalogueSearchResult(
                 "Nessun taxon Animalia accettato trovato."
             },
             modifier = Modifier.testTag("catalogue-empty"),
-            color = Color(0xFF52675A),
+            color = FaunaviaColors.Muted,
         )
         is TaxonomySearchResult.Failure -> {
             Column(modifier = Modifier.testTag("catalogue-error")) {
                 Text(
                     text = "${taxonomyFailureMessage(result.reason)} I taxa già selezionati restano consultabili offline.",
-                    color = Color(0xFF9B1C1C),
+                    color = FaunaviaColors.Error,
                 )
                 Button(onClick = onRetry, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
                 CatalogueEntries(result.cachedEntries, onSelect)
@@ -450,7 +393,7 @@ private fun CatalogueSearchResult(
                 Text(
                     text = "Offline: risultati già selezionati su questo dispositivo.",
                     modifier = Modifier.testTag("catalogue-offline"),
-                    color = Color(0xFF52675A),
+                    color = FaunaviaColors.Muted,
                 )
             }
             CatalogueEntries(result.entries, onSelect)
@@ -484,7 +427,7 @@ private fun CatalogueEntries(
                     .testTag("catalogue-result-${entry.taxon.id}"),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
-                    contentColor = Color(0xFF26382E),
+                    contentColor = FaunaviaColors.Ink,
                 ),
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -493,7 +436,7 @@ private fun CatalogueEntries(
                     Text("${entry.taxon.rank} · ${entry.taxon.provenance.recordId}")
                     Text(
                         text = "Anteprima fotografica non disponibile o senza licenza compatibile.",
-                        color = Color(0xFF52675A),
+                        color = FaunaviaColors.Muted,
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
@@ -510,7 +453,7 @@ private fun DestinationBar(
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FaunaviaNavigation)
+            .background(FaunaviaColors.Navigation)
             .navigationBarsPadding()
             .testTag("destination-bar"),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
@@ -522,8 +465,8 @@ private fun DestinationBar(
                 onClick = { onDestinationSelected(destination) },
                 modifier = Modifier.testTag("nav-${destination.route}"),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (selected) FaunaviaGreen else Color.White,
-                    contentColor = if (selected) Color.White else FaunaviaGreen,
+                    containerColor = if (selected) FaunaviaColors.Green else Color.White,
+                    contentColor = if (selected) Color.White else FaunaviaColors.Green,
                 ),
                 contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
             ) {
