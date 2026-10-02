@@ -30,11 +30,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,6 +82,7 @@ private val DiaryTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
 private data class DiaryListEntry(
     val observation: Observation,
     val taxon: Taxon?,
+    val photoCount: Int = 0,
 )
 
 internal data class DiaryPrefill(val taxon: Taxon? = null, val query: String = "",
@@ -218,11 +221,19 @@ internal fun DiaryScreen(
     fixedOutingId: String? = null,
     onExitEditor: () -> Unit = {},
     personalMap: PersonalMapAdapter = MapLibrePersonalMapAdapter,
+    photoManager: MemoryPhotos? = null,
 ) {
+    val context = LocalContext.current
+    val photos = remember(context, diary, unidentifiedRepository, photoManager) {
+        photoManager ?: MemoryPhotos((context.applicationContext as FaunaviaApplication).privatePhotos, diary, unidentifiedRepository)
+    }
+    var photoMemoryId by rememberSaveable { mutableStateOf<String?>(null) }
+    var draftPhotoCounts by remember { mutableStateOf<Map<String, Int>>(emptyMap()) }
     var refresh by remember { mutableIntStateOf(0) }
     var entries by remember { mutableStateOf<List<DiaryListEntry>>(emptyList()) }
     var loading by remember { mutableStateOf(true) }
     var listError by remember { mutableStateOf<String?>(null) }
+    var fileCleanupWarning by rememberSaveable { mutableStateOf<String?>(null) }
     var editor by remember(prefill) { mutableStateOf(prefill?.let {
         DiaryEditor.new(now(), deviceZone).copy(selectedTaxon = it.taxon, taxonQuery = it.taxon?.scientificName ?: it.query,
             tripId = it.tripId, outingId = it.outingId, unidentified = it.unidentified)
@@ -245,9 +256,10 @@ internal fun DiaryScreen(
         runCatching {
             withContext(Dispatchers.IO) {
                 drafts = unidentifiedRepository?.list().orEmpty()
+                draftPhotoCounts = drafts.associate { it.input.id to unidentifiedRepository?.photos(it.input.id).orEmpty().size }
                 trips = tripRepository?.list().orEmpty()
                 outings = trips.flatMap { tripRepository?.outings(it.id).orEmpty() }
-                diary.list().map { observation -> DiaryListEntry(observation, catalogue.taxon(observation.taxonId)) }
+                diary.list().map { observation -> DiaryListEntry(observation, catalogue.taxon(observation.taxonId), diary.photos(observation.id).size) }
             }
         }.onSuccess { entries = it }
             .onFailure { listError = "Non riesco a leggere il diario locale. Riprova." }
@@ -273,18 +285,20 @@ internal fun DiaryScreen(
             DiaryList(
                 entries = scoped,
                 loading = loading,
-                error = listError,
+                error = listError ?: fileCleanupWarning,
                 deletingId = deletingId,
                 onCreate = { editor = DiaryEditor.new(now(), deviceZone).copy(tripId = selectedTrip, outingId = selectedOuting) },
                 onEdit = { entry -> editor = DiaryEditor.from(entry) },
+                onPhotos = { photoMemoryId = it },
                 onStartDelete = { deletingId = it },
                 onCancelDelete = { deletingId = null },
                 onConfirmDelete = { id ->
                     scope.launch {
-                        runCatching { withContext(Dispatchers.IO) { diary.delete(id) } }
+                        runCatching { photos.deleteMemory(id, identified = true) }
                             .onSuccess {
                                 deletingId = null
                                 refresh++
+                                fileCleanupWarning = if (!it) "Avvistamento eliminato. Alcuni file privati attendono la pulizia; riapri le foto più tardi." else null
                             }
                             .onFailure { listError = "Non riesco a eliminare questo avvistamento. Riprova." }
                     }
@@ -340,12 +354,18 @@ internal fun DiaryScreen(
                             Column(Modifier.fillMaxWidth().testTag("diary-draft-${draft.input.id}"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                                 Text("Da identificare · ${draft.input.observedAt.atZone(draft.input.zoneId).toLocalDate()}", fontWeight = FontWeight.Bold, color = DiaryInk)
                                 Text(draft.input.notes.ifBlank { "Nessuna nota" }, color = DiaryMuted)
+                                OutlinedButton(onClick = { photoMemoryId = draft.input.id }, modifier = Modifier.testTag("diary-photos-${draft.input.id}")) {
+                                    Text("Foto (${draftPhotoCounts[draft.input.id] ?: 0})")
+                                }
                                 OutlinedButton(onClick = { editor = DiaryEditor.from(draft) }, modifier = Modifier.testTag("diary-draft-edit-${draft.input.id}")) { Text("Modifica o identifica") }
                                 if (deletingDraft == draft.input.id) {
                                     Text("Eliminare questa bozza?", color = DiaryError)
                                     Button(onClick = { scope.launch {
-                                        runCatching { unidentifiedRepository.delete(draft.input.id) }
-                                            .onSuccess { deletingDraft = null; refresh++ }
+                                        runCatching { photos.deleteMemory(draft.input.id, identified = false) }
+                                            .onSuccess {
+                                                deletingDraft = null; refresh++
+                                                fileCleanupWarning = if (!it) "Bozza eliminata. Alcuni file privati attendono la pulizia; riapri le foto più tardi." else null
+                                            }
                                             .onFailure { listError = "Non riesco a eliminare la bozza. Riprova." }
                                     } }, modifier = Modifier.testTag("diary-draft-delete-confirm-${draft.input.id}")) { Text("Elimina bozza") }
                                     OutlinedButton(onClick = { deletingDraft = null }) { Text("Annulla") }
@@ -377,6 +397,7 @@ internal fun DiaryScreen(
             )
         }
     }
+    photoMemoryId?.let { id -> PhotoGallery(id, photos, onClose = { photoMemoryId = null; refresh++ }) }
 }
 
 @Composable
@@ -410,6 +431,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
     deletingId: String?,
     onCreate: () -> Unit,
     onEdit: (DiaryListEntry) -> Unit,
+    onPhotos: (String) -> Unit,
     onStartDelete: (String) -> Unit,
     onCancelDelete: () -> Unit,
     onConfirmDelete: (String) -> Unit,
@@ -451,6 +473,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
                     entry = entry,
                     deleteConfirmation = deletingId == entry.observation.id,
                     onEdit = { onEdit(entry) },
+                    onPhotos = { onPhotos(entry.observation.id) },
                     onStartDelete = { onStartDelete(entry.observation.id) },
                     onCancelDelete = onCancelDelete,
                     onConfirmDelete = { onConfirmDelete(entry.observation.id) },
@@ -459,7 +482,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
         }
         item {
             Text(
-                "Le foto locali saranno aggiunte in F10; il diario resta utilizzabile senza foto.",
+                "Aggiungi le foto dall’elenco dopo aver salvato il ricordo. Le immagini restano private; il diario funziona anche senza foto.",
                 color = DiaryMuted,
                 style = MaterialTheme.typography.bodySmall,
             )
@@ -472,6 +495,7 @@ private fun DiaryEntry(
     entry: DiaryListEntry,
     deleteConfirmation: Boolean,
     onEdit: () -> Unit,
+    onPhotos: () -> Unit,
     onStartDelete: () -> Unit,
     onCancelDelete: () -> Unit,
     onConfirmDelete: () -> Unit,
@@ -498,6 +522,7 @@ private fun DiaryEntry(
                 Text("Posizione salvata", color = DiaryMuted, style = MaterialTheme.typography.bodySmall)
             }
             if (observation.tripId != null) Text("Collegato al viaggio${if (observation.outingId != null) " e all’uscita" else ""}", color = DiaryMuted)
+            OutlinedButton(onClick = onPhotos, modifier = Modifier.testTag("diary-photos-${observation.id}")) { Text("Foto (${entry.photoCount})") }
             if (deleteConfirmation) {
                 Text("Eliminare definitivamente questo avvistamento?", color = DiaryError, style = MaterialTheme.typography.bodyMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -605,6 +630,8 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
             )
             Text("I campi con specie, data, ora e quantità sono salvati localmente.", color = DiaryMuted, style = MaterialTheme.typography.bodyMedium)
             Text("Conferma la data e la posizione effettive. Nessuna coordinata esterna viene copiata.", color = DiaryMuted, modifier = Modifier.testTag("diary-confirm-actual"))
+            Text("Dopo il salvataggio puoi aggiungere foto dall’elenco. Anche le bozze conservano le foto quando vengono identificate.",
+                color = DiaryMuted, style = MaterialTheme.typography.bodySmall)
         }
         item {
             OutlinedTextField(

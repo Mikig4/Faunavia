@@ -1,0 +1,17 @@
+{
+  "version": "0.10.0-f10",
+  "versionCode": 16,
+  "roomSchema": 8,
+  "f0Tests": 13,
+  "jvmTests": 103,
+  "androidTests": 109,
+  "failures": 0,
+  "skipped": 0,
+  "omissionGate": "PASS",
+  "lint": "PASS",
+  "visualSignatures": 3,
+  "apkSha256": "CAAB0E63C8D3AC89C91A84EB0B91AF09E771FEA5B8EEE182ECE65CB67A3565BF",
+  "apkBytes": 56295856,
+  "signingCertificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "physicalPhoneTested": false
+}

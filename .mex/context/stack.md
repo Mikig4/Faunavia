@@ -40,6 +40,7 @@ last_updated: 2026-10-02
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
 - **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.
+- **AndroidX ExifInterface 1.4.2** — F10 reads local orientation before metadata-free bitmap encoding; official maintained parser instead of the legacy platform EXIF implementation. Android BitmapFactory/Canvas provide sampled decoding and fresh JPEG pixels without an image-loader dependency.
 - **Filament/SceneView or equivalent** (candidate) — render GLB with an accessible 2D fallback.
 - **JUnit 4.13.2 + AndroidX Test** — JVM, Compose, UI Automator and managed-device verification.
 - **Firebase Firestore** (optional) — structured sync only after the local-first MVP proves the need.

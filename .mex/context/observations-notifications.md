@@ -39,7 +39,7 @@ Persistent unidentified drafts now preserve date, optional location, notes, quan
 
 Trips/outings group observations and drafts. Deleting planning only unlinks memories, preserving diary/photo metadata. Calendar and lists retain unlocated observations; the map draws only personally entered coordinates. Species/first-observation summaries use the global identified diary and recompute after edit/delete. “L'ho visto” from evidence prefills taxon/context only after verified selection, requires actual date/location confirmation and never copies an external point.
 
-Photos remain F10; notifications F11 must exclude drafts, and F12 backup must preserve planning and all relationships, including F9 wishlists. Details and gates live in `09 - Piano di sviluppo dettagliato.md`.
+F10 now attaches private photos to both memory types and preserves them during identification. Notifications F11 must exclude drafts, and F12 backup must preserve planning, photos and all relationships, including F9 wishlists. Details and gates live in `09 - Piano di sviluppo dettagliato.md`.
 
 ## Implemented F9 suggestions
 
@@ -57,4 +57,8 @@ Schedule a local check at the user's chosen local time. The worker reads Room us
 
 ## Photos
 
-Prefer Android Photo Picker, copy a controlled-size version into app-private storage, keep the URI/hash in Room, and provide export/import. Do not upload photos in the MVP.
+F10 uses Android Photo Picker through Activity 1.12.3, with document-picker fallback and no broad storage permission. Save the text memory first, then open its gallery. AndroidX ExifInterface 1.4.2 reads the input orientation; sampled decoding and fresh JPEG encoding apply all eight orientations and omit original EXIF/GPS. Private copies have a maximum 2048-pixel edge and 320-pixel thumbnail. Input is bounded to 32 MiB/100 MP with 48 MiB storage reserve.
+
+Room 8 stores normalized dimensions, orientation 1, hash/byte size/MIME/private paths and draft-photo relationships; original picker URIs are not retained. File pairs precede metadata, failed attachment cleans the pair, and deletion removes metadata before private files. Recovery under a shared mutex removes only unreferenced files older than 24 hours. Conversion captures draft photos before cascade deletion, then reinserts them under the same identified memory ID atomically; rollback preserves the draft and its files.
+
+The saveable gallery ID and ViewModel survive Activity recreation. Completed images reopen after process death without the original. A terminated unfinished import requires re-selection. Missing/corrupt images are visible fallback states; their text and metadata remain until explicit removal. Export/import remains F12, camera capture is deferred. See `GUIDA-FASE-10.md`.

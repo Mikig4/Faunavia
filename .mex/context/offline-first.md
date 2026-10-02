@@ -18,7 +18,7 @@ edges:
     condition: when choosing Room, photo storage, MapLibre offline regions, or APK packaging
   - target: context/decisions.md
     condition: when choosing between cached results, downloadable datasets, and a backend
-last_updated: 2026-10-01
+last_updated: 2026-10-02
 ---
 
 # Offline-first
@@ -41,4 +41,6 @@ True offline analysis requires a deliberately packaged dataset and an offline-ca
 
 F8A caches confirmed place candidates in Android preferences for 30 days, normalized occurrence results in the F6 Room cache for six hours, and ordinary viewed OSM tiles in an HTTP cache. These caches do not promise full offline geocoding or a new biodiversity search. An offline map failure leaves the textual result and local diary available; stale occurrence results are visibly marked.
 
-F8B persists trips, chosen full route geometry/provenance, outings, chosen places/results and unidentified drafts in Room independently of those caches. OSRM calculations require network; its ten-minute cache is distinct from the durable confirmed trace. Saved traces reopen without a routing request; base tiles remain ordinary HTTP cache, not a regional offline package. A chosen result keeps original period/area, saved date, evidence sources and partial/stale flags; changing scope requires explicit recalculation. Offline provider or tile failure leaves planning, saved explanations and textual memories available. Deleting planning only unlinks memories; failed draft conversion rolls back atomically. Regional packages, photos and backups remain later phases.
+F8B persists trips, chosen full route geometry/provenance, outings, chosen places/results and unidentified drafts in Room independently of those caches. OSRM calculations require network; its ten-minute cache is distinct from the durable confirmed trace. Saved traces reopen without a routing request; base tiles remain ordinary HTTP cache, not a regional offline package. A chosen result keeps original period/area, saved date, evidence sources and partial/stale flags; changing scope requires explicit recalculation. Offline provider or tile failure leaves planning, saved explanations and textual memories available. Deleting planning only unlinks memories; failed draft conversion rolls back atomically. Regional packages and backups remain later phases.
+
+F10 stores controlled photo copies/thumbnails in Android no-backup private files and their normalized metadata in Room 8. Save/view/remove and draft identification need no network once the selected image is locally readable. Picker providers may offer remote images; obtaining one depends on that provider, but Faunavia never uploads a copy. Original URIs, EXIF/GPS and full-resolution originals are not kept in the committed photo archive. Missing/corrupt copies expose a fallback without losing text. Completed images reopen after process restart; unfinished imports need re-selection and old unreferenced files are cleaned after 24 hours. Backup/export remains F12.

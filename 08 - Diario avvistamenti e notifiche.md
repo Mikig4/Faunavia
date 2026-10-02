@@ -70,6 +70,12 @@ La limitazione ai taxa già selezionati descritta nell'esito storico F4 è super
 
 È possibile associare un viaggio e un'uscita anche senza posizione; “Aggiungi avvistamento” nel viaggio precompila questi collegamenti senza richiedere un risultato esterno. Foto, notifiche e schede complete restano nelle fasi già previste.
 
+## Foto F10 verificate
+
+Il Diario e le bozze da identificare ora dispongono di una galleria privata. Salva il ricordo, poi apri **Foto (n)** per selezionare fino a cinque immagini per volta. Copie JPEG e miniature vengono normalizzate e conservate offline, senza upload né permessi generali sulla galleria; gli originali restano invariati e gli EXIF sensibili non vengono copiati. La rimozione di una singola foto conserva il ricordo; identificare una bozza trasferisce tutte le foto atomicamente.
+
+Room 8 conserva metadati e relazioni con migrazione additiva da F9. Il gate completo è verde a 13 F0, 103 JVM e 109 Android, senza errori/skipped/omissioni; include Photo Picker reale con immagini sintetiche e ricreazione dell’Activity. APK `artifacts/Faunavia-f10-debug.apk`, 0.10.0-f10 (16), stessa firma F9. Recupero e limiti in [[GUIDA-FASE-10]], rapporto [[27 - Rapporto Fase 10]]. Notifiche e backup restano F11/F12; nessuna prova su telefono fisico.
+
 ## Evoluzioni possibili
 
 Le animazioni decorative possono essere valutate dopo il flusso operativo, ma non sono un requisito del diario. Dovranno essere brevi, non bloccare salvataggio o lettura e rispettare la preferenza di movimento ridotto.

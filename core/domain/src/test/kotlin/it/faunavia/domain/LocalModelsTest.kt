@@ -51,4 +51,17 @@ class LocalModelsTest {
             SourceEvidence("e", "t", EvidenceLevel.INSUFFICIENT, null, null, -1.0, "reason", source)
         }
     }
+
+    @Test fun photoMetadataRetainsLegacyDefaultsAndRejectsUnsafeThumbnailsAndInvalidDimensions() {
+        val photo = ObservationPhoto("p", "draft", "photos/p.jpg", "a".repeat(64), 100, "image/jpeg")
+        assertEquals(0, photo.width)
+        assertEquals(1, photo.orientation)
+        assertNull(photo.thumbnailPath)
+        listOf("../p.jpg", "/p.jpg", "C:/p.jpg", "photos/../p.jpg", "photos\\p.jpg").forEach { path ->
+            assertThrows(IllegalArgumentException::class.java) { photo.copy(thumbnailPath = path) }
+        }
+        assertThrows(IllegalArgumentException::class.java) { photo.copy(width = -1) }
+        assertThrows(IllegalArgumentException::class.java) { photo.copy(height = -1) }
+        assertThrows(IllegalArgumentException::class.java) { photo.copy(orientation = 9) }
+    }
 }

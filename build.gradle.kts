@@ -154,7 +154,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F9 host, taxonomy, route, occurrence, plausibility, exploration, database, UI, device and visual gates."
+    description = "Runs F0-F10 host, taxonomy, route, occurrence, plausibility, exploration, database, photos, UI, device and visual gates."
     dependsOn(collectVerificationReports)
 }
 

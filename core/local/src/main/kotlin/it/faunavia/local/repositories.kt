@@ -145,10 +145,23 @@ class LocalRepositories(
         override suspend fun get(id: String): UnidentifiedDraft? = read { dao.unidentified(id)?.toDomain() }
         override suspend fun list(): List<UnidentifiedDraft> = read { dao.unidentifiedDrafts().map { it.toDomain() } }
         override suspend fun delete(id: String) { write { dao.deleteUnidentified(id) } }
+        override suspend fun photos(draftId: String): List<ObservationPhoto> = read { dao.draftPhotos(draftId).map { it.toDomain() } }
+        override suspend fun addPhoto(photo: ObservationPhoto) { write { dao.insertDraftPhoto(photo.toDraftRow()) } }
+        override suspend fun deletePhoto(id: String): ObservationPhoto? = write {
+            val photo = dao.draftPhoto(id)?.toDomain()
+            dao.deleteDraftPhoto(id)
+            photo
+        }
+        override suspend fun deleteWithPhotos(id: String): List<ObservationPhoto> = write {
+            val photos = dao.draftPhotos(id).map { it.toDomain() }
+            dao.deleteUnidentified(id)
+            photos
+        }
         override suspend fun convert(draft: ObservationDraft): Observation = write {
             val old = requireNotNull(dao.unidentified(draft.id)?.toDomain()) { "Draft does not exist or was already converted." }
+            val photos = dao.draftPhotos(draft.id).map { it.toDomain() }
             dao.deleteUnidentified(draft.id)
-            createObservation(draft, createdAt = old.createdAt)
+            createObservation(draft, photos = photos, createdAt = old.createdAt)
         }
     }
 

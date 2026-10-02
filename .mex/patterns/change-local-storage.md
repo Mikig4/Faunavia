@@ -10,7 +10,7 @@ edges:
     condition: when changing database behavior
   - target: context/conventions.md
     condition: when verifying changes
-last_updated: 2026-09-16
+last_updated: 2026-10-02
 ---
 
 # Change local storage
@@ -31,7 +31,7 @@ last_updated: 2026-09-16
 ## Gotchas
 
 - Foreign keys alone cannot enforce accepted Animalia status. Triggers protect observation inserts/updates and referenced taxon changes; install them on creation, migration and opening. Room schema JSON does not include custom triggers: test their behavior explicitly.
-- Taxon deletion is restricted while the diary references it. Observation deletion cascades photo metadata and returns removed references. F10 owns physical photo-file lifecycle; F2 performs no file deletion or upload.
+- Taxon deletion is restricted while the diary references it. Observation deletion cascades photo metadata and returns removed references. F10 `MemoryPhotos` now owns physical cleanup; keep repositories metadata-only. Draft deletion can also return references transactionally, and conversion must copy them before cascade deletion and reinsert them under the same stable observation ID. See schema 8 and `F10PhotoTest`.
 - Store timestamps as ISO instants to preserve nanoseconds and query local calendar days using indexed epoch seconds and zone-aware day boundaries. DST days are not always 24 hours.
 - Missing reads return null/empty, missing observation updates fail, and missing deletes are idempotent. Invalid references and storage errors propagate to the caller; future UI must render them.
 - Never enable destructive migration fallback to make a test pass.

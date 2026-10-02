@@ -69,12 +69,14 @@ Then read this file fully before doing anything else in this session.
 
 The 2026-10-02 F9 correction is verified: readable species titles (green Scaffold inherited white text), exact Italian-name metadata without implicit Room selection, and exploration/trip analysis jobs/results retained through Activity recreation. Distribution opens inside the app for every taxon, with attributed reusable Commons illustrations via exact Wikidata P225/P181 association and a separately labelled native GBIF historical-observation layer. No IUCN feed or F7 range promotion is introduced. Final gate: 13 F0, 102 JVM, 94 Android, zero failures/skips/omissions, lint, boundaries, formatting and three visual signatures. APK `artifacts/Faunavia-f9-mappe-debug.apk`, 0.9.2-f9 (15), same signing identity, Room 7. See `26 - Nomi, rotazione e mappe interne.md`; physical-phone testing remains unperformed, curiosities remain clickable F13.
 
+- F10 is complete: private Photo Picker galleries for identified observations and unidentified drafts, controlled JPEG/thumbnail copies with all EXIF orientations applied and sensitive metadata omitted, recorded hash/size/dimensions, offline reopening, independent photo deletion, transactional conversion preserving photos and visible recovery/cleanup errors. Room 8 migrates 7→8 additively. Final `verifyAll` passed 13 F0, 103 JVM and 109 Android tests with zero failures/skips/omissions, lint, boundaries, formatting and three existing visual signatures; a real API 36 picker and Activity recreation are tested with synthetic photos. APK `artifacts/Faunavia-f10-debug.apk` is 0.10.0-f10 (16), same signing identity as F9. See `27 - Rapporto Fase 10.md` and `GUIDA-FASE-10.md`; no physical-phone check, export/import remains F12.
+
 **Not yet built:**
-- F10 follows the completed F9; subsequent numbering including F17 is unchanged.
-- F10–F17 expansion includes photos, notifications, backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented.
+- F11 follows the completed F10; subsequent numbering including F17 is unchanged.
+- F11–F17 expansion includes notifications, backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented.
 - Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Broader curated-species coverage and sourced comparable ease estimates; the F9 pilot does not invent them.
-- Local photos, daily notification and complete species profiles.
+- Daily notification and complete species profiles.
 - Blender/GLB asset library, regional map package and physical-device tests.
 
 **Known issues:**

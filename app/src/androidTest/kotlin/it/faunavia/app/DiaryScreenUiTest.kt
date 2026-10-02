@@ -93,14 +93,16 @@ class DiaryScreenUiTest {
 
         waitFor { local.diary.get("ui-observation") != null }
         composeRule.onNodeWithTag("diary-entry-ui-observation").assertIsDisplayed()
-        composeRule.onNodeWithTag("diary-edit-ui-observation").performClick()
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-edit-ui-observation"))
+        composeRule.onNodeWithTag("diary-edit-ui-observation").assertIsDisplayed().performClick()
         scrollEditorTo("diary-notes")
         composeRule.onNodeWithTag("diary-notes").performTextReplacement("Osservazione corretta")
         scrollEditorTo("diary-save")
         composeRule.onNodeWithTag("diary-save").performClick()
 
         waitFor { local.diary.get("ui-observation")?.notes == "Osservazione corretta" }
-        composeRule.onNodeWithTag("diary-delete-ui-observation").performClick()
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-delete-ui-observation"))
+        composeRule.onNodeWithTag("diary-delete-ui-observation").assertIsDisplayed().performClick()
         composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-delete-confirm-ui-observation"))
         composeRule.onNodeWithTag("diary-delete-confirm-ui-observation").assertIsDisplayed().performClick()
         waitFor { local.diary.get("ui-observation") == null }

@@ -74,6 +74,10 @@ interface LocalDao {
     @Query("SELECT * FROM observation_photos WHERE observationId = :id ORDER BY id") fun photos(id: String): List<ObservationPhotoRow>
     @Query("SELECT * FROM observation_photos WHERE id = :id") fun photo(id: String): ObservationPhotoRow?
     @Query("DELETE FROM observation_photos WHERE id = :id") fun deletePhoto(id: String)
+    @Insert fun insertDraftPhoto(row: DraftPhotoRow)
+    @Query("SELECT * FROM draft_photos WHERE observationId = :id ORDER BY id") fun draftPhotos(id: String): List<DraftPhotoRow>
+    @Query("SELECT * FROM draft_photos WHERE id = :id") fun draftPhoto(id: String): DraftPhotoRow?
+    @Query("DELETE FROM draft_photos WHERE id = :id") fun deleteDraftPhoto(id: String)
 
     @Upsert fun saveRoute(row: RouteRow)
     @Query("SELECT * FROM routes WHERE id = :id") fun route(id: String): RouteRow?

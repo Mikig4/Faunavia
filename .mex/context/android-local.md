@@ -84,7 +84,15 @@ Room schema 7 adds `wishlist(taxonId, addedAt)` with a restricted taxon foreign 
 
 Catalogue explicit selections and trip suggestions expose wishlist actions. Never-observed reads global identified memories; errors preserve local records and expose retry, restoration preserves the selected view, and saved trip candidates require the current analysis key. Final F9 verification passed 13 F0, 93 JVM and 82 Android tests, lint, formatting, boundaries, omission detection and three existing visual signatures. APK `artifacts/Faunavia-f9-debug.apk` is 0.9.0-f9 (13); signature matches the F8B staged-itinerary build. See `24 - Rapporto Fase 9.md` for limits and wish/suggestion-specific future extensions.
 
-## Notifications
+## F10 image storage
+
+Room schema 8 migrates 7→8 additively, preserving diary/wishlist/draft data and legacy photo identities with unknown dimension defaults. `draft_photos` has a cascading foreign key to its draft; conversion transfers all photo metadata in the same transaction and retains file paths. Photo Picker uses Activity 1.12.3; EXIF parsing uses AndroidX ExifInterface 1.4.2, avoiding the older platform parser flagged by lint.
+
+`noBackupFilesDir/photos` contains only private normalized JPEG pairs and temporary input during import. Bounds: 32 MiB/100 MP source, sampled 2048-pixel output, 320-pixel thumbnail, 48 MiB reserve. Re-encoding removes GPS/date/camera metadata; all eight orientations are applied to pixels and persisted as normal orientation. SHA-256/length validate the main copy before display. Original picker URIs need no permanent grant once the copy is committed.
+
+Metadata is written after complete files; failed Room writes remove new files. Metadata deletion precedes file deletion, exposing incomplete cleanup. A shared mutex and 24-hour grace protect referenced/recent files during orphan recovery. Gallery state/jobs survive Activity recreation; committed copies reopen from Room after process restart, while interrupted imports require explicit re-selection. Tests include real UI Automator picker selection with synthetic MediaStore images, actual rotated-image pixels, Activity recreation, migration, reopening and failure/rollback cases. See `GUIDA-FASE-10.md`; export/import remains F12.
+
+## Planned notification scheduling
 
 Use WorkManager or a one-shot local scheduling strategy for the daily summary. The job must not require network. Android 13+ requires runtime notification permission; denial should disable only the reminder, not the diary.
 

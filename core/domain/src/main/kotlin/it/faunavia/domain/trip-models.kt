@@ -194,6 +194,11 @@ interface UnidentifiedRepository {
     suspend fun get(id: String): UnidentifiedDraft?
     suspend fun list(): List<UnidentifiedDraft>
     suspend fun delete(id: String)
+    suspend fun photos(draftId: String): List<ObservationPhoto>
+    suspend fun addPhoto(photo: ObservationPhoto)
+    suspend fun deletePhoto(id: String): ObservationPhoto?
+    /** Removes metadata and the draft atomically; the Android owner then removes private files. */
+    suspend fun deleteWithPhotos(id: String): List<ObservationPhoto>
     /** Inserts the identified memory and removes the draft in one transaction, retaining its identity. */
     suspend fun convert(draft: ObservationDraft): Observation
 }

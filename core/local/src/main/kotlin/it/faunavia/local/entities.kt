@@ -132,6 +132,29 @@ data class ObservationPhotoRow(
     val sha256: String,
     val byteSize: Long,
     val mimeType: String,
+    @ColumnInfo(defaultValue = "0") val width: Int = 0,
+    @ColumnInfo(defaultValue = "0") val height: Int = 0,
+    @ColumnInfo(defaultValue = "1") val orientation: Int = 1,
+    val thumbnailPath: String? = null,
+)
+
+@Entity(
+    tableName = "draft_photos",
+    primaryKeys = ["id"],
+    foreignKeys = [ForeignKey(entity = UnidentifiedRow::class, parentColumns = ["id"], childColumns = ["observationId"], onDelete = ForeignKey.CASCADE)],
+    indices = [Index("observationId")],
+)
+data class DraftPhotoRow(
+    val id: String,
+    val observationId: String,
+    val relativePath: String,
+    val sha256: String,
+    val byteSize: Long,
+    val mimeType: String,
+    @ColumnInfo(defaultValue = "0") val width: Int = 0,
+    @ColumnInfo(defaultValue = "0") val height: Int = 0,
+    @ColumnInfo(defaultValue = "1") val orientation: Int = 1,
+    val thumbnailPath: String? = null,
 )
 
 @Entity(

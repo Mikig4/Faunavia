@@ -1,6 +1,8 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–9 e rifiniture verificate. Il gate completo è verde a 13 F0, 102 JVM e 94 Android, con lint, confini, formattazione, controllo omissioni e tre firme visive. APK corrente: `artifacts/Faunavia-f9-mappe-debug.apk`, versione `0.9.2-f9` (15), con firma compatibile con F9/F8B.
+Stato: Fasi 0–10 e rifiniture verificate. Il gate completo è verde a 13 F0, 103 JVM e 109 Android, con zero failure/error/skipped/omissioni, lint, confini, formattazione e tre firme visive. APK corrente: `artifacts/Faunavia-f10-debug.apk`, versione `0.10.0-f10` (16), con firma compatibile con F9/F8B e migrazione Room 7→8.
+
+**Foto private:** dopo aver salvato un avvistamento o una bozza, apri **Foto (n)** per aggiungere immagini dal Photo Picker. Miniature e copie controllate funzionano offline, senza upload o permessi generali sulla galleria; i metadati EXIF sensibili sono rimossi e l’orientamento viene applicato ai pixel. Una foto si può eliminare mantenendo il ricordo; identificare una bozza conserva tutte le immagini. Guida [[GUIDA-FASE-10]], dettagli e verifiche in [[27 - Rapporto Fase 10]].
 
 Viaggi conserva partenza, destinazione, tappe con giorni e tracciati scelti; **Suggerimenti e desideri** aggiunge profili curati del pilota, viste tipici/più facili/mai osservati e lista desideri offline. La vista più facili dichiara la mancanza di stime confrontabili; non inventa un ranking. Il Catalogo permette di aggiungere un taxon selezionato ai desideri; il diario resta indipendente dai suggerimenti. Fonti, livelli di evidenza e ricordi personali rimangono distinti. Guida [[GUIDA-FASE-9]], verifiche e sole evoluzioni dei suggerimenti/desideri in [[24 - Rapporto Fase 9]]. Le funzionalità F8B precedenti restano documentate in [[23 - Tappe e giorni del viaggio]].
 
@@ -8,7 +10,7 @@ La ricerca parte da **Animali tipici**, con dodici profili pilota e vista comple
 
 ## Obiettivo
 
-Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Foto, schede complete e 3D arrivano nelle fasi già pianificate.
+Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario con foto private. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Schede complete e 3D arrivano nelle fasi già pianificate.
 
 ## Vincoli guida
 
@@ -42,6 +44,8 @@ Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tr
 - [[21 - Rifinitura Viaggi e Diario]] — ingresso semplificato, collegamento a Maps e catalogo generale nel Diario.
 - [[22 - Tracciato viaggio e Catalogo]] — precisazione di partenza e traccia completa, calcolo OSRM autorizzato e correzione della ricerca comune.
 - [[GUIDA-GRADLE-LOOPBACK]] — recupero rapido se Gradle non riesce a stabilire la connessione loopback.
+- [[GUIDA-FASE-10]] — foto private, bozze, rimozione e gestione degli errori.
+- [[27 - Rapporto Fase 10]] — incremento foto, migrazione, verifiche e APK.
 
 ## Memoria tecnica
 

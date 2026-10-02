@@ -114,7 +114,7 @@ data class Observation(
     val localDate: LocalDate get() = observedAt.atZone(zoneId).toLocalDate()
 }
 
-/** Metadata only; copying and deleting private image files belongs to F10. */
+/** Private normalized image metadata. observationId is the stable memory ID, including before identification. */
 data class ObservationPhoto(
     val id: String,
     val observationId: String,
@@ -122,12 +122,21 @@ data class ObservationPhoto(
     val sha256: String,
     val byteSize: Long,
     val mimeType: String,
+    val width: Int = 0,
+    val height: Int = 0,
+    val orientation: Int = 1,
+    val thumbnailPath: String? = null,
 ) {
     init {
         require(id.isNotBlank() && observationId.isNotBlank())
         require(relativePath.isNotBlank() && !relativePath.startsWith('/') && ':' !in relativePath && '\\' !in relativePath)
         require(relativePath.split('/').none { it == ".." || it == "." || it.isEmpty() })
         require(sha256.matches(Regex("[a-f0-9]{64}")) && byteSize > 0 && mimeType.startsWith("image/"))
+        require(width >= 0 && height >= 0 && orientation in 1..8)
+        thumbnailPath?.let {
+            require(it.isNotBlank() && !it.startsWith('/') && ':' !in it && '\\' !in it)
+            require(it.split('/').none { part -> part == ".." || part == "." || part.isEmpty() })
+        }
     }
 }
 

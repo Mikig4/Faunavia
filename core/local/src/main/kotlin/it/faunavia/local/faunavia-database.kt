@@ -11,8 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
     entities = [TaxonRow::class, TaxonAliasRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
         RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class,
-        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class],
-    version = 7,
+        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class, DraftPhotoRow::class],
+    version = 8,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -101,9 +101,21 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE observation_photos ADD COLUMN width INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE observation_photos ADD COLUMN height INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE observation_photos ADD COLUMN orientation INTEGER NOT NULL DEFAULT 1")
+                db.execSQL("ALTER TABLE observation_photos ADD COLUMN thumbnailPath TEXT")
+                db.execSQL("CREATE TABLE IF NOT EXISTS draft_photos (id TEXT NOT NULL, observationId TEXT NOT NULL, relativePath TEXT NOT NULL, sha256 TEXT NOT NULL, byteSize INTEGER NOT NULL, mimeType TEXT NOT NULL, width INTEGER NOT NULL DEFAULT 0, height INTEGER NOT NULL DEFAULT 0, orientation INTEGER NOT NULL DEFAULT 1, thumbnailPath TEXT, PRIMARY KEY(id), FOREIGN KEY(observationId) REFERENCES unidentified_drafts(id) ON UPDATE NO ACTION ON DELETE CASCADE)")
+                db.execSQL("CREATE INDEX index_draft_photos_observationId ON draft_photos(observationId)")
+                installIntegrity(db)
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 

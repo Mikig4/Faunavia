@@ -128,7 +128,15 @@ last_updated: 2026-10-02
 
 F9 refinement 2026-10-02: `typicalTaxa` reuses the pure suggestion engine on existing complete evidence and analysis samples; both research surfaces default to this selection without deleting evidence or snapshots. Twelve profiles and `PilotSpeciesPresentation` provide reviewed general habitat/common-name/distribution presentation. Android `SpeciesDetails` shares compact cards and saveable evidence disclosure, with visible scientific fallback. `RemoteSpeciesMetadata` in pure exploration converts GBIF exact-name metadata and Wikidata/Commons range illustrations into normalized presentation types; Android owns bounded cache/image decoding and the internal map dialog. All species can use it; native GBIF observation density is distinct from illustrated ranges and neither feeds F7. `AnalysisViewModel` retains analysis jobs/results across configuration changes; it does not persist live results after process death. Room remains schema 7. F13 explicitly requires a clickable curiosity section, with individual sources and reuse review before content import.
 
+## F10 private photo boundary
+
+- Pure domain photo metadata adds dimensions, normalized orientation and optional thumbnail path while retaining legacy defaults. Unidentified repository photo ports share the stable memory ID without relaxing accepted-Animalia observation constraints.
+- Room 8 adds draft-photo foreign keys and additive observation-photo columns. Draft conversion copies metadata into observation photos within its existing transaction before a successful commit; failed conversion rolls back cascades. Planning deletion only unlinks memories.
+- Android owns `PrivatePhotoStore`, `MemoryPhotos` and `PhotoGalleryModel`: bounded input/bitmap IO, EXIF orientation, metadata-free encoding, private no-backup files, checked hashes, explicit errors, temporary cleanup and grace-period orphan recovery. No provider/upload dependency or photo-gallery permission is introduced. Text is saved before attachment; file/DB ordering protects existing memories. Committed photos survive process recreation; ongoing jobs survive configuration changes. Backup remains F12.
+
 ## External Dependencies
+
+AndroidX ExifInterface 1.4.2 supplies maintained local EXIF parsing. Android BitmapFactory decodes supported still-image pixels, and AndroidX Activity selects only explicitly chosen images, falling back to the system document picker where necessary.
 
 - **GBIF API** — primary occurrence search candidate; bounded requests, caching and source metadata required.
 - **OpenStreetMap tiles/geocoding** — map context only; use attribution, rate limits and no bulk/offline tile prefetch.

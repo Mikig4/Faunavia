@@ -34,8 +34,10 @@ fun SuggestionProfile.toRow() = SuggestionProfileRow(taxonId, area, habitats.jso
 fun SuggestionProfileRow.toDomain() = SuggestionProfile(taxonId, area, habitats.strings(), urbanCommon, distinctivenessScore, reason, provenance.toDomain(), schemaVersion)
 fun Observation.toRow() = ObservationRow(id, taxonId, observedAt.toString(), observedAt.epochSecond, zoneId.id, location?.latitude, location?.longitude, notes, createdAt.toString(), updatedAt.toString(), quantity, tripId, outingId)
 fun ObservationRow.toDomain() = Observation(id, taxonId, Instant.parse(observedAt), ZoneId.of(zoneId), point(latitude, longitude), notes, Instant.parse(createdAt), Instant.parse(updatedAt), quantity, tripId, outingId)
-fun ObservationPhoto.toRow() = ObservationPhotoRow(id, observationId, relativePath, sha256, byteSize, mimeType)
-fun ObservationPhotoRow.toDomain() = ObservationPhoto(id, observationId, relativePath, sha256, byteSize, mimeType)
+fun ObservationPhoto.toRow() = ObservationPhotoRow(id, observationId, relativePath, sha256, byteSize, mimeType, width, height, orientation, thumbnailPath)
+fun ObservationPhotoRow.toDomain() = ObservationPhoto(id, observationId, relativePath, sha256, byteSize, mimeType, width, height, orientation, thumbnailPath)
+fun ObservationPhoto.toDraftRow() = DraftPhotoRow(id, observationId, relativePath, sha256, byteSize, mimeType, width, height, orientation, thumbnailPath)
+fun DraftPhotoRow.toDomain() = ObservationPhoto(id, observationId, relativePath, sha256, byteSize, mimeType, width, height, orientation, thumbnailPath)
 fun Route.toRow(): RouteRow {
     val geometry = JSONObject()
         .put("schemaVersion", 2)

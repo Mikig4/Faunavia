@@ -28,6 +28,7 @@ class FaunaviaApplication : Application() {
     val repositories by lazy {
         LocalRepositories.open(this, clock)
     }
+    internal val privatePhotos by lazy { PrivatePhotoStore(this) }
 
     val speciesMetadata: it.faunavia.exploration.SpeciesMetadataLookup by lazy {
         it.faunavia.exploration.RemoteSpeciesMetadata(it.faunavia.exploration.UrlConnectionSpeciesMetadataHttp(),
