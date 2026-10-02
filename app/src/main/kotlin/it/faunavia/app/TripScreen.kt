@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import it.faunavia.domain.*
 import it.faunavia.exploration.*
 import it.faunavia.occurrence.OccurrenceResultOrigin
@@ -59,7 +60,7 @@ internal fun resultSnapshot(taxon: ExploredTaxon, trip: Trip, outing: Outing?, r
     } }
     return SavedTripResult("${trip.id}:${outing?.id ?: stageId?.let { "stage:$it" } ?: "destination"}:${taxon.id}", trip.id, outing?.id, taxon.id,
         taxon.scientificName, taxon.assessment.level, taxon.assessment.explanation.map(::explanationText),
-        "Mesi documentati: ${taxon.assessment.season.activeMonths.sorted().joinToString().ifBlank { "non disponibili" }} · ${taxon.assessment.season.quality.name}",
+        seasonSummary(taxon.assessment.season),
         evidence, tripAnalysisKey(trip, outing, stageId), savedAt, result.partial, result.origin == OccurrenceResultOrigin.STALE_CACHE,
         outing?.date ?: analysisTrip.startsOn, outing?.date ?: analysisTrip.endsOn, outing?.place ?: analysisTrip.destination, stageId)
 }
@@ -96,7 +97,10 @@ internal fun TripsScreen(
     routing: TripRouting = TripRouting { _, _ -> TripRoutingResult.Unavailable },
     routeMap: TripRouteMapAdapter = MapLibreTripRouteMapAdapter,
     openDirections: ((GeoPoint, GeoPoint) -> Boolean)? = null,
+    wishlist: WishlistRepository? = null,
 ) {
+    var personalSuggestions by rememberSaveable { mutableStateOf(false) }
+    var typicalOnly by rememberSaveable { mutableStateOf(true) }
     var refresh by remember { mutableIntStateOf(0) }
     var trips by remember { mutableStateOf<List<Trip>>(emptyList()) }
     var outings by remember { mutableStateOf<List<Outing>>(emptyList()) }
@@ -110,9 +114,11 @@ internal fun TripsScreen(
     var outingEditor by rememberSaveable { mutableStateOf<String?>(null) }
     var memories by remember { mutableStateOf(false) }
     var prefill by remember { mutableStateOf<DiaryPrefill?>(null) }
-    var live by remember { mutableStateOf<ExplorationResult?>(null) }
-    var liveKey by remember { mutableStateOf("") }
-    var busy by remember { mutableStateOf(false) }
+    val analysisState = viewModel<AnalysisViewModel>(key = "trip-analysis")
+    val live by analysisState.result
+    val liveKey by analysisState.scopeKey
+    var actionBusy by remember { mutableStateOf(false) }
+    val busy = actionBusy || analysisState.loading.value
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var deleting by remember { mutableStateOf<String?>(null) }
@@ -142,11 +148,11 @@ internal fun TripsScreen(
     fun action(block: suspend () -> Unit) {
         if (busy) return
         scope.launch {
-            busy = true; error = null
+            actionBusy = true; error = null
             runCatching { block() }.onFailure {
                 error = if (it is IllegalArgumentException) it.message else "Operazione non riuscita. Riprova: i dati locali sono conservati."
             }
-            busy = false
+            actionBusy = false
         }
     }
 
@@ -165,6 +171,19 @@ internal fun TripsScreen(
         return
     }
 
+    if (personalSuggestions && trip != null && analysisTrip != null && wishlist != null) {
+        val current = (live as? ExplorationResult.Ready)?.takeIf { liveKey == tripAnalysisKey(trip, outing, stageId) }
+        val snapshots = savedResults.filter { it.analysisKey == tripAnalysisKey(trip, outing, stageId) }
+        val candidates = current?.taxa.orEmpty().map { it.suggestionCandidate() } + snapshots.mapNotNull { it.suggestionCandidate() }
+        val points = outing?.route?.points ?: outing?.let { listOf(it.place.center) }
+            ?: analysisTrip.route?.geometry?.points ?: listOf(analysisTrip.destination.center)
+        PersonalSuggestionsScreen(wishlist, catalogue, diary, taxonomy, candidates, points,
+            "${outing?.name ?: analysisTrip.destination.name} · ${outing?.date ?: analysisTrip.startsOn} → ${outing?.date ?: analysisTrip.endsOn}" +
+                if (current?.partial == true || current?.origin == OccurrenceResultOrigin.STALE_CACHE || snapshots.any { it.partial || it.stale }) " · dati parziali o cache non aggiornata" else " · risultati disponibili, copertura non esaustiva",
+            onBack = { personalSuggestions = false; refresh++ }, onSaw = { id, name -> saw(id, name) }, externalError = error)
+        return
+    }
+
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).testTag("screen-trips")) {
         Box(Modifier.fillMaxWidth().height(104.dp).background(MaterialTheme.colorScheme.primary).padding(horizontal = 24.dp), contentAlignment = Alignment.CenterStart) {
             Column {
@@ -175,7 +194,7 @@ internal fun TripsScreen(
         when {
             stageEditor && trip != null -> TripStagesForm(trip, geocoder, routing, routeMap, now, idFactory, busy,
                 onCancel = { stageEditor = false }, onSave = { changed -> action {
-                    repository.save(changed); stageEditor = false; stageId = null; outingId = ""; live = null; refresh++
+                    repository.save(changed); stageEditor = false; stageId = null; outingId = ""; analysisState.clear(); refresh++
                 } })
             loading && ((tripEditor != null && tripEditor != "new") || outingEditor != null) ->
                 Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) {
@@ -198,23 +217,23 @@ internal fun TripsScreen(
                 if (loading) item { Text("Caricamento dei viaggi…", color = TripMuted, modifier = Modifier.testTag("trip-loading")) }
                 if (!loading && trips.isEmpty()) item { Text("Crea il tuo primo viaggio e scegli il tracciato sulla mappa.", color = TripMuted, modifier = Modifier.testTag("trip-empty")) }
                 items(trips, key = { it.id }) { saved ->
-                    OutlinedButton(onClick = { selectedId = saved.id; outingId = ""; stageId = null; live = null }, modifier = Modifier.fillMaxWidth().testTag("trip-select-${saved.id}")) {
+                    OutlinedButton(onClick = { selectedId = saved.id; outingId = ""; stageId = null; analysisState.clear() }, modifier = Modifier.fillMaxWidth().testTag("trip-select-${saved.id}")) {
                         Column(Modifier.fillMaxWidth()) { Text(saved.name, fontWeight = FontWeight.Bold); Text("${saved.destination.name} · ${saved.startsOn} → ${saved.endsOn}") }
                     }
                 }
-                error?.let { item { Text(it, color = TripError, modifier = Modifier.testTag("trip-error")); OutlinedButton(onClick = { refresh++ }) { Text("Riprova lettura") } } }
+                (error ?: analysisState.error.value)?.let { item { Text(it, color = TripError, modifier = Modifier.testTag("trip-error")); OutlinedButton(onClick = { refresh++ }) { Text("Riprova lettura") } } }
                 if (trip != null && analysisTrip != null) {
                     if (trip.departure != null) item {
                         Text("Tappe e giorni", color = TripInk, fontWeight = FontWeight.Bold)
                         Button(onClick = { stageEditor = true }, enabled = !busy,
                             modifier = Modifier.testTag("trip-stages-edit")) { Text("Organizza tappe") }
-                        if (trip.stages.isNotEmpty()) OutlinedButton(onClick = { stageId = null; outingId = ""; live = null },
+                        if (trip.stages.isNotEmpty()) OutlinedButton(onClick = { stageId = null; outingId = ""; analysisState.clear() },
                             modifier = Modifier.testTag("trip-stage-all")) { Text("Intero viaggio") }
                     }
                     items(trip.stages, key = { "stage-${it.id}" }) { stage ->
                         val index = trip.stages.indexOf(stage)
                         val origin = if (index == 0) trip.departure else trip.stages[index - 1].destination
-                        OutlinedButton(onClick = { stageId = stage.id; outingId = ""; live = null },
+                        OutlinedButton(onClick = { stageId = stage.id; outingId = ""; analysisState.clear() },
                             modifier = Modifier.fillMaxWidth().testTag("trip-stage-${stage.id}")) {
                             Text("${index + 1}. ${origin?.name} → ${stage.destination.name} · ${stage.date}${if (stageId == stage.id) " · selezionata" else ""}")
                         }
@@ -233,15 +252,18 @@ internal fun TripsScreen(
                             routeMap.Render(planned)
                             Text(planned.provenance.attribution, color = TripMuted, style = MaterialTheme.typography.bodySmall)
                         }
-                        Button(onClick = { action {
+                        Button(onClick = {
                             val key = tripAnalysisKey(trip, outing, stageId)
                             val place = outing?.place ?: analysisTrip.destination
                             val route = if (outing != null) outing.route ?: explorer.point(place.name, place.center)
                                 else analysisTrip.route?.geometry ?: explorer.point(place.name, place.center)
                             val period = outing?.let { AnalysisPeriod(it.date, it.date) } ?: AnalysisPeriod(analysisTrip.startsOn, analysisTrip.endsOn)
-                            val analyzed = withContext(Dispatchers.IO) { explorer.explore(route, period, RouteAnalysisConfig(corridorRadiusMeters = trip.radiusMeters), refresh = true) }
-                            liveKey = key; live = analyzed
-                        } }, enabled = !busy, modifier = Modifier.testTag("trip-analyze")) { Text(if (busy) "Ricerca in corso…" else "Cerca animali per queste date") }
+                            error = null
+                            analysisState.start(UUID.randomUUID().toString(), key,
+                                failureMessage = { "Ricerca non riuscita. Riprova: i risultati salvati sono conservati." }) {
+                                explorer.explore(route, period, RouteAnalysisConfig(corridorRadiusMeters = trip.radiusMeters), refresh = true)
+                            }
+                        }, enabled = !busy, modifier = Modifier.testTag("trip-analyze")) { Text(if (busy) "Ricerca in corso…" else "Cerca animali per queste date") }
                         OutlinedButton(onClick = { memories = true }, modifier = Modifier.testTag("trip-diary")) { Text("Diario del viaggio") }
                         Button(onClick = { prefill = DiaryPrefill(tripId = trip.id, outingId = outing?.id) }, modifier = Modifier.testTag("trip-new-observation")) { Text("Aggiungi avvistamento") }
                         Text("Gruppi di interesse: ${trip.interests.joinToString { interestLabel(it) }.ifBlank { "tutti" }}. Se manca la classificazione del provider, scegli i risultati manualmente.", color = TripMuted)
@@ -252,22 +274,23 @@ internal fun TripsScreen(
                         OutlinedButton(onClick = { deleting = "trip" }, enabled = !busy, modifier = Modifier.testTag("trip-delete")) { Text("Elimina viaggio") }
                         if (deleting == "trip") {
                             Text("Eliminare il viaggio e la sua pianificazione? Avvistamenti e bozze restano nel diario, senza collegamento.", color = TripError)
-                            Button(onClick = { action { repository.delete(trip.id); selectedId = ""; outingId = ""; deleting = null; live = null; refresh++ } }, enabled = !busy, modifier = Modifier.testTag("trip-delete-confirm")) { Text("Conferma eliminazione") }
+                            Button(onClick = { action { repository.delete(trip.id); selectedId = ""; outingId = ""; deleting = null; analysisState.clear(); refresh++ } }, enabled = !busy, modifier = Modifier.testTag("trip-delete-confirm")) { Text("Conferma eliminazione") }
                             TextButton(onClick = { deleting = null }) { Text("Annulla") }
                         }
                     }
                     item {
                         Text("Uscite", color = TripInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         Button(onClick = { outingEditor = "new" }, enabled = !busy, modifier = Modifier.testTag("outing-new")) { Text("Nuova uscita") }
-                        OutlinedButton(onClick = { outingId = ""; stageId = null; live = null }, modifier = Modifier.testTag("outing-destination")) { Text(if (trip.route == null) "Usa destinazione del viaggio" else "Usa percorso del viaggio") }
+                        OutlinedButton(onClick = { outingId = ""; stageId = null; analysisState.clear() }, modifier = Modifier.testTag("outing-destination")) { Text(if (trip.route == null) "Usa destinazione del viaggio" else "Usa percorso del viaggio") }
                     }
                     items(outings, key = { "outing-${it.id}" }) { saved ->
-                        OutlinedButton(onClick = { outingId = saved.id; stageId = null; live = null }, modifier = Modifier.fillMaxWidth().testTag("outing-select-${saved.id}")) {
+                        OutlinedButton(onClick = { outingId = saved.id; stageId = null; analysisState.clear() }, modifier = Modifier.fillMaxWidth().testTag("outing-select-${saved.id}")) {
                             Text("${saved.name} · ${saved.date}${if (saved.date !in trip.startsOn..trip.endsOn) " · fuori dalle nuove date del viaggio" else ""}")
                         }
                     }
                     item {
                         Text("Area selezionata: ${outing?.name ?: analysisTrip.destination.name}", color = TripInk, modifier = Modifier.testTag("trip-analysis-area"))
+                        wishlist?.let { Button(onClick = { personalSuggestions = true }, modifier = Modifier.testTag("trip-suggestions")) { Text("Suggerimenti e desideri") } }
                         Text("Date selezionate: ${outing?.date ?: analysisTrip.startsOn} → ${outing?.date ?: analysisTrip.endsOn}", color = TripMuted)
                         if (outing != null) {
                             Text("Uscita del ${outing.date}; ${if (outing.route == null) "luogo manuale" else "percorso importato conservato"}", color = TripMuted)
@@ -275,7 +298,7 @@ internal fun TripsScreen(
                             OutlinedButton(onClick = { deleting = "outing" }, enabled = !busy, modifier = Modifier.testTag("outing-delete")) { Text("Elimina uscita") }
                             if (deleting == "outing") {
                                 Text("I ricordi resteranno collegati al viaggio, senza questa uscita.", color = TripMuted)
-                                Button(onClick = { action { repository.deleteOuting(outing.id); outingId = ""; deleting = null; live = null; refresh++ } }, enabled = !busy, modifier = Modifier.testTag("outing-delete-confirm")) { Text("Conferma eliminazione uscita") }
+                                Button(onClick = { action { repository.deleteOuting(outing.id); outingId = ""; deleting = null; analysisState.clear(); refresh++ } }, enabled = !busy, modifier = Modifier.testTag("outing-delete-confirm")) { Text("Conferma eliminazione uscita") }
                                 TextButton(onClick = { deleting = null }) { Text("Annulla") }
                             }
                         }
@@ -294,6 +317,7 @@ internal fun TripsScreen(
                     when (val result = live) {
                         is ExplorationResult.Unavailable -> item { Text("Provider non disponibili. Viaggio, risultati salvati e diario restano consultabili.", color = TripError, modifier = Modifier.testTag("trip-unavailable")) }
                         is ExplorationResult.Ready -> if (liveKey == tripAnalysisKey(trip, outing, stageId)) {
+                            val selectedTaxa = if (typicalOnly) typicalTaxa(result.taxa, result.analysis.samples) else result.taxa
                             item {
                                 Text("Risultati per ${outing?.date ?: analysisTrip.startsOn} → ${outing?.date ?: analysisTrip.endsOn}", color = TripInk, fontWeight = FontWeight.Bold, modifier = Modifier.testTag("trip-live-results"))
                                 map.Render(result.analysis)
@@ -301,8 +325,15 @@ internal fun TripsScreen(
                                 if (result.partial) Text("Risultati parziali: una fonte non ha risposto.", color = TripError)
                                 if (result.origin == OccurrenceResultOrigin.STALE_CACHE) Text("Cache non aggiornata: rete non disponibile.", color = TripError)
                                 if (result.taxa.isEmpty()) Text("Nessuna specie classificabile dai dati disponibili; non significa assenza di fauna.", color = TripMuted)
+                                Text("Selezione non esaustiva da evidenze storiche; nessun avvistamento è garantito.", color = TripMuted)
+                                FilterChip(selected = typicalOnly, onClick = { typicalOnly = true }, label = { Text("Animali tipici") }, modifier = Modifier.testTag("trip-view-typical"))
+                                FilterChip(selected = !typicalOnly, onClick = { typicalOnly = false }, label = { Text("Tutte le specie documentate") }, modifier = Modifier.testTag("trip-view-all"))
+                                Text(if (typicalOnly) "Curatela pilota Lombardia e dintorni; specie urbane comuni escluse da questa vista."
+                                    else "Vista completa delle fonti, compresi dati insufficienti; consulta Evidenze e fonti per il livello.", color = TripMuted, style = MaterialTheme.typography.bodySmall)
+                                if (selectedTaxa.isEmpty() && result.taxa.isNotEmpty()) Text("Nessun animale tipico selezionabile con questa curatela e le evidenze disponibili. Puoi consultare tutte le specie documentate.",
+                                    color = TripMuted, modifier = Modifier.testTag("trip-selection-empty"))
                             }
-                            items(result.taxa, key = { "live-${it.id}" }) { taxon ->
+                            items(selectedTaxa, key = { "live-${it.id}" }) { taxon ->
                                 ExploredTaxonCard(taxon, catalogue, onSaw = { saw(taxon.id, taxon.scientificName) }, onSave = {
                                     action { repository.saveResult(resultSnapshot(taxon, trip, outing, result, now(), stageId)); refresh++ }
                                 })
@@ -315,14 +346,16 @@ internal fun TripsScreen(
                         val savedOuting = outings.firstOrNull { it.id == saved.outingId }
                         val changed = saved.analysisKey != tripAnalysisKey(trip, savedOuting, saved.stageId)
                         Column(Modifier.fillMaxWidth().testTag("trip-saved-result-${saved.id}"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            EssentialSpeciesDetails(saved.taxonId, saved.scientificName, catalogue)
-                            Text("${saved.level.name} · analisi salvata ${saved.savedAt}; non garantisce la presenza attuale.", color = TripMuted)
-                            Text("${saved.area.name} · periodo analizzato ${saved.startsOn} → ${saved.endsOn}", color = TripMuted)
+                            EssentialSpeciesDetails(saved.taxonId, saved.scientificName, catalogue, savedSeasonSummary(saved.season))
                             if (changed) Text("Date o area modificate: risultato da ricalcolare.", color = TripError, modifier = Modifier.testTag("trip-result-outdated-${saved.id}"))
                             if (saved.partial || saved.stale) Text("Snapshot ${if (saved.partial) "parziale" else ""} ${if (saved.stale) "da cache non aggiornata" else ""}", color = TripError)
-                            Text(saved.season, color = TripMuted)
-                            saved.explanation.forEach { Text(it, color = TripMuted, style = MaterialTheme.typography.bodySmall) }
-                            saved.evidence.forEach { source -> Text("${source.explanation}\n${source.provenance.source} · ${source.provenance.retrievedAt} · licenza ${source.provenance.license} · ${source.provenance.attribution} · qualità ${source.provenance.quality}", color = TripMuted, style = MaterialTheme.typography.bodySmall) }
+                            SpeciesEvidenceDetails("trip-saved-details-${saved.id}") {
+                                SpeciesGeneralSources(saved.scientificName, catalogue, saved.taxonId)
+                                Text("${saved.level.name} · analisi salvata ${saved.savedAt}; non garantisce la presenza attuale.", color = TripMuted)
+                                Text("${saved.area.name} · periodo analizzato ${saved.startsOn} → ${saved.endsOn}", color = TripMuted)
+                                saved.explanation.forEach { Text(it, color = TripMuted, style = MaterialTheme.typography.bodySmall) }
+                                saved.evidence.forEach { source -> Text("${source.explanation}\n${source.provenance.source} · ${source.provenance.retrievedAt} · licenza ${source.provenance.license} · ${source.provenance.attribution} · qualità ${source.provenance.quality}", color = TripMuted, style = MaterialTheme.typography.bodySmall) }
+                            }
                             Button(onClick = { saw(saved.taxonId, saved.scientificName, saved.outingId) }, enabled = !busy, modifier = Modifier.testTag("trip-saved-saw-${saved.id}")) { Text("L’ho visto") }
                             OutlinedButton(onClick = { action { repository.deleteResult(saved.id); refresh++ } }, enabled = !busy, modifier = Modifier.testTag("trip-result-remove-${saved.id}")) { Text("Rimuovi risultato salvato") }
                         }

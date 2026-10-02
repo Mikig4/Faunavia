@@ -14,7 +14,7 @@ edges:
     condition: when implementing Room, Photo Picker, WorkManager, alarms, or Android permissions
   - target: context/data-and-provenance.md
     condition: when distinguishing manual records from provider evidence
-last_updated: 2026-09-14
+last_updated: 2026-10-02
 ---
 
 # Add an observation or daily notification
@@ -35,3 +35,14 @@ last_updated: 2026-09-14
 - [ ] No network is required to save, view, or summarize an observation.
 - [ ] The notification is not emitted for an empty day.
 - [ ] Android 13+ permission denial disables the reminder without disabling the diary.
+
+## F9 curation and wishlist changes
+
+1. Keep profile curation in `PilotSuggestionProfiles`, source every factual habitat/reason and version the set. The curator envelope is not an administrative boundary or species range; never infer a local habitat match from the generic profile.
+2. Feed `PersonalSuggestionEngine` only original evidence candidates. Keep evidence objects/levels unchanged. Typical uses the editorial threshold and urban exclusion; other views must retain common species.
+3. Never use occurrence count, distinctive appearance or habitat advice as a comparable ease score. Show unavailable estimates explicitly. Sorting needs scientific-name and ID tie breakers.
+4. For never-observed, load the global identified diary and accepted catalogue taxa. Match identity across provider IDs via canonical scientific names where possible, without claiming synonym resolution. Recompute on re-entry after diary edits/deletes; drafts never count.
+5. Wishlist writes require a selected accepted identity. Use repository transactions, protect wish identities at SQL level, preserve the initial add timestamp and ensure wish deletion cannot delete the diary or taxon.
+6. When reusing saved trip evidence, filter by the exact current `tripAnalysisKey`, including stage/outing. Missing/obsolete evidence means relevance unassessed, never absence. Keep partial/stale labels.
+
+F9 verification: pure profile/threshold/sort/identity/absence tests; Room populated migration and offline reopening; UI add/remove, restoration, errors, diary recomputation, preserved evidence and valid/outdated snapshot relevance. Use `verifyAll` for the cumulative final gate.

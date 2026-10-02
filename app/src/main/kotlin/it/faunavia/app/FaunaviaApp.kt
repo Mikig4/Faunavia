@@ -52,6 +52,9 @@ import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.RouteRepository
 import it.faunavia.domain.TripRepository
 import it.faunavia.domain.UnidentifiedRepository
+import it.faunavia.domain.WishlistRepository
+import it.faunavia.domain.Taxon
+import it.faunavia.exploration.SuggestionView
 import it.faunavia.route.RouteImportService
 import it.faunavia.exploration.ExplorationService
 import it.faunavia.exploration.PlaceSearch
@@ -113,6 +116,7 @@ fun FaunaviaApp(
     mapAdapter: ExplorationMapAdapter = MapLibreExplorationMapAdapter,
     tripRepository: TripRepository? = null,
     unidentifiedRepository: UnidentifiedRepository? = null,
+    wishlistRepository: WishlistRepository? = null,
 ) {
     val application = LocalContext.current.applicationContext as FaunaviaApplication
     val catalogueSearch = taxonomySearch ?: application.taxonomySearch
@@ -124,6 +128,7 @@ fun FaunaviaApp(
     val geocoder = placeSearch ?: application.placeSearch
     val trips = tripRepository ?: application.repositories.trips
     val unidentified = unidentifiedRepository ?: application.repositories.unidentified
+    val wishes = wishlistRepository ?: application.repositories.wishlist
     var observationSeed by remember { mutableStateOf<DiaryPrefill?>(null) }
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -150,6 +155,7 @@ fun FaunaviaApp(
             )
         },
         containerColor = FaunaviaGreen,
+        contentColor = MaterialTheme.colorScheme.onBackground,
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).background(FaunaviaBackground)) {
             if (currentDestination?.route in listOf("results", "routes")) {
@@ -165,7 +171,8 @@ fun FaunaviaApp(
                 AppDestination.entries.forEach { destination ->
                     composable(destination.route) {
                         when (destination) {
-                            AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch)
+                            AppDestination.CATALOGUE -> CatalogueScreen(catalogueSearch, wishlist = wishes,
+                                catalogue = catalogue, diary = diary)
                             AppDestination.DIARY -> DiaryScreen(diary, catalogue, catalogueSearch,
                                 unidentifiedRepository = unidentified, tripRepository = trips, prefill = observationSeed,
                                 onExitEditor = { observationSeed = null })
@@ -180,7 +187,8 @@ fun FaunaviaApp(
                             AppDestination.TRIPS -> TripsScreen(trips, diary, unidentified, catalogue, catalogueSearch,
                                 geocoder, explorer, routes, mapAdapter,
                                 onExplore = { navigate(AppDestination.RESULTS) },
-                                onImportRoute = { navigate(AppDestination.ROUTES) }, routing = application.tripRouting)
+                                onImportRoute = { navigate(AppDestination.ROUTES) }, routing = application.tripRouting,
+                                wishlist = wishes)
                             else -> PlaceholderScreen(destination)
                         }
                     }
@@ -248,7 +256,12 @@ private fun PlaceholderScreen(destination: AppDestination) {
 internal fun CatalogueScreen(
     taxonomySearch: TaxonomySearch,
     debounceMillis: Long = 350,
+    wishlist: WishlistRepository? = null,
+    catalogue: CatalogueRepository? = null,
+    diary: DiaryRepository? = null,
 ) {
+    var showWishes by rememberSaveable { mutableStateOf(false) }
+    var selectedTaxon by remember { mutableStateOf<Taxon?>(null) }
     require(debounceMillis >= 0) { "The catalogue debounce cannot be negative." }
     var query by rememberSaveable { mutableStateOf("") }
     var refresh by rememberSaveable { mutableIntStateOf(0) }
@@ -259,6 +272,12 @@ internal fun CatalogueScreen(
     var searchError by remember { mutableStateOf<String?>(null) }
     var searchGeneration by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
+
+    if (showWishes && wishlist != null && catalogue != null && diary != null) {
+        PersonalSuggestionsScreen(wishlist, catalogue, diary, taxonomySearch, initialView = SuggestionView.WISHLIST,
+            onBack = { showWishes = false })
+        return
+    }
 
     LaunchedEffect(query, refresh) {
         val generation = ++searchGeneration
@@ -288,6 +307,7 @@ internal fun CatalogueScreen(
             .testTag("screen-catalogue"),
     ) {
         CatalogueHeader()
+        wishlist?.let { TextButton(onClick = { showWishes = true }, modifier = Modifier.testTag("catalogue-wishlist")) { Text("Lista: vorrei vederlo") } }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -335,6 +355,13 @@ internal fun CatalogueScreen(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
+            selectedTaxon?.let { taxon -> wishlist?.let { store ->
+                TextButton(onClick = { scope.launch {
+                    runCatching { store.add(taxon.id) }
+                        .onSuccess { selectedName = "${taxon.scientificName} · aggiunto ai desideri"; selectionError = null }
+                        .onFailure { selectionError = "Non riesco a salvare il desiderio. Riprova." }
+                } }, modifier = Modifier.testTag("catalogue-add-wish")) { Text("Vorrei vederlo") }
+            } }
             Spacer(Modifier.height(12.dp))
             when {
                 loading -> Text(
@@ -354,7 +381,7 @@ internal fun CatalogueScreen(
                         scope.launch {
                             selectionError = null
                             runCatching { withContext(Dispatchers.IO) { taxonomySearch.select(entry) } }
-                                .onSuccess { selectedName = entry.taxon.scientificName }
+                                .onSuccess { selectedName = entry.taxon.scientificName; selectedTaxon = entry.taxon }
                                 .onFailure { selectionError = "Non riesco a salvare la selezione. Riprova." }
                         }
                     },

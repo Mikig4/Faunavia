@@ -29,6 +29,12 @@ class FaunaviaApplication : Application() {
         LocalRepositories.open(this, clock)
     }
 
+    val speciesMetadata: it.faunavia.exploration.SpeciesMetadataLookup by lazy {
+        it.faunavia.exploration.RemoteSpeciesMetadata(it.faunavia.exploration.UrlConnectionSpeciesMetadataHttp(),
+            SharedPreferencesSpeciesMetadataCache(this), clock)
+    }
+    internal val speciesImageLoader: SpeciesMapImageLoader by lazy { CommonsMapImageLoader(this) }
+
     val taxonomySearch: TaxonomySearch by lazy {
         TaxonomySearchService(
             store = CatalogueTaxonSelectionStore(repositories.catalogue),

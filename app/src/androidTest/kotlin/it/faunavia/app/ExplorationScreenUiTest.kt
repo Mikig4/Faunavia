@@ -125,6 +125,8 @@ class ExplorationScreenUiTest {
         scrollTo("explore-filters")
         composeRule.onNodeWithTag("filter-documented").performClick()
         scrollTo("explore-taxon-gbif:1")
+        scrollTo("explore-details-gbif:1")
+        composeRule.onNodeWithTag("explore-details-gbif:1").performClick()
         composeRule.onNodeWithTag("explore-level-gbif:1").assertTextContains("Documentato", substring = true)
         scrollTo("explore-license-1")
         composeRule.onNodeWithTag("explore-license-1").assertTextContains("CC BY", substring = true)
@@ -190,6 +192,8 @@ class ExplorationScreenUiTest {
         scrollTo("map-attribution")
         composeRule.onNodeWithTag("map-attribution").assertIsDisplayed()
         scrollTo("explore-taxon-gbif:1")
+        scrollTo("explore-details-gbif:1")
+        composeRule.onNodeWithTag("explore-details-gbif:1").performClick()
         composeRule.onNodeWithTag("explore-level-gbif:1").assertTextContains("Documentato", substring = true)
     }
 
@@ -243,6 +247,9 @@ class ExplorationScreenUiTest {
         composeRule.waitUntil(5_000) {
             composeRule.onAllNodesWithTag("explore-results-title").fetchSemanticsNodes().isNotEmpty()
         }
+        // Existing F8A sentinels exercise the complete evidence view, including urban taxa.
+        scrollTo("explore-view-all")
+        composeRule.onNodeWithTag("explore-view-all").performClick()
     }
 
     private fun scrollTo(tag: String) {

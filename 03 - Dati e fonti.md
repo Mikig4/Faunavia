@@ -107,6 +107,18 @@ Gli avvistamenti inseriti dall'utente sono dati di prima parte e hanno una prove
 
 Il catalogo dei suggerimenti deve essere più piccolo del catalogo tassonomico. Per ogni specie candidata registrare almeno: area, habitat, `distinctivenessScore`, `urbanCommon`, motivazione curatoriale e fonte. Questo consente di escludere gli animali comuni senza vietare all'utente di registrarli.
 
+## Schede compatte, distribuzione e curiosità — precisazione 2026-10-02
+
+La ricerca principale seleziona animali caratteristici tramite profili originali motivati; la lista completa delle evidenze resta una vista secondaria. La curatela non coincide con l'areale e non prova che un habitat esista lungo l'itinerario. Il pilota Lombardia e dintorni è ampliato a dodici taxa; fonte, habitat, motivazione e versione sono nel modulo exploration. Nomi italiani curati restano nomi di presentazione e non sostituiscono la risoluzione tassonomica accettata.
+
+Il clic su Habitat apre ora la distribuzione **dentro l’app per tutte le specie**, comprese quelle fuori dal pilota. I dodici file Commons già revisionati restano il primo riferimento; per altre specie si cerca un item Wikidata con **P225 identico al nome scientifico**, poi la sua **P181 (taxon range map)**. Le illustrazioni di Wikimedia Commons si mostrano con legenda originale, autore, licenza riutilizzabile e data; nessuna immagine è incorporata nell’APK. Metadati normalizzati e immagini consultate hanno cache locali limitate e retry visibile. Dati assenti, identità ambigua o licenze incompatibili impediscono l’importazione della mappa.
+
+La mappa navigabile alternativa usa i tasselli **GBIF Maps v2** delle segnalazioni storiche aggregate del taxon, con OSM come base. Filtra problemi geospaziali e osservazioni umane/automatiche. Non rappresenta un areale biologico ufficiale, una probabilità d’incontro o presenza attuale; le aree vuote non provano assenza. Le mappe non vengono usate dal motore F7 per promuovere la plausibilità. **IUCN non è integrato**: un feed di geometrie istituzionali e le relative condizioni di accesso/riuso restano da concordare. Dettaglio in [[26 - Nomi, rotazione e mappe interne]].
+
+I nomi comuni italiani fuori dal pilota sono metadati GBIF di sola presentazione, ottenuti da un taxon Animalia accettato con identità scientifica esatta. Nessun nome straniero viene spacciato per italiano; quando manca, resta il nome scientifico. Il recupero automatico non seleziona un taxon nel diario e non scrive identità accettate in Room.
+
+Le curiosità diventano un requisito esplicito **F13**, in una sezione cliccabile/espandibile. Non era stata scelta una fonte unica dedicata. Per la curatela fattuale si privilegiano [Lipu](https://www.lipu.it/uccelli/conoscerli-proteggerli) e le schede ufficiali di enti parco come [Parcopedia Alpi Cozie](https://www.parchialpicozie.it/it/p/parcopedia/); Wikipedia/Wikidata sono supporto complementare da verificare sul singolo fatto. I testi Lipu sono CC BY-NC-ND 4.0 salvo eccezioni e fotografie: gli attuali brevi fatti di habitat sono formulazioni originali, non copie di schede. Per i testi Wikimedia valgono i [termini di uso](https://foundation.wikimedia.org/wiki/Terms_of_Use), mentre la licenza di ogni immagine va verificata separatamente. Prima di una futura importazione di curiosità vanno definiti riuso, attribuzione, versione, cache e fallback; nessun testo generato senza fonti entra nella scheda.
+
 ## Firebase come opzione, non come fondazione
 
 Firestore può contenere in futuro solo dati strutturati e versionati: profili specie, regole regionali e sincronizzazione del diario. Foto e database locale restano indipendenti. Il progetto non deve attivare Cloud Storage o un piano con fatturazione senza una decisione esplicita.

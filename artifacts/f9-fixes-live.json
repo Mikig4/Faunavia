@@ -1,0 +1,38 @@
+[
+  {
+    "scientificName": "Sciurus vulgaris",
+    "matchType": "EXACT",
+    "gbifKey": 8211070,
+    "italianNames": [],
+    "exactWikidataItems": 1,
+    "rangeFile": "Sciurus vulgaris habitat.png",
+    "imageMime": "image/png",
+    "license": "Public domain",
+    "attribution": "<a href=\"//commons.wikimedia.org/wiki/User:NordNordWest\" title=\"User:NordNordWest\">NordNordWest</a>",
+    "description": "https://commons.wikimedia.org/wiki/File:Sciurus_vulgaris_habitat.png",
+    "checkedAt": "2026-10-02T16:13:03.2516992Z",
+    "canonicalName": "Sciurus vulgaris",
+    "taxonomicStatus": "ACCEPTED",
+    "mediaHost": "thumb.wikimedia.org"
+  },
+  {
+    "scientificName": "Alcedo atthis",
+    "matchType": "EXACT",
+    "gbifKey": 2475532,
+    "italianNames": [
+      "Martin pescatore",
+      "Martin pescatore",
+      "Martin pescatore comune"
+    ],
+    "exactWikidataItems": 1,
+    "rangeFile": "Alcedo atthis -range map-2-cp.png",
+    "imageMime": "image/png",
+    "license": "CC BY-SA 3.0",
+    "attribution": "<ul><li>derivative work: <a href=\"//commons.wikimedia.org/wiki/User:Snowmanradio\" title=\"User:Snowmanradio\">Snowmanradio</a> (<a href=\"//commons.wikimedia.org/wiki/User_talk:Snowmanradio\" title=\"User talk:Snowmanradio\"><span class=\"signature-talk\">talk</span></a>)</li>\n<li><a href=\"//commons.wikimedia.org/wiki/File:Alcedo_atthis_-Verbreitungskarte.png\" title=\"File:Alcedo atthis -Verbreitungskarte.png\">Alcedo_atthis_-Verbreitungskarte.png</a>: <a href=\"https://de.wikipedia.org/wiki/Benutzer:Devil_m25\" class=\"extiw\" title=\"de:Benutzer:Devil m25\">de:Benutzer:Devil_m25</a></li></ul>\nThe original uploader was <a href=\"https://en.wikipedia.org/wiki/de:User:Devil_m25\" class=\"extiw\" title=\"w:de:User:Devil m25\">Devil m25</a> at <a href=\"https://en.wikipedia.org/wiki/de:\" class=\"extiw\" title=\"w:de:\">German Wikipedia</a>.",
+    "description": "https://commons.wikimedia.org/wiki/File:Alcedo_atthis_-range_map-2-cp.png",
+    "checkedAt": "2026-10-02T16:13:05.5023434Z",
+    "canonicalName": "Alcedo atthis",
+    "taxonomicStatus": "ACCEPTED",
+    "mediaHost": "upload.wikimedia.org"
+  }
+]

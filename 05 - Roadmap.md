@@ -2,7 +2,7 @@
 
 Estensione della pianificazione F8B del 2026-10-02: [[23 - Tappe e giorni del viaggio]], con località libere, ordine, giorni e analisi del singolo tratto.
 
-La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F8B sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]].
+La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F9 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]].
 
 | Fase | Incremento | Gate principale |
 |---|---|---|
@@ -16,11 +16,11 @@ La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B
 | F7 | motore di plausibilità | areale + habitat obbligatori, stagione come modificatore |
 | F8A | esplorazione naturalistica | luogo/percorso + periodo → risultati spiegati → mappa → scheda essenziale |
 | F8B | viaggi e diario collegato | viaggio/uscita → osservazione o bozza → calendario e riepilogo |
-| F9 | suggerimenti peculiari | distinzione dai taxa comuni e dal catalogo generale |
+| F9 | suggerimenti personali e desideri | profili motivati, viste personali, wishlist offline e separazione da evidenze/diario |
 | F10 | foto locali | Photo Picker, copie controllate, privacy e gestione errori |
 | F11 | notifica flessibile | WorkManager, fuso, permessi, zero notifiche vuote |
 | F12 | export/import | archivio verificato, ripristino e rollback sicuro |
-| F13 | scheda specie e fallback 2D | contenuto tracciabile, accessibile e disponibile dalla cache |
+| F13 | scheda specie e fallback 2D | approfondimenti e curiosità cliccabili, fonti e cache; scheda iniziale compatta |
 | F14 | pipeline e primo asset 3D | GLB validato, manifest, budget mobile e fallback integro |
 | F15 | mappa e gazetteer regionali offline | licenza, pacchetto versionato, ricerca per nome, import/cancellazione |
 | F16 | sincronizzazione opzionale | decisione architetturale motivata prima di qualsiasi backend |

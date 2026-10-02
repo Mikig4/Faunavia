@@ -16,7 +16,7 @@ edges:
   - target: context/offline-first.md
     condition: when choosing storage, caching, or installable-app behavior
 grounds_to: []
-last_updated: 2026-10-01
+last_updated: 2026-10-02
 ---
 
 # Stack
@@ -25,6 +25,7 @@ last_updated: 2026-10-01
 
 - **Kotlin 2.3.21** — Compose compiler plugin and pure-JVM domain/testing modules; the Android module uses AGP 9.4 built-in Kotlin.
 - **Jetpack Compose BOM 2026.08.00** — Android UI toolkit used by the F1 scaffold.
+- **AndroidX Lifecycle ViewModel Compose 2.10.0** — F9 keeps analysis jobs/results across configuration changes; directly declared at the existing lifecycle version.
 - **Room 2.8.4 / SQLite, KSP 2.3.6** — implemented local source of truth in `:core:local`; explicit mappers, schema history and migration tests.
 - **Kotlin coroutines 1.10.2** — IO-dispatched suspend repository implementations; domain interfaces remain framework-independent.
 - **Kotlin serialization 1.8.1** — aligned app/test runtime for Navigation and Room migration testing; AGP's consistent resolution otherwise combines core 1.7.3 with test JSON 1.8.1.
@@ -35,6 +36,7 @@ last_updated: 2026-10-01
 
 - **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
+- **GBIF Maps v2 + Wikimedia Commons/MediaWiki imageinfo + Wikidata Action API** — F9 internal distribution presentation: historical observation density, attributed reusable range illustrations and exact P225/P181 association. Separate from F7 range evidence and accepted taxonomy selection; no new backend or account.
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
 - **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.

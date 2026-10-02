@@ -104,6 +104,7 @@ class TripScreenUiTest {
         waitForNode("trip-live-results")
         scroll("trip-content", "trip-live-results")
         composeRule.onNodeWithTag("trip-live-results").assertTextContains("2026-10-03 → 2026-10-03", substring = true)
+        click("trip-content", "trip-view-all")
         click("trip-content", "trip-save-result-${f8bTaxon.id}")
         waitFor { local.trips.results(trip.id).isNotEmpty() }
         val result = runBlocking { local.trips.results(trip.id).single() }
@@ -321,6 +322,7 @@ class TripScreenUiTest {
         assertEquals(0, provider.calls)
         click("trip-content", "trip-analyze")
         waitForNode("trip-live-results")
+        click("trip-content", "trip-view-all")
         click("trip-content", "trip-save-result-${f8bTaxon.id}")
         waitFor { local.trips.results(trip.id).isNotEmpty() }
         click("trip-content", "saw-${f8bTaxon.id}")

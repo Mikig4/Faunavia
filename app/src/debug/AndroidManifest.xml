@@ -4,5 +4,6 @@
         <activity android:name=".CatalogueTestActivity" android:exported="false" />
         <activity android:name=".DiaryTestActivity" android:exported="false" />
         <activity android:name=".RouteTestActivity" android:exported="false" />
+        <activity android:name=".AnalysisTestActivity" android:exported="false" />
     </application>
 </manifest>

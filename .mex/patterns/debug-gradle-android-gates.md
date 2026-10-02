@@ -16,7 +16,7 @@ edges:
   - target: context/conventions.md
     condition: before accepting a verification result
 grounds_to: []
-last_updated: 2026-09-21
+last_updated: 2026-10-02
 ---
 
 # Debug Gradle and Android gates
@@ -43,6 +43,7 @@ Source `scripts/android-env.ps1` before every Gradle command. Generated output b
 - PowerShell arguments beginning with `-P` should be quoted when passed to `gradlew.bat`.
 - A generated APK or test APK does not prove instrumentation ran. Require the XML report and the `verifyDevice` anti-omission check.
 - Do not accept direct JUnit execution or in-process compilation as the final gate when canonical Gradle execution is available outside the sandbox.
+- On this OneDrive checkout, `mex wiki validate` can temporarily report `Could not safely read` for placeholder Markdown files. Materialize them by reading their content with native file tools, then retry validation. Do not delete prose or change metadata to suppress a filesystem read failure. The 2026-10-02 retry validated all 27 canonical files.
 
 ## Verify
 

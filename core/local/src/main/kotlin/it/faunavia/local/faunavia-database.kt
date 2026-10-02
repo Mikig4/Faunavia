@@ -11,8 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
     entities = [TaxonRow::class, TaxonAliasRow::class, TaxonPreviewRow::class, SpeciesProfileRow::class,
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
         RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class,
-        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class],
-    version = 6,
+        TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class],
+    version = 7,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -92,9 +92,18 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE suggestion_profiles ADD COLUMN schemaVersion INTEGER NOT NULL DEFAULT 1")
+                db.execSQL("UPDATE suggestion_profiles SET schemaVersion = 0")
+                db.execSQL("CREATE TABLE IF NOT EXISTS wishlist (taxonId TEXT NOT NULL, addedAt TEXT NOT NULL, PRIMARY KEY(taxonId), FOREIGN KEY(taxonId) REFERENCES taxa(id) ON UPDATE NO ACTION ON DELETE RESTRICT)")
+                installIntegrity(db)
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 
@@ -104,6 +113,23 @@ abstract class FaunaviaDatabase : RoomDatabase() {
         }
 
         internal fun installIntegrity(db: SupportSQLiteDatabase) {
+            val hasWishlist = db.query("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'wishlist'").use { it.moveToFirst() }
+            if (hasWishlist) {
+                for (operation in listOf("INSERT", "UPDATE")) {
+                    db.execSQL("""
+                        CREATE TRIGGER IF NOT EXISTS wishlist_taxon_${operation.lowercase()}
+                        BEFORE $operation ON wishlist
+                        WHEN NOT EXISTS (SELECT 1 FROM taxa WHERE id = NEW.taxonId AND kingdom = 'Animalia' AND status = 'ACCEPTED')
+                        BEGIN SELECT RAISE(ABORT, 'Wishlist requires accepted Animalia taxon'); END
+                    """.trimIndent())
+                }
+                db.execSQL("""
+                    CREATE TRIGGER IF NOT EXISTS protect_wished_taxon BEFORE UPDATE ON taxa
+                    WHEN EXISTS (SELECT 1 FROM wishlist WHERE taxonId = OLD.id)
+                        AND (NEW.kingdom != 'Animalia' OR NEW.status != 'ACCEPTED')
+                    BEGIN SELECT RAISE(ABORT, 'Wishlist taxon must remain accepted Animalia'); END
+                """.trimIndent())
+            }
             for (operation in listOf("INSERT", "UPDATE")) {
                 db.execSQL("""
                     CREATE TRIGGER IF NOT EXISTS observation_taxon_${operation.lowercase()}

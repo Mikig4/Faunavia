@@ -87,7 +87,15 @@ data class SuggestionProfileRow(
     val distinctivenessScore: Double,
     val reason: String,
     @Embedded(prefix = "source_") val provenance: ProvenanceRow,
+    @ColumnInfo(defaultValue = "1") val schemaVersion: Int = 1,
 )
+
+@Entity(
+    tableName = "wishlist",
+    primaryKeys = ["taxonId"],
+    foreignKeys = [ForeignKey(entity = TaxonRow::class, parentColumns = ["id"], childColumns = ["taxonId"], onDelete = ForeignKey.RESTRICT)],
+)
+data class WishlistRow(val taxonId: String, val addedAt: String)
 
 @Entity(
     tableName = "observations",

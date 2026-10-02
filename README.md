@@ -1,17 +1,21 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–8B e rifiniture verificate. Il gate completo è verde a 13 F0, 84 JVM e 70 Android, con lint, confini e tre controlli visivi. Viaggi permette di scegliere partenza, destinazione, date e tracciato completo in auto sulla mappa interna e organizzarlo in tappe libere con giorni separati. La singola tappa usa il proprio tratto e giorno per l'analisi e apre le relative indicazioni Google Maps. Il Catalogo cerca anche i nomi comuni italiani; il Diario cerca nel catalogo generale e collega i ricordi al viaggio anche senza coordinate. Le evidenze esterne restano separate dagli avvistamenti personali; eliminare un viaggio non cancella i ricordi. F9 e F13 mantengono il perimetro pianificato. APK `artifacts/Faunavia-f8b-tappe-debug.apk`, versione `0.8.3-f8b` (12); verifiche e limiti in [[23 - Tappe e giorni del viaggio]].
+Stato: Fasi 0–9 e rifiniture verificate. Il gate completo è verde a 13 F0, 102 JVM e 94 Android, con lint, confini, formattazione, controllo omissioni e tre firme visive. APK corrente: `artifacts/Faunavia-f9-mappe-debug.apk`, versione `0.9.2-f9` (15), con firma compatibile con F9/F8B.
+
+Viaggi conserva partenza, destinazione, tappe con giorni e tracciati scelti; **Suggerimenti e desideri** aggiunge profili curati del pilota, viste tipici/più facili/mai osservati e lista desideri offline. La vista più facili dichiara la mancanza di stime confrontabili; non inventa un ranking. Il Catalogo permette di aggiungere un taxon selezionato ai desideri; il diario resta indipendente dai suggerimenti. Fonti, livelli di evidenza e ricordi personali rimangono distinti. Guida [[GUIDA-FASE-9]], verifiche e sole evoluzioni dei suggerimenti/desideri in [[24 - Rapporto Fase 9]]. Le funzionalità F8B precedenti restano documentate in [[23 - Tappe e giorni del viaggio]].
+
+La ricerca parte da **Animali tipici**, con dodici profili pilota e vista completa secondaria. Schede compatte: nomi leggibili, habitat cliccabile e stagionalità; evidenze/fonti espandibili. La rotazione conserva risultati e analisi in corso. La distribuzione si consulta **nell’app per tutte le specie**: areale illustrato Commons quando disponibile e mappa navigabile delle segnalazioni GBIF, esplicitamente distinta dall’areale. Nomi italiani fuori dal pilota da identità GBIF esatte, altrimenti nome scientifico. **Curiosità cliccabili** restano F13. Correzioni, limiti e verifica in [[26 - Nomi, rotazione e mappe interne]]; rifinitura precedente in [[25 - Animali tipici e schede compatte]].
 
 ## Obiettivo
 
-Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Suggerimenti personali, foto, schede complete e 3D arrivano nelle fasi già pianificate.
+Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Foto, schede complete e 3D arrivano nelle fasi già pianificate.
 
 ## Vincoli guida
 
 - Nessun costo obbligatorio durante l'uso quotidiano o nella creazione degli asset.
 - Nessun account e nessun backend proprietario nel primo rilascio.
 - Funzionamento utile anche senza tappe esplicite: il percorso viene campionato e trasformato in un corridoio geografico.
-- Ogni risultato deve mostrare fonte, data, area di osservazione e livello di attendibilità.
+- Ogni risultato deve rendere consultabili fonte, data, area di osservazione e livello di attendibilità.
 - La prima versione deve essere abbastanza piccola da poter essere mantenuta da una sola persona.
 
 ## Navigazione

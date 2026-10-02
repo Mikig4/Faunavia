@@ -78,11 +78,21 @@ Room/SQLite stores structured data. Photos are files in app-private storage with
 
 The 2026-10-02 staged-itinerary extension passed the cumulative gate: 13 F0, 84 JVM and 70 Android tests, no failures/skips, lint, boundaries, omission detection and three visual signatures. New coverage includes v2 compatibility, stage persistence/deletion without diary loss, ordering/date constraints, retry, stage Maps endpoints and stage-day analysis. APK `artifacts/Faunavia-f8b-tappe-debug.apk` is 0.8.3-f8b (12). These new UI tests use fakes on API 36; no physical-device claim. See `23 - Tappe e giorni del viaggio.md`.
 
+## F9 wishlist and profile versioning
+
+Room schema 7 adds `wishlist(taxonId, addedAt)` with a restricted taxon foreign key and accepted-Animalia integrity triggers. Repeated adds preserve the first timestamp; removing a wish leaves taxon, diary and planning intact. Migration 6→7 adds the profile schema version and marks old profiles as read-only v0, preserving even empty habitats. New v1 profiles require a nonempty habitat and reason; curation is bundled in the pure exploration module.
+
+Catalogue explicit selections and trip suggestions expose wishlist actions. Never-observed reads global identified memories; errors preserve local records and expose retry, restoration preserves the selected view, and saved trip candidates require the current analysis key. Final F9 verification passed 13 F0, 93 JVM and 82 Android tests, lint, formatting, boundaries, omission detection and three existing visual signatures. APK `artifacts/Faunavia-f9-debug.apk` is 0.9.0-f9 (13); signature matches the F8B staged-itinerary build. See `24 - Rapporto Fase 9.md` for limits and wish/suggestion-specific future extensions.
+
 ## Notifications
 
 Use WorkManager or a one-shot local scheduling strategy for the daily summary. The job must not require network. Android 13+ requires runtime notification permission; denial should disable only the reminder, not the diary.
 
 ## Maps
+
+F9 correction 0.9.2-f9 uses lifecycle ViewModel Compose 2.10.0 (the lifecycle version already pinned/transitively present). `AnalysisViewModel` retains exploration/trip live results and IO work across Activity recreation, avoiding restart or a large saved-state bundle. Tests recreate real Activities with completed and blocked-in-flight providers and assert a single call; trip tests wait for Room loading before inspecting restored rows. Explicit scope changes clear/cancel results. Process death still relies on saved inputs, F6 cache and explicit Room snapshots, not retained live results.
+
+The green Scaffold now sets `contentColor = onBackground`, and essential title/scientific/season text uses `onSurface` on light cards. Semantics alone missed the invisible white-on-light title; a bitmap ink test covers the regression. `SpeciesDistributionDialog` uses native image zoom for attributed Commons illustrations and the shared MapLibre lifecycle adapter for global aggregate GBIF density. All taxa have the action; missing maps and network/image errors remain recoverable. SharedPreferences stores at most 256 normalized metadata entries (30-day TTL); Commons has a bounded HTTP image cache. Room remains schema 7; automatic metadata lookup does not select taxonomy records.
 
 MapLibre Native Android is the F8A renderer, isolated from F5/F6/F7 behind an Android adapter. Online sources must be used according to their terms. Offline regions must come from a source/process that permits offline packaging; standard OSM tile servers are not a source for bulk offline downloads.
 

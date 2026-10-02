@@ -17,7 +17,7 @@ edges:
     condition: when changing what the app claims about presence
   - target: context/conventions.md
     condition: when implementing adapters, normalization, or source rendering
-last_updated: 2026-10-01
+last_updated: 2026-10-02
 ---
 
 # Data and provenance
@@ -86,6 +86,14 @@ F3 does not fetch or copy occurrence media. It shows an explicit unavailable-pre
 - F8A implements public Nominatim as an explicit-submit adapter, not client-side autocomplete: maximum five candidates, one request/second per process, identified User-Agent, 30-day local cache and OSM/Nominatim attribution. Empty, ambiguous and unavailable states differ. A country/region result is confirmed as a 20 km maximum sample around its center, not full territorial coverage.
 - A single live query for “Milano, Italia” returned an omonymous locality as its first candidate; successful HTTP status does not prove the top hit is the intended city. Keep the complete canonical display name visible and require confirmation instead of automatically accepting the first result.
 - F8A result cards retain the source link, attribution, date, license, quality and an Italian plain-language rendering of the F7 calculation trace. The map shows only route/corridor/samples and area-level evidence counts, never exact external occurrence pins. Range/habitat data are not yet fed live, so a taxon lacking a usable direct record remains `insufficient`.
+
+## F9 compact species presentation
+
+- The approved main research view selects typical taxa from existing evidence via the versioned twelve-profile pilot. Urban-common/unreviewed taxa are absent only from this selection; the complete evidence view and diary stay available. Scientific identity and original evidence objects are retained; counts never determine typicality.
+- Shared research/trip/suggestion cards show names, general habitat and season only; evidence explanations, attribution and licences are disclosed on demand. Italian curated names are presentation labels, never an accepted-taxonomy shortcut.
+- Habitat opens an internal distribution dialog for every taxon. Reviewed pilot Commons files remain preferred; non-pilot images require exactly one Wikidata item with matching P225 scientific identity, then its P181 map claim. Commons imageinfo supplies permitted media URL, author, reusable licence and map date, with the original legend retained. Images load only on click, with bounded 32 MiB HTTP cache, 4 MiB response and sampled bitmap limits; metadata cache contains normalized records only. No range geometry is imported into F7. GBIF Maps v2 provides an explicitly separate aggregate historical-observation layer on OSM, never range boundaries or encounter probability. No IUCN feed is integrated. Online smoke summaries are `artifacts/f9-fixes-live.json` and `artifacts/f9-fixes-tile.json`.
+- Common Italian names outside the pilot use exact accepted Animalia species/subspecies identity in GBIF. Foreign names and fuzzy matches cannot fill the Italian label. Missing names retain an immediate visible scientific title. This separate presentation cache never persists an implicitly selected taxon in Room, and retains full source/date/licence/quality/version on stale fallback.
+- Curiosities are explicitly deferred to F13 as a clickable section, with individual sources and missing-data fallback. Prioritize factual primary natural-history sheets (parks, Lipu); Wikipedia/Wikidata are complementary candidates. There is no dedicated automatic curiosity provider yet; verify text/image reuse separately before implementing one.
 
 ## Optional Firebase boundary
 

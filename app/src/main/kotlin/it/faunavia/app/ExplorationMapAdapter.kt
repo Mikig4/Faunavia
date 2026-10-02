@@ -41,6 +41,20 @@ interface ExplorationMapAdapter {
     @Composable fun Render(analysis: RouteAnalysis)
 }
 
+internal object MapLibreSpeciesDensityMapAdapter : SpeciesDensityMapAdapter {
+    @Composable override fun Render(gbifKey: String) {
+        MapLibreSurface("species:$gbifKey", GeoBounds(-180.0, -80.0, 180.0, 80.0), "species-distribution-map", initialZoom = 1.0) { base ->
+            val style = JSONObject(base)
+            style.getJSONObject("sources").put("species-observations", JSONObject().put("type", "raster")
+                .put("tiles", JSONArray().put(it.faunavia.exploration.gbifDistributionTiles(gbifKey)))
+                .put("tileSize", 512).put("attribution", "GBIF"))
+            style.getJSONArray("layers").put(JSONObject().put("id", "species-observations").put("type", "raster")
+                .put("source", "species-observations"))
+            style.toString()
+        }
+    }
+}
+
 object MapLibreExplorationMapAdapter : ExplorationMapAdapter {
     @Composable
     override fun Render(analysis: RouteAnalysis) {
@@ -100,7 +114,8 @@ object MapLibrePersonalMapAdapter : PersonalMapAdapter {
 }
 
 @Composable
-private fun MapLibreSurface(identity: String, bounds: GeoBounds, tag: String, fitBounds: Boolean = false, makeStyle: (String) -> String) {
+private fun MapLibreSurface(identity: String, bounds: GeoBounds, tag: String, fitBounds: Boolean = false,
+    initialZoom: Double? = null, makeStyle: (String) -> String) {
         val context = LocalContext.current
         val routePadding = with(LocalDensity.current) { 16.dp.roundToPx() }
         val lifecycleOwner = LocalLifecycleOwner.current
@@ -159,7 +174,7 @@ private fun MapLibreSurface(identity: String, bounds: GeoBounds, tag: String, fi
                         val style = makeStyle(context.assets.open("osm-raster-style.json").bufferedReader().use { it.readText() })
                         map.setStyle(Style.Builder().fromJson(style))
                         val span = max(bounds.east - bounds.west, bounds.north - bounds.south)
-                        val zoom = when {
+                        val zoom = initialZoom ?: when {
                             span > 5 -> 5.0
                             span > 1 -> 7.0
                             span > 0.2 -> 9.0

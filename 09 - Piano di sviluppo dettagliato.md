@@ -1,6 +1,6 @@
 # Piano di sviluppo dettagliato
 
-Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. F0–F8B sono completate; le estensioni delle fasi successive rimangono requisiti futuri.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. F0–F9 sono completate; le estensioni delle fasi successive rimangono requisiti futuri.
 
 ## Estensioni funzionali approvate il 2026-09-20
 
@@ -37,6 +37,9 @@ Questa sezione integra attività e gate delle fasi indicate. In caso di contrast
 
 ### F9 — Lista desideri e suggerimenti personali
 
+- Correzione approvata 2026-10-02: titoli leggibili, recupero del nome italiano quando disponibile con identità esatta, analisi e risultati conservati durante la rotazione anche nei viaggi. Habitat apre la distribuzione nell’app per tutte le specie; areale illustrato Commons verificato via Wikidata quando disponibile e mappa GBIF delle segnalazioni come alternativa dichiarata. Curiosità restano una sezione cliccabile F13. Implementazione e verifiche in [[26 - Nomi, rotazione e mappe interne]].
+
+- Rifinitura approvata 2026-10-02: ricerca del viaggio e ricerca libera aperte su “Animali tipici”, con vista completa secondaria. Usare una curatela versionata ampliata, non il numero di record; specie urbane comuni escluse soltanto dalla selezione tipica, motivazione e livello delle evidenze consultabili. Schede compatte: nome comune quando disponibile, nome scientifico, habitat e stagionalità; spiegazioni e fonti in un dettaglio espandibile. Habitat cliccabile apre una mappa generale di distribuzione verificata, distinta dalla mappa del viaggio; dato mancante e apertura fallita restano espliciti. I risultati già scelti dall'utente restano conservati e consultabili.
 - Salvare/rimuovere taxa dalla lista “vorrei vederlo” e indicarne la pertinenza al viaggio usando le evidenze disponibili.
 - Offrire viste “tipici del luogo”, “più facili da osservare” e “mai osservati da me”, con motivazioni e ordinamento stabile. L'ultima vista dipende solo da osservazioni personali identificate, non da bozze o evidenze esterne.
 - Le specie urbane comuni possono essere de-prioritizzate nella vista dei taxa tipici, senza esclusione rigida nelle altre viste. Se manca una base per stimare l'osservabilità, dichiararlo invece di simulare un ordinamento affidabile.
@@ -296,7 +299,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** viaggio → risultati → uscita → osservazione/bozza → diario e riepilogo funzionano dopo riavvio; cancellare un viaggio non elimina ricordi. F9 parte solo dopo il gate F8B.
 
-**Esito F8B:** completata e verificata con `verifyAll --no-daemon`: 13 test F0, 71 JVM e 54 Android, senza errori o test omessi. Dettagli e limiti in [[20 - Rapporto Fase 8B]], recupero in [[GUIDA-FASE-8B]]. F9 rimane da implementare.
+**Esito F8B:** completata e verificata con `verifyAll --no-daemon`: 13 test F0, 71 JVM e 54 Android, senza errori o test omessi. Dettagli e limiti in [[20 - Rapporto Fase 8B]], recupero in [[GUIDA-FASE-8B]]. F9 è stata completata successivamente, come documentato in [[24 - Rapporto Fase 9]].
 
 **Prima rifinitura F8B:** verificata con 13 F0, 73 JVM e 60 Android; dettagli storici in [[21 - Rifinitura Viaggi e Diario]]. La successiva precisazione aggiunge partenza e tracciato completo scelto nella mappa interna e corregge la ricerca comune del Catalogo; stato e verifiche in [[22 - Tracciato viaggio e Catalogo]]. F9 e F13 conservano il perimetro precedente.
 
@@ -318,6 +321,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 **Non regressione:** suite completa F1–F8B (incluse F8A e F8B); sentinel sulla separazione fra suggerimenti, catalogo, evidenze e diario; vertical slice cartografico invariato.
 
 **Gate di completamento:** i suggerimenti sono motivati, riproducibili e non limitano il diario.
+
+**Esito F9:** completata con desideri offline e quattro viste personali; profili pilota versionati, nessuna alterazione dei livelli e osservabilità confrontabile dichiarata non disponibile. Gate finale `verifyAll --no-daemon` verde: 13 F0, 93 JVM, 82 Android, zero errori/skipped/omissioni, lint, confini, formattazione e tre firme visive. APK `artifacts/Faunavia-f9-debug.apk`, 0.9.0-f9 (13). Uso e limiti in [[GUIDA-FASE-9]]; evoluzioni specifiche dei suggerimenti/desideri in [[24 - Rapporto Fase 9]].
 
 ## F10 — Foto locali e privacy
 
@@ -389,6 +394,9 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 1. Definire contenuti, fonti e versionamento del profilo specie.
 2. Mostrare nomi, habitat, stagionalità, dimensioni, dieta, comportamento e note di sicurezza/conservazione.
+   - Mantenere compatta la scheda iniziale: nomi, habitat cliccabile verso distribuzione geografica e stagionalità. Gli approfondimenti si aprono su richiesta.
+   - Aggiungere **Curiosità** come sezione cliccabile/espandibile, non un blocco sempre aperto. Comprende fatti verificati su comportamento, adattamenti e particolarità; fonte/data e stato non disponibile obbligatori, nessuna generazione non documentata.
+   - Non era stata fissata una fonte unica per le curiosità. Piano di curatela: schede ufficiali di enti parco e Lipu come fonti fattuali prioritarie; Wikipedia/Wikidata come supporto complementare collegato e verificato, con riferimento alla fonte del singolo fatto. Prima di importare testi o immagini verificare la licenza specifica e conservarne attribuzione/versione. Nessun nuovo adapter automatico per curiosità è incluso nella rifinitura F9.
 3. Collegare spiegazione di evidenza e provenienza.
 4. Offrire immagine o silhouette 2D accessibile e sempre disponibile come fallback.
 5. Conservare offline le schede già viste.

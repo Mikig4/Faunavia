@@ -14,7 +14,7 @@ edges:
   - target: patterns/import-route-and-analyze.md
     condition: when changing coordinate, GPX or GeoJSON analysis
 grounds_to: []
-last_updated: 2026-09-30
+last_updated: 2026-10-02
 ---
 
 # Explore a place and render a map
@@ -30,12 +30,20 @@ F8A is an unsaved exploration path through F5/F6/F7. A chosen administrative pla
 3. Pass F5 `RouteAnalysis` to F6 `OccurrenceGateway`, then each grouped taxon to F7. Never label a species plausible without both range and habitat evidence, and never imply a historical occurrence is current presence.
 4. Keep provider URLs outside app Kotlin UI source; `scripts/quality/check-boundaries.ps1` enforces this. Put map tile URLs in the style asset and geocoder URLs in the pure adapter.
 5. MapLibre reads ordinary online tiles with identifiable User-Agent, cache and visible OSM attribution. Do not prefetch for offline regions. Draw route/corridor/samples and aggregate evidence, not precise occurrence coordinates. Keep cards and diary available if map/tiles/network fail.
+6. Start both ephemeral and trip research with `typicalTaxa`, using the complete analysis samples for regional curation. Keep the full evidence view secondary and distinguish no curated match from no fauna. Never discard evidence or personal saved snapshots to simplify the default list.
+7. Render compact names/habitat/season via `EssentialSpeciesDetails`; disclose evidence/source history in `SpeciesEvidenceDetails`. Set an explicit dark content color under the green Scaffold: inferred `onPrimary` otherwise makes inherited text white on light cards. Scientific title fallback must be immediate. Italian metadata enrichment uses exact accepted Animalia identities and a separate normalized presentation cache; it never selects a diary taxon.
+8. Keep exploration/trip results and running jobs in the navigation/Activity-owned `AnalysisViewModel`, with an idempotent exploration token and explicit cancellation when scope changes. Small inputs remain saveable; never put the large analysis into the instance bundle. Test actual Activity recreation for ready and pending jobs with a provider that always misses cache, then assert the visible result and a single provider call. Process death is a separate contract.
+9. All taxa can open `SpeciesDistributionDialog` on click. Prefer reviewed pilot Commons files, otherwise require exact Wikidata P225 identity before using P181. Preserve original legend, author, reusable licence and map date. Keep aggregate GBIF observations in a separately labelled native MapLibre view; they are not a range, local presence or encounter probability. No curator rectangle or occurrence-dot geometry can become range evidence in F7. Handle absent maps and metadata/image failures with visible retry.
 
 ## Gotchas
 
 - Equivalent GPX, GeoJSON and coordinate geometry shares one F5 fingerprint and F6 cache; a fake provider can legitimately be called once for three analyses.
 - The UI's lazy list needs `performScrollToNode(hasTestTag(...))` and a closed keyboard for off-screen Compose controls.
 - A provider-call counter does not prove saved-state restoration: it may still reflect the pre-restore request. After restoration, wait for the result title and assert the restored map and filtered card again.
+- After real trip Activity recreation, wait for `trip-loading` to disappear before scrolling into dynamic detail rows; Room loading temporarily leaves only the list header.
+- A real-recreation debug host must call `setContent` from the same method before and after recreation. Mixing rule `setContent` with an Activity wrapper can change saveable composition keys: retained ViewModel results can appear correct while selected trip/coordinates are lost. Assert restored inputs as well as result and provider calls.
+- Text semantics do not prove visibility: the species contrast regression captures the rendered title bitmap and checks visible ink even under a white parent content color.
+- Commons imageinfo now advertises thumbnails on `thumb.wikimedia.org` as well as original media on `upload.wikimedia.org`; allow exactly these HTTPS origins. The 2026-10-02 live smoke detected this migration; do not construct thumbnails by replacing domains.
 - `verifyAll` treats lint's KTX suggestions as errors. Use `String.toUri()` and `SharedPreferences.edit { ... }` when appropriate.
 - In a restricted shell, the wrapper may attempt a blocked Gradle download or Java may report `AccessDeniedException` for an installed toolchain JAR. Use the pinned local Gradle binary and request out-of-sandbox execution rather than weakening gates.
 

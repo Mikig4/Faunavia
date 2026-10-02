@@ -25,6 +25,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.FilterChip
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,13 +43,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import it.faunavia.domain.CatalogueRepository
 import it.faunavia.domain.EvidenceLevel
 import it.faunavia.domain.GeoPoint
 import it.faunavia.domain.Route
 import it.faunavia.domain.RouteRepository
-import it.faunavia.domain.SpeciesProfile
-import it.faunavia.domain.Taxon
 import it.faunavia.exploration.ExplorationResult
 import it.faunavia.exploration.ExplorationService
 import it.faunavia.exploration.ExploredTaxon
@@ -57,10 +57,10 @@ import it.faunavia.exploration.PlaceKind
 import it.faunavia.exploration.PlaceOrigin
 import it.faunavia.exploration.PlaceSearch
 import it.faunavia.exploration.PlaceSearchResult
+import it.faunavia.exploration.typicalTaxa
 import it.faunavia.plausibility.AnalysisPeriod
 import it.faunavia.plausibility.PlausibilityExplanationStep
 import it.faunavia.plausibility.PlausibilityStepKind
-import it.faunavia.plausibility.SeasonDataQuality
 import it.faunavia.occurrence.OccurrenceResultOrigin
 import it.faunavia.route.RouteAnalysisConfig
 import java.time.LocalDate
@@ -106,11 +106,13 @@ internal fun ExplorationScreen(
     var searching by remember { mutableStateOf(false) }
     var candidates by remember { mutableStateOf<List<PlaceCandidate>>(emptyList()) }
     var placeMessage by remember { mutableStateOf<String?>(null) }
-    var result by remember { mutableStateOf<ExplorationResult?>(null) }
-    var loading by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
+    val analysisState = viewModel<AnalysisViewModel>(key = "explore-analysis")
+    val result by analysisState.result
+    val loading by analysisState.loading
+    var error by analysisState.error
     var showMap by rememberSaveable { mutableStateOf(false) }
     var filter by rememberSaveable { mutableStateOf(EvidenceFilter.ALL.name) }
+    var typicalOnly by rememberSaveable { mutableStateOf(true) }
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
@@ -120,8 +122,7 @@ internal fun ExplorationScreen(
             selectedKind = "file"
             selectedRouteId = ""
             submitted = false
-            result = null
-            error = null
+            analysisState.clear()
         }
     }
 
@@ -133,8 +134,7 @@ internal fun ExplorationScreen(
         selectedRouteId = ""
         selectedKind = kind
         submitted = false
-        result = null
-        error = null
+        analysisState.clear()
         candidates = emptyList()
     }
 
@@ -154,14 +154,11 @@ internal fun ExplorationScreen(
             submitted = false
             return@LaunchedEffect
         }
-        loading = true
-        error = null
-        result = null
-        runCatching {
-            withContext(Dispatchers.IO) {
+        val documentContext = context.applicationContext
+        analysisState.start("explore:$revision", failureMessage = ::explorationError) {
                 val route = when (selectedKind) {
                     "file" -> {
-                        val document = readRouteDocument(context, selectedFileUri.toUri())
+                        val document = readRouteDocument(documentContext, selectedFileUri.toUri())
                         explorer.document(document.name, document.content)
                     }
                     "saved" -> routeRepository?.get(selectedRouteId)
@@ -169,10 +166,7 @@ internal fun ExplorationScreen(
                     else -> explorer.point(selectedName, GeoPoint(selectedLatitude.toDouble(), selectedLongitude.toDouble()))
                 }
                 explorer.explore(route, period, config)
-            }
-        }.onSuccess { result = it }
-            .onFailure { failure -> error = explorationError(failure) }
-        loading = false
+        }
     }
 
     Column(Modifier.fillMaxSize().background(Color(0xFFF4F7F2)).testTag("screen-results")) {
@@ -267,8 +261,7 @@ internal fun ExplorationScreen(
                             selectedKind = "saved"
                             selectedFileUri = ""
                             submitted = false
-                            result = null
-                            error = null
+                            analysisState.clear()
                         }, modifier = Modifier.fillMaxWidth().testTag("explore-saved-$index"),
                             colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = ExploreInk)) {
                             Text(route.name, modifier = Modifier.fillMaxWidth())
@@ -310,6 +303,13 @@ internal fun ExplorationScreen(
                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                             Text("Risultati · ${current.analysis.routeName}", style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold, color = ExploreInk, modifier = Modifier.testTag("explore-results-title"))
+                            Text("Selezione non esaustiva basata su evidenze storiche; nessun avvistamento è garantito.", color = ExploreMuted)
+                            FilterChip(selected = typicalOnly, onClick = { typicalOnly = true }, label = { Text("Animali tipici") },
+                                modifier = Modifier.testTag("explore-view-typical"))
+                            FilterChip(selected = !typicalOnly, onClick = { typicalOnly = false }, label = { Text("Tutte le specie documentate") },
+                                modifier = Modifier.testTag("explore-view-all"))
+                            Text(if (typicalOnly) "Specie caratteristiche selezionate per habitat. Curatela pilota Lombardia e dintorni; le specie urbane comuni restano nella vista completa."
+                                else "Tutti i risultati delle fonti consultate, compresi quelli con dati insufficienti; il livello è consultabile in Evidenze e fonti.", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
                             Text("${current.analysis.samples.size} campioni · ${current.analysis.corridorPortions.size} porzioni · EPSG:3035",
                                 color = ExploreMuted)
                             if (current.partial) Text("Risultati parziali: una fonte non ha risposto.", color = ExploreError)
@@ -354,10 +354,14 @@ internal fun ExplorationScreen(
                                 }
                             }
                         }
-                        val visible = current.taxa.filter { taxon ->
+                        val selectedTaxa = if (typicalOnly) typicalTaxa(current.taxa, current.analysis.samples) else current.taxa
+                        val visible = selectedTaxa.filter { taxon ->
                             filter == EvidenceFilter.ALL.name || taxon.assessment.level.name == filter
                         }
-                        if (visible.isEmpty()) item { Text("Nessun risultato per questo filtro.", color = ExploreMuted) }
+                        item { Text("${visible.size} specie nella vista selezionata", color = ExploreMuted, modifier = Modifier.testTag("explore-visible-count")) }
+                        if (visible.isEmpty()) item { Text(if (typicalOnly)
+                            "Nessun animale tipico selezionabile con questa curatela e le evidenze disponibili. Non significa assenza di fauna; puoi consultare tutte le specie documentate."
+                            else "Nessun risultato per questo filtro.", color = ExploreMuted, modifier = Modifier.testTag("explore-selection-empty")) }
                         items(visible, key = { it.id }) { taxon -> ExploredTaxonCard(taxon, catalogue, onSaw?.let { { it(taxon) } }) }
                     }
                 }
@@ -374,60 +378,37 @@ internal fun ExploredTaxonCard(taxon: ExploredTaxon, catalogue: CatalogueReposit
     Column(Modifier.fillMaxWidth().background(Color.White, RoundedCornerShape(12.dp))
         .border(1.dp, Color(0xFFCCD8CE), RoundedCornerShape(12.dp)).padding(16.dp)
         .testTag("explore-taxon-${taxon.id}"), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        EssentialSpeciesDetails(taxon.id, taxon.scientificName, catalogue)
-        Text(when (taxon.assessment.level) {
-            EvidenceLevel.DOCUMENTED -> "Documentato · osservazione storica utilizzabile, non presenza garantita oggi"
-            EvidenceLevel.PLAUSIBLE -> "Plausibile · area e habitat compatibili"
-            EvidenceLevel.INSUFFICIENT -> "Dati insufficienti · non è prova di assenza"
-        }, color = ExploreGreen, modifier = Modifier.testTag("explore-level-${taxon.id}"))
-        val season = taxon.assessment.season
-        val seasonSource = when (season.quality) {
-            SeasonDataQuality.INSTITUTIONAL -> "fonte istituzionale"
-            SeasonDataQuality.DERIVED_OCCURRENCES -> "ricavato dalle osservazioni; indicazione debole"
-            SeasonDataQuality.UNAVAILABLE -> "dato non disponibile"
-        }
-        Text("Periodo: ${if (season.quality == SeasonDataQuality.UNAVAILABLE) "dati stagionali non disponibili" else "mesi ${season.activeMonths.sorted().joinToString()} · $seasonSource"}",
-            color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-        taxon.assessment.explanation.forEach { step ->
-            Text(explanationText(step), color = ExploreMuted,
-                style = MaterialTheme.typography.bodySmall)
-            step.provenance.take(2).forEach { source ->
-                Text("Fonte: ${source.attribution} · licenza ${source.license} · qualità ${source.quality}",
-                    color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+        EssentialSpeciesDetails(taxon.id, taxon.scientificName, catalogue, seasonSummary(taxon.assessment.season))
+        SpeciesEvidenceDetails("explore-details-${taxon.id}") {
+            SpeciesGeneralSources(taxon.scientificName, catalogue, taxon.id)
+            Text(when (taxon.assessment.level) {
+                EvidenceLevel.DOCUMENTED -> "Documentato · osservazione storica utilizzabile, non presenza garantita oggi"
+                EvidenceLevel.PLAUSIBLE -> "Plausibile · area e habitat compatibili"
+                EvidenceLevel.INSUFFICIENT -> "Dati insufficienti · non è prova di assenza"
+            }, color = ExploreGreen, modifier = Modifier.testTag("explore-level-${taxon.id}"))
+            taxon.assessment.explanation.forEach { step ->
+                Text(explanationText(step), color = ExploreMuted,
+                    style = MaterialTheme.typography.bodySmall)
+                step.provenance.take(2).forEach { source ->
+                    Text("Fonte: ${source.attribution} · licenza ${source.license} · qualità ${source.quality}",
+                        color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+                }
             }
-        }
-        taxon.occurrences.take(3).forEach { occurrence ->
-            Text("${occurrence.provider.name} · ${occurrence.observedOn ?: "data non disponibile"} · ${occurrence.provenance.attribution}",
-                color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-            Text("Licenza: ${occurrence.provenance.license} · qualità: ${occurrence.provenance.quality}",
-                color = ExploreMuted, style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.testTag("explore-license-${occurrence.providerRecordId}"))
-            if (occurrence.sourceUrl.toUri().scheme == "https") {
-                Button(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, occurrence.sourceUrl.toUri())) },
-                    modifier = Modifier.testTag("explore-source-${occurrence.providerRecordId}")) { Text("Apri fonte") }
+            taxon.occurrences.take(3).forEach { occurrence ->
+                Text("${occurrence.provider.name} · ${occurrence.observedOn ?: "data non disponibile"} · ${occurrence.provenance.attribution}",
+                    color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
+                Text("Licenza: ${occurrence.provenance.license} · qualità: ${occurrence.provenance.quality}",
+                    color = ExploreMuted, style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("explore-license-${occurrence.providerRecordId}"))
+                if (occurrence.sourceUrl.toUri().scheme == "https") {
+                    Button(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, occurrence.sourceUrl.toUri())) },
+                        modifier = Modifier.testTag("explore-source-${occurrence.providerRecordId}")) { Text("Apri fonte") }
+                }
             }
         }
         onSave?.let { Button(onClick = it, modifier = Modifier.testTag("trip-save-result-${taxon.id}")) { Text("Salva risultato nel viaggio") } }
         onSaw?.let { Button(onClick = it, modifier = Modifier.testTag("saw-${taxon.id}")) { Text("L’ho visto") } }
     }
-}
-
-/** Shared essential profile for ephemeral exploration and offline saved trip results. */
-@Composable
-internal fun EssentialSpeciesDetails(id: String, scientificName: String, catalogue: CatalogueRepository) {
-    var localTaxon by remember(id) { mutableStateOf<Taxon?>(null) }
-    var profile by remember(id) { mutableStateOf<SpeciesProfile?>(null) }
-    LaunchedEffect(id) {
-        val loaded = withContext(Dispatchers.IO) { catalogue.taxon(id) to catalogue.profile(id) }
-        localTaxon = loaded.first
-        profile = loaded.second
-    }
-    Text(localTaxon?.commonName ?: scientificName, color = ExploreInk, fontWeight = FontWeight.Bold)
-    if (localTaxon?.commonName != null) Text(scientificName, color = ExploreMuted)
-    Text("Immagine non disponibile: nessuna fotografia con licenza verificata.", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-    Text("Riconoscimento: ${profile?.description?.takeIf(String::isNotBlank) ?: "descrizione documentata non disponibile"}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-    Text("Habitat: ${profile?.habitats?.takeIf(List<String>::isNotEmpty)?.joinToString() ?: "dato documentato non disponibile"}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall)
-    profile?.let { Text("Scheda: ${it.provenance.attribution} · licenza ${it.provenance.license}", color = ExploreMuted, style = MaterialTheme.typography.bodySmall) }
 }
 
 internal fun explanationText(step: PlausibilityExplanationStep): String = when (step.kind) {

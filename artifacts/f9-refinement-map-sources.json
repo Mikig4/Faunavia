@@ -1,0 +1,1097 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "normalized": [
+      {
+        "from": "File:Alcedo_atthis_-range_map-2-cp.png",
+        "to": "File:Alcedo atthis -range map-2-cp.png"
+      },
+      {
+        "from": "File:Dryocopus_martius_distr.PNG",
+        "to": "File:Dryocopus martius distr.PNG"
+      },
+      {
+        "from": "File:AlpineIbex_distribution.png",
+        "to": "File:AlpineIbex distribution.png"
+      },
+      {
+        "from": "File:Turdus_merula_distribution_map.png",
+        "to": "File:Turdus merula distribution map.png"
+      },
+      {
+        "from": "File:ArdeaCinereaIUCN2019_2.png",
+        "to": "File:ArdeaCinereaIUCN2019 2.png"
+      },
+      {
+        "from": "File:EgrettaGarzettaIUVNver2018_2.png",
+        "to": "File:EgrettaGarzettaIUVNver2018 2.png"
+      },
+      {
+        "from": "File:Upupa_distribution.png",
+        "to": "File:Upupa distribution.png"
+      },
+      {
+        "from": "File:AquilaChrysaetosIUCNver2018_2.png",
+        "to": "File:AquilaChrysaetosIUCNver2018 2.png"
+      },
+      {
+        "from": "File:Rupicapra_rupicapra.png",
+        "to": "File:Rupicapra rupicapra.png"
+      },
+      {
+        "from": "File:Mapa_Marmota_marmota.png",
+        "to": "File:Mapa Marmota marmota.png"
+      }
+    ],
+    "pages": {
+      "4611062": {
+        "pageid": 4611062,
+        "ns": 6,
+        "title": "File:Alcedo atthis -range map-2-cp.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2018-03-24T17:22:36Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2018-03-24 17:22:36",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Alcedo atthis -range map-2-cp",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "GFDL|Retouched pictures|License migration completed|Self-published work|Uploaded with derivativeFX|Alcedo atthis (distribution maps)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Common Kingfisher range map",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2008-08-23 10:43",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<ul><li><bdi lang=\"en\" dir=\"ltr\">Transferred from <span class=\"plainlinks\"><a class=\"external text\" data-mw-original-href=\"//de.wikipedia.org\" href=\"https://de.wikipedia.org\">de.wikipedia</a></span> to Commons by <a href=\"//commons.wikimedia.org/wiki/User:Snowmanradio\" title=\"User:Snowmanradio\">Snowmanradio</a> using <a href=\"https://iw.toolforge.org/commonshelper/\" class=\"extiw\" title=\"toollabs:commonshelper/\">CommonsHelper</a>.</bdi><br></li></ul>\n<p>(<span lang=\"en\" dir=\"ltr\">Original text: <i><bdi lang=\"\"><a href=\"https://de.wikipedia.org/wiki/Bild:A_large_blank_world_map_with_oceans_marked_in_blue.svg\" class=\"extiw\" title=\"de:Bild:A large blank world map with oceans marked in blue.svg\">A large blank world map with oceans marked in blue.svg (als Grundlage)</a>, <a rel=\"nofollow\" class=\"external text\" href=\"http://131.220.109.5/groms/Species_HTMLs/Aatthis.html\">Daten</a></bdi></i></span>)\n</p>\n<ul><li><a href=\"//commons.wikimedia.org/wiki/File:Alcedo_atthis_-Verbreitungskarte.png\" title=\"File:Alcedo atthis -Verbreitungskarte.png\">Alcedo_atthis_-Verbreitungskarte.png</a></li></ul>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<ul><li>derivative work: <a href=\"//commons.wikimedia.org/wiki/User:Snowmanradio\" title=\"User:Snowmanradio\">Snowmanradio</a> (<a href=\"//commons.wikimedia.org/wiki/User_talk:Snowmanradio\" title=\"User talk:Snowmanradio\"><span class=\"signature-talk\">talk</span></a>)</li>\n<li><a href=\"//commons.wikimedia.org/wiki/File:Alcedo_atthis_-Verbreitungskarte.png\" title=\"File:Alcedo atthis -Verbreitungskarte.png\">Alcedo_atthis_-Verbreitungskarte.png</a>: <a href=\"https://de.wikipedia.org/wiki/Benutzer:Devil_m25\" class=\"extiw\" title=\"de:Benutzer:Devil m25\">de:Benutzer:Devil_m25</a></li></ul>\nThe original uploader was <a href=\"https://en.wikipedia.org/wiki/de:User:Devil_m25\" class=\"extiw\" title=\"w:de:User:Devil m25\">Devil m25</a> at <a href=\"https://en.wikipedia.org/wiki/de:\" class=\"extiw\" title=\"w:de:\">German Wikipedia</a>.",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "141865984": {
+        "pageid": 141865984,
+        "ns": 6,
+        "title": "File:AlpineIbex distribution.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2023-12-07T16:30:09Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2023-12-07 16:30:09",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "AlpineIbex distribution",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Capra ibex|Self-published work|Caprinae distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Map showing distribution of Alpine ibex",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2023-12-06",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Toïgo, C.; Brambilla, A.; Grignolio, S.; Pedrotti, L. (2020). \"Capra ibex\". IUCN Red List of Threatened Species. 2020: e.T42397A161916377. doi:10.2305/IUCN.UK.2020-2.RLTS.T42397A161916377.en; Basemap: Wikimedia map",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:BhagyaMani&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:BhagyaMani (page does not exist)\">BhagyaMani</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "76941267": {
+        "pageid": 76941267,
+        "ns": 6,
+        "title": "File:AquilaChrysaetosIUCNver2018 2.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2022-12-28T16:03:00Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2022-12-28 16:03:00",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "AquilaChrysaetosIUCNver2018 2",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Items with VRTS permission confirmed|IUCN distribution maps|Aquila chrysaetos (distribution maps)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "distribution map of golden eagle (Aquila chrysaetos) according to IUCN version 2018.2 , <br>Legend: <span style=\"background-color: #00FF00;\">Nesting, present in summer (#00FF00)</span>, <span style=\"background-color: #008000;\">Nesting, present year-round (#008000)</span>, <span style=\"background-color: #007FFF;\">Non-nesting (#007FFF)</span>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019-02-27",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com. Range map from BirdLife International 2016. Aquila chrysaetos. The IUCN Red List of Threatened Species 2016: e.T22696060A93541662. <a rel=\"nofollow\" class=\"external free\" href=\"https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T22696060A93541662.en\">https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T22696060A93541662.en</a>. Downloaded on 28 February 2019 as visual indicator of distribution.",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "SanoAK: Alexander Kürthy modification of BirdLife International 2016. Aquila chrysaetos. The IUCN Red List of Threatened Species 2016 Aquila chrysaetos. The IUCN Red List of Threatened Species <a rel=\"nofollow\" class=\"external free\" href=\"https://www.iucnredlist.org/\">https://www.iucnredlist.org/</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Attribution": {
+                "value": "<a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org\">IUCN Red List of Threatened Species</a>, species assessors and the <a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org/technical-documents/spatial-data\">authors of the spatial data</a>.",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "81370153": {
+        "pageid": 81370153,
+        "ns": 6,
+        "title": "File:ArdeaCinereaIUCN2019 2.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2019-08-16T07:04:42Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2019-08-16 07:04:42",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "ArdeaCinereaIUCN2019 2",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Ardea cinerea|Items with VRTS permission confirmed|IUCN distribution maps|Ardeidae distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Distribution map of grey heron (Ardea cinerea) according to IUCN version 2019-2 ; key: <br>Legend: <span style=\"background-color: #00FF00;\">Extant, breeding (#00FF00)</span>, <span style=\"background-color: #008000;\">Extant, resident (#008000)</span>, <span style=\"background-color: #007FFF;\">Extant, non-breeding (#007FFF)</span>, <span style=\"background-color: #FF00FF;\"> Extant &amp; Vagrant (seasonality uncertain) (#FF00FF)</span>,  <span style=\"background-color: #FFFF00;\">Extant &amp; Introduced (resident) (#FFFF00)</span>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019-08-16",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Made with Natural Earth. Free vetor and raster map data @ naturalearthdata.com. Range map from BirdLife International 2016. Ardea cinerea. The IUCN Red List of Threatened Species 2016: e.T22696993A86464489. <a rel=\"nofollow\" class=\"external free\" href=\"https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T22696993A86464489.en\">https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T22696993A86464489.en</a>. Downloaded on 16 August 2019 as visual indicator of distribution.",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"https://sk.wikipedia.org/wiki/User:SanoAK\" class=\"extiw\" title=\"sk:User:SanoAK\">SanoAK</a>: Alexander Kürthy",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Attribution": {
+                "value": "<a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org\">IUCN Red List of Threatened Species</a>, species assessors and the <a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org/technical-documents/spatial-data\">authors of the spatial data</a>.",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "2783665": {
+        "pageid": 2783665,
+        "ns": 6,
+        "title": "File:Dryocopus martius distr.PNG",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2007-09-20T18:11:45Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2007-09-20 18:11:45",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Dryocopus martius distr",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Dryocopus martius|GFDL|CC-BY-SA-3.0,2.5,2.0,1.0|License migration redundant|Self-published work|Picidae distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Distribution map of <i><a href=\"//commons.wikimedia.org/wiki/Dryocopus_martius\" title=\"Dryocopus martius\">Dryocopus martius</a></i>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2007-09-20",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "made after Hans Winkler: Woodpeckers. Pica Press 1995 <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/ISBN\" class=\"extiw\" title=\"en:ISBN\"><span lang=\"en\" dir=\"ltr\">ISBN</span></a></span> <a href=\"//commons.wikimedia.org/wiki/Special:BookSources/1-873403-25-9\" title=\"Special:BookSources/1-873403-25-9\">1-873403-25-9</a>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Scops&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Scops (page does not exist)\">Scops</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "77225789": {
+        "pageid": 77225789,
+        "ns": 6,
+        "title": "File:EgrettaGarzettaIUVNver2018 2.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2019-03-10T07:39:15Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2019-03-10 07:39:15",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "EgrettaGarzettaIUVNver2018 2",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Egretta garzetta|Items with VRTS permission confirmed|IUCN distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "distribution map of little Egret (Egretta garzetta) according to IUCN version 2018.2 , <br>Legend: <span style=\"background-color: #00FF00;\">Extant, breeding (#00FF00)</span>, <span style=\"background-color: #008000;\">Extant, resident (#008000)</span>,  <span style=\"background-color: #007FFF;\">Extant, non-breeding (#007FFF)</span>,<span style=\"background-color: #FF00FF;\"> Extant &amp; Vagrant (seasonality uncertain) (#FF00FF)</span>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019-03-10",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com. Range map from BirdLife International 2016. Egretta garzetta. The IUCN Red List of Threatened Species 2016: e.T62774969A86473701. <a rel=\"nofollow\" class=\"external free\" href=\"https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T62774969A86473701.en\">https://dx.doi.org/10.2305/IUCN.UK.2016-3.RLTS.T62774969A86473701.en</a>. Downloaded on 10 March 2019 as visual indicator of distribution.",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "SanoAK: Alexander Kürthy",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Attribution": {
+                "value": "<a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org\">IUCN Red List of Threatened Species</a>, species assessors and the <a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org/technical-documents/spatial-data\">authors of the spatial data</a>.",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "9397004": {
+        "pageid": 9397004,
+        "ns": 6,
+        "title": "File:Mapa Marmota marmota.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2019-02-02T11:28:28Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2019-02-02 11:28:28",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Mapa Marmota marmota",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Marmota marmota|Map images that should use vector graphics|Self-published work|PD-self|PNG that should use vector graphics|Rodentia distribution maps|Animal distribution maps of Europe",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Distribution map of <i>Marmota marmota</i>.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Aavitus\" class=\"mw-redirect\" title=\"User:Aavitus\">Aavitus</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "Public domain",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Public domain",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "false",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Copyrighted": {
+                "value": "False",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "pd",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "2917233": {
+        "pageid": 2917233,
+        "ns": 6,
+        "title": "File:PeregrineRangeMap.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2020-07-31T13:28:24Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2020-07-31 13:28:24",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "PeregrineRangeMap",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "GFDL|License migration completed|Self-published work|Biogeographical map images that should use vector graphics|PNG that should use vector graphics|Falco peregrinus distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "<p>Range map for <i><a href=\"//commons.wikimedia.org/wiki/Falco_peregrinus\" title=\"Falco peregrinus\">Falco peregrinus</a></i> (including <i>F. (p.) pelegrinoides</i>, the <a href=\"https://en.wikipedia.org/wiki/Falco_pelegrinoides\" class=\"extiw\" title=\"w:Falco pelegrinoides\">Barbary falcon</a>)\n</p>\n<div class=\"legend\" style=\"direction:ltr;line-height:23px;\"><div class=\"legend-content\" style=\"display:inline-block;vertical-align:top;box-sizing:border-box;width:34px;height:23px;overflow:hidden;font-size:15px;border:thin solid #333;background:#FFFF00;color:#202122;text-align:center;\"> </div> Breeding summer visitor</div>\n<div class=\"legend\" style=\"direction:ltr;line-height:23px;\"><div class=\"legend-content\" style=\"display:inline-block;vertical-align:top;box-sizing:border-box;width:34px;height:23px;overflow:hidden;font-size:15px;border:thin solid #333;background:#008000;color:#202122;text-align:center;\"> </div> Breeding resident</div>\n<div class=\"legend\" style=\"direction:ltr;line-height:23px;\"><div class=\"legend-content\" style=\"display:inline-block;vertical-align:top;box-sizing:border-box;width:34px;height:23px;overflow:hidden;font-size:15px;border:thin solid #333;background:#0080FF;color:#202122;text-align:center;\"> </div> Winter visitor</div>\n<div class=\"legend\" style=\"direction:ltr;line-height:23px;\"><div class=\"legend-content\" style=\"display:inline-block;vertical-align:top;box-sizing:border-box;width:34px;height:23px;overflow:hidden;font-size:15px;border:thin solid #333;background:#80FFFF;color:#202122;text-align:center;\"> </div> Passage visitor</div>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2007",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "self-made; compiled from <a href=\"https://en.wikipedia.org/wiki/Handbook_of_the_Birds_of_the_World\" class=\"extiw\" title=\"en:Handbook of the Birds of the World\"><i>Handbook of the Birds of the World</i></a>, <i>Birds of the Western Palearctic, Birds of the Western Palearctic Concise Edition, Atlas of European Breeding Birds, Birds of North America, Birds of China, Birds of Japan</i>, BirdLife International Datasheet.",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:MPF\" title=\"User:MPF\">MPF</a> (latest version)",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "http://creativecommons.org/licenses/by-sa/3.0/",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "83152527": {
+        "pageid": 83152527,
+        "ns": 6,
+        "title": "File:PodicepsCristatusIUCN2019-2.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2019-10-17T09:34:40Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2019-10-17 09:34:40",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "PodicepsCristatusIUCN2019-2",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Podiceps cristatus|Items with VRTS permission confirmed|IUCN distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Distribution map of great crested grebe (Podiceps cristatus) according to IUCN version 2019.2 ; key: <br>Legend: <span style=\"background-color: #00FF00;\">Extant, breeding (#00FF00)</span>, <span style=\"background-color: #008000;\">Extant, resident (#008000)</span>, <span style=\"background-color: #007FFF;\">Extant, non-breeding (#007FFF)</span>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019-10-17",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com. Range map from BirdLife International 2018. Podiceps cristatus. The IUCN Red List of Threatened Species 2018: e.T22696602A132583378. <a rel=\"nofollow\" class=\"external free\" href=\"https://dx.doi.org/10.2305/IUCN.UK.2018-2.RLTS.T22696602A132583378.en\">https://dx.doi.org/10.2305/IUCN.UK.2018-2.RLTS.T22696602A132583378.en</a>. Downloaded on 17 October 2019 as visual indicator of distribution.",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"https://sk.wikipedia.org/wiki/User:SanoAK\" class=\"extiw\" title=\"sk:User:SanoAK\">SanoAK</a>: Alexander Kürthy",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Attribution": {
+                "value": "<a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org\">IUCN Red List of Threatened Species</a>, species assessors and the <a rel=\"nofollow\" class=\"external text\" href=\"http://www.iucnredlist.org/technical-documents/spatial-data\">authors of the spatial data</a>.",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "9931766": {
+        "pageid": 9931766,
+        "ns": 6,
+        "title": "File:Rupicapra rupicapra.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2010-04-05T11:31:48Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2010-04-05 11:31:48",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Rupicapra rupicapra",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "GFDL|CC-BY-SA-3.0,2.5,2.0,1.0|License migration redundant|Self-published work|Rupicapra rupicapra distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Map of Rupicapra rupicapra populations in 2008 - based on IUCN map (<a rel=\"nofollow\" class=\"external free\" href=\"http://www.iucnredlist.org/apps/redlist/details/39255/0\">http://www.iucnredlist.org/apps/redlist/details/39255/0</a>)",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2010-04-05",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Christophe_cag%C3%A9\" title=\"User:Christophe cagé\">Christophe cagé</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "46169326": {
+        "pageid": 46169326,
+        "ns": 6,
+        "title": "File:Turdus merula distribution map.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2025-06-10T14:02:35Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2025-06-10 14:02:35",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Turdus merula distribution map",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|Turdus merula (distribution maps)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "<p>Distribution of Common Blackbird <i><a href=\"//commons.wikimedia.org/wiki/Category:Turdus_merula\" title=\"Category:Turdus merula\">Turdus merula</a></i>.\n</p>\n<ul><li>Summer only range: light green</li>\n<li>Resident range: dark green</li>\n<li>Winter only range: yellow</li>\n<li>Introduced (inset): light brown</li></ul>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2016-01-04",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<p>Updated from <a href=\"//commons.wikimedia.org/wiki/File:TurdusMerulaDistribution.png\" class=\"mw-redirect\" title=\"File:TurdusMerulaDistribution.png\">File:TurdusMerulaDistribution.png</a> to reflect updated taxonomy; adapted from:\n</p>\n<ul><li>Josep del Hoyo et al. 2005. <i>Handbook of the Birds of the World</i> (HBW). Vol. 10 <i>Cuckoo-shrikes to Thrushes</i>: 645. Lynx Edicions, Barcelona <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/ISBN\" class=\"extiw\" title=\"en:ISBN\"><span lang=\"en\" dir=\"ltr\">ISBN</span></a></span> <a href=\"//commons.wikimedia.org/wiki/Special:BookSources/84-87334-72-5\" title=\"Special:BookSources/84-87334-72-5\">84-87334-72-5</a></li>\n<li>D. W. Snow &amp; C. M. Perrins. <i>The Birds of the Western Palearctic</i> Vol. 2. Oxford, <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/ISBN\" class=\"extiw\" title=\"en:ISBN\"><span lang=\"en\" dir=\"ltr\">ISBN</span></a></span> <a href=\"//commons.wikimedia.org/wiki/Special:BookSources/0-19-854099-X\" title=\"Special:BookSources/0-19-854099-X\">0-19-854099-X</a></li>\n<li><a rel=\"nofollow\" class=\"external text\" href=\"http://visindavefur.hi.is/svar.php?id=48163\">Verpa svartþrestir á Íslandi?</a> (breeding status in Iceland)</li>\n<li>Keller, V., et al. 2020. <i>European Breeding Bird Atlas 2</i>: 716-717. EBCC &amp; Lynx Edicions, Barcelona <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/ISBN\" class=\"extiw\" title=\"en:ISBN\"><span lang=\"en\" dir=\"ltr\">ISBN</span></a></span> <a href=\"//commons.wikimedia.org/wiki/Special:BookSources/978-84-16728-38-1\" title=\"Special:BookSources/978-84-16728-38-1\">978-84-16728-38-1</a></li>\n<li>P. J. Higgins et al. <i>Handbook of Australian, New Zealand and Antarctic Birds</i> (HANZAB). Volume 7: <i>Boatbill to Starlings.</i> Oxford University Press, Melbourne, <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/ISBN\" class=\"extiw\" title=\"en:ISBN\"><span lang=\"en\" dir=\"ltr\">ISBN</span></a></span> <a href=\"//commons.wikimedia.org/wiki/Special:BookSources/0-19-553996-6\" title=\"Special:BookSources/0-19-553996-6\">0-19-553996-6</a> (introduced populations)</li></ul>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Cactus26\" title=\"User:Cactus26\">Cactus26</a>, <a href=\"//commons.wikimedia.org/wiki/User:MPF\" title=\"User:MPF\">MPF</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      },
+      "380262": {
+        "pageid": 380262,
+        "ns": 6,
+        "title": "File:Upupa distribution.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "timestamp": "2012-02-19T15:34:08Z",
+            "extmetadata": {
+              "DateTime": {
+                "value": "2012-02-19 15:34:08",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Upupa distribution",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Upupa epops|Upupa africana|Upupa marginata|GFDL|License migration redundant|Self-published work|Biogeographical map images that should use vector graphics|Maps needing South Sudan political boundaries|PNG that should use vector graphics|Maps needing Montenegro political boundaries|Upupidae distribution maps",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Combined distribution of all species of <i><a href=\"//commons.wikimedia.org/wiki/Category:Upupa\" title=\"Category:Upupa\">Upupa</a></i>:\n<p><i><a href=\"//commons.wikimedia.org/wiki/Upupa_africana\" title=\"Upupa africana\">Upupa africana</a></i> (African hoopoe):\n</p>\n<div class=\"legend\"><span class=\"legend-color\" style=\"display:inline-block; width:1.5em; height:1.5em; margin:1px 0; border:1px solid black; background-color: #00FF00; color:black; font-size:; text-align:center;\"> </span> resident population</div>\n<p><i><a href=\"//commons.wikimedia.org/wiki/Upupa_epops\" title=\"Upupa epops\">Upupa epops</a></i> (Eurasian hoopoe):\n</p>\n<div class=\"legend\"><span class=\"legend-color\" style=\"display:inline-block; width:1.5em; height:1.5em; margin:1px 0; border:1px solid black; background-color: #FF8000; color:black; font-size:; text-align:center;\"> </span> breeding summer visitor </div><div class=\"legend\"><span class=\"legend-color\" style=\"display:inline-block; width:1.5em; height:1.5em; margin:1px 0; border:1px solid black; background-color: #008000; color:black; font-size:; text-align:center;\"> </span> resident population </div><div class=\"legend\"><span class=\"legend-color\" style=\"display:inline-block; width:1.5em; height:1.5em; margin:1px 0; border:1px solid black; background-color: #0000FF; color:black; font-size:; text-align:center;\"> </span> wintering (also some overlap into northern edge of breeding range of <i>U. africana</i>) </div>\n<p><i><a href=\"//commons.wikimedia.org/wiki/Upupa_marginata\" title=\"Upupa marginata\">Upupa marginata</a></i> (Madagascar hoopoe):\n</p>\n<div class=\"legend\"><span class=\"legend-color\" style=\"display:inline-block; width:1.5em; height:1.5em; margin:1px 0; border:1px solid black; background-color: #808000; color:black; font-size:; text-align:center;\"> </span> resident population</div>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2005-10-21 08:08",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Scops~commonswiki\" title=\"User:Scops~commonswiki\">Ulrich Prokop</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY 2.5",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution 2.5",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by/2.5",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-2.5",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

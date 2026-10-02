@@ -120,6 +120,14 @@ last_updated: 2026-10-02
 - Article 12/17 reporting ranges, MAES associations and raw CLCplus samples remain adapters. CLCplus is translated only by a separately sourced, scientifically curated crosswalk; 2021/non-equivalent samples and uncurated mappings yield `insufficient`.
 - Institutional monthly season windows override a bounded lower-quality monthly signal derived from dated GBIF/NNB records. Natura 2000 contributes positive context only; observability guidance is separate from evidence level.
 
+## F9 personal discovery boundary
+
+- Pure `:core:exploration` owns the versioned pilot curation and deterministic `PersonalSuggestionEngine`. Inputs are existing evidence candidates, analysis points, accepted personal diary taxa and wishlist taxa. Suggestions cannot reclassify presence or derive ease from record counts.
+- `:core:domain` adds `WishlistEntry`/`WishlistRepository` and an explicit suggestion-profile schema version; `:core:local` schema 7 adds wishlist storage with migration 6→7. Existing profiles remain readable as legacy version 0, including missing habitats; new curated profiles require version 1 with nonempty habitat. Legacy profiles cannot enter the typical view or be rewritten without curation. Foreign-key restrictions and accepted-Animalia triggers preserve selected identities.
+- Catalogue handles explicit taxonomy selection before wishlist writes. Trips exposes four personal views for whole-trip/stage/outing context and reuses original live evidence or only still-valid saved snapshots; stale/partial states remain visible. Diary writes and personal sighting confirmation remain independent of curation.
+
+F9 refinement 2026-10-02: `typicalTaxa` reuses the pure suggestion engine on existing complete evidence and analysis samples; both research surfaces default to this selection without deleting evidence or snapshots. Twelve profiles and `PilotSpeciesPresentation` provide reviewed general habitat/common-name/distribution presentation. Android `SpeciesDetails` shares compact cards and saveable evidence disclosure, with visible scientific fallback. `RemoteSpeciesMetadata` in pure exploration converts GBIF exact-name metadata and Wikidata/Commons range illustrations into normalized presentation types; Android owns bounded cache/image decoding and the internal map dialog. All species can use it; native GBIF observation density is distinct from illustrated ranges and neither feeds F7. `AnalysisViewModel` retains analysis jobs/results across configuration changes; it does not persist live results after process death. Room remains schema 7. F13 explicitly requires a clickable curiosity section, with individual sources and reuse review before content import.
+
 ## External Dependencies
 
 - **GBIF API** — primary occurrence search candidate; bounded requests, caching and source metadata required.

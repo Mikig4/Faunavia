@@ -48,6 +48,15 @@ class LocalRepositories(
         return observation
     }
 
+    val wishlist: WishlistRepository = object : WishlistRepository {
+        override suspend fun add(taxonId: String) { write {
+            require(dao.taxon(taxonId)?.toDomain()?.isSelectable == true) { "Choose an accepted Animalia taxon." }
+            dao.addWish(taxonId, Instant.ofEpochMilli(clock.nowEpochMillis()).toString())
+        } }
+        override suspend fun remove(taxonId: String) { write { dao.removeWish(taxonId) } }
+        override suspend fun list(): List<WishlistEntry> = read { dao.wishes().map { WishlistEntry(it.taxonId, Instant.parse(it.addedAt)) } }
+    }
+
     val diary: DiaryRepository = object : DiaryRepository {
         private fun validateTaxon(id: String) {
             require(dao.taxon(id)?.toDomain()?.isSelectable == true) { "Choose an accepted Animalia taxon." }
@@ -173,7 +182,10 @@ class LocalRepositories(
         override suspend fun preview(taxonId: String): TaxonPreview? = read { dao.preview(taxonId)?.toDomain() }
         override suspend fun saveProfile(profile: SpeciesProfile) { write { dao.saveProfile(profile.toRow()) } }
         override suspend fun profile(taxonId: String): SpeciesProfile? = read { dao.profile(taxonId)?.toDomain() }
-        override suspend fun saveSuggestion(profile: SuggestionProfile) { write { dao.saveSuggestion(profile.toRow()) } }
+        override suspend fun saveSuggestion(profile: SuggestionProfile) {
+            require(profile.schemaVersion == 1) { "Legacy suggestion profiles are read-only; curate a version 1 profile." }
+            write { dao.saveSuggestion(profile.toRow()) }
+        }
         override suspend fun suggestion(taxonId: String, area: String): SuggestionProfile? = read { dao.suggestion(taxonId, area)?.toDomain() }
         override suspend fun saveEvidence(evidence: SourceEvidence) { write { dao.saveEvidence(evidence.toRow()) } }
         override suspend fun evidence(taxonId: String): List<SourceEvidence> = read { dao.evidence(taxonId).map { it.toDomain() } }

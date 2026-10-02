@@ -69,11 +69,26 @@ data class SuggestionProfile(
     val distinctivenessScore: Double,
     val reason: String,
     val provenance: Provenance,
+    val schemaVersion: Int = 1,
 ) {
     init {
         require(taxonId.isNotBlank() && area.isNotBlank() && reason.isNotBlank())
+        // Version 0 is read-only legacy data: absence of habitat must not be invented on migration.
+        require(schemaVersion == 0 || (habitats.isNotEmpty() && habitats.all(String::isNotBlank)))
         require(distinctivenessScore in 0.0..1.0)
+        require(schemaVersion in 0..1) { "Unsupported suggestion profile version." }
     }
+}
+
+data class WishlistEntry(val taxonId: String, val addedAt: Instant) {
+    init { require(taxonId.isNotBlank()) }
+}
+
+/** Only explicitly selected accepted Animalia identities may enter the personal wishlist. */
+interface WishlistRepository {
+    suspend fun add(taxonId: String)
+    suspend fun remove(taxonId: String)
+    suspend fun list(): List<WishlistEntry>
 }
 
 data class Observation(

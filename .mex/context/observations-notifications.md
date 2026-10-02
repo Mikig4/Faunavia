@@ -18,7 +18,7 @@ edges:
     condition: when implementing Room, Photo Picker, alarms, or notification permission
   - target: context/offline-first.md
     condition: when storing photos and diary data without network access
-last_updated: 2026-10-01
+last_updated: 2026-10-02
 ---
 
 # Observations and notifications
@@ -39,7 +39,17 @@ Persistent unidentified drafts now preserve date, optional location, notes, quan
 
 Trips/outings group observations and drafts. Deleting planning only unlinks memories, preserving diary/photo metadata. Calendar and lists retain unlocated observations; the map draws only personally entered coordinates. Species/first-observation summaries use the global identified diary and recompute after edit/delete. “L'ho visto” from evidence prefills taxon/context only after verified selection, requires actual date/location confirmation and never copies an external point.
 
-Photos remain F10; notifications F11 must exclude drafts, and F12 backup must preserve planning and all relationships. F9 wishlists and typical/easier-to-observe/never-personally-observed views remain planned. Details and gates live in `09 - Piano di sviluppo dettagliato.md`.
+Photos remain F10; notifications F11 must exclude drafts, and F12 backup must preserve planning and all relationships, including F9 wishlists. Details and gates live in `09 - Piano di sviluppo dettagliato.md`.
+
+## Implemented F9 suggestions
+
+`PersonalSuggestionEngine` in the pure exploration module selects from existing live evidence or saved trip snapshots with the current analysis key. Curation never creates a presence level or changes an assessment. Four versioned original profiles (kingfisher, black woodpecker, ibex, urban-control blackbird) include habitat, source, date, license/redistribution limits, reason and editorial distinctiveness. Their coverage is an explicit pilot rectangle, not an administrative border or range; habitat compatibility is not inferred.
+
+Typical uses threshold 0.6 and excludes urban-common profiles only in that view. Never-observed uses all identified diary taxa, matching accepted identity or scientific name with authority stripped; unidentified drafts and external occurrences cannot count as personal sightings. Reopening the screen after diary edits/deletes recomputes it. Easier-to-observe explicitly declares missing comparable ease estimates and uses stable alphabetical order; sourced F7 guidance can still be displayed separately.
+
+Room schema 7 persists accepted-Animalia wishlist identities, with idempotent adds retaining their first timestamp. Wishes survive trip/diary deletion and taxon upserts; removal deletes only the wish. Catalogue explicit selection and trip cards expose add/remove; unresolved external identities must first resolve through taxonomy selection. Wishlist relevance is based only on the available current area/period results; missing or outdated evidence is unassessed, never absence. Offline desires and valid saved results work without providers; tile/new-analysis limitations remain F8.
+
+Usage and migration notes: `GUIDA-FASE-9.md`. Automated F9 coverage: `PersonalSuggestionsTest`, `F9PersistenceTest`, `F9UiTest`.
 
 ## Planned daily summary
 

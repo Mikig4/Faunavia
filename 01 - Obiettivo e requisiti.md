@@ -40,7 +40,7 @@ Il viaggio può essere organizzato in tappe libere ordinate, con un giorno e un 
 1. Mostra i risultati dentro il viaggio; con un percorso può mostrare anche corridoio e punti di campionamento. L'esplorazione senza viaggio resta accessibile come azione facoltativa.
 2. Permette di cercare e selezionare un paese, una regione o una città per nome, con gestione dei risultati ambigui e dei nomi non trovati.
 3. Permette di filtrare per gruppo animale, periodo, habitat e livello di evidenza.
-4. Apre una scheda specie con nomi comuni e scientifici, descrizione, dimensioni, dieta, comportamento, habitat, periodo di attività, distribuzione e note di sicurezza/conservazione.
+4. Apre una scheda specie compatta con nome comune quando disponibile, nome scientifico, habitat e stagionalità. Habitat è cliccabile e apre una mappa generale di distribuzione verificata, distinta dai punti di avvistamento o dal corridoio del viaggio. Descrizione, dimensioni, dieta, comportamento e note di sicurezza/conservazione restano approfondimenti su richiesta; in F13 la sezione **Curiosità** deve essere cliccabile/espandibile e ogni fatto deve avere una fonte verificabile.
 5. Mostra un modello 3D locale in formato glTF/GLB, con fallback a immagine o silhouette.
 6. Mantiene il link alla fonte e la data di aggiornamento del dato.
 7. Nei risultati del catalogo mostra, quando disponibile, una miniatura dell'animale con fonte, autore e licenza prima della conferma.

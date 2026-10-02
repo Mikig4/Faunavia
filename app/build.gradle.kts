@@ -17,8 +17,8 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 12
-        versionName = "0.8.3-f8b"
+        versionCode = 15
+        versionName = "0.9.2-f9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
 
     implementation(platform(libs.androidx.compose.bom))

@@ -9,6 +9,9 @@ import androidx.room.Upsert
 /** Blocking DAO is confined to the repository IO dispatcher; Room still rejects main-thread access. */
 @Dao
 interface LocalDao {
+    @Query("INSERT OR IGNORE INTO wishlist(taxonId, addedAt) VALUES (:taxonId, :addedAt)") fun addWish(taxonId: String, addedAt: String)
+    @Query("DELETE FROM wishlist WHERE taxonId = :taxonId") fun removeWish(taxonId: String)
+    @Query("SELECT * FROM wishlist ORDER BY taxonId") fun wishes(): List<WishlistRow>
     @Upsert fun saveTrip(row: TripRow)
     @Query("SELECT * FROM trips WHERE id = :id") fun trip(id: String): TripRow?
     @Query("SELECT * FROM trips ORDER BY id") fun trips(): List<TripRow>

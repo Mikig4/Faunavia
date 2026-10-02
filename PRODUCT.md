@@ -22,6 +22,7 @@ Non deve sembrare un social network, un gioco a punti o una dashboard affollata.
 
 ## Design Principles
 
+- Aprire la ricerca sugli animali tipici, con le evidenze complete come vista secondaria. Scheda iniziale con nome sempre leggibile, nome comune italiano quando disponibile, habitat e stagionalità; fonti ed evidenze espandibili. Habitat apre la distribuzione dentro l’app per ogni specie: areale illustrato verificato quando disponibile, segnalazioni GBIF aggregate come alternativa esplicitamente distinta. Nessuna presenza o probabilità inventata. La rotazione conserva risultati e analisi in corso. Le curiosità F13 devono essere una sezione cliccabile con fonti verificabili.
 - Organizzare facoltativamente il viaggio in tappe libere con giorni separati; mostrare ordine, località e data, consentendo la scelta del singolo tratto per mappa e ricerca animali. Più tappe possono condividere un giorno.
 - Aprire sul viaggio: partenza, destinazione, date e scelta del tracciato sulla mappa; risultati e ricordi restano nello stesso contesto. Nome, raggio, interessi e uscite sono facoltativi. Google Maps apre le indicazioni, ricalcolate autonomamente.
 - Cercare le specie del catalogo generale direttamente nel Diario, conservando la possibilità di usare le scelte locali offline.
