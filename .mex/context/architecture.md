@@ -27,6 +27,12 @@ last_updated: 2026-10-03
 
 # Architecture
 
+## F17 public outing discovery and Wikipedia photographs
+
+`OutingDiscovery` in pure exploration filters/ranks a bundled five-entry Lombardia catalogue by confirmed destination radius, date, interests and accepted wishlist names. Documented visitor-site fauna and season recommendations remain separate from F7 and diary sightings. Public reference points never become precise wildlife coordinates; absent trace/difficulty/accessibility/transfer time stay explicit. `OutingGuide` copies sources, metrics/access notes and species into the existing Room-10 outing payload v2, reading v1 and participating in format-2 backup/staged domain validation. Stable trip/proposal/day IDs prevent repeated saves; source outages and new catalogue versions cannot replace an existing snapshot. Name/date edits preserve the guide; place/route changes discard unrelated guide data.
+
+`SpeciesMetadataLookup.photo` uses unique exact Wikidata P225 identity and verified Italian/English Wikipedia sitelinks/pageprops, then PageImages and Commons rights/author/media validation. Android reuses the bounded Commons image loader; the shared profile displays photo/credits/source/article and fallback/retry/stale state. This neither selects a taxon nor affects biodiversity evidence. No package/backend/schema dependency is added. F15 regional packages, F16 sync decision and F14 human/physical review remain open.
+
 ## System Overview
 
 - User starts with confirmed departure/destination, dates and a chosen trace. Optional ordered stages have destinations, days and chosen leg geometry; exploration without a trip, imported tracks and manual coordinates remain optional tools.

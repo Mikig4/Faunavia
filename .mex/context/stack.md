@@ -40,6 +40,7 @@ last_updated: 2026-10-03
 - **HttpURLConnection** — post-F10 `:core:network` centralizes blocking JSON GET without a new external library. Six typed clients retain provider-specific status/error, timeout, size and User-Agent policies; transport tests use fake connections.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
 - **GBIF Maps v2 + Wikimedia Commons/MediaWiki imageinfo + Wikidata Action API** — F9 internal distribution presentation: historical observation density, attributed reusable range illustrations and exact P225/P181 association. Separate from F7 range evidence and accepted taxonomy selection; no new backend or account.
+- **Wikipedia MediaWiki PageImages/pageprops** — F17 main species photograph via exact Wikidata P225/sitelinks and Commons imageinfo rights/credits, using existing HTTP/cache/BitmapFactory dependencies. Italian article preferred, verified English fallback; no remote taxonomy selection.
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
 - **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.

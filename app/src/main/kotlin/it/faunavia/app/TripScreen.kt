@@ -98,6 +98,7 @@ internal fun TripsScreen(
     routeMap: TripRouteMapAdapter = MapLibreTripRouteMapAdapter,
     openDirections: ((GeoPoint, GeoPoint) -> Boolean)? = null,
     wishlist: WishlistRepository? = null,
+    outingCatalogue: OutingCatalogue = PilotOutingCatalogue,
 ) {
     var personalSuggestions by rememberSaveable { mutableStateOf(false) }
     var typicalOnly by rememberSaveable { mutableStateOf(true) }
@@ -107,6 +108,7 @@ internal fun TripsScreen(
     var places by remember { mutableStateOf<List<SavedTripPlace>>(emptyList()) }
     var savedResults by remember { mutableStateOf<List<SavedTripResult>>(emptyList()) }
     var selectedId by rememberSaveable { mutableStateOf("") }
+    var discoveryOpen by rememberSaveable { mutableStateOf(false) }
     var outingId by rememberSaveable { mutableStateOf("") }
     var stageId by rememberSaveable { mutableStateOf<String?>(null) }
     var stageEditor by rememberSaveable { mutableStateOf(false) }
@@ -281,6 +283,7 @@ internal fun TripsScreen(
                     item {
                         Text("Uscite", color = TripInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         Button(onClick = { outingEditor = "new" }, enabled = !busy, modifier = Modifier.testTag("outing-new")) { Text("Nuova uscita") }
+                        Button(onClick = { discoveryOpen = true }, enabled = !busy, modifier = Modifier.testTag("outing-discover")) { Text("Scopri luoghi e sentieri") }
                         OutlinedButton(onClick = { outingId = ""; stageId = null; analysisState.clear() }, modifier = Modifier.testTag("outing-destination")) { Text(if (trip.route == null) "Usa destinazione del viaggio" else "Usa percorso del viaggio") }
                     }
                     items(outings, key = { "outing-${it.id}" }) { saved ->
@@ -293,7 +296,12 @@ internal fun TripsScreen(
                         wishlist?.let { Button(onClick = { personalSuggestions = true }, modifier = Modifier.testTag("trip-suggestions")) { Text("Suggerimenti e desideri") } }
                         Text("Date selezionate: ${outing?.date ?: analysisTrip.startsOn} → ${outing?.date ?: analysisTrip.endsOn}", color = TripMuted)
                         if (outing != null) {
-                            Text("Uscita del ${outing.date}; ${if (outing.route == null) "luogo manuale" else "percorso importato conservato"}", color = TripMuted)
+                            Text("Uscita del ${outing.date}; ${if (outing.guide != null) "proposta documentata conservata offline" else if (outing.route == null) "luogo manuale" else "percorso importato conservato"}", color = TripMuted)
+                            outing.guide?.let { guide ->
+                                OutingGuideDetails(guide, outing.route, "outing-guide", now())
+                                Text("Specie nella fonte del luogo: ${guide.species.joinToString { it.commonName }}. Nessun avvistamento garantito.", color = TripMuted)
+                            }
+                            if (outing.guide == null && outing.route != null) OutingTrace(requireNotNull(outing.route), "outing")
                             OutlinedButton(onClick = { outingEditor = outing.id }, enabled = !busy, modifier = Modifier.testTag("outing-edit")) { Text("Modifica uscita") }
                             OutlinedButton(onClick = { deleting = "outing" }, enabled = !busy, modifier = Modifier.testTag("outing-delete")) { Text("Elimina uscita") }
                             if (deleting == "outing") {
@@ -368,6 +376,12 @@ internal fun TripsScreen(
         }
         if (tripEditor != null || outingEditor != null || stageEditor) error?.let { Text(it, color = TripError, modifier = Modifier.padding(16.dp).testTag("trip-error")) }
     }
+    if (discoveryOpen && trip != null) OutingDiscoveryDialog(trip, wishlist, catalogue, outings, outingCatalogue, busy, error,
+        onClose = { discoveryOpen = false }, onSave = { proposal, date -> action {
+            val changed = proposal.saveFor(trip, date, now())
+            if (repository.outing(changed.id) == null) repository.saveOuting(changed)
+            outingId = changed.id; stageId = null; analysisState.clear(); discoveryOpen = false; refresh++
+        } })
 }
 
 internal val PlaceSaver = listSaver<TripPlace?, String>(save = { place -> if (place == null) emptyList() else with(place.provenance) {
@@ -578,7 +592,8 @@ private fun ColumnScope.OutingForm(trip: Trip, initial: Outing?, routes: RouteRe
                     require(parsedDate in trip.startsOn..trip.endsOn) { "Scegli una data entro il viaggio." }
                     val route = if (routeId.isBlank()) null else available.firstOrNull { it.id == routeId }
                         ?: initial?.route?.takeIf { it.id == routeId } ?: error("Percorso non disponibile.")
-                    Outing(identity, trip.id, name.trim(), parsedDate, requireNotNull(place), route)
+                    Outing(identity, trip.id, name.trim(), parsedDate, requireNotNull(place), route,
+                        initial?.guide?.takeIf { place == initial.place && route == initial.route })
                 }.onSuccess { error = null; onSave(it) }.onFailure { error = "Controlla nome, luogo confermato e una data compresa nel viaggio." }
             }, enabled = !saving, modifier = Modifier.testTag("outing-save")) { Text(if (saving) "Salvataggio…" else "Salva uscita") }
             OutlinedButton(onClick = onCancel, enabled = !saving) { Text("Annulla") }

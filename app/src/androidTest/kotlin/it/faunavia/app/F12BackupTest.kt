@@ -84,7 +84,8 @@ class F12BackupTest {
         val trip = f8bTrip().copy(departure = f8bTrip().destination.copy(name = "Partenza", center = GeoPoint(45.1, 9.1)), route = route)
             .withStages(listOf(TripStage("stage", f8bTrip().destination, f8bTrip().startsOn, route)), f8bNow)
         source.trips.save(trip)
-        val outing = Outing("out", trip.id, "Parco", trip.startsOn, trip.destination, route.geometry)
+        val outing = Outing("out", trip.id, "Parco", trip.startsOn, trip.destination, route.geometry,
+            it.faunavia.exploration.PilotOutingCatalogue.load().first().guide.copy(savedAt = f8bNow))
         source.trips.saveOuting(outing)
         source.trips.savePlace(SavedTripPlace("place", trip.id, trip.destination, f8bNow))
         source.trips.saveResult(SavedTripResult("result", trip.id, outing.id, f8bTaxon.id, f8bTaxon.scientificName,
@@ -176,6 +177,7 @@ class F12BackupTest {
         assertEquals(source.diary.get("o"), target.diary.get("o"))
         assertEquals(source.unidentified.get("d"), target.unidentified.get("d"))
         assertEquals(source.trips.get("t"), target.trips.get("t"))
+        assertEquals(source.trips.outing("out"), target.trips.outing("out"))
         assertEquals(source.settings.get(), target.settings.get())
         restored.photos.forEach { photo ->
             val old = original.photos.single { it.id == photo.id }

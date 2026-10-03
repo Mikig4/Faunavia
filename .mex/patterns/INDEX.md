@@ -36,6 +36,7 @@ Lookup table for all pattern files in this directory. Check here before starting
 | [backup-and-restore.md](backup-and-restore.md) | Evolving ZIP archives, SAF export/import, staged validation or atomic database/photo restoration |
 | [change-local-storage.md](change-local-storage.md) | Changing Room schemas, local repositories, migrations or diary integrity constraints |
 | [debug-gradle-android-gates.md](debug-gradle-android-gates.md) | Diagnosing Gradle, JVM worker, managed-device, UTP or Compose UI gate failures |
+| [discover-naturalist-outings.md](discover-naturalist-outings.md) | Extending F17 public outing catalogue, documented ranking, offline snapshots and backup |
 | [explore-place-and-map.md](explore-place-and-map.md) | Changing F8A geographic search, period exploration, MapLibre rendering or fallback |
 | [import-route-and-analyze.md](import-route-and-analyze.md) | Importing a route, sampling it, building a corridor, and querying evidence |
 | [plan-trip-and-record-memory.md](plan-trip-and-record-memory.md) | Changing saved trips/outings, result snapshots, personal diary links or unidentified-draft conversion |

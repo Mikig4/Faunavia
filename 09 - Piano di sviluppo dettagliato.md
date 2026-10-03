@@ -1,6 +1,6 @@
 # Piano di sviluppo dettagliato
 
-Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti datati conservano la storia delle verifiche; F0–F13 sono completate. F14 è implementata con gate automatizzato verde; la chiusura formale attende revisione umana e prova su telefono. F15–F17 rimangono requisiti futuri.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti datati conservano la storia delle verifiche; F0–F13 sono completate. F14 è implementata con gate automatizzato verde; la chiusura formale attende revisione umana e prova su telefono. F15 e F16 rimangono aperte. F17 è stata anticipata su richiesta il 2026-10-03 con catalogo curato incluso e consultazione locale: [[33 - Rapporto Fase 17]]. Questo incremento non chiude i pacchetti mappe/gazetteer F15 né la decisione di sincronizzazione F16.
 
 ## Estensioni funzionali approvate il 2026-09-20
 

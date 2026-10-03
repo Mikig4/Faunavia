@@ -18,11 +18,20 @@ import kotlinx.serialization.json.*
 data class SpeciesNameMetadata(val commonName: String?, val gbifKey: String?, val source: Provenance?)
 data class RangeIllustration(val imageUrl: String, val date: String, val source: Provenance)
 data class SpeciesDistribution(val illustration: RangeIllustration?, val gbifKey: String?, val source: Provenance)
+data class SpeciesPhoto(val imageUrl: String, val articleUrl: String, val date: String, val source: Provenance) {
+    init {
+        require(safeCommonsMedia(imageUrl) && safeWikipediaArticle(articleUrl))
+        require(safeCommonsSource(source.source))
+        require(reusableMapLicense(source.license))
+        require(date.isNotBlank())
+    }
+}
 data class MetadataResult<T>(val value: T?, val warning: String? = null, val stale: Boolean = false)
 
 interface SpeciesMetadataLookup {
     suspend fun name(id: String, scientificName: String, refresh: Boolean = false): MetadataResult<SpeciesNameMetadata>
     suspend fun distribution(id: String, scientificName: String, refresh: Boolean = false): MetadataResult<SpeciesDistribution>
+    suspend fun photo(id: String, scientificName: String, refresh: Boolean = false): MetadataResult<SpeciesPhoto> = MetadataResult(null)
 }
 
 object UnavailableSpeciesMetadata : SpeciesMetadataLookup {
@@ -56,6 +65,58 @@ class RemoteSpeciesMetadata(private val http: SpeciesMetadataHttp, private val c
     private val gbif = "https://api.gbif.org/v1/species"
     private val commons = "https://commons.wikimedia.org/w/api.php"
     private val wikidata = "https://www.wikidata.org/w/api.php"
+
+    override suspend fun photo(id: String, scientificName: String, refresh: Boolean): MetadataResult<SpeciesPhoto> = requests.withPermit {
+        val key = "photo-v1:$id:${scientificIdentity(scientificName)}"
+        val cached = cached(key)
+        val previous = cached?.let { runCatching {
+            it["photo"]?.jsonObject?.let { value -> SpeciesPhoto(requireNotNull(value.text("imageUrl")),
+                requireNotNull(value.text("articleUrl")), requireNotNull(value.text("date")), readSource(value.getValue("source").jsonObject)) }
+        }.getOrNull() }
+        if (!refresh && fresh(cached) && (cached?.containsKey("photo") != true || previous != null)) return@withPermit MetadataResult(previous)
+        try {
+            val page = wikipediaImage(scientificName)
+            val image = page?.let { commonsIllustration(it.first, scientificName) }
+            val value = image?.let { SpeciesPhoto(it.imageUrl, requireNotNull(page).second, it.date,
+                it.source.copy(query = "Wikipedia page image, exact scientific identity: $scientificName",
+                    quality = "immagine della voce Wikipedia associata al taxon esatto; non identifica un avvistamento personale",
+                    version = "Wikidata P225/sitelinks + Wikipedia PageImages + Commons imageinfo v1")) }
+            cache.save(key, buildJsonObject {
+                put("cachedAt", now().toString())
+                value?.let { put("photo", buildJsonObject {
+                    put("imageUrl", it.imageUrl); put("articleUrl", it.articleUrl); put("date", it.date); put("source", sourceJson(it.source))
+                }) }
+            }.toString())
+            MetadataResult(value)
+        } catch (cancelled: CancellationException) { throw cancelled
+        } catch (_: Exception) { MetadataResult(previous, "Foto Wikipedia non recuperabile. Puoi riprovare; la scheda resta disponibile.", previous != null) }
+    }
+
+    private fun wikipediaImage(name: String): Pair<String, String>? {
+        val identity = scientificIdentity(name)
+        val search = objectAt("$wikidata?action=wbsearchentities&search=${encoded(identity)}&language=en&type=item&limit=5&format=json")
+        val ids = search["search"]?.jsonArray.orEmpty().mapNotNull { it.jsonObject.text("id") }.filter { it.matches(Regex("Q[0-9]+")) }
+        if (ids.isEmpty()) return null
+        val entities = objectAt("$wikidata?action=wbgetentities&ids=${encoded(ids.joinToString("|"))}&props=claims%7Csitelinks&format=json")["entities"]?.jsonObject ?: return null
+        val exact = entities.entries.filter { (_, entity) -> entity.jsonObject["claims"]?.jsonObject?.let { claims ->
+            claimValues(claims, "P225").any { scientificIdentity(it) == identity }
+        } == true }
+        if (exact.size != 1) return null
+        val entity = exact.single()
+        val links = entity.value.jsonObject["sitelinks"]?.jsonObject ?: return null
+        for (language in listOf("it", "en")) {
+            val title = links["${language}wiki"]?.jsonObject?.text("title") ?: continue
+            val wiki = "https://$language.wikipedia.org"
+            val response = objectAt("$wiki/w/api.php?action=query&titles=${encoded(title)}&prop=pageimages%7Cpageprops&piprop=name&pilicense=free&redirects=1&format=json")
+            val pages = response["query"]?.jsonObject?.get("pages")?.jsonObject ?: continue
+            val page = pages.values.singleOrNull()?.jsonObject ?: continue
+            if (page["pageprops"]?.jsonObject?.text("wikibase_item") != entity.key) continue
+            val file = page.text("pageimage") ?: continue
+            val canonicalTitle = page.text("title") ?: title
+            return file to "$wiki/wiki/${encoded(canonicalTitle.replace(' ', '_')).replace("+", "%20")}"
+        }
+        return null
+    }
 
     override suspend fun name(id: String, scientificName: String, refresh: Boolean): MetadataResult<SpeciesNameMetadata> = requests.withPermit {
         val key = "name-v1:$id:${scientificIdentity(scientificName)}"
@@ -181,6 +242,12 @@ private fun plainText(value: String) = value.replace(Regex("<[^>]*>"), " ").repl
 fun reusableMapLicense(value: String): Boolean = value in setOf("Public domain", "CC0", "CC0 1.0") || value.matches(Regex("CC BY(?:-SA)? (?:1\\.0|2\\.0|2\\.5|3\\.0|4\\.0)"))
 fun safeCommonsMedia(value: String): Boolean = runCatching { URI(value).let {
     it.scheme == "https" && it.host in setOf("upload.wikimedia.org", "thumb.wikimedia.org") && it.userInfo == null
+} }.getOrDefault(false)
+fun safeWikipediaArticle(value: String): Boolean = runCatching { URI(value).let {
+    it.scheme == "https" && it.host in setOf("it.wikipedia.org", "en.wikipedia.org") && it.userInfo == null && it.path.startsWith("/wiki/")
+} }.getOrDefault(false)
+private fun safeCommonsSource(value: String): Boolean = runCatching { URI(value).let {
+    it.scheme == "https" && it.host == "commons.wikimedia.org" && it.userInfo == null && it.path.startsWith("/wiki/File:")
 } }.getOrDefault(false)
 fun gbifDistributionTiles(key: String): String {
     require(key.matches(Regex("[0-9]+")))

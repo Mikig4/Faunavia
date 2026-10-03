@@ -108,6 +108,7 @@ data class Outing(
     val date: LocalDate,
     val place: TripPlace,
     val route: Route? = null,
+    val guide: OutingGuide? = null,
 ) {
     init { require(id.isNotBlank() && tripId.isNotBlank() && name.isNotBlank() && name.length <= 160) }
 }

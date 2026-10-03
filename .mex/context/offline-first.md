@@ -23,6 +23,12 @@ last_updated: 2026-10-03
 
 # Offline-first
 
+## F17 prepared outing materials and profile photographs
+
+Five original factual outing summaries at three Lombardia public sites ship in the APK. Saved proposal metrics/access notes/species and separate source/coordinate provenance are durable outing payload v2; previous v1 outings remain readable in Room 10. Complete format-2 local backup includes these fields; offline reopening and links/deletion are tested. Public source pages require network, and the pilot contains no acquired trail geometry or regional map tiles. Existing/imported geometries can be viewed as a disconnected-segment offline schematic. This is the F17 local consultation boundary, not completion of F15 regional maps/gazetteer.
+
+Wikipedia photos load on profile opening with exact identity and Commons license/author validation. First download requires network; 30-day normalized metadata and the existing bounded HTTP media cache may support later consultation but are expellable and excluded from diary backup. Stale metadata is labelled; missing/failed media retains the generic illustration and visible retry. Profiles and diary remain usable independently.
+
 The F8B usability refinement allows online general-catalogue search from the diary and persists explicit taxon/alias selections. Provider failure returns the selected-local set with retry; recording an already selected species remains local. External Maps opening is optional and its failure never removes planning or memories. It does not add an offline Google map or a full taxonomy snapshot.
 
 The MVP must show previously loaded routes, diary entries, source metadata, local photos and local assets without a network connection. It does not promise new biodiversity searches or a full offline map in the first build.

@@ -22,6 +22,12 @@ last_updated: 2026-10-03
 
 # Data and provenance
 
+## F17 outing facts and Wikipedia media
+
+The bundled Lombardia pilot contains original factual summaries of official visitor routes/sites, with separate itinerary/access/fauna sources consulted 2026-10-03. Source article prose, photos, PDFs and maps are not copied. Public Brabbia/Vanzago reference points retain OSM identifiers/ODbL and explicitly unspecified metric precision; the Sebino Wikidata P625 center retains CC0 and stated angular precision. Representative centers are not entrances or sensitive animal sites. Unavailable geometry is never fabricated; published partial closures and guided-access requirements remain visible. Site fauna documentation and recommended months do not establish current presence, probability or F7 level.
+
+Wikipedia PageImages supplies the main filename only after unique exact P225 identity and Wikipedia pageprops item verification. The Italian article precedes English. Commons imageinfo must supply reusable license, author and official HTTPS media/description URLs; unsafe/ambiguous/unknown-rights content has a fallback. Original source date, author, license, query/version and article URL remain in normalized metadata. Live smoke verifies `Turdus merula` item Q25234, `Turdus_merula_Nesting.jpg`, CC BY-SA 3.0 and thumbnail HTTP 200; test fixtures are separate synthetic images. See `scripts/verify-species-photo-smoke.ps1` and `artifacts/f17-wikipedia-smoke.json`.
+
 ## Common-name catalogue and planned routes
 
 - GBIF `/species/suggest` is scientific autocomplete, not reliable Italian common-name search. The common-name path is `/species/search?qField=VERNACULAR`, restricted to the GBIF Backbone and Animalia; then scientific autocomplete if no selectable common candidates exist. Search records use `taxonomicStatus` and `vernacularNames[]`; suggest uses `status`. Normalize both and resolve accepted synonym keys.

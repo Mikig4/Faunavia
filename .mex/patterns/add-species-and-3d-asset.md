@@ -17,6 +17,8 @@ last_updated: 2026-10-03
 
 # Add a species and 3D asset
 
+F17 adds automatic Wikipedia photos to the same profile without adding an asset to the APK. `RemoteSpeciesMetadata.photo` verifies unique P225 identity, Wikipedia pageprops item and Commons reusable rights/author/official URLs. `WikipediaSpeciesPhoto` reuses the bounded image loader and shows credit/source/article/stale/error/retry. Keep the generic fallback, no implicit taxon selection, and synthetic `WikipediaPhotoUiTest` images. Never use a remembered Wikidata ID without P225 verification: Q25334 is the robin, whereas the live blackbird smoke resolves Q25234. The smoke checks metadata/HEAD without retaining image bytes.
+
 ## Steps
 
 1. Choose a stable internal species ID and record names and taxonomy source.

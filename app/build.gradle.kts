@@ -17,8 +17,8 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 21
-        versionName = "0.14.0-f14"
+        versionCode = 22
+        versionName = "0.17.0-f17"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"

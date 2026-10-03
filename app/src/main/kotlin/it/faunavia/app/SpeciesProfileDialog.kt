@@ -88,7 +88,7 @@ internal fun SpeciesProfileDialog(id: String, scientificName: String, commonName
                     if (profile?.commonName != null || commonName != null) Text(scientificName, style = MaterialTheme.typography.bodyMedium)
                     Text("Storia naturale generale · non conferma la presenza nel luogo o nel periodo del viaggio.",
                         style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("profile-evidence-boundary"))
-                    SpeciesFallback()
+                    WikipediaSpeciesPhoto(id, scientificName)
                     if (modelStore != null) SpeciesModelAction { modelOpen = true }
                     if (loading) Text("Caricamento della scheda…", modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
                     result?.warning?.let {
@@ -140,7 +140,7 @@ internal fun SpeciesProfileDialog(id: String, scientificName: String, commonName
 }
 
 @Composable
-private fun ProfileSource(tag: String, source: Provenance, label: String = "Fonte e licenza") {
+internal fun ProfileSource(tag: String, source: Provenance, label: String = "Fonte e licenza") {
     var open by rememberSaveable(tag, source.source) { mutableStateOf(false) }
     TextButton(onClick = { open = !open }, modifier = Modifier.testTag("profile-source-$tag")) { Text(if (open) "Chiudi fonte" else label) }
     if (open) {
@@ -159,7 +159,7 @@ private fun ProfileSource(tag: String, source: Provenance, label: String = "Font
 }
 
 @Composable
-private fun SpeciesFallback() {
+internal fun SpeciesFallback() {
     val context = LocalContext.current
     val loader = LocalProfileFallback.current
     val bitmap = remember(loader, context) { runCatching { loader.load(context) }.getOrNull() }

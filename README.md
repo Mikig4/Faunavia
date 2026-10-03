@@ -63,3 +63,6 @@ Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tr
 ## Memoria tecnica
 
 La memoria persistente del progetto è gestita da MEX nella cartella `.mex/`. Prima di lavorare sul codice o prendere decisioni tecniche, consultare `.mex/ROUTER.md` e il relativo contesto.
+
+- [[GUIDA-FASE-17]] — scoperta pilota, uscite offline, diario collegato e foto Wikipedia.
+- [[33 - Rapporto Fase 17]] — fonti, verifiche cumulative e APK 0.17.0-f17.

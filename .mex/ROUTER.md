@@ -34,6 +34,8 @@ edges:
     condition: when changing the F8A geographic search, exploration screen or MapLibre adapter
   - target: patterns/plan-trip-and-record-memory.md
     condition: when changing saved trips, outings, result snapshots, diary links or unidentified drafts
+  - target: patterns/discover-naturalist-outings.md
+    condition: when changing F17 outing discovery, public catalogue or saved proposal details
 last_updated: 2026-10-03
 ---
 
@@ -83,8 +85,9 @@ The 2026-10-02 F9 correction is verified: readable species titles (green Scaffol
 
 - F14 implementation is automated-verified: original procedural blackbird with retained Blender/bpy source/preview/reference, deterministic 172,764-byte GLB/two clips, Khronos zero errors/warnings and shared manifest. Filament 1.77.1 lazy viewer adds orbit/pinch/reset, clip play/pause and private attributed GLB import/replacement/removal without implicit taxon selection. Room 10 adds personal models; format-2 backup includes complete model bytes/credits and reads released format-1/schema-9 archives. Final unfiltered `verifyAll` passed in 10m31s: 13 F0, 123 JVM, 155 Android, zero failures/errors/skips/omissions, lint/boundaries/format and five visual signatures. APK `artifacts/Faunavia-f14-debug.apk`, 0.14.0-f14 (21), 86,635,610 bytes, same signing identity as F13. Native focused capture: first frame 1,421ms/total process native heap 90,815,920 bytes on software emulator, not a phone budget. Formal F14 completion is pending human anatomy/visual/distribution-terms approval and at least one physical-device performance check. See `32 - Rapporto Fase 14.md`, `GUIDA-FASE-14.md` and the model/backup runbooks; do not mark the formal gate complete from emulator evidence.
 
+- F17 is implemented and verified for the bounded Lombardia pilot: five public outing proposals at three sites, destination/day/radius/interests/wishlist comparison, documented metrics/accesses, stable trip/proposal/day saves, immutable offline source snapshots and linked diary/drafts. Outing payload v2 reads v1; Room 10 and backup format 2 remain compatible. Species profiles now fetch exact-identity Wikipedia main photographs with reusable Commons credits/rights, cache/stale/retry and generic fallback. Final canonical gate: 13 F0, 138 JVM, 162 Android, zero failures/errors/skips/omissions, lint/boundaries/format and five visual signatures. Full Android run took 12m44s; final 1m23s gate reuses those unchanged Android results after the strengthened JVM ambiguity fixture. APK `artifacts/Faunavia-f17-debug.apk`, 0.17.0-f17 (22), 86,030,530 bytes, same signing identity as F14. The controlled blackbird metadata/thumbnail HEAD smoke passed HTTP 200 with CC BY-SA 3.0; no physical-phone check. See `33 - Rapporto Fase 17.md`, `GUIDA-FASE-17.md` and `patterns/discover-naturalist-outings.md`.
 **Not yet built:**
-- F15–F17 expansion includes trip offline preparation, optional synchronization assessment and F17 discovery of observation places/trails. These later features are not implemented; subsequent numbering including F17 is unchanged.
+- F15 regional offline maps/gazetteer and the F16 optional synchronization assessment remain open. F17 was prioritized explicitly on 2026-10-03 using the bundled public catalogue and existing local planning/backup; this does not close F15, F16 or the manual F14 gate.
 - Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Broader curated-species coverage and sourced comparable ease estimates; the F9 pilot does not invent them.
 - Reviewed natural-history profiles beyond the twelve F13 pilot entries; other selectable taxa retain local data or explicit fallback.
@@ -125,6 +128,7 @@ Load the relevant file based on the current task. Always load `context/architect
 | Debugging Gradle, JVM tests, managed devices or Compose UI gates | `patterns/debug-gradle-android-gates.md` |
 | Changing place search, F8A exploration or MapLibre | `patterns/explore-place-and-map.md` |
 | Saved trips/outings, evidence snapshots, linked diary or unidentified drafts | `patterns/plan-trip-and-record-memory.md` |
+| F17 public sites/trails, outing ranking or saved proposal documentation | `patterns/discover-naturalist-outings.md` |
 | Route import, sampling, or corridor analysis | `context/route-analysis.md` |
 | Provider, occurrence, licensing, or privacy work | `context/data-and-provenance.md` |
 | 3D model, GLB, Blender, or species asset work | `context/assets-3d.md` |
