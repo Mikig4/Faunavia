@@ -56,12 +56,19 @@ val staticAnalysis = tasks.register<Exec>("staticAnalysis") {
     commandLine("pwsh", "-NoProfile", "-File", file("scripts/quality/check-boundaries.ps1").absolutePath)
 }
 
+val verifyGlbAssets = tasks.register<Exec>("verifyGlbAssets") {
+    group = "verification"
+    description = "Validates the included GLB with Khronos and verifies its provenance manifest."
+    commandLine("node", file("assets-3d/validate.cjs").absolutePath, "--check")
+}
+
 val verifyFast = tasks.register("verifyFast") {
     group = "verification"
     description = "Builds, lints, statically checks and runs all host-side tests."
     dependsOn(
         formatCheck,
         staticAnalysis,
+        verifyGlbAssets,
         ":core:domain:test",
         ":core:network:test",
         ":core:testing:test",
@@ -107,13 +114,13 @@ val verifyVisual = tasks.register("verifyVisual") {
             include("**/*.xml")
         }.files
         val combinedResults = resultFiles.joinToString("\n") { it.readText() }
-        val requiredGoldenTests = listOf("homeMatchesVersionedColorSignature", "mapListAndErrorScreenshotsMatchVersionedSignature", "tripsAndDraftScreensMatchVersionedSignature")
+        val requiredGoldenTests = listOf("homeMatchesVersionedColorSignature", "mapListAndErrorScreenshotsMatchVersionedSignature", "tripsAndDraftScreensMatchVersionedSignature", "speciesProfileMatchesVersionedSignatureAndReadableTitleContrast", "modelRendersVisiblePixelsRotatesZoomsAndReleasesNativeViewWithVersionedSignature")
         check(requiredGoldenTests.all(combinedResults::contains)) {
             "Managed-device results omitted screenshot tests: ${requiredGoldenTests.filterNot(combinedResults::contains)}"
         }
         val report = reportRoot.get().file("visual-summary.txt").asFile
         report.parentFile.mkdirs()
-        report.writeText("PASS home, exploration and trips golden tests ${Instant.now()}\n")
+        report.writeText("PASS home, exploration, trips, species profile and native GLB golden tests ${Instant.now()}\n")
     }
 }
 
@@ -157,7 +164,7 @@ val collectVerificationReports = tasks.register("collectVerificationReports") {
 
 tasks.register("verifyAll") {
     group = "verification"
-    description = "Runs F0-F11 host, taxonomy, route, occurrence, plausibility, exploration, database, photos, reminders, UI, device and visual gates."
+    description = "Runs F0-F14 host, taxonomy, route, occurrence, plausibility, exploration, profiles, models, database, photos, reminders, backup, UI, managed-device and visual gates. Human/physical F14 review remains separate."
     dependsOn(collectVerificationReports)
 }
 

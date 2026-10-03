@@ -17,8 +17,8 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 18
-        versionName = "0.11.0-f11"
+        versionCode = 21
+        versionName = "0.14.0-f14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
@@ -99,6 +99,9 @@ dependencies {
     implementation(project(":core:exploration"))
     implementation(libs.maplibre.opengl)
     implementation(libs.okhttp)
+    implementation(libs.filament.android)
+    implementation(libs.filament.gltfio)
+    implementation(libs.filament.utils)
     implementation(libs.coroutines.android)
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(libs.room.runtime)

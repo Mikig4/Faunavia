@@ -1,0 +1,34 @@
+{
+  "phase": "F13",
+  "verifiedAt": "2026-10-03T11:38:59.6468969Z",
+  "gate": "verifyAll --no-daemon --stacktrace",
+  "status": "PASS",
+  "f0": {
+    "tests": 13,
+    "failures": 0,
+    "skipped": 0
+  },
+  "jvm": {
+    "tests": 123,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android": {
+    "tests": 144,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "omissions": 0,
+  "visualSignatures": 4,
+  "roomSchema": 9,
+  "backupFormat": 1,
+  "versionName": "0.13.0-f13",
+  "versionCode": 20,
+  "apkBytes": 56935930,
+  "apkSha256": "E1961A025CB78E1D8E6D9A164DA0573C8364B3E8052DDBCC8D164222FE84C397",
+  "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "physicalDeviceTested": false,
+  "actualTalkBackSession": false
+}

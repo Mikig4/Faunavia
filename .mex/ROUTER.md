@@ -26,13 +26,15 @@ edges:
     condition: when adding a species profile or 3D asset
   - target: patterns/change-local-storage.md
     condition: when changing Room schemas, repositories, migrations or diary integrity
+  - target: patterns/backup-and-restore.md
+    condition: when evolving SAF export/import, ZIP archives or staged database/photo restoration
   - target: patterns/debug-gradle-android-gates.md
     condition: when Gradle, JVM workers, managed devices, UTP or Compose UI gates fail
   - target: patterns/explore-place-and-map.md
     condition: when changing the F8A geographic search, exploration screen or MapLibre adapter
   - target: patterns/plan-trip-and-record-memory.md
     condition: when changing saved trips, outings, result snapshots, diary links or unidentified drafts
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Session Bootstrap
@@ -75,14 +77,21 @@ The 2026-10-02 F9 correction is verified: readable species titles (green Scaffol
 
 - F11 is complete: local flexible reminders, permission/settings, current-day identified record counts, persistent daily delivery markers and summary deep links with private photos. Room 9 and WorkManager 2.12.0; final `verifyAll` passed 13 F0, 115 JVM, 123 Android with zero failures/skips/omissions, lint/boundaries/format and three existing visual signatures. Includes real permission denial, notification tap, Activity recreation, unique work, populated migration and cancellation between preferences/save scheduling. APK `artifacts/Faunavia-f11-debug.apk`, 0.11.0-f11 (18), same signing identity. Reboot is simulated through persistence reopening, no physical-phone or prolonged Doze check. See `29 - Rapporto Fase 11.md` and `GUIDA-FASE-11.md`; backup remains F12.
 
+- F12 is complete: SAF ZIP export/import with versioned manifest, SHA-256 inventory and all 19 durable tables/private images; staged Room/domain/image validation, preview/cancel, transactional replacement and rollback. Unique photo publication and repository/photo generations protect prior references and queued edits; reminders are rescheduled against receiving-device permissions/timezone. Post-commit cleanup warnings survive the fresh Activity task. Final `verifyAll`: 13 F0, 115 JVM, 136 Android, zero failures/skips/omissions, lint/boundaries/format and three existing visual signatures. Real SAF, rotation and cleanup permission denial are covered. APK `artifacts/Faunavia-f12-debug.apk`, 0.12.0-f12 (19), Room remains 9, same signing identity. Schema 8 compatibility uses a synthetic fixture; no earlier released backup, physical-phone transfer or maximum-volume test. See `30 - Rapporto Fase 12.md`, `GUIDA-FASE-12.md` and `patterns/backup-and-restore.md`. F13 is next; F14–F17 numbering is unchanged.
+
+- F13 is complete: readable shared species details, twelve versioned natural-history profiles, per-fact/name provenance, clickable sourced curiosities and explicit unavailable fields. Original generic 2D vector/procedural recovery is accessible and offline; a bounded 64-profile presentation cache stays separate from Room/backup. General biology does not classify local evidence or select taxa. Final `verifyAll`: 13 F0, 123 JVM, 144 Android, zero failures/skips/omissions, lint/boundaries/format and four visual signatures. Includes measured rendered font scale 1.8, source-open failures, recreation, result→profile→distribution→result/map and unchanged diary/backup snapshots. APK `artifacts/Faunavia-f13-debug.apk`, 0.13.0-f13 (20), 56,935,930 bytes, Room 9/backup format 1, same signing identity. A pre-existing F11 Back/IME timing dependency was corrected without disabling its real permission test. No physical-phone, nonlinear OS font-scaler or actual TalkBack session. See `31 - Rapporto Fase 13.md`, `GUIDA-FASE-13.md` and `patterns/add-species-and-3d-asset.md`. F14 is next; F15–F17 unchanged.
+
+- F14 implementation is automated-verified: original procedural blackbird with retained Blender/bpy source/preview/reference, deterministic 172,764-byte GLB/two clips, Khronos zero errors/warnings and shared manifest. Filament 1.77.1 lazy viewer adds orbit/pinch/reset, clip play/pause and private attributed GLB import/replacement/removal without implicit taxon selection. Room 10 adds personal models; format-2 backup includes complete model bytes/credits and reads released format-1/schema-9 archives. Final unfiltered `verifyAll` passed in 10m31s: 13 F0, 123 JVM, 155 Android, zero failures/errors/skips/omissions, lint/boundaries/format and five visual signatures. APK `artifacts/Faunavia-f14-debug.apk`, 0.14.0-f14 (21), 86,635,610 bytes, same signing identity as F13. Native focused capture: first frame 1,421ms/total process native heap 90,815,920 bytes on software emulator, not a phone budget. Formal F14 completion is pending human anatomy/visual/distribution-terms approval and at least one physical-device performance check. See `32 - Rapporto Fase 14.md`, `GUIDA-FASE-14.md` and the model/backup runbooks; do not mark the formal gate complete from emulator evidence.
+
 **Not yet built:**
-- F12–F17 expansion includes backup, richer profiles, personal animated GLB import, trip offline preparation, and F17 discovery of observation places/trails. These later features are not implemented; subsequent numbering including F17 is unchanged.
+- F15–F17 expansion includes trip offline preparation, optional synchronization assessment and F17 discovery of observation places/trails. These later features are not implemented; subsequent numbering including F17 is unchanged.
 - Device current-location adapter and true regional offline maps; manual coordinates are already supported in F8A.
 - Broader curated-species coverage and sourced comparable ease estimates; the F9 pilot does not invent them.
-- Complete species profiles beyond the existing F9 presentation.
-- Blender/GLB asset library, regional map package and physical-device tests.
+- Reviewed natural-history profiles beyond the twelve F13 pilot entries; other selectable taxa retain local data or explicit fallback.
+- Additional reviewed Blender/GLB species assets, regional map package and physical-device tests. The first F14 original asset is explicitly awaiting human review.
 
 **Known issues:**
+- F14 human asset review and physical-device performance remain open. Windows SwiftShader OpenGL surface rendering crashed qemu; the viewer selects Vulkan when advertised, otherwise OpenGL. A real native pixel test is required alongside resource preflight. Model dialog visibility must be hoisted to the profile owner to survive saved-state restoration.
 - Offline map source and any Firebase sync boundary are still open decisions; Android build versions are pinned by F1.
 - NNB GeoAPI returned HTTP 503 during F0; WFS is live as the F6 fallback, but its dataset-specific reuse permission remains unresolved and is retained in every record's license field.
 - CLCplus Backbone 2023 is publicly released, but a bounded sampling endpoint and a scientifically curated CLCplus-to-MAES crosswalk are still required before live land-cover data can support `plausible`; F7 therefore keeps non-equivalent 2021 input and uncurated mappings `insufficient`.
@@ -112,6 +121,7 @@ Load the relevant file based on the current task. Always load `context/architect
 | Searching and selecting a taxon | `patterns/search-taxon-with-preview.md` |
 | Adding an observation or notification | `patterns/add-observation-and-notification.md` |
 | Adding a species profile or 3D asset | `patterns/add-species-and-3d-asset.md` |
+| Backup ZIP, SAF export/import, staging or restoration | `patterns/backup-and-restore.md` |
 | Debugging Gradle, JVM tests, managed devices or Compose UI gates | `patterns/debug-gradle-android-gates.md` |
 | Changing place search, F8A exploration or MapLibre | `patterns/explore-place-and-map.md` |
 | Saved trips/outings, evidence snapshots, linked diary or unidentified drafts | `patterns/plan-trip-and-record-memory.md` |

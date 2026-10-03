@@ -186,9 +186,9 @@ fun gbifDistributionTiles(key: String): String {
     require(key.matches(Regex("[0-9]+")))
     return "https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?srs=EPSG:3857&taxonKey=$key&hasGeospatialIssue=false&basisOfRecord=HUMAN_OBSERVATION&basisOfRecord=MACHINE_OBSERVATION&bin=hex&hexPerTile=57&style=green.poly"
 }
-private fun sourceJson(value: Provenance) = buildJsonObject {
+internal fun sourceJson(value: Provenance) = buildJsonObject {
     put("source", value.source); put("recordId", value.recordId); put("query", value.query); put("retrievedAt", value.retrievedAt.toString())
     put("license", value.license); put("attribution", value.attribution); put("quality", value.quality); put("version", value.version)
 }
-private fun readSource(value: JsonObject) = Provenance(requireNotNull(value.text("source")), requireNotNull(value.text("recordId")), requireNotNull(value.text("query")),
+internal fun readSource(value: JsonObject) = Provenance(requireNotNull(value.text("source")), requireNotNull(value.text("recordId")), requireNotNull(value.text("query")),
     Instant.parse(value.text("retrievedAt")), requireNotNull(value.text("license")), requireNotNull(value.text("attribution")), requireNotNull(value.text("quality")), requireNotNull(value.text("version")))

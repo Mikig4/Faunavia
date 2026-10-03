@@ -2,7 +2,7 @@
 
 Estensione della pianificazione F8B del 2026-10-02: [[23 - Tappe e giorni del viaggio]], con località libere, ordine, giorni e analisi del singolo tratto.
 
-La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F11 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]], riepilogo locale F11 in [[29 - Rapporto Fase 11]].
+La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F13 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]], riepilogo locale F11 in [[29 - Rapporto Fase 11]], backup F12 in [[30 - Rapporto Fase 12]], schede F13 in [[31 - Rapporto Fase 13]].
 
 | Fase | Incremento | Gate principale |
 |---|---|---|
@@ -46,6 +46,8 @@ F8A permette di scegliere il periodo anche senza salvare un viaggio; F8B conserv
 Priorità di prodotto: viaggio, suggerimenti utilizzabili e diario collegato prima degli arricchimenti 3D; scoperta automatica dei sentieri nella nuova F17. I dettagli e i gate delle estensioni sono nel piano di sviluppo.
 
 ## Stato corrente
+
+F0–F13 completate. F14 introduce il merlo originale, viewer lazy, clip/gesti e import/sostituzione/rimozione GLB personali; Room 10 e backup formato 2 con lettura del precedente formato 1. Gate automatizzato verde: 13 F0, 123 JVM, 155 Android, zero errori/skipped/omissioni, lint/confini/formattazione e cinque firme visive. APK 0.14.0-f14 (21), 86.635.610 byte, stessa firma precedente. Il gate formale F14 rimane aperto per revisione umana anatomica/visiva/dei termini e prova su telefono fisico; non si avvia l’espansione ad altre specie prima di chiuderlo. Esiti in [[32 - Rapporto Fase 14]], uso e controlli in [[GUIDA-FASE-14]]. F15–F17 restano pianificate.
 
 F3 è completata: il Catalogo cerca il primo provider GBIF con debounce, risolve i sinonimi al taxon Animalia accettato e conserva localmente solo le scelte esplicite con relativi nomi ricercabili. Le scelte restano utilizzabili offline; i suggerimenti remoti in memoria hanno una scadenza controllata. Il dettaglio è in [[14 - Rapporto Fase 3]].
 

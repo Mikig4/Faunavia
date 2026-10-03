@@ -1,0 +1,313 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :formatCheck
+PASS format invariants
+
+> Task :staticAnalysis
+PASS architectural boundaries and secret scan
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :core:domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:domain:compileKotlin UP-TO-DATE
+> Task :core:domain:compileJava NO-SOURCE
+> Task :core:domain:processResources NO-SOURCE
+> Task :core:domain:classes UP-TO-DATE
+> Task :core:domain:jar UP-TO-DATE
+> Task :core:network:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:network:compileKotlin UP-TO-DATE
+> Task :core:network:compileJava NO-SOURCE
+> Task :core:network:processResources NO-SOURCE
+> Task :core:network:classes UP-TO-DATE
+> Task :core:network:jar UP-TO-DATE
+> Task :core:taxonomy:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:taxonomy:compileKotlin UP-TO-DATE
+> Task :core:taxonomy:compileJava NO-SOURCE
+> Task :core:taxonomy:processResources NO-SOURCE
+> Task :core:taxonomy:classes UP-TO-DATE
+> Task :core:taxonomy:jar UP-TO-DATE
+> Task :core:exploration:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:occurrence:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:compileKotlin UP-TO-DATE
+> Task :core:route:compileJava NO-SOURCE
+> Task :core:route:processResources NO-SOURCE
+> Task :core:route:classes UP-TO-DATE
+> Task :core:route:jar UP-TO-DATE
+> Task :core:occurrence:compileKotlin UP-TO-DATE
+> Task :core:occurrence:compileJava NO-SOURCE
+> Task :core:occurrence:processResources NO-SOURCE
+> Task :core:occurrence:classes UP-TO-DATE
+> Task :core:occurrence:jar UP-TO-DATE
+> Task :core:plausibility:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:plausibility:compileKotlin UP-TO-DATE
+> Task :core:plausibility:compileJava NO-SOURCE
+> Task :core:plausibility:processResources NO-SOURCE
+> Task :core:plausibility:classes UP-TO-DATE
+> Task :core:plausibility:jar UP-TO-DATE
+> Task :core:exploration:compileKotlin UP-TO-DATE
+> Task :core:exploration:compileJava NO-SOURCE
+> Task :core:exploration:processResources NO-SOURCE
+> Task :core:exploration:classes UP-TO-DATE
+> Task :core:exploration:jar UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :core:local:preBuild UP-TO-DATE
+> Task :core:local:preDebugBuild UP-TO-DATE
+> Task :core:local:processDebugNavigationResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :core:local:generateDebugResources UP-TO-DATE
+> Task :core:local:packageDebugResources UP-TO-DATE
+> Task :core:local:parseDebugLocalResources UP-TO-DATE
+> Task :core:local:generateDebugRFile UP-TO-DATE
+> Task :core:local:javaPreCompileDebug UP-TO-DATE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :core:local:generateDebugAssets UP-TO-DATE
+> Task :app:javaPreCompileDebug
+> Task :core:local:mergeDebugAssets
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:generateDebugGlobalSynthetics
+> Task :app:desugarDebugFileDependencies
+> Task :core:local:writeDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:checkDebugDuplicateClasses
+> Task :app:checkDebugAarMetadata
+> Task :core:local:kspDebugKotlin
+> Task :app:mergeExtDexDebug
+> Task :core:local:compileDebugKotlin UP-TO-DATE
+> Task :core:local:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:local:copyRoomSchemas NO-SOURCE
+> Task :core:local:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :core:local:processDebugJavaRes
+> Task :app:compileDebugNavigationResources
+> Task :core:local:bundleLibRuntimeToDirDebug
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :core:local:extractDeepLinksDebug
+> Task :core:local:mapDebugSourceSetPaths
+> Task :app:mergeDebugJniLibFolders
+> Task :core:local:compileDebugLibraryResources
+> Task :core:local:mergeDebugJniLibFolders
+> Task :core:local:mergeDebugNativeLibs NO-SOURCE
+> Task :core:local:copyDebugJniLibsProjectOnly
+> Task :app:validateSigningDebug
+> Task :core:local:processDebugManifest
+> Task :app:mergeDebugResources
+> Task :app:mergeDebugNativeLibs
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :core:local:checkDebugAarMetadata
+> Task :app:processDebugManifestForPackage
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so, libfilament-jni.so, libfilament-utils-jni.so, libgltfio-jni.so, libmaplibre.so. Run with --info option to learn more.
+
+> Task :core:local:extractDebugAnnotations
+> Task :core:local:extractDeepLinksForAarDebug
+> Task :core:local:mergeDebugGeneratedProguardFiles
+> Task :core:local:mergeDebugConsumerProguardFiles
+> Task :core:local:prepareDebugArtProfile
+> Task :core:local:prepareLintJarForPublish
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :core:local:writeDebugLintModelMetadata
+> Task :core:testing:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:mergeLibDexDebug
+> Task :core:local:bundleLibRuntimeToJarDebug
+> Task :core:local:mergeDebugJavaResource
+> Task :core:local:createFullJarDebug
+> Task :core:local:syncDebugLibJars
+> Task :core:local:bundleDebugLocalLintAar
+> Task :core:testing:processResources NO-SOURCE
+> Task :app:extractProguardFiles
+> Task :core:local:extractProguardFiles
+> Task :app:processDebugResources
+> Task :core:local:generateDebugLintModel
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:local:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:local:generateDebugAndroidTestLintModel
+> Task :core:local:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:local:generateDebugUnitTestLintModel
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:packageDebugUnitTestForUnitTest
+> Task :app:mergeDebugUnitTestManifest
+> Task :app:processDebugUnitTestManifest
+> Task :app:generateDebugUnitTestConfig
+> Task :core:domain:processTestResources NO-SOURCE
+> Task :core:exploration:processTestResources NO-SOURCE
+> Task :core:local:generateDebugLintReportModel
+> Task :core:testing:compileKotlin
+> Task :core:testing:compileJava NO-SOURCE
+> Task :core:testing:classes UP-TO-DATE
+> Task :core:testing:jar UP-TO-DATE
+> Task :core:network:processTestResources NO-SOURCE
+> Task :core:network:compileTestKotlin
+> Task :core:network:compileTestJava NO-SOURCE
+> Task :core:network:testClasses UP-TO-DATE
+> Task :core:network:test UP-TO-DATE
+> Task :core:occurrence:processTestResources NO-SOURCE
+> Task :core:local:lintAnalyzeDebugUnitTest
+> Task :core:local:lintAnalyzeDebugAndroidTest
+> Task :core:plausibility:processTestResources UP-TO-DATE
+> Task :core:domain:compileTestKotlin
+> Task :core:domain:compileTestJava NO-SOURCE
+> Task :core:domain:testClasses UP-TO-DATE
+> Task :core:occurrence:compileTestKotlin
+> Task :core:plausibility:compileTestKotlin
+
+> Task :core:domain:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:route:compileTestKotlin
+> Task :app:compileDebugKotlin
+> Task :core:exploration:compileTestKotlin
+> Task :core:exploration:compileTestJava NO-SOURCE
+> Task :core:exploration:testClasses UP-TO-DATE
+
+> Task :core:exploration:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:occurrence:compileTestJava NO-SOURCE
+> Task :core:occurrence:testClasses UP-TO-DATE
+
+> Task :core:occurrence:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:plausibility:compileTestJava NO-SOURCE
+> Task :core:plausibility:testClasses UP-TO-DATE
+
+> Task :core:plausibility:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:local:lintAnalyzeDebug
+> Task :core:route:compileTestJava NO-SOURCE
+> Task :core:route:processTestResources NO-SOURCE
+> Task :core:route:testClasses UP-TO-DATE
+
+> Task :core:route:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:taxonomy:processTestResources NO-SOURCE
+> Task :core:testing:processTestResources NO-SOURCE
+> Task :core:testing:compileTestKotlin
+> Task :core:testing:compileTestJava NO-SOURCE
+> Task :core:testing:testClasses UP-TO-DATE
+> Task :core:taxonomy:compileTestKotlin
+
+> Task :core:testing:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :core:taxonomy:compileTestJava NO-SOURCE
+> Task :core:taxonomy:testClasses UP-TO-DATE
+
+> Task :core:taxonomy:test
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes
+> Task :core:local:lintReportDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:dexBuilderDebug
+> Task :app:bundleDebugClassesToCompileJar
+
+> Task :app:generateDebugLintReportModel
+Warning: Lint will treat :core:taxonomy as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:taxonomy. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:exploration as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:exploration. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:plausibility as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:plausibility. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:occurrence as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:occurrence. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:route as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:route. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:domain as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:domain. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:network as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:network. to enable lint to analyze those sources.
+
+
+> Task :app:mergeProjectDexDebug
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :core:local:lintDebug
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :app:lintAnalyzeDebugUnitTest
+
+> Task :app:testDebugUnitTest
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :app:lintAnalyzeDebug
+> Task :app:lintAnalyzeDebugAndroidTest
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///C:/Users/MicheleGreco/AppData/Local/Faunavia/toolchains/builds/Faunavia/app/reports/lint-results-debug.html
+Wrote SARIF report to file:///C:/Users/MicheleGreco/AppData/Local/Faunavia/toolchains/builds/Faunavia/app/reports/lint-results-debug.sarif
+Lint found 3 errors. First failure:
+C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\app\src\main\kotlin\it\faunavia\app\FaunaviaApplication.kt:62: Error: Using 'Log' instead of 'Timber' [LogNotTimber from com.jakewharton.timber:timber:{version}]
+This issue has been automatically fixed.
+                if (!it) android.util.Log.w("Faunavia", "Unused model cleanup needs retry.")
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+> Task :app:lintDebug FAILED
+Lint found 3 errors. First failure:
+
+C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\app\src\main\kotlin\it\faunavia\app\FaunaviaApplication.kt:62: Error: Using 'Log' instead of 'Timber' [LogNotTimber from com.jakewharton.timber:timber:{version}]
+                if (!it) android.util.Log.w("Faunavia", "Unused model cleanup needs retry.")
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The full lint text report is located at:
+  C:\Users\MicheleGreco\AppData\Local\Faunavia\toolchains\builds\Faunavia\app\intermediates\lint_intermediate_text_report\debug\lintReportDebug\lint-results-debug.txt
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:lintDebug' (registered by plugin 'com.android.internal.application').
+> Lint found errors in the project; aborting build.
+  
+  Fix the issues identified by lint, or create a baseline to see only new errors.
+  To create a baseline, run `gradlew updateLintBaseline` after adding the following to the module's build.gradle file:
+  ```
+  android {
+      lint {
+          baseline = file("lint-baseline.xml")
+      }
+  }
+  ```
+  For more details, see https://developer.android.com/studio/write/lint#snapshot
+  
+  Lint found 3 errors. First failure:
+  
+  C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\app\src\main\kotlin\it\faunavia\app\FaunaviaApplication.kt:62: Error: Using 'Log' instead of 'Timber' [LogNotTimber from com.jakewharton.timber:timber:{version}]
+                  if (!it) android.util.Log.w("Faunavia", "Unused model cleanup needs retry.")
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+  The full lint text report is located at:
+    C:\Users\MicheleGreco\AppData\Local\Faunavia\toolchains\builds\Faunavia\app\intermediates\lint_intermediate_text_report\debug\lintReportDebug\lint-results-debug.txt
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 3m 5s
+132 actionable tasks: 101 executed, 1 from cache, 30 up-to-date

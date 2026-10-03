@@ -18,7 +18,7 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Android local architecture
@@ -90,13 +90,37 @@ Room schema 8 migrates 7→8 additively, preserving diary/wishlist/draft data an
 
 `noBackupFilesDir/photos` contains only private normalized JPEG pairs and temporary input during import. Bounds: 32 MiB/100 MP source, sampled 2048-pixel output, 320-pixel thumbnail, 48 MiB reserve. Re-encoding removes GPS/date/camera metadata; all eight orientations are applied to pixels and persisted as normal orientation. SHA-256/length validate the main copy before display. Original picker URIs need no permanent grant once the copy is committed.
 
-Metadata is written after complete files; failed Room writes remove new files. Metadata deletion precedes file deletion, exposing incomplete cleanup. A shared mutex and 24-hour grace protect referenced/recent files during orphan recovery. Gallery state/jobs survive Activity recreation; committed copies reopen from Room after process restart, while interrupted imports require explicit re-selection. Tests include real UI Automator picker selection with synthetic MediaStore images, actual rotated-image pixels, Activity recreation, migration, reopening and failure/rollback cases. See `GUIDA-FASE-10.md`; export/import remains F12.
+Metadata is written after complete files; failed Room writes remove new files. Metadata deletion precedes file deletion, exposing incomplete cleanup. A shared mutex and 24-hour grace protect referenced/recent files during orphan recovery. Gallery state/jobs survive Activity recreation; committed copies reopen from Room after process restart, while interrupted imports require explicit re-selection. Tests include real UI Automator picker selection with synthetic MediaStore images, actual rotated-image pixels, Activity recreation, migration, reopening and failure/rollback cases. See `GUIDA-FASE-10.md`; F12 now exports and restores these controlled copies.
 
 ## F11 notification scheduling
 
-Current schema is 9: migration 8→9 adds a daily delivery ledger without changing any existing row. WorkManager 2.12.0 uses unique 15-minute periodic work with initial delay, KEEP for reopening and CANCEL_AND_REENQUEUE for time/zone changes. Its boot restoration is supplied by the library; the app receiver handles TIME_SET/TIMEZONE_CHANGED and onCreate/onResume reconcile persisted settings. Runtime permission and notification channel blocks prevent posting; disabling leaves the diary intact. Notification intents are immutable and retain date/zone. No network constraint or exact alarm is used. See `GUIDA-FASE-11.md`.
+F11 introduced schema 9: migration 8→9 adds a daily delivery ledger without changing any existing row. WorkManager 2.12.0 uses unique 15-minute periodic work with initial delay, KEEP for reopening and CANCEL_AND_REENQUEUE for time/zone changes. Its boot restoration is supplied by the library; the app receiver handles TIME_SET/TIMEZONE_CHANGED and onCreate/onResume reconcile persisted settings. Runtime permission and notification channel blocks prevent posting; disabling leaves the diary intact. Notification intents are immutable and retain date/zone. No network constraint or exact alarm is used. See `GUIDA-FASE-11.md`.
 
-## Maps
+## F12 backup storage
+
+SAF `CreateDocument`/`OpenDocument` transfers a format-1 ZIP without broad storage permission. `manifest.json` inventories `database.json` and every referenced controlled image/thumbnail with size and SHA-256. The data snapshot covers all 19 schema-9 tables, preserving provenance, stages, links, wishes, settings and daily deliveries. Schema 8 input is validated with its absent ledger empty; no prior shipped archive exists.
+
+Import stages a bounded complete ZIP through `ZipFile`, checks manifest/versions/paths/files/hashes/counts, validates a separate Room database and image dimensions, then shows a replacement preview. Photos are copied and synced into a fresh private directory before one live Room transaction rewrites only their paths and replaces rows. Existing files are never overwritten; failures before commit leave their references untouched. Repository/photo generations reject queued stale mutations, and reminder settings serialize with restore. A fresh Activity task clears unsaved UI state; WorkManager is reconciled after commit, respecting the receiving device's permissions/timezone.
+
+Limits: 2 GiB ZIP, 10,000 image files including thumbnails, 64 MiB database payload, 100,000 rows and 32 MiB per image. Import requires the staged ZIP plus three times declared uncompressed data and 64 MiB reserve. Archives are not encrypted; raw picker URIs, platform permissions, tile caches, online metadata caches and unfinished analyses are excluded. Interrupted staging and old nested orphan files have a 24-hour cleanup grace. See `GUIDA-FASE-12.md` and `patterns/backup-and-restore.md`.
+
+## F13 viewed profiles
+
+The F13 baseline retains schema 9 and format-1 backup with the same 19-table inventory; F14 evolution is documented below. Existing flat `SpeciesProfile` rows are projected into sourced presentation fields without changing their payload. Opening a profile never saves a taxon or personal evidence. A storage sentinel compares durable snapshots before/after viewing, then round-trips an existing local profile and diary through the local archive.
+
+`species-profiles-v1` SharedPreferences contains at most 64 normalized viewed profiles, each <=128 KiB (<=8 MiB worst-case payload). Commit failure surfaces as a retry warning; decoded identity/schema/provenance are checked. Included/local profiles are available offline. A successful local read always beats old cache content, including after restore; cache-only fallback is visibly unverified when Room reading fails. Presentation preferences are excluded from backup, while durable profile rows remain included.
+
+The UI exposes headings, explicit unavailable states, labelled generic 2D fallback, saveable curiosity/source disclosures and a fixed close action. The native Dialog content retains parent density; the large-text test measures rendered TextLayoutResult font scale 1.8. Automated tests cover long accented text, semantics, source-open failure and four versioned visual signatures. Final `verifyAll`: 13 F0, 123 JVM, 144 Android, no failures/errors/skips/omissions. No new library, physical-device or actual TalkBack session was used.
+
+## F14 personal GLB storage and rendering
+
+Current schema is 10: additive migration 9→10 adds `personal_models` with domain-checked credits/import date/hash/path/size. Association is to the displayed taxon identity, separate from selected catalogue rows; importing an illustration cannot create a diary taxon. Private no-backup UUID model directories are published complete before metadata and recovered after the photo-style 24-hour grace. File import, replacement/removal and restoration share the photo mutex/generation.
+
+Format-2 ZIP adds exact referenced model bytes/provenance to all 20 durable tables, still accepting released format-1/schema-9 input and synthetic schema-8 compatibility. Limits remain 2 GiB archive/10,000 resource files/64 MiB JSON/100,000 rows; models additionally have 20 MiB/file and 100 associations maximum. Staging checks structure and Filament resources; fresh paths are committed with rows, failed restore removes only newly published copies. A legacy backup has an empty model library and replaces the current one after preview/confirmation.
+
+Filament 1.77.1 renders only when the shared profile's model dialog is opened. Vulkan is preferred on advertised hardware support, otherwise OpenGL; lifecycle pause stops callbacks, detach releases native ownership exactly once. Model dialog visibility/controls belong to the profile's composition so saveable state survives restoration, including a selected paused/playing clip. Actual native pixels/touch/disposal, invalid files, migration, SAF and backup are covered by F14 tests. Physical-device performance and human asset approval remain pending; see `GUIDA-FASE-14.md`.
+
+## Maps (existing F9 boundary)
 
 F9 correction 0.9.2-f9 uses lifecycle ViewModel Compose 2.10.0 (the lifecycle version already pinned/transitively present). `AnalysisViewModel` retains exploration/trip live results and IO work across Activity recreation, avoiding restart or a large saved-state bundle. Tests recreate real Activities with completed and blocked-in-flight providers and assert a single call; trip tests wait for Room loading before inspecting restored rows. Explicit scope changes clear/cancel results. Process death still relies on saved inputs, F6 cache and explicit Room snapshots, not retained live results.
 

@@ -47,6 +47,7 @@ internal class PrivatePhotoStore(
 
     // Shared by every manager in this application, including the trip Diary surface.
     val mutex = Mutex()
+    @Volatile var restoreGeneration = 0L
 
     fun file(relativePath: String): File {
         require(relativePath.startsWith("photos/") && ':' !in relativePath && '\\' !in relativePath)
@@ -152,10 +153,15 @@ internal class PrivatePhotoStore(
     fun recover(referenced: List<ObservationPhoto>, nowMillis: Long = System.currentTimeMillis()): Boolean {
         val keep = referenced.flatMap { listOfNotNull(it.relativePath, it.thumbnailPath) }.toSet()
         var success = true
-        File(root, "photos").listFiles().orEmpty().filter { it.isFile }.forEach { candidate ->
-            if ("photos/${candidate.name}" !in keep && nowMillis - candidate.lastModified() > ORPHAN_GRACE_MILLIS) {
+        val directory = File(root, "photos")
+        directory.walkBottomUp().filter { it.isFile }.forEach { candidate ->
+            val path = candidate.relativeTo(root).invariantSeparatorsPath
+            if (path !in keep && nowMillis - candidate.lastModified() > ORPHAN_GRACE_MILLIS) {
                 success = removeFile(candidate) and success
             }
+        }
+        directory.walkBottomUp().filter { it.isDirectory && it != directory }.forEach {
+            if (it.listFiles()?.isEmpty() == true) success = it.delete() and success
         }
         return success
     }
@@ -195,33 +201,45 @@ internal class MemoryPhotos(
     suspend fun list(id: String): List<ObservationPhoto> =
         if (diary.get(id) != null) diary.photos(id) else drafts?.photos(id).orEmpty()
 
-    suspend fun attach(id: String, uri: Uri): ObservationPhoto = withContext(Dispatchers.IO + NonCancellable) {
-        store.mutex.withLock {
-            val identified = diary.get(id) != null
-            if (!identified && drafts?.get(id) == null) throw PhotoFailure("Salva prima il ricordo; poi aggiungi le foto.")
-            val photo = store.import(uri, id)
-            try {
-                if (identified) diary.addPhoto(photo) else requireNotNull(drafts).addPhoto(photo)
-                photo
-            } catch (failure: Throwable) {
-                if (!store.delete(photo)) failure.addSuppressed(IOException("File non collegato: pulizia da riprovare."))
-                throw failure
+    suspend fun attach(id: String, uri: Uri): ObservationPhoto {
+        val generation = store.restoreGeneration
+        return withContext(Dispatchers.IO + NonCancellable) {
+            store.mutex.withLock {
+                if (generation != store.restoreGeneration) throw PhotoFailure("I dati sono stati ripristinati. Apri il ricordo e seleziona di nuovo la foto.")
+                val identified = diary.get(id) != null
+                if (!identified && drafts?.get(id) == null) throw PhotoFailure("Salva prima il ricordo; poi aggiungi le foto.")
+                val photo = store.import(uri, id)
+                try {
+                    if (identified) diary.addPhoto(photo) else requireNotNull(drafts).addPhoto(photo)
+                    photo
+                } catch (failure: Throwable) {
+                    if (!store.delete(photo)) failure.addSuppressed(IOException("File non collegato: pulizia da riprovare."))
+                    throw failure
+                }
             }
         }
     }
 
-    suspend fun delete(id: String, photoId: String): Boolean = withContext(Dispatchers.IO + NonCancellable) {
-        store.mutex.withLock {
-            val metadata = list(id).firstOrNull { it.id == photoId } ?: return@withLock true
-            if (diary.get(id) != null) diary.deletePhoto(photoId) else requireNotNull(drafts).deletePhoto(photoId)
-            store.delete(metadata)
+    suspend fun delete(id: String, photoId: String): Boolean {
+        val generation = store.restoreGeneration
+        return withContext(Dispatchers.IO + NonCancellable) {
+            store.mutex.withLock {
+                if (generation != store.restoreGeneration) throw PhotoFailure("I dati sono stati ripristinati. Apri di nuovo il ricordo.")
+                val metadata = list(id).firstOrNull { it.id == photoId } ?: return@withLock true
+                if (diary.get(id) != null) diary.deletePhoto(photoId) else requireNotNull(drafts).deletePhoto(photoId)
+                store.delete(metadata)
+            }
         }
     }
 
-    suspend fun deleteMemory(id: String, identified: Boolean): Boolean = withContext(Dispatchers.IO + NonCancellable) {
-        store.mutex.withLock {
-            val removed = if (identified) diary.delete(id) else requireNotNull(drafts).deleteWithPhotos(id)
-            removed.map { store.delete(it) }.all { it }
+    suspend fun deleteMemory(id: String, identified: Boolean): Boolean {
+        val generation = store.restoreGeneration
+        return withContext(Dispatchers.IO + NonCancellable) {
+            store.mutex.withLock {
+                if (generation != store.restoreGeneration) throw PhotoFailure("I dati sono stati ripristinati. Apri di nuovo il ricordo.")
+                val removed = if (identified) diary.delete(id) else requireNotNull(drafts).deleteWithPhotos(id)
+                removed.map { store.delete(it) }.all { it }
+            }
         }
     }
 

@@ -162,6 +162,8 @@ internal class ReminderPreferences(
 ) {
     private val mutex = Mutex()
 
+    suspend fun <T> withBackup(block: suspend () -> T): T = mutex.withLock { block() }
+
     suspend fun reconcile(force: Boolean = false): AppSettings = withContext(NonCancellable) { mutex.withLock {
         notifications.ensureChannel()
         val old = repository.get()

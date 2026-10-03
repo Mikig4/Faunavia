@@ -341,6 +341,7 @@ internal fun CatalogueScreen(
                 }
                 else -> CatalogueSearchResult(
                     result = lookup.result,
+                    catalogue = catalogue,
                     onRetry = lookup::retry,
                     onSelect = { entry ->
                         scope.launch {
@@ -362,6 +363,7 @@ private fun CatalogueSearchResult(
     result: TaxonomySearchResult,
     onRetry: () -> Unit,
     onSelect: (TaxonomySearchEntry) -> Unit,
+    catalogue: CatalogueRepository? = null,
 ) {
     when (result) {
         is TaxonomySearchResult.AwaitingQuery -> Text(
@@ -385,7 +387,7 @@ private fun CatalogueSearchResult(
                     color = FaunaviaColors.Error,
                 )
                 Button(onClick = onRetry, modifier = Modifier.testTag("catalogue-retry")) { Text("Riprova") }
-                CatalogueEntries(result.cachedEntries, onSelect)
+                CatalogueEntries(result.cachedEntries, onSelect, catalogue)
             }
         }
         is TaxonomySearchResult.Results -> {
@@ -396,7 +398,7 @@ private fun CatalogueSearchResult(
                     color = FaunaviaColors.Muted,
                 )
             }
-            CatalogueEntries(result.entries, onSelect)
+            CatalogueEntries(result.entries, onSelect, catalogue)
         }
     }
 }
@@ -411,6 +413,7 @@ internal fun taxonomyFailureMessage(reason: TaxonomyFailure): String = when (rea
 private fun CatalogueEntries(
     entries: List<TaxonomySearchEntry>,
     onSelect: (TaxonomySearchEntry) -> Unit,
+    catalogue: CatalogueRepository? = null,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -420,26 +423,29 @@ private fun CatalogueEntries(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(entries, key = { it.taxon.id }) { entry ->
-            Button(
-                onClick = { onSelect(entry) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("catalogue-result-${entry.taxon.id}"),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = FaunaviaColors.Ink,
-                ),
-            ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(entry.taxon.scientificName, fontWeight = FontWeight.Bold)
-                    Text(entry.taxon.commonName ?: "Nome comune non disponibile")
-                    Text("${entry.taxon.rank} · ${entry.taxon.provenance.recordId}")
-                    Text(
-                        text = "Anteprima fotografica non disponibile o senza licenza compatibile.",
-                        color = FaunaviaColors.Muted,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
+            Column {
+                Button(
+                    onClick = { onSelect(entry) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("catalogue-result-${entry.taxon.id}"),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = FaunaviaColors.Ink,
+                    ),
+                ) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(entry.taxon.scientificName, fontWeight = FontWeight.Bold)
+                        Text(entry.taxon.commonName ?: "Nome comune non disponibile")
+                        Text("${entry.taxon.rank} · ${entry.taxon.provenance.recordId}")
+                        Text(
+                            text = "Anteprima fotografica non disponibile o senza licenza compatibile.",
+                            color = FaunaviaColors.Muted,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
+                SpeciesProfileAction(entry.taxon.id, entry.taxon.scientificName, catalogue, entry.taxon.commonName, entry.taxon.provenance)
             }
         }
     }

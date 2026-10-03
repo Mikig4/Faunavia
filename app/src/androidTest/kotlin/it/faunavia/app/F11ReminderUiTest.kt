@@ -59,7 +59,8 @@ class F11ReminderUiTest {
         compose.onNodeWithTag("settings-content").performScrollToNode(hasTestTag("reminder-save"))
         compose.onNodeWithTag("reminder-save").performClick()
         compose.waitUntil(10_000) { runBlocking { application.repositories.settings.get().reminderTime == LocalTime.of(20, 30) } }
-        device.pressBack()
+        // Saving can already dismiss the IME. A Back event would then leave Settings.
+        androidx.test.espresso.Espresso.closeSoftKeyboard()
         compose.onNodeWithTag("settings-content").performScrollToNode(hasTestTag("reminder-enabled"))
         compose.onNodeWithTag("reminder-enabled").performClick()
         val deny = device.wait(Until.findObject(By.res(Pattern.compile(".*:id/permission_deny_button"))), 10_000)

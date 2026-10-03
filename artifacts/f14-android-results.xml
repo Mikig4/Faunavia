@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="155" failures="0" errors="0" skipped="0" time="0.000" timestamp="2026-10-03T13:44:47" hostname="localhost">
+  <testsuite name="it.faunavia.app.AnalysisLifecycleTest" tests="3" failures="0" errors="0" skipped="0" time="15.043" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="tripLiveResultsSurviveActivityRecreationWithoutSavingOrRequerying" classname="it.faunavia.app.AnalysisLifecycleTest" time="5.135" />
+    <testcase name="completedAnalysisSurvivesActivityRecreationWithoutAnotherProviderCall" classname="it.faunavia.app.AnalysisLifecycleTest" time="4.882" />
+    <testcase name="inFlightAnalysisContinuesThroughActivityRecreationAndDeliversItsResultOnce" classname="it.faunavia.app.AnalysisLifecycleTest" time="5.026" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.AppLaunchUiAutomatorTest" tests="1" failures="0" errors="0" skipped="0" time="3.228" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="launcherStartsTheInstallableApp" classname="it.faunavia.app.AppLaunchUiAutomatorTest" time="3.228" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.AppNavigationTest" tests="1" failures="0" errors="0" skipped="0" time="5.971" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="navigatesThroughPrimaryScreensAndOptionalTripTools" classname="it.faunavia.app.AppNavigationTest" time="5.971" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.CatalogueScreenUiTest" tests="6" failures="0" errors="0" skipped="0" time="11.517" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="commonNameLookupThroughTheRealAdapterCanBeSelectedAndReadOffline" classname="it.faunavia.app.CatalogueScreenUiTest" time="2.729" />
+    <testcase name="completionOfAnObsoleteLookupDoesNotHideTheCurrentLoadingState" classname="it.faunavia.app.CatalogueScreenUiTest" time="1.736" />
+    <testcase name="showsLoadingDuringDebounce" classname="it.faunavia.app.CatalogueScreenUiTest" time="1.616" />
+    <testcase name="unexpectedLookupErrorStopsLoadingAndCanRetry" classname="it.faunavia.app.CatalogueScreenUiTest" time="2.106" />
+    <testcase name="showsRecoverableErrorAndCachedSelectedTaxon" classname="it.faunavia.app.CatalogueScreenUiTest" time="1.663" />
+    <testcase name="showsEmptyStateForAnAcceptedAnimaliaSearchWithoutResults" classname="it.faunavia.app.CatalogueScreenUiTest" time="1.667" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.DiaryScreenUiTest" tests="5" failures="0" errors="0" skipped="0" time="23.702" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="selectsANewCatalogueSpeciesDirectlyAndSavesItsLinkedObservationOffline" classname="it.faunavia.app.DiaryScreenUiTest" time="4.703" />
+    <testcase name="speciesIsRequiredAndNoIncompleteSearchIsPersisted" classname="it.faunavia.app.DiaryScreenUiTest" time="2.629" />
+    <testcase name="createsEditsAndDeletesAStoredTaxonWithoutAnySuggestion" classname="it.faunavia.app.DiaryScreenUiTest" time="6.908" />
+    <testcase name="unavailableCatalogueCanRetryWithoutPersistingAnIncompleteObservation" classname="it.faunavia.app.DiaryScreenUiTest" time="4.810" />
+    <testcase name="failedSpeciesSelectionKeepsTheEditorAndAllowsAnotherSelection" classname="it.faunavia.app.DiaryScreenUiTest" time="4.652" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.ExplorationScreenUiTest" tests="7" failures="0" errors="0" skipped="0" time="23.558" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="emptyAndUnavailableGeocoderStatesKeepCoordinateEntry" classname="it.faunavia.app.ExplorationScreenUiTest" time="2.680" />
+    <testcase name="mapListAndErrorScreenshotsMatchVersionedSignature" classname="it.faunavia.app.ExplorationScreenUiTest" time="5.124" />
+    <testcase name="ambiguousPlaceRequiresExplicitConfirmationAndShowsSampleArea" classname="it.faunavia.app.ExplorationScreenUiTest" time="2.437" />
+    <testcase name="confirmedPlaceCacheSurvivesAdapterRecreation" classname="it.faunavia.app.ExplorationScreenUiTest" time="0.879" />
+    <testcase name="mapLibreAdapterKeepsTextResultsAvailableWhenTilesAreMissing" classname="it.faunavia.app.ExplorationScreenUiTest" time="4.682" />
+    <testcase name="coordinatesFiltersMapAttributionAndRestorationWorkWithoutNetwork" classname="it.faunavia.app.ExplorationScreenUiTest" time="5.511" />
+    <testcase name="previouslySavedRouteCanBeExploredWithoutReimporting" classname="it.faunavia.app.ExplorationScreenUiTest" time="2.245" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F10PhotoTest" tests="10" failures="0" errors="0" skipped="0" time="2.031" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="recoveryRemovesOnlyOldUnreferencedFilesAndRejectsPathEscapes" classname="it.faunavia.app.F10PhotoTest" time="0.133" />
+    <testcase name="allExifOrientationsNormalizePixelsAndRemoveSensitiveMetadata" classname="it.faunavia.app.F10PhotoTest" time="0.228" />
+    <testcase name="revokedCorruptOversizedAndLowStorageInputsPreserveTextAndLeaveNoPartialFiles" classname="it.faunavia.app.F10PhotoTest" time="0.368" />
+    <testcase name="zeroOneMultiplePhotosReopenWithoutOriginalUriAndDeleteIndependently" classname="it.faunavia.app.F10PhotoTest" time="0.159" />
+    <testcase name="missingCorruptAndMissingThumbnailFilesDegradeWithoutDeletingMetadata" classname="it.faunavia.app.F10PhotoTest" time="0.139" />
+    <testcase name="failedMetadataWriteRemovesFilesAndRetryDoesNotDuplicateTheMemory" classname="it.faunavia.app.F10PhotoTest" time="0.180" />
+    <testcase name="draftConversionPreservesPhotosAndFailedConversionRollsBackTheirOwnership" classname="it.faunavia.app.F10PhotoTest" time="0.162" />
+    <testcase name="f9MigrationPreservesLegacyMetadataDiaryWishlistAndDraftThenReopens" classname="it.faunavia.app.F10PhotoTest" time="0.324" />
+    <testcase name="draftDeletionAndTripUnlinkingKeepTheCorrectPhotoLifetimes" classname="it.faunavia.app.F10PhotoTest" time="0.122" />
+    <testcase name="largeRotatedImagesAreSampledBeforeDecodingAndHaveBoundedThumbnails" classname="it.faunavia.app.F10PhotoTest" time="0.216" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F10PhotoUiTest" tests="5" failures="0" errors="0" skipped="0" time="14.227" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="identifyingADraftThroughDiaryPreservesItsPrivatePhotos" classname="it.faunavia.app.F10PhotoUiTest" time="3.773" />
+    <testcase name="recordDeletionKeepsFileCleanupFailureVisibleAfterTheListReloads" classname="it.faunavia.app.F10PhotoUiTest" time="1.527" />
+    <testcase name="missingPhotoHasVisibleFallbackAndCanBeRemovedWithoutLosingTheObservation" classname="it.faunavia.app.F10PhotoUiTest" time="1.919" />
+    <testcase name="realPhotoPickerImportsAPrivateImageWithoutBroadStoragePermissions" classname="it.faunavia.app.F10PhotoUiTest" time="4.338" />
+    <testcase name="albumAndPrivateImagesSurviveRealActivityRecreationAndPhotoRemovalKeepsText" classname="it.faunavia.app.F10PhotoUiTest" time="2.670" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F11ReminderTest" tests="7" failures="0" errors="0" skipped="0" time="0.996" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="realCoroutineWorkerUsesFakeClockAndPermissionDenialLeavesDiaryAndDayAvailable" classname="it.faunavia.app.F11ReminderTest" time="0.116" />
+    <testcase name="beforeTimeAndDelayedPastMidnightNeverSendThePreviousDay" classname="it.faunavia.app.F11ReminderTest" time="0.101" />
+    <testcase name="migrationFromF10PreservesDiaryPhotosSettingsWishlistAndDrafts" classname="it.faunavia.app.F11ReminderTest" time="0.277" />
+    <testcase name="zeroAndDraftsNeverNotifyButIdentifiedRecordsCountIndependentlyOfQuantity" classname="it.faunavia.app.F11ReminderTest" time="0.134" />
+    <testcase name="coroutineWorkerRetriesPostAndStorageFailures" classname="it.faunavia.app.F11ReminderTest" time="0.104" />
+    <testcase name="failedPostDoesNotConsumeDayAndNextAttemptCanSucceed" classname="it.faunavia.app.F11ReminderTest" time="0.100" />
+    <testcase name="concurrentWorkersAndReopenedDatabaseSendOnlyOnceEvenAfterTimezoneChange" classname="it.faunavia.app.F11ReminderTest" time="0.164" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F11ReminderUiTest" tests="4" failures="0" errors="0" skipped="0" time="16.236" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="summaryWithoutPermissionShowsEmptyStateAndMalformedIntentFallsBackToApp" classname="it.faunavia.app.F11ReminderUiTest" time="3.017" />
+    <testcase name="savesTimeRejectsInvalidInputAndDeniedPermissionLeavesDiaryAvailable" classname="it.faunavia.app.F11ReminderUiTest" time="4.860" />
+    <testcase name="grantingPermissionEnablesReminderAndDisablingRemovesTheUniqueJob" classname="it.faunavia.app.F11ReminderUiTest" time="2.751" />
+    <testcase name="actualNotificationTapOpensLocalSpeciesAndPhotosAndSurvivesRecreation" classname="it.faunavia.app.F11ReminderUiTest" time="5.608" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F11ScheduleTest" tests="2" failures="0" errors="0" skipped="0" time="0.295" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="leavingSettingsDuringSaveStillInstallsThePersistedReminder" classname="it.faunavia.app.F11ScheduleTest" time="0.150" />
+    <testcase name="uniquePeriodicWorkSurvivesReconciliationAndRealignsTimeAndTimezoneThenCancels" classname="it.faunavia.app.F11ScheduleTest" time="0.145" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F12BackupTest" tests="11" failures="0" errors="0" skipped="0" time="4.969" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="lowSpaceAndMissingOrCorruptSourcePhotoPreserveLocalData" classname="it.faunavia.app.F12BackupTest" time="0.417" />
+    <testcase name="completeRoundTripPreservesEveryTablePhotosLinksProvenanceAndNotificationLedgerAfterReopen" classname="it.faunavia.app.F12BackupTest" time="0.524" />
+    <testcase name="emptyArchiveRestoresAnEmptyFreshInstallation" classname="it.faunavia.app.F12BackupTest" time="0.310" />
+    <testcase name="cancellationAndDiscardedPreviewDoNotTouchCurrentDatabaseOrPhotos" classname="it.faunavia.app.F12BackupTest" time="0.430" />
+    <testcase name="aWriteQueuedBeforeRestoreCannotReinsertOldDiaryDataAfterCommit" classname="it.faunavia.app.F12BackupTest" time="0.226" />
+    <testcase name="failureAfterAllRowsWereInsertedRollsBackDatabaseAndRemovesOnlyNewPhotoCopies" classname="it.faunavia.app.F12BackupTest" time="0.470" />
+    <testcase name="invalidDiaryTaxonLinksQuantityAndPayloadAreRejectedEvenWithValidHashes" classname="it.faunavia.app.F12BackupTest" time="0.801" />
+    <testcase name="precedingSchemaEightArchiveImportsWithoutInventingDeliveryHistory" classname="it.faunavia.app.F12BackupTest" time="0.470" />
+    <testcase name="hashMismatchMissingFileUnexpectedFileAndMalformedZipLeaveExistingMemoriesIntact" classname="it.faunavia.app.F12BackupTest" time="0.448" />
+    <testcase name="futureVersionsDuplicateInventoryTraversalAndWrongSizesAreRejectedBeforeReplacement" classname="it.faunavia.app.F12BackupTest" time="0.523" />
+    <testcase name="successfulRestoreKeepsCleanupWarningInTheReportForTheNewActivity" classname="it.faunavia.app.F12BackupTest" time="0.350" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F12BackupUiTest" tests="2" failures="0" errors="0" skipped="0" time="25.636" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="invalidImportShowsRecoverableErrorAndCancellingValidPreviewKeepsCurrentDiary" classname="it.faunavia.app.F12BackupUiTest" time="2.483" />
+    <testcase name="realSafExportImportPreviewRotationAndRestoreKeepPhotosAndRescheduleReminder" classname="it.faunavia.app.F12BackupUiTest" time="23.153" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F13ProfileStorageTest" tests="2" failures="0" errors="0" skipped="0" time="1.074" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="normalizedViewedProfileCacheReopensIsBoundedAndRecoversACorruptPilotCopy" classname="it.faunavia.app.F13ProfileStorageTest" time="0.801" />
+    <testcase name="viewingLeavesAllDurableRowsUnchangedAndLegacyProfileDiaryBackupRoundTripRemainIndependent" classname="it.faunavia.app.F13ProfileStorageTest" time="0.273" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F13ProfileUiTest" tests="6" failures="0" errors="0" skipped="0" time="18.134" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="uncoveredSpeciesAndUnreadableFallbackStayAccessibleAtLargeFontWithoutInventedFacts" classname="it.faunavia.app.F13ProfileUiTest" time="2.057" />
+    <testcase name="catalogueProfileViewingDoesNotSelectOrSaveATaxon" classname="it.faunavia.app.F13ProfileUiTest" time="2.600" />
+    <testcase name="speciesProfileMatchesVersionedSignatureAndReadableTitleContrast" classname="it.faunavia.app.F13ProfileUiTest" time="2.026" />
+    <testcase name="researchProfileDistributionAndReturnKeepTheSameAnalysisAndEvidence" classname="it.faunavia.app.F13ProfileUiTest" time="6.107" />
+    <testcase name="sourcedCuriosityOpensOnlyOnRequestSurvivesRecreationAndHandlesExternalLinkFailure" classname="it.faunavia.app.F13ProfileUiTest" time="3.122" />
+    <testcase name="partialLongProfileHasVisibleRetryAndRejectsAnUnsafeSourceLink" classname="it.faunavia.app.F13ProfileUiTest" time="2.222" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F14ModelStoreTest" tests="7" failures="0" errors="0" skipped="0" time="2.778" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="includedModelMeetsMobileBudgetsAndHasTwoSupportedClips" classname="it.faunavia.app.F14ModelStoreTest" time="0.359" />
+    <testcase name="missingCorruptAndLowSpaceModelsAreExplicitAndCannotProduceIncompleteBackup" classname="it.faunavia.app.F14ModelStoreTest" time="0.348" />
+    <testcase name="releasedFormatOneSchemaNineRemainsReadableWithoutInventingModels" classname="it.faunavia.app.F14ModelStoreTest" time="0.255" />
+    <testcase name="modelsAndProvenanceRoundTripAndFailedRestoreKeepPriorFilesAndDiary" classname="it.faunavia.app.F14ModelStoreTest" time="0.760" />
+    <testcase name="geometryBoundsCyclesSparseAndMissingCreditFailBeforePublication" classname="it.faunavia.app.F14ModelStoreTest" time="0.331" />
+    <testcase name="staticAndAnimatedImportsPersistAndFailedReplacementsPreservePreviousAndDiary" classname="it.faunavia.app.F14ModelStoreTest" time="0.532" />
+    <testcase name="populatedNineToTenMigrationAddsModelsWithoutLosingMemoriesOrSettings" classname="it.faunavia.app.F14ModelStoreTest" time="0.193" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F14ModelUiTest" tests="4" failures="0" errors="0" skipped="0" time="25.306" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="clipSelectionPauseSavedStateAndReturningToProfileKeepFallbackAccessible" classname="it.faunavia.app.F14ModelUiTest" time="6.547" />
+    <testcase name="unavailablePersonalFileProvidesRetryRemovalAndIntactProfile" classname="it.faunavia.app.F14ModelUiTest" time="2.316" />
+    <testcase name="realDocumentPickerImportsAttributedStaticModelAndRemovalKeepsSpeciesProfile" classname="it.faunavia.app.F14ModelUiTest" time="11.304" />
+    <testcase name="modelRendersVisiblePixelsRotatesZoomsAndReleasesNativeViewWithVersionedSignature" classname="it.faunavia.app.F14ModelUiTest" time="5.139" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F9PersistenceTest" tests="4" failures="0" errors="0" skipped="0" time="0.603" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="urbanTaxonExcludedFromTypicalStillSavesInDiaryAndWishlistIndependently" classname="it.faunavia.app.F9PersistenceTest" time="0.119" />
+    <testcase name="wishlistRejectsMissingAndInvalidTaxaEvenThroughRawSql" classname="it.faunavia.app.F9PersistenceTest" time="0.109" />
+    <testcase name="f8bMigrationPreservesDiaryTripAndCuratedSourceWithoutInventingWishes" classname="it.faunavia.app.F9PersistenceTest" time="0.224" />
+    <testcase name="wishlistReopensOfflineAndRepeatedAddPreservesOriginalTimestamp" classname="it.faunavia.app.F9PersistenceTest" time="0.151" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F9PresentationTest" tests="9" failures="0" errors="0" skipped="0" time="20.282" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="unknownSpeciesUsesScientificNameAndUnavailableDataWithoutInventedLinks" classname="it.faunavia.app.F9PresentationTest" time="1.313" />
+    <testcase name="globalSpeciesDistributionUsesTheRealNativeMapRenderer" classname="it.faunavia.app.F9PresentationTest" time="1.193" />
+    <testcase name="illustratedRangeStaysInsideTheAppWithImageRetryAndObservationSwitch" classname="it.faunavia.app.F9PresentationTest" time="1.630" />
+    <testcase name="italianCommonNameOutsideThePilotIsEnrichedWithoutSelectingADiaryTaxon" classname="it.faunavia.app.F9PresentationTest" time="1.029" />
+    <testcase name="urbanOnlyResultsShowAnHonestEmptyTypicalSelectionAndRemainAccessible" classname="it.faunavia.app.F9PresentationTest" time="4.259" />
+    <testcase name="speciesTitleHasVisibleInkEvenWhenTheParentPassesWhiteContentColor" classname="it.faunavia.app.F9PresentationTest" time="1.015" />
+    <testcase name="habitatOpensAnInternalObservationMapOnlyOnClickWithoutStartingABrowser" classname="it.faunavia.app.F9PresentationTest" time="1.401" />
+    <testcase name="tripResearchUsesTheSameDefaultAndKeepsPreviouslyChosenUrbanSnapshots" classname="it.faunavia.app.F9PresentationTest" time="2.215" />
+    <testcase name="researchStartsWithTypicalAnimalsAndCompactCardsWhileCompleteViewRestores" classname="it.faunavia.app.F9PresentationTest" time="6.227" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.F9UiTest" tests="8" failures="0" errors="0" skipped="0" time="16.316" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="urbanCommonIsAvailableOutsideTypicalAndWishlistDoesNotCreateObservation" classname="it.faunavia.app.F9UiTest" time="2.314" />
+    <testcase name="easeStatesMissingBasisAndSawRequiresASeparateDiaryConfirmation" classname="it.faunavia.app.F9UiTest" time="1.416" />
+    <testcase name="catalogueSelectionAddsWishAndOfflineListRemovesIt" classname="it.faunavia.app.F9UiTest" time="2.437" />
+    <testcase name="savedTripSuggestionsReopenOfflineAndObsoleteSnapshotsDoNotClaimRelevance" classname="it.faunavia.app.F9UiTest" time="3.197" />
+    <testcase name="wishlistSurvivesScreenRestorationAndNoEvidenceIsNotAbsence" classname="it.faunavia.app.F9UiTest" time="1.948" />
+    <testcase name="failedWishRemovalShowsRetryAndKeepsLocalData" classname="it.faunavia.app.F9UiTest" time="1.651" />
+    <testcase name="identifiedDiaryEditAndDeleteUpdateNeverObservedWhileDraftDoesNotHideIt" classname="it.faunavia.app.F9UiTest" time="1.744" />
+    <testcase name="typicalSpeciesShowsCuratorialReasonSourceAndUnchangedInsufficientEvidence" classname="it.faunavia.app.F9UiTest" time="1.609" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.HomeGoldenTest" tests="1" failures="0" errors="0" skipped="0" time="1.279" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="homeMatchesVersionedColorSignature" classname="it.faunavia.app.HomeGoldenTest" time="1.279" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.LocalMigrationTest" tests="6" failures="0" errors="0" skipped="0" time="1.142" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="migrationFromF4CreatesEmptyOccurrenceCache" classname="it.faunavia.app.LocalMigrationTest" time="0.192" />
+    <testcase name="migrationFromF3DefaultsLegacyQuantityToOne" classname="it.faunavia.app.LocalMigrationTest" time="0.193" />
+    <testcase name="migrationPreservesPopulatedDiaryPhotosAndSettings" classname="it.faunavia.app.LocalMigrationTest" time="0.193" />
+    <testcase name="migrationAddsAliasIndexWithoutLosingExistingTaxon" classname="it.faunavia.app.LocalMigrationTest" time="0.168" />
+    <testcase name="migrationFromF8APreservesDiaryPhotosTaxaSettingsAndCacheAndStartsPlanningEmpty" classname="it.faunavia.app.LocalMigrationTest" time="0.220" />
+    <testcase name="emptyInitialSchemaMigratesWithoutInventingData" classname="it.faunavia.app.LocalMigrationTest" time="0.176" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.LocalPersistenceTest" tests="10" failures="0" errors="0" skipped="0" time="1.052" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="emptyDatabaseHasExplicitDefaultsAndMissingReads" classname="it.faunavia.app.LocalPersistenceTest" time="0.084" />
+    <testcase name="failedPhotoInsertRollsBackObservationAndEarlierPhotos" classname="it.faunavia.app.LocalPersistenceTest" time="0.126" />
+    <testcase name="databaseItselfRejectsNullMissingAndInvalidSpeciesOnInsertAndUpdate" classname="it.faunavia.app.LocalPersistenceTest" time="0.086" />
+    <testcase name="localDayQueriesRespectMidnightAndBothDstTransitions" classname="it.faunavia.app.LocalPersistenceTest" time="0.115" />
+    <testcase name="repositoryRejectsOutOfRangeQuantityAndOverlongNotes" classname="it.faunavia.app.LocalPersistenceTest" time="0.077" />
+    <testcase name="repositoryRejectsMissingNonAnimalAndUnacceptedTaxa" classname="it.faunavia.app.LocalPersistenceTest" time="0.112" />
+    <testcase name="diaryCrudUsesClockAndKeepsPhotosAcrossUpdates" classname="it.faunavia.app.LocalPersistenceTest" time="0.114" />
+    <testcase name="reopeningPopulatedDatabasePreservesDiaryAndRelations" classname="it.faunavia.app.LocalPersistenceTest" time="0.107" />
+    <testcase name="allMappersAndCatalogueRecordsRoundTripWithoutLosingProvenance" classname="it.faunavia.app.LocalPersistenceTest" time="0.127" />
+    <testcase name="normalizedOccurrenceCachePersistsFullProvenanceWithoutRawPayload" classname="it.faunavia.app.LocalPersistenceTest" time="0.104" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.RouteScreenUiTest" tests="2" failures="0" errors="0" skipped="0" time="5.299" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="validLocationProducesAndPersistsTheDeterministicSummary" classname="it.faunavia.app.RouteScreenUiTest" time="2.725" />
+    <testcase name="invalidCoordinatesShowAnInlineErrorWithoutSaving" classname="it.faunavia.app.RouteScreenUiTest" time="2.574" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.TripPersistenceTest" tests="13" failures="0" errors="0" skipped="0" time="1.693" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="personalMapUsesOnlyLocatedPersonalMemoriesWithoutConnectingSightings" classname="it.faunavia.app.TripPersistenceTest" time="0.119" />
+    <testcase name="draftConversionRollsBackInvalidTaxonAndThenPreservesOneMemoryAndItsCreationTime" classname="it.faunavia.app.TripPersistenceTest" time="0.132" />
+    <testcase name="deletingATripUnlinksMemoriesAndPreservesPhotosEvenThroughRawSql" classname="it.faunavia.app.TripPersistenceTest" time="0.110" />
+    <testcase name="observationPrefillRequiresAnExactAcceptedIdentityAndDoesNotCreateTheMemory" classname="it.faunavia.app.TripPersistenceTest" time="0.132" />
+    <testcase name="deletingAnOutingPreservesTheTripAndItsMemoriesAndInvalidatesItsSnapshot" classname="it.faunavia.app.TripPersistenceTest" time="0.111" />
+    <testcase name="legacyVersionTwoTripWithoutStagesKeepsItsIdentityAndGeometry" classname="it.faunavia.app.TripPersistenceTest" time="0.114" />
+    <testcase name="concurrentDraftConversionCannotDuplicateTheMemory" classname="it.faunavia.app.TripPersistenceTest" time="0.097" />
+    <testcase name="stagesAndTheirEvidenceReopenAndRemovedStageDoesNotEraseDiaryOrSnapshot" classname="it.faunavia.app.TripPersistenceTest" time="0.181" />
+    <testcase name="tripsOutingsPlacesResultsAndDraftsSurviveReopeningWithFullProvenance" classname="it.faunavia.app.TripPersistenceTest" time="0.168" />
+    <testcase name="selectedResultPreservesItsOriginalAreaPeriodAndSourcesWithoutCreatingASighting" classname="it.faunavia.app.TripPersistenceTest" time="0.131" />
+    <testcase name="chosenTripTraceSurvivesReopeningAndLegacyPayloadStillReads" classname="it.faunavia.app.TripPersistenceTest" time="0.127" />
+    <testcase name="databaseRejectsBrokenCrossTripLinksAndDuplicateMemoryIdentities" classname="it.faunavia.app.TripPersistenceTest" time="0.125" />
+    <testcase name="diaryChangesRecomputeCalendarSpeciesAndFirstSightingsWithoutCountingDrafts" classname="it.faunavia.app.TripPersistenceTest" time="0.146" />
+  </testsuite>
+  <testsuite name="it.faunavia.app.TripScreenUiTest" tests="19" failures="0" errors="0" skipped="0" time="143.120" timestamp="2026-10-03T13:44:47" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="tripSelectionAndSavedResultsRestoreWithoutQueryingProviders" classname="it.faunavia.app.TripScreenUiTest" time="6.144" />
+    <testcase name="tripsAndDraftScreensMatchVersionedSignature" classname="it.faunavia.app.TripScreenUiTest" time="2.699" />
+    <testcase name="mapsUsesTheConfirmedDestinationAndSelectedOutingAndHandlesLaunchFailure" classname="it.faunavia.app.TripScreenUiTest" time="3.466" />
+    <testcase name="importedOutingCanBeEditedAndDeletedWithoutLosingItsLinkedMemories" classname="it.faunavia.app.TripScreenUiTest" time="7.271" />
+    <testcase name="diaryTripSpeciesCalendarAndMapFiltersIncludeUnlocatedMemoriesInTheirSummary" classname="it.faunavia.app.TripScreenUiTest" time="7.199" />
+    <testcase name="endpointsDatesAndChosenRouteCreateATripAndLinkedObservation" classname="it.faunavia.app.TripScreenUiTest" time="14.196" />
+    <testcase name="draftDeletionRequiresConfirmationAndLeavesTheDiaryIntact" classname="it.faunavia.app.TripScreenUiTest" time="2.281" />
+    <testcase name="outingEditorRestoresUnsavedFieldsWithoutCreatingADuplicate" classname="it.faunavia.app.TripScreenUiTest" time="5.575" />
+    <testcase name="mapsDirectionsSendBothEndpointsAndHandleMissingActivity" classname="it.faunavia.app.TripScreenUiTest" time="1.119" />
+    <testcase name="draftQuantityUsesSharedValidationAndAcceptsOuterSpaces" classname="it.faunavia.app.TripScreenUiTest" time="4.612" />
+    <testcase name="persistentUnidentifiedDraftRestoresEditsConvertsAndNeverCountsAsASpecies" classname="it.faunavia.app.TripScreenUiTest" time="9.579" />
+    <testcase name="reorderingStagesInvalidatesChangedLegsAndRetryPreservesOtherChoices" classname="it.faunavia.app.TripScreenUiTest" time="7.346" />
+    <testcase name="freeStagesValidateDaysPersistAndUseTheSelectedLegForMapsAndEvidence" classname="it.faunavia.app.TripScreenUiTest" time="15.646" />
+    <testcase name="tripResultsLeadToAConfirmedPersonalSightingAndTheLinkedCalendarSummary" classname="it.faunavia.app.TripScreenUiTest" time="9.994" />
+    <testcase name="routingFailureCanRetryAndChangingAnEndpointInvalidatesTheChosenTrace" classname="it.faunavia.app.TripScreenUiTest" time="13.013" />
+    <testcase name="mapsButtonSendsOnlyTheConfirmedPointThroughAndroidAndShowsMissingHandler" classname="it.faunavia.app.TripScreenUiTest" time="1.055" />
+    <testcase name="savedResultsRemainOfflineAndChangedDatesRequireAnExplicitRecalculation" classname="it.faunavia.app.TripScreenUiTest" time="7.606" />
+    <testcase name="createsAndEditsATripOnlyAfterExplicitPlaceConfirmationAndValidDates" classname="it.faunavia.app.TripScreenUiTest" time="18.619" />
+    <testcase name="failedTripSavePreservesTheEditorAndCanBeRetried" classname="it.faunavia.app.TripScreenUiTest" time="5.700" />
+  </testsuite>
+</testsuites>

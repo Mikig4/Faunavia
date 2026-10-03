@@ -1,0 +1,34 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/ROUTER.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/android-local.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/architecture.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/assets-3d.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/data-and-provenance.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/offline-first.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/setup.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/context/stack.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/events/decisions.jsonl', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/patterns/INDEX.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/patterns/add-species-and-3d-asset.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/patterns/change-local-storage.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.mex/patterns/debug-gradle-android-gates.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '05 - Roadmap.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '09 - Piano di sviluppo dettagliato.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/build.gradle.kts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/androidTest/kotlin/it/faunavia/app/F11ReminderUiTest.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/assets/asset-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/DailyReminder.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/FaunaviaApp.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/FaunaviaApplication.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/MainActivity.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/PrivatePhotoStore.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/SettingsScreen.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/src/main/kotlin/it/faunavia/app/SpeciesDetails.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'build.gradle.kts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'core/exploration/src/main/kotlin/it/faunavia/exploration/species-metadata.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'core/local/src/main/kotlin/it/faunavia/local/entities.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'core/local/src/main/kotlin/it/faunavia/local/faunavia-database.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'core/local/src/main/kotlin/it/faunavia/local/local-dao.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'core/local/src/main/kotlin/it/faunavia/local/repositories.kt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'gradle/libs.versions.toml', LF will be replaced by CRLF the next time Git touches it

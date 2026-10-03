@@ -1,0 +1,58 @@
+{
+  "phase": "F12",
+  "version": "0.12.0-f12",
+  "versionCode": 19,
+  "roomSchema": 9,
+  "command": "./gradlew.bat verifyAll --no-daemon",
+  "status": "PASS",
+  "verifiedAtUtc": "2026-10-03T09:10:08.1388291Z",
+  "tests": {
+    "failures": 0,
+    "omissions": 0,
+    "jvm": 115,
+    "android": 136,
+    "errors": 0,
+    "skipped": 0,
+    "f0": 13
+  },
+  "checks": [
+    "build",
+    "lint",
+    "format",
+    "boundaries",
+    "three-existing-visual-signatures",
+    "all-19-tables-round-trip",
+    "real-SAF-create-open",
+    "preview-cancellation-rotation",
+    "reminder-rescheduling",
+    "hash-schema-domain-validation",
+    "transaction-rollback",
+    "stale-queued-write-rejection",
+    "low-space-and-missing-photos",
+    "post-commit-cleanup-warning"
+  ],
+  "apk": {
+    "minSdk": 26,
+    "bytes": 56854475,
+    "targetSdk": 37,
+    "path": "C:\\Users\\MicheleGreco\\OneDrive - Fusion AI Labs\\Desktop\\Progetti\\Faunavia\\artifacts\\Faunavia-f12-debug.apk",
+    "sha256": "3EB9FEA6567B391A48C8B79F1610FFFB26D13FB5F21838AC5B37F74B6E01A43B",
+    "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24"
+  },
+  "evidence": [
+    "f12-all.log",
+    "f12-android-results.xml",
+    "f12-visual-summary.txt",
+    "f12-signature.txt",
+    "f12-apk-metadata.txt",
+    "f12-android-report/index.html",
+    "f12-backup-preview.png"
+  ],
+  "limits": [
+    "No physical-phone or two-physical-device transfer test",
+    "Schema 8 compatibility uses a synthetic fixture, no previously shipped backup",
+    "No maximum-volume performance or physical-storage-failure test",
+    "Unencrypted archive; hashes verify integrity, not author identity",
+    "Transient caches, Android permissions and in-flight analysis excluded"
+  ]
+}

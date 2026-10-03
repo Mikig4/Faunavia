@@ -1,0 +1,246 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :formatCheck
+PASS format invariants
+
+> Task :staticAnalysis
+PASS architectural boundaries and secret scan
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :core:domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:domain:compileKotlin UP-TO-DATE
+> Task :core:domain:compileJava NO-SOURCE
+> Task :core:domain:processResources NO-SOURCE
+> Task :core:domain:classes UP-TO-DATE
+> Task :core:domain:jar UP-TO-DATE
+> Task :core:network:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:network:compileKotlin UP-TO-DATE
+> Task :core:network:compileJava NO-SOURCE
+> Task :core:network:processResources NO-SOURCE
+> Task :core:network:classes UP-TO-DATE
+> Task :core:network:jar UP-TO-DATE
+> Task :core:taxonomy:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:taxonomy:compileKotlin UP-TO-DATE
+> Task :core:taxonomy:compileJava NO-SOURCE
+> Task :core:taxonomy:processResources NO-SOURCE
+> Task :core:taxonomy:classes UP-TO-DATE
+> Task :core:taxonomy:jar UP-TO-DATE
+> Task :core:exploration:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:occurrence:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:compileKotlin UP-TO-DATE
+> Task :core:route:compileJava NO-SOURCE
+> Task :core:route:processResources NO-SOURCE
+> Task :core:route:classes UP-TO-DATE
+> Task :core:route:jar UP-TO-DATE
+> Task :core:occurrence:compileKotlin UP-TO-DATE
+> Task :core:occurrence:compileJava NO-SOURCE
+> Task :core:occurrence:processResources NO-SOURCE
+> Task :core:occurrence:classes UP-TO-DATE
+> Task :core:occurrence:jar UP-TO-DATE
+> Task :core:plausibility:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:plausibility:compileKotlin UP-TO-DATE
+> Task :core:plausibility:compileJava NO-SOURCE
+> Task :core:plausibility:processResources NO-SOURCE
+> Task :core:plausibility:classes UP-TO-DATE
+> Task :core:plausibility:jar UP-TO-DATE
+> Task :core:exploration:compileKotlin UP-TO-DATE
+> Task :core:exploration:compileJava NO-SOURCE
+> Task :core:exploration:processResources NO-SOURCE
+> Task :core:exploration:classes UP-TO-DATE
+> Task :core:exploration:jar UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :core:local:preBuild UP-TO-DATE
+> Task :core:local:preDebugBuild UP-TO-DATE
+> Task :core:local:processDebugNavigationResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :core:local:generateDebugResources UP-TO-DATE
+> Task :core:local:packageDebugResources UP-TO-DATE
+> Task :core:local:parseDebugLocalResources UP-TO-DATE
+> Task :core:local:generateDebugRFile UP-TO-DATE
+> Task :core:local:javaPreCompileDebug UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :core:local:generateDebugAssets UP-TO-DATE
+> Task :core:local:mergeDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:generateDebugGlobalSynthetics UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :core:local:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :core:local:extractDeepLinksDebug UP-TO-DATE
+> Task :core:local:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :core:local:mapDebugSourceSetPaths UP-TO-DATE
+> Task :core:local:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :core:local:mergeDebugJniLibFolders UP-TO-DATE
+> Task :core:local:mergeDebugNativeLibs NO-SOURCE
+> Task :core:local:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:mergeDebugNativeLibs UP-TO-DATE
+> Task :app:stripDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :core:local:checkDebugAarMetadata UP-TO-DATE
+> Task :core:local:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :core:local:prepareDebugArtProfile UP-TO-DATE
+> Task :core:local:prepareLintJarForPublish UP-TO-DATE
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :core:local:writeDebugLintModelMetadata UP-TO-DATE
+> Task :core:testing:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:testing:compileKotlin UP-TO-DATE
+> Task :core:testing:compileJava NO-SOURCE
+> Task :core:testing:processResources NO-SOURCE
+> Task :core:testing:classes UP-TO-DATE
+> Task :core:testing:jar UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :core:local:extractProguardFiles UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:local:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:local:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:packageDebugUnitTestForUnitTest UP-TO-DATE
+> Task :app:mergeDebugUnitTestManifest UP-TO-DATE
+> Task :app:processDebugUnitTestManifest UP-TO-DATE
+> Task :app:generateDebugUnitTestConfig UP-TO-DATE
+> Task :core:domain:compileTestKotlin UP-TO-DATE
+> Task :core:domain:compileTestJava NO-SOURCE
+> Task :core:domain:processTestResources NO-SOURCE
+> Task :core:domain:testClasses UP-TO-DATE
+> Task :core:domain:test UP-TO-DATE
+> Task :core:exploration:compileTestKotlin UP-TO-DATE
+> Task :core:exploration:compileTestJava NO-SOURCE
+> Task :core:exploration:processTestResources NO-SOURCE
+> Task :core:exploration:testClasses UP-TO-DATE
+> Task :core:exploration:test UP-TO-DATE
+> Task :core:network:compileTestKotlin UP-TO-DATE
+> Task :core:network:compileTestJava NO-SOURCE
+> Task :core:network:processTestResources NO-SOURCE
+> Task :core:network:testClasses UP-TO-DATE
+> Task :core:network:test UP-TO-DATE
+> Task :core:occurrence:compileTestKotlin UP-TO-DATE
+> Task :core:occurrence:compileTestJava NO-SOURCE
+> Task :core:occurrence:processTestResources NO-SOURCE
+> Task :core:occurrence:testClasses UP-TO-DATE
+> Task :core:occurrence:test UP-TO-DATE
+> Task :core:plausibility:compileTestKotlin UP-TO-DATE
+> Task :core:plausibility:compileTestJava NO-SOURCE
+> Task :core:plausibility:processTestResources UP-TO-DATE
+> Task :core:plausibility:testClasses UP-TO-DATE
+> Task :core:plausibility:test UP-TO-DATE
+> Task :core:route:compileTestKotlin UP-TO-DATE
+> Task :core:route:compileTestJava NO-SOURCE
+> Task :core:route:processTestResources NO-SOURCE
+> Task :core:route:testClasses UP-TO-DATE
+> Task :core:route:test UP-TO-DATE
+> Task :core:taxonomy:compileTestKotlin UP-TO-DATE
+> Task :core:taxonomy:compileTestJava NO-SOURCE
+> Task :core:taxonomy:processTestResources NO-SOURCE
+> Task :core:taxonomy:testClasses UP-TO-DATE
+> Task :core:taxonomy:test UP-TO-DATE
+> Task :core:testing:compileTestKotlin UP-TO-DATE
+> Task :core:testing:compileTestJava NO-SOURCE
+> Task :core:testing:processTestResources NO-SOURCE
+> Task :core:testing:testClasses UP-TO-DATE
+> Task :core:testing:test UP-TO-DATE
+> Task :app:generateDebugAndroidTestResources UP-TO-DATE
+> Task :app:packageDebugAndroidTestResources UP-TO-DATE
+> Task :app:processDebugAndroidTestNavigationResources UP-TO-DATE
+> Task :app:parseDebugAndroidTestLocalResources UP-TO-DATE
+> Task :app:generateDebugAndroidTestRFile UP-TO-DATE
+> Task :core:local:kspDebugKotlin
+> Task :core:local:extractDebugAnnotations
+> Task :core:local:compileDebugKotlin
+> Task :core:local:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:local:copyRoomSchemas NO-SOURCE
+> Task :core:local:processDebugJavaRes UP-TO-DATE
+> Task :core:local:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :core:local:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :core:local:bundleLibRuntimeToDirDebug
+> Task :core:local:mergeDebugJavaResource UP-TO-DATE
+> Task :core:local:bundleLibCompileToJarDebug
+> Task :core:local:syncDebugLibJars
+> Task :core:local:bundleDebugLocalLintAar
+> Task :core:local:bundleLibRuntimeToJarDebug
+> Task :core:local:generateDebugLintModel
+> Task :core:local:createFullJarDebug
+> Task :core:local:generateDebugAndroidTestLintModel
+> Task :core:local:generateDebugUnitTestLintModel
+> Task :core:local:generateDebugLintReportModel
+> Task :app:mergeLibDexDebug
+> Task :core:local:lintAnalyzeDebugUnitTest
+> Task :core:local:lintAnalyzeDebugAndroidTest
+> Task :app:compileDebugKotlin
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+> Task :app:dexBuilderDebug
+
+> Task :app:generateDebugLintReportModel
+Warning: Lint will treat :core:taxonomy as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:taxonomy. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:exploration as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:exploration. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:plausibility as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:plausibility. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:occurrence as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:occurrence. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:route as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:route. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:domain as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:domain. to enable lint to analyze those sources.
+
+Warning: Lint will treat :core:network as an external dependency and not analyze it.
+ * Recommended Action: Apply the 'com.android.lint' plugin to java library project :core:network. to enable lint to analyze those sources.
+
+
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:mergeProjectDexDebug
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect UP-TO-DATE
+> Task :app:assembleDebug
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes UP-TO-DATE
+
+> Task :app:testDebugUnitTest
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :app:compileDebugAndroidTestKotlin
+> Task :core:local:lintAnalyzeDebug
+> Task :core:local:lintReportDebug
+> Task :core:local:lintDebug
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:lintAnalyzeDebug
+> Task :app:lintReportDebug
+> Task :app:lintDebug
+> Task :verifyFast
+
+BUILD SUCCESSFUL in 1m 27s
+138 actionable tasks: 38 executed, 100 up-to-date

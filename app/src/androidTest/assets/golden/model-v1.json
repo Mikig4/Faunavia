@@ -1,0 +1,7 @@
+{
+  "version": "original-blackbird-v1-native-render",
+  "description": "Visible dark bird silhouette and orange bill/eye-ring on pale green studio background; tolerant across emulator GPUs",
+  "darkMin": 0.015,
+  "darkMax": 0.45,
+  "yellowMin": 8
+}

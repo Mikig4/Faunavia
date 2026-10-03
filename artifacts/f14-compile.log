@@ -1,0 +1,82 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+> Task :core:domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:domain:compileKotlin UP-TO-DATE
+> Task :core:domain:compileJava NO-SOURCE
+> Task :core:domain:processResources NO-SOURCE
+> Task :core:domain:classes UP-TO-DATE
+> Task :core:domain:jar
+> Task :core:network:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:network:compileKotlin UP-TO-DATE
+> Task :core:network:compileJava NO-SOURCE
+> Task :core:network:processResources NO-SOURCE
+> Task :core:network:classes UP-TO-DATE
+> Task :core:network:jar UP-TO-DATE
+> Task :core:taxonomy:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:taxonomy:processResources NO-SOURCE
+> Task :core:exploration:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:occurrence:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:processResources NO-SOURCE
+> Task :core:occurrence:processResources NO-SOURCE
+> Task :core:plausibility:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:plausibility:processResources NO-SOURCE
+> Task :core:exploration:processResources NO-SOURCE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :core:local:preBuild UP-TO-DATE
+> Task :core:local:preDebugBuild UP-TO-DATE
+> Task :core:local:processDebugNavigationResources UP-TO-DATE
+> Task :core:taxonomy:compileKotlin
+> Task :core:route:compileKotlin
+> Task :app:processDebugNavigationResources
+> Task :core:taxonomy:compileJava NO-SOURCE
+> Task :core:taxonomy:classes UP-TO-DATE
+> Task :core:taxonomy:jar UP-TO-DATE
+> Task :core:route:compileJava NO-SOURCE
+> Task :core:route:classes UP-TO-DATE
+> Task :core:route:jar UP-TO-DATE
+> Task :core:local:generateDebugResources
+> Task :core:local:packageDebugResources
+> Task :app:parseDebugLocalResources
+> Task :core:local:parseDebugLocalResources
+> Task :core:local:javaPreCompileDebug
+> Task :core:local:generateDebugRFile
+> Task :app:generateDebugRFile
+> Task :core:occurrence:compileKotlin
+> Task :core:occurrence:compileJava NO-SOURCE
+> Task :core:occurrence:classes UP-TO-DATE
+> Task :core:occurrence:jar UP-TO-DATE
+> Task :core:plausibility:compileKotlin
+> Task :core:plausibility:compileJava NO-SOURCE
+> Task :core:plausibility:classes UP-TO-DATE
+> Task :core:plausibility:jar UP-TO-DATE
+> Task :core:exploration:compileKotlin
+> Task :core:exploration:compileJava NO-SOURCE
+> Task :core:exploration:classes UP-TO-DATE
+> Task :core:exploration:jar UP-TO-DATE
+> Task :core:local:kspDebugKotlin
+> Task :core:local:compileDebugKotlin
+> Task :core:local:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:local:copyRoomSchemas
+> Task :core:local:bundleLibCompileToJarDebug
+
+e: file:///C:/Users/MicheleGreco/OneDrive%20-%20Fusion%20AI%20Labs/Desktop/Progetti/Faunavia/app/src/main/kotlin/it/faunavia/app/PersonalModelStore.kt:132:48 Unresolved reference 'not' for operator '!'.
+> Task :app:compileDebugKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 55s
+30 actionable tasks: 19 executed, 11 up-to-date

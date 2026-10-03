@@ -16,7 +16,7 @@ edges:
   - target: context/conventions.md
     condition: before accepting a verification result
 grounds_to: []
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Debug Gradle and Android gates
@@ -39,9 +39,13 @@ Source `scripts/android-env.ps1` before every Gradle command. Generated output b
 
 ## Gotchas
 
+- F14 native graphics need an actual surface/pixel test: SwiftShader OpenGL killed Windows qemu with access violation while a resource-only preflight passed. Filament selects Vulkan when Android advertises it, otherwise OpenGL. Capture after multiple rendered frames rather than the first submitted frame: TextureView can still contain an all-black pending GPU buffer. Keep geometry/colour signature and pause/disposal assertions, without accepting a parser-only substitute.
+- Saved state inside nested native Compose Dialog content can be outside the test restoration registry. Hoist model visibility to the species-profile owner, with the model dialog as its sibling; clip/play controls then restore consistently. SAF `Until.findObject` can return an object made stale by animation: wait for presence/idle, then fetch a fresh node before clicking.
+
 - `--no-daemon` still uses a single-use daemon if wrapper/build JVM arguments or instrumentation-agent status differ. Keep `JAVA_OPTS`, `JAVA_TOOL_OPTIONS` and the related `gradle.properties` settings synchronized.
 - PowerShell arguments beginning with `-P` should be quoted when passed to `gradlew.bat`.
 - A generated APK or test APK does not prove instrumentation ran. Require the XML report and the `verifyDevice` anti-omission check.
+- Use Espresso `closeSoftKeyboard()` to dismiss the IME in UI tests. After a Save button already hides it, `UiDevice.pressBack()` can navigate out of Settings; F13 exposed this timing dependency in the existing F11 permission test. Retain the actual permission denial assertion rather than skipping the scenario.
 - Do not accept direct JUnit execution or in-process compilation as the final gate when canonical Gradle execution is available outside the sandbox.
 - On this OneDrive checkout, `mex wiki validate` can temporarily report `Could not safely read` for placeholder Markdown files. Materialize them by reading their content with native file tools, then retry validation. Do not delete prose or change metadata to suppress a filesystem read failure. The 2026-10-02 retry validated all 27 canonical files.
 

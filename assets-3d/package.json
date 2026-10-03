@@ -1,0 +1,7 @@
+{
+  "name": "faunavia-asset-validation",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": { "validate": "node validate.cjs" },
+  "devDependencies": { "gltf-validator": "2.0.0-dev.3.10" }
+}

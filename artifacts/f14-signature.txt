@@ -1,0 +1,5 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+Signer #1 certificate DN: C=US, O=Android, CN=Android Debug
+Signer #1 certificate SHA-256 digest: 96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24
+Signer #1 certificate SHA-1 digest: b5b9c70bf408db39fbfaca0a1dea8a07045c1dd7
+Signer #1 certificate MD5 digest: 9a6d26faf8cbc04e743217b2d7cdea7d

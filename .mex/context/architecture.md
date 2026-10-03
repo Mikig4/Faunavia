@@ -22,7 +22,7 @@ edges:
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Architecture
@@ -134,14 +134,38 @@ F9 refinement 2026-10-02: `typicalTaxa` reuses the pure suggestion engine on exi
 
 - Pure domain photo metadata adds dimensions, normalized orientation and optional thumbnail path while retaining legacy defaults. Unidentified repository photo ports share the stable memory ID without relaxing accepted-Animalia observation constraints.
 - Room 8 adds draft-photo foreign keys and additive observation-photo columns. Draft conversion copies metadata into observation photos within its existing transaction before a successful commit; failed conversion rolls back cascades. Planning deletion only unlinks memories.
-- Android owns `PrivatePhotoStore`, `MemoryPhotos` and `PhotoGalleryModel`: bounded input/bitmap IO, EXIF orientation, metadata-free encoding, private no-backup files, checked hashes, explicit errors, temporary cleanup and grace-period orphan recovery. No provider/upload dependency or photo-gallery permission is introduced. Text is saved before attachment; file/DB ordering protects existing memories. Committed photos survive process recreation; ongoing jobs survive configuration changes. Backup remains F12.
+- Android owns `PrivatePhotoStore`, `MemoryPhotos` and `PhotoGalleryModel`: bounded input/bitmap IO, EXIF orientation, metadata-free encoding, private no-backup files, checked hashes, explicit errors, temporary cleanup and grace-period orphan recovery. No provider/upload dependency or photo-gallery permission is introduced. Text is saved before attachment; file/DB ordering protects existing memories. Committed photos survive process recreation; ongoing jobs survive configuration changes. These data are included by the F12 backup boundary.
 
 ## F11 local reminder boundary
 
 - Pure domain `DailyReminderPolicy` computes eligibility and initial delay using an explicit Instant/ZoneId. `DailyReminderRepository` exposes one serialized local delivery operation.
 - Room 9 adds only `daily_summary_deliveries(date, zoneId, notifiedAt)`. Existing diary/photo/planning/settings tables and all earlier migrations remain unchanged. The worker queries identified records for the current local day; drafts and provider evidence are excluded.
 - Android `ReminderScheduler`, `ReminderPreferences`, `ReminderRunner`, `DailyReminderWorker` and `DailySummaryNotifications` own persistent periodic scheduling, runtime/channel permission, time-change reconciliation and system posting. MainActivity consumes valid summary extras both on cold start and onNewIntent; saveable navigation retains the requested date/zone. Settings and summary use only local repositories.
-- Durable date ledger and stable per-date notification tags reduce duplicate effects; the cross-system crash gap is explicit. Scheduling is flexible, without exact alarms, server or network dependency. Backup remains F12.
+- Durable date ledger and stable per-date notification tags reduce duplicate effects; the cross-system crash gap is explicit. Scheduling is flexible, without exact alarms, server or network dependency. These data are included by the F12 backup boundary.
+
+## F12 backup boundary
+
+- `LocalBackupStore` snapshots all 19 durable tables in a Room transaction, validates schema/types/domain/foreign keys in a separate staging database, and replaces rows atomically in the live database. Room remains schema 9; services stay open, avoiding live SQLite/WAL copies.
+- Android `LocalBackupArchive` owns format-1 ZIP, SHA-256 inventory, bounded extraction, private photo validation and publication into a unique directory before the database commit. Failed publication removes only new files; existing references remain intact. Nested orphan cleanup keeps the F10 24-hour grace.
+- SAF creation/opening, preview counts, replacement confirmation, cancellation and recovery messages live in `BackupSection` and an Activity-scoped `BackupViewModel`. Rotation retains work/preview; successful restore starts a fresh Activity task to clear old editors and analyses.
+- Repository/photo generations reject operations queued across restore; reminder preferences serialize with it. Restored preferences recreate WorkManager scheduling against current Android permission/timezone. An unavailable scheduler yields a successful restore with a visible retry notice.
+- Archive schema 8 compatibility is covered by a synthetic fixture with an empty delivery ledger, not a previously shipped backup. Limits and exclusions are in `GUIDA-FASE-12.md` and `patterns/backup-and-restore.md`.
+
+## F13 readable species boundary
+
+- `:core:exploration` owns `ReadableSpeciesProfile` schema 1, per-field `ProfileFact` provenance, sourced expandable curiosities, twelve versioned `PilotNaturalHistory` entries and a bounded normalized codec. General biology never enters the F7 assessment engine.
+- `SpeciesProfileService` reads existing local profiles without selecting taxa or writing Room. Current local fields override included facts; missing fields/curiosities can use the exact reviewed pilot identity. Other species retain explicit unavailable fields. Subspecies do not inherit nominal-species facts implicitly.
+- Android `SpeciesProfileDialog` is shared by catalogue/research/trips/suggestions, with saveable disclosures, distribution/return navigation, validated HTTPS source opening and an original generic 2D symbol plus procedural recovery. Received catalogue/F9 name provenance is retained separately when different from natural-history name provenance; missing name source is explicit. UI makes no curiosity-provider requests.
+- `SpeciesProfileCachePreferences` commits at most 64 profiles of 128 KiB. Old copies are used with warnings only when local reading fails, never over successful reads/restored removals. This presentation cache is excluded from backup; Room 9 and format-1 durable backup are unchanged.
+- See `GUIDA-FASE-13.md`, `31 - Rapporto Fase 13.md` and `patterns/add-species-and-3d-asset.md` for the F13 baseline.
+
+## F14 personal model boundary
+
+- Pure domain `PersonalModel`/`PersonalModelRepository` retain displayed taxon ID, scientific name, private relative path, hash/size, credits and import Instant. Room 10 adds `personal_models` through non-destructive migration 9→10; it has no selected-taxon foreign key, so viewing/importing an illustration does not select taxa or create observations.
+- Android `GlbInspection` checks the bounded self-contained glTF-2 subset; `PersonalModelStore` validates native resources and syncs complete unique files before publishing metadata. It shares `PrivatePhotoStore` mutex/restore generation; invalid replacement leaves previous references unchanged. Metadata removal returns the bundled model or 2D; physical orphan cleanup retains the grace period.
+- `SpeciesModelDialog` is opened from the shared profile, lazy-loads local bytes and preserves clip/play/form state. `ModelSurface` isolates Filament, touch orbit/pinch and clip timing. Resume/pause control frame callbacks; detach removes owned lighting and lets ModelViewer release model, resources and engine exactly once. Renderer failure exposes retry and return to 2D.
+- Backup format 2 snapshots all 20 Room-10 tables plus exact personal GLB inventory/provenance. Model publication uses fresh UUID directories before atomic replacement, rollback cleans only new files, and both photo/model queued writes respect restoration. Format-1 schema-9 released archives remain readable; schema-8 compatibility is synthetic.
+- Procedural original blackbird pipeline, deterministic delivery, reference/preview/`.blend`, shared asset manifest and Khronos validation are versioned. Human anatomy/visual/license approval and physical-device performance are pending; this automated implementation does not close the formal F14 gate. See `GUIDA-FASE-14.md` and `32 - Rapporto Fase 14.md`.
 
 ## External Dependencies
 

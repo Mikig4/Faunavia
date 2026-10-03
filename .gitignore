@@ -10,6 +10,9 @@ captures/
 # Local toolchains and verification scratch
 .toolchains/
 verification-work/
+assets-3d/node_modules/
+*.blend1
+assets-3d/**/__pycache__/
 
 # OS/editor noise
 .DS_Store

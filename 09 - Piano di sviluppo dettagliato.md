@@ -1,6 +1,6 @@
 # Piano di sviluppo dettagliato
 
-Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti riportati distinguono il lavoro completato da quello implementato in verifica e da quello pianificato. F0–F9 sono completate; le estensioni delle fasi successive rimangono requisiti futuri.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti datati conservano la storia delle verifiche; F0–F13 sono completate. F14 è implementata con gate automatizzato verde; la chiusura formale attende revisione umana e prova su telefono. F15–F17 rimangono requisiti futuri.
 
 ## Estensioni funzionali approvate il 2026-09-20
 
@@ -386,6 +386,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** un archivio valido ripristina integralmente i dati; nessun archivio invalido modifica lo stato locale.
 
+**Esito F12 — 2026-10-03:** completata e verificata nella build 0.12.0-f12 (19), Room 9. SAF export/import, ZIP con manifest/hash/inventario, staging Room e immagini, anteprima, sostituzione transazionale, rollback e protezione delle modifiche accodate. Tutte le 19 tabelle e copie fotografiche incluse; preferenze/registro notifiche conservati e pianificazione ricreata. Gate cumulativo verde: 13 F0, 115 JVM, 136 Android, zero errori/skipped/omissioni e tre firme visive. Compatibilità schema 8 provata con fixture sintetica, nessun archivio precedentemente distribuito. Dettagli e limiti in [[30 - Rapporto Fase 12]], uso in [[GUIDA-FASE-12]]. F13 rimane la fase successiva.
+
 ## F13 — Scheda specie e fallback 2D
 
 **Obiettivo:** fornire una scheda utile e tracciabile prima di introdurre il renderer 3D.
@@ -409,6 +411,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Gate di completamento:** ogni specie selezionabile ha una scheda leggibile o un fallback esplicito senza dipendenza dal 3D.
 
+**Esito F13 — 2026-10-03:** completata e verificata nella build 0.13.0-f13 (20), Room 9/backup formato 1. Schede condivise, dodici profili con fatti originali da fonti primarie, provenienza per campo/nome, curiosità cliccabili e dati mancanti espliciti. Simbolo 2D generico originale e recupero Canvas, cache normalizzata distinta dai dati durevoli. Gate cumulativo verde: 13 F0, 123 JVM, 144 Android, zero errori/skipped/omissioni e quattro firme visive. Testo renderizzato a 1,8× misurato, link/fallback/recreation e sentinel risultati/mappa/diario/backup verificati su API 36; nessun telefono o TalkBack reale. Dettagli in [[31 - Rapporto Fase 13]], uso in [[GUIDA-FASE-13]]. F14 è la prossima fase.
+
 ## F14 — Pipeline 3D e primo asset GLB
 
 **Obiettivo:** aggiungere il 3D come arricchimento verificato, mai come requisito per usare l'app.
@@ -428,6 +432,8 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 **Non regressione:** suite completa F1–F13; sentinel che rimuove o corrompe il GLB e verifica scheda 2D, diario, mappa e risultati ancora funzionanti.
 
 **Gate di completamento:** primo modello approvato, validato e performante; fallback automatico sempre verde. Solo dopo il gate si scala a 5–10 specie.
+
+**Esito implementazione F14 — 2026-10-03:** build 0.14.0-f14 (21), Room 10 e backup 2 con reader formato 1. Merlo originale procedurale, sorgente .blend/script/reference/preview, GLB ripetibile di 172.764 byte con due clip e Khronos zero errori/warning. Viewer lazy Filament 1.77.1, gesti, clip/pausa, libreria GLB personale con crediti e sostituzione controllata, copie private e backup completo. Verifica cumulativa automatica verde in 10m 31s: 13 F0, 123 JVM, 155 Android, zero errori/skipped/omissioni e cinque firme visive. APK 86.635.610 byte, firma identica a F13. **Gate formale aperto:** review umana anatomica/visiva/dei termini di distribuzione e test su almeno un telefono fisico non eseguiti; non sono dichiarati approvati. Dettagli in [[32 - Rapporto Fase 14]], uso in [[GUIDA-FASE-14]].
 
 ## F15 — Pacchetto mappa regionale offline
 

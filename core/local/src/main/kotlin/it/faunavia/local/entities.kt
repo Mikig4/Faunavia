@@ -212,3 +212,8 @@ data class AppSettingsRow(
 /** The date is the key even after a timezone change, so returning to that date stays silent. */
 @Entity(tableName = "daily_summary_deliveries", primaryKeys = ["date"])
 data class DailySummaryDeliveryRow(val date: String, val zoneId: String, val notifiedAt: String)
+
+@Entity(tableName = "personal_models", primaryKeys = ["taxonId"])
+data class PersonalModelRow(val taxonId: String, val scientificName: String, val relativePath: String,
+    val sha256: String, val byteSize: Long, val author: String, val source: String, val license: String,
+    val modifications: String, val importedAt: String)

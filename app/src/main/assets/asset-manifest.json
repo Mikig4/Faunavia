@@ -5,6 +5,38 @@
       "purpose": "Monochrome local daily summary notification icon",
       "origin": "Original project-native vector geometry; no imported image",
       "license": "Project-original asset, no third-party license or attribution required"
+    },
+    {
+      "path": "res/drawable/species_fallback.xml",
+      "purpose": "Offline accessible generic fauna symbol; never an identification image",
+      "origin": "Original project-native vector geometry; no imported image or biological silhouette",
+      "author": "Faunavia project",
+      "source": "Project source: app/src/main/res/drawable/species_fallback.xml",
+      "license": "Project-original asset; no third-party license. Repository terms apply",
+      "attribution": "Faunavia",
+      "modifications": "Original geometry; procedural Canvas reserve in SpeciesProfileDialog.kt if the resource is unreadable",
+      "version": "species-fallback-v1",
+      "sha256": "4bfc9ca119275b2d7ec04ef8d946cadac6e27b65c5060a6960bee000f3fb5ed1"
+    },
+    {
+      "path": "models/blackbird-v1.glb",
+      "scientificName": "Turdus merula",
+      "version": "blackbird-v1",
+      "author": "Faunavia procedural asset generator",
+      "source": "Project source: assets-3d/blackbird/create.py",
+      "license": "Project-original geometry and materials; repository terms apply; no third-party asset",
+      "modifications": "Original procedural low-poly study, two illustrative animation clips",
+      "attribution": "Faunavia",
+      "review": "Pending human anatomy, visual and distribution-terms review; pending physical-device performance",
+      "sha256": "8f6aef194841bd5f5d2107d0b55e00ea472a5e8d05da187a6cb240f338033532",
+      "bytes": 172764,
+      "units": "metres",
+      "upAxis": "Y",
+      "pivot": "ground",
+      "validator": "2.0.0-dev.3.10",
+      "validationErrors": 0,
+      "validationWarnings": 0,
+      "contentDate": "2026-10-03"
     }
   ]
 }

@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-03",
+  "phase": "F14",
+  "automatedGate": "PASS",
+  "formalPhaseComplete": false,
+  "f0": {
+    "tests": 13,
+    "failures": 0
+  },
+  "jvm": {
+    "tests": 123,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android": {
+    "errors": 0,
+    "skipped": 0,
+    "failures": 0,
+    "tests": 155
+  },
+  "gate": "verifyAll --no-daemon",
+  "omissions": 0,
+  "visualSignatures": 5,
+  "roomSchema": 10,
+  "backupFormat": 2,
+  "legacyBackupReader": "format 1 / schema 9; schema 8 synthetic compatibility",
+  "gltf": {
+    "reproducible": true,
+    "warnings": 0,
+    "errors": 0
+  },
+  "nativeEmulatorMetrics": {
+    "firstFrameMs": 1421,
+    "darkFraction": 0.02665413828204526,
+    "yellowSamples": 310,
+    "triangles": 2564,
+    "bytes": 172764,
+    "nativeHeapBytes": 90815920
+  },
+  "apk": {
+    "version": "0.14.0-f14",
+    "versionCode": 21,
+    "bytes": 86635610,
+    "sha256": "0b99d2de51411adbb15f953ba0baef84ebdbfa287bb8bdf2cfaa12f2b6470380",
+    "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+    "compatibleWithF13": true
+  },
+  "pending": [
+    "Human anatomy, visual and distribution-terms review",
+    "Performance/lifecycle/accessibility on at least one physical Android device"
+  ],
+  "nativeMetricsEvidence": "Focused native GLB test on the same app build before the full gate; software emulator only"
+}

@@ -75,6 +75,7 @@ internal fun EssentialSpeciesDetails(id: String, scientificName: String, catalog
         }
     }
     Text("Stagionalità: $seasonText", color = MaterialTheme.colorScheme.onSurface, style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("species-season-$id"))
+    SpeciesProfileAction(id, scientificName, catalogue, commonName, localTaxon?.provenance ?: nameResult?.value?.source)
     if (readFailed) Text("Scheda locale non disponibile; mostro le informazioni curate disponibili.", color = MaterialTheme.colorScheme.error)
     if (showDistribution) SpeciesDistributionDialog(id, scientificName, onClose = { showDistribution = false })
 }

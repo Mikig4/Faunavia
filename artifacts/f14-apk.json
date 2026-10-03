@@ -1,0 +1,8 @@
+{
+  "version": "0.14.0-f14",
+  "versionCode": 21,
+  "bytes": 86635610,
+  "sha256": "0b99d2de51411adbb15f953ba0baef84ebdbfa287bb8bdf2cfaa12f2b6470380",
+  "certificateSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "compatibleWithF13": true
+}

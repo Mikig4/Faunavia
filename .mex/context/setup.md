@@ -17,7 +17,7 @@ edges:
   - target: context/conventions.md
     condition: when setup introduces project-wide tooling or scripts
 grounds_to: []
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Setup
@@ -34,7 +34,7 @@ last_updated: 2026-10-02
 
 1. Run `pwsh -NoProfile -File scripts/bootstrap-android.ps1` once. It downloads checksum-verified pinned tools under `%LOCALAPPDATA%\Faunavia\toolchains`.
 2. In each PowerShell session run `. scripts/android-env.ps1`.
-3. Run `.\gradlew.bat verifyAll --no-daemon` for the complete F0–F10 gate, including Room integrity, migrations and private-photo UI/IO.
+3. Run `.\gradlew.bat verifyAll --no-daemon` for the complete F0–F12 gate, including Room integrity, migrations, private photos, reminders and SAF backup UI/IO.
 4. Open the project in Android Studio only for interactive development; use the JDK and SDK paths from the manifest generated in the portable toolchain root.
 5. For MEX maintenance, use `mex graph status` and `mex hub`.
 
@@ -51,13 +51,18 @@ last_updated: 2026-10-02
 - `.\gradlew.bat verifyFast --no-daemon` — build debug APK, format/static checks, lint and JVM tests.
 - `.\gradlew.bat verifyDevice --no-daemon` — install, launch and test on the API 36 managed device.
 - `.\gradlew.bat verifyVisual --no-daemon` — execute and confirm the visual golden test.
-- `.\gradlew.bat verifyAll --no-daemon` — full F0–F10 regression and report index, including Room, private photos and UI tests in the app's managed-device suite.
+- `.\gradlew.bat verifyAll --no-daemon` — full F0–F14 automated regression and report index, including Room, photos, reminders, backup, profiles, native model pixels and UI tests. F14 human approval/physical-device review are separate required gates.
 - `.\gradlew.bat verifyOccurrenceSmoke --no-daemon` — explicit live GBIF/NNB health check; it saves no response and is never part of `verifyFast`.
 - `pwsh -NoProfile -File scripts/verify-failure-report.ps1` — prove that a failed gate still publishes diagnostics.
 - `mex graph status` — inspect the MEX graph.
 - `mex wiki rebuild-index` — rebuild the MEX wiki index after context changes.
+- F13 `verifyVisual` additionally requires `speciesProfileMatchesVersionedSignatureAndReadableTitleContrast`; four visual signatures cover home, exploration, trips and species detail. `artifacts/f13-profile.png` is a synthetic emulator capture; `GUIDA-FASE-13.md` documents the profile gate and offline limits.
+- F14 `verifyFast` runs `node assets-3d/validate.cjs --check`; install its pinned dev dependency using `npm --prefix assets-3d ci`. A fifth `verifyVisual` signature requires actual GLB pixels/gestures/disposal. `scripts/build-3d-assets.ps1` uses portable official bpy 4.5.3 and bundled Python 3.11 to regenerate source/preview/deterministic GLB/manifest; see `GUIDA-FASE-14.md`.
 
 ## Common Issues
+
+- **Windows emulator native GLB crash:** SwiftShader OpenGL surface rendering crashed qemu with native access violation. The F14 viewer selects Vulkan when advertised by Android, which renders successfully on this emulator. Preflight parsing alone did not reveal that surface issue; keep actual pixel and lifecycle tests.
+- **Portable Blender SideBySide:** this local `blender.exe` launcher fails before Python runs. Official `bpy==4.5.3` in the portable toolchain, launched by its included Python, executes the same authoring script without global installation.
 
 - **Provider limits or downtime:** show cached results and the provider error; do not retry in a tight loop.
 - **Geolocation denied:** allow GPX/GeoJSON import or manual place search; never block at the permission dialog.

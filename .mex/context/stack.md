@@ -16,7 +16,7 @@ edges:
   - target: context/offline-first.md
     condition: when choosing storage, caching, or installable-app behavior
 grounds_to: []
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Stack
@@ -32,6 +32,8 @@ last_updated: 2026-10-02
 - **MapLibre Native Android 13.6.1 OpenGL** — F8A map renderer behind an adapter; OkHttp 4.12.0 supplies an identified tile User-Agent and HTTP cache. Regional offline packages remain future work.
 - **AndroidX WorkManager 2.12.0 + local notifications** — F11 unique periodic work, CoroutineWorker, persisted scheduling and work-testing. On-device Room summaries, explicit Android 13+ notification permission, date-specific PendingIntent and channel. No exact alarm or cloud dependency.
 
+- **Android SAF + JDK ZIP/SHA-256** — F12 uses Activity Result CreateDocument/OpenDocument, `ZipOutputStream`/`ZipFile` and `MessageDigest` with existing JSON/Room. Bounded complete archives, staged validation and transaction-based restore; no new external library or backend dependency.
+
 ## Key Libraries
 
 - **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
@@ -42,7 +44,9 @@ last_updated: 2026-10-02
 - **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.
 - **AndroidX ExifInterface 1.4.2** — F10 reads local orientation before metadata-free bitmap encoding; official maintained parser instead of the legacy platform EXIF implementation. Android BitmapFactory/Canvas provide sampled decoding and fresh JPEG pixels without an image-loader dependency.
-- **Filament/SceneView or equivalent** (candidate) — render GLB with an accessible 2D fallback.
+- **Filament / gltfio / filament-utils Android 1.77.1** — F14 native lazy GLB viewer, bounded personal-file preflight, orbit/pinch and selected animation clip. Vulkan where advertised, otherwise OpenGL; lifecycle disposal and the existing 2D return path. No SceneView or hosted renderer dependency.
+- **Blender / official bpy 4.5.3** — original asset authoring/rendering through portable Python 3.11; deterministic study-specific GLB export, retained `.blend`/preview/reference. Launcher SideBySide failure is bypassed with the official bpy module, without a global installation.
+- **Khronos glTF Validator 2.0.0-dev.3.10** — pinned Node dev dependency under `assets-3d/`, zero errors/warnings and manifest/hash check included in `verifyFast`.
 - **JUnit 4.13.2 + AndroidX Test** — JVM, Compose, UI Automator and managed-device verification.
 - **Firebase Firestore** (optional) — structured sync only after the local-first MVP proves the need.
 

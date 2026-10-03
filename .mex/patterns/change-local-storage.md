@@ -10,7 +10,7 @@ edges:
     condition: when changing database behavior
   - target: context/conventions.md
     condition: when verifying changes
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Change local storage
@@ -29,6 +29,10 @@ last_updated: 2026-10-02
 6. Run `verifyAll` after sourcing `scripts/android-env.ps1`. In the restricted Windows environment, use the documented short temporary directory when Java loopback fails.
 
 ## Gotchas
+
+- F14 Room 10 adds `personal_models` through additive migration 9→10. Model associations do not reference the selected-taxon table: viewing/importing an illustration cannot implicitly select a species or create evidence. Domain checks validate identity, UUID path, 20-MiB bytes, hash and complete declared credits; physical files belong to Android. Extend version-specific backup inventories/readers in the same change and test populated migration plus model rollback/reopening.
+
+- F12 archive evolution is a separate compatibility contract: update `LocalBackupStore` table/column inventory and staged domain checks alongside migrations. Keep format/schema readers for valid released archives, and run populated round-trip/rollback tests. See `backup-and-restore.md`; copying a live `.db` without its WAL is not a consistent export.
 
 - Foreign keys alone cannot enforce accepted Animalia status. Triggers protect observation inserts/updates and referenced taxon changes; install them on creation, migration and opening. Room schema JSON does not include custom triggers: test their behavior explicitly.
 - Taxon deletion is restricted while the diary references it. Observation deletion cascades photo metadata and returns removed references. F10 `MemoryPhotos` now owns physical cleanup; keep repositories metadata-only. Draft deletion can also return references transactionally, and conversion must copy them before cascade deletion and reinsert them under the same stable observation ID. See schema 8 and `F10PhotoTest`.

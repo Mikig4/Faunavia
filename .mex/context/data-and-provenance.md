@@ -17,7 +17,7 @@ edges:
     condition: when changing what the app claims about presence
   - target: context/conventions.md
     condition: when implementing adapters, normalization, or source rendering
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 ---
 
 # Data and provenance
@@ -93,7 +93,15 @@ F3 does not fetch or copy occurrence media. It shows an explicit unavailable-pre
 - Shared research/trip/suggestion cards show names, general habitat and season only; evidence explanations, attribution and licences are disclosed on demand. Italian curated names are presentation labels, never an accepted-taxonomy shortcut.
 - Habitat opens an internal distribution dialog for every taxon. Reviewed pilot Commons files remain preferred; non-pilot images require exactly one Wikidata item with matching P225 scientific identity, then its P181 map claim. Commons imageinfo supplies permitted media URL, author, reusable licence and map date, with the original legend retained. Images load only on click, with bounded 32 MiB HTTP cache, 4 MiB response and sampled bitmap limits; metadata cache contains normalized records only. No range geometry is imported into F7. GBIF Maps v2 provides an explicitly separate aggregate historical-observation layer on OSM, never range boundaries or encounter probability. No IUCN feed is integrated. Online smoke summaries are `artifacts/f9-fixes-live.json` and `artifacts/f9-fixes-tile.json`.
 - Common Italian names outside the pilot use exact accepted Animalia species/subspecies identity in GBIF. Foreign names and fuzzy matches cannot fill the Italian label. Missing names retain an immediate visible scientific title. This separate presentation cache never persists an implicitly selected taxon in Room, and retains full source/date/licence/quality/version on stale fallback.
-- Curiosities are explicitly deferred to F13 as a clickable section, with individual sources and missing-data fallback. Prioritize factual primary natural-history sheets (parks, Lipu); Wikipedia/Wikidata are complementary candidates. There is no dedicated automatic curiosity provider yet; verify text/image reuse separately before implementing one.
+- The F9 refinement deferred curiosities to F13 as a clickable section with individual sources and missing-data fallback; F13 is now implemented below. Primary natural-history sheets (parks, Lipu) are prioritized; Wikipedia/Wikidata remain complementary candidates. There is no dedicated automatic curiosity provider; verify text/image reuse separately before implementing one.
+
+## F13 natural-history facts
+
+`PilotNaturalHistory` version `natural-history-2026-10-03-v1` contains twelve original short factual profiles sourced primarily from Lipu (nine birds) and Parco Nazionale Gran Paradiso (three mammals), consulted 2026-10-03. Each field and curiosity retains all eight Provenance fields and its specific source URL; consultation time is not an event/publication date. Scientific identity matching keeps subspecies distinct. No unsupported curiosity is generated and no source paragraph, photograph or page structure is imported.
+
+Lipu's source license is CC BY-NC-ND 4.0 with photographs excluded; the Parco pages do not indicate a verified text/image reuse license. These constraints stay explicit in provenance. Source inconsistencies are omitted, not silently repaired (e.g. garzetta wingspan header and picchio-nero length variants). Conservation notes describe pressures/tutela, not automatic current IUCN labels. The generic original 2D symbol is labelled non-identifying and licensed separately in the asset manifest.
+
+Facts, migration descriptions and maps do not become evidence of local presence. The compact card's F7 historical-season signal remains distinct from the detail's general season/migration field. Existing result `Evidenze e fonti` still owns the travel-specific explanation; viewing cannot change its classification or create a personal sighting.
 
 ## Optional Firebase boundary
 

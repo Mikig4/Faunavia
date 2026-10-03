@@ -9,6 +9,31 @@ import androidx.room.Upsert
 /** Blocking DAO is confined to the repository IO dispatcher; Room still rejects main-thread access. */
 @Dao
 interface LocalDao {
+    @Query("SELECT * FROM personal_models WHERE taxonId = :taxonId")
+    fun personalModel(taxonId: String): PersonalModelRow?
+
+    @Query("SELECT * FROM personal_models ORDER BY taxonId")
+    fun allPersonalModels(): List<PersonalModelRow>
+
+    @Upsert
+    fun savePersonalModel(model: PersonalModelRow)
+
+    @Query("DELETE FROM personal_models WHERE taxonId = :taxonId")
+    fun deletePersonalModel(taxonId: String)
+
+    @Query("SELECT * FROM taxa") fun allTaxa(): List<TaxonRow>
+    @Query("SELECT * FROM taxon_aliases") fun allAliases(): List<TaxonAliasRow>
+    @Query("SELECT * FROM taxon_previews") fun allPreviews(): List<TaxonPreviewRow>
+    @Query("SELECT * FROM species_profiles") fun allProfiles(): List<SpeciesProfileRow>
+    @Query("SELECT * FROM suggestion_profiles") fun allSuggestions(): List<SuggestionProfileRow>
+    @Query("SELECT * FROM source_evidence") fun allEvidence(): List<SourceEvidenceRow>
+    @Query("SELECT * FROM occurrence_cache") fun allOccurrenceCache(): List<OccurrenceCacheRow>
+    @Query("SELECT * FROM observation_photos") fun allPhotos(): List<ObservationPhotoRow>
+    @Query("SELECT * FROM draft_photos") fun allDraftPhotos(): List<DraftPhotoRow>
+    @Query("SELECT * FROM outings") fun allOutings(): List<OutingRow>
+    @Query("SELECT * FROM saved_trip_places") fun allTripPlaces(): List<SavedTripPlaceRow>
+    @Query("SELECT * FROM saved_trip_results") fun allTripResults(): List<SavedTripResultRow>
+    @Query("SELECT * FROM daily_summary_deliveries") fun allDeliveries(): List<DailySummaryDeliveryRow>
     @Query("INSERT OR IGNORE INTO wishlist(taxonId, addedAt) VALUES (:taxonId, :addedAt)") fun addWish(taxonId: String, addedAt: String)
     @Query("DELETE FROM wishlist WHERE taxonId = :taxonId") fun removeWish(taxonId: String)
     @Query("SELECT * FROM wishlist ORDER BY taxonId") fun wishes(): List<WishlistRow>

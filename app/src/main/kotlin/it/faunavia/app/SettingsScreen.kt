@@ -148,6 +148,10 @@ internal fun SettingsScreen(preferences: ReminderPreferences, notifications: Dai
                     modifier = Modifier.testTag("summary-today")) { Text("Apri riepilogo di oggi") }
                 Text("Specie e foto restano sul dispositivo e si consultano anche senza connessione.", color = FaunaviaColors.Muted)
             }
+            item {
+                HorizontalDivider()
+                BackupSection()
+            }
         }
     }
 }

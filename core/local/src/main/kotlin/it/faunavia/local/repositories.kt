@@ -25,9 +25,23 @@ class LocalRepositories(
     }
 
     private val dao = database.dao()
+    private val writeGeneration = java.util.concurrent.atomic.AtomicLong()
+    val backup = LocalBackupStore(database, io) { writeGeneration.incrementAndGet() }
+    val personalModels: PersonalModelRepository = object : PersonalModelRepository {
+        override suspend fun get(taxonId: String): PersonalModel? = read { dao.personalModel(taxonId)?.toDomain() }
+        override suspend fun all(): List<PersonalModel> = read { dao.allPersonalModels().map { it.toDomain() } }
+        override suspend fun save(model: PersonalModel) { write { dao.savePersonalModel(model.toRow()) } }
+        override suspend fun remove(taxonId: String) { write { dao.deletePersonalModel(taxonId) } }
+    }
     private suspend fun <T> read(block: () -> T): T = withContext(io) { block() }
-    private suspend fun <T> write(block: () -> T): T = withContext(io) {
-        database.runInTransaction(Callable { block() })
+    private suspend fun <T> write(block: () -> T): T {
+        val generation = writeGeneration.get()
+        return withContext(io) {
+            database.runInTransaction(Callable {
+                check(generation == writeGeneration.get()) { "Local data was restored; repeat this action." }
+                block()
+            })
+        }
     }
 
     val dailyReminder: DailyReminderRepository = object : DailyReminderRepository {

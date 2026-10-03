@@ -1,0 +1,7 @@
+Info: Saved as "blackbird-v1.blend"
+F14: source, GLB and preview generated
+
+> faunavia-asset-validation@1.0.0 validate
+> node validate.cjs
+
+{"sha256":"8f6aef194841bd5f5d2107d0b55e00ea472a5e8d05da187a6cb240f338033532","bytes":172764,"errors":0,"warnings":0}
