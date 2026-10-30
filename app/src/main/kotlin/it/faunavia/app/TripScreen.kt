@@ -213,11 +213,11 @@ internal fun TripsScreen(
             else -> LazyColumn(Modifier.fillMaxWidth().weight(1f).testTag("trip-content"), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 item {
                     Button(onClick = { tripEditor = "new" }, enabled = !busy, modifier = Modifier.testTag("trip-new")) { Text("Nuovo viaggio") }
-                    Text("Scegli partenza, destinazione, date e percorso. Ritrovi qui animali documentati e ricordi del viaggio.", color = TripMuted)
+                    Text("Scegli destinazione e date; partenza e percorso sono facoltativi. Ritrovi qui animali documentati e ricordi del viaggio.", color = TripMuted)
                     onExplore?.let { TextButton(onClick = it, modifier = Modifier.testTag("trip-explore")) { Text("Esplora senza salvare un viaggio") } }
                 }
                 if (loading) item { Text("Caricamento dei viaggi…", color = TripMuted, modifier = Modifier.testTag("trip-loading")) }
-                if (!loading && trips.isEmpty()) item { Text("Crea il tuo primo viaggio e scegli il tracciato sulla mappa.", color = TripMuted, modifier = Modifier.testTag("trip-empty")) }
+                if (!loading && trips.isEmpty()) item { Text("Crea il tuo primo viaggio con destinazione e date. Puoi aggiungere il percorso anche in seguito.", color = TripMuted, modifier = Modifier.testTag("trip-empty")) }
                 items(trips, key = { it.id }) { saved ->
                     OutlinedButton(onClick = { selectedId = saved.id; outingId = ""; stageId = null; analysisState.clear() }, modifier = Modifier.fillMaxWidth().testTag("trip-select-${saved.id}")) {
                         Column(Modifier.fillMaxWidth()) { Text(saved.name, fontWeight = FontWeight.Bold); Text("${saved.destination.name} · ${saved.startsOn} → ${saved.endsOn}") }
@@ -460,8 +460,9 @@ private fun ColumnScope.TripForm(initial: Trip?, geocoder: PlaceSearch, now: () 
     val hasStages = initial?.stages?.isNotEmpty() == true
     LazyColumn(Modifier.fillMaxWidth().weight(1f).testTag("trip-editor"), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item { Text(if (initial == null) "Nuovo viaggio" else "Modifica viaggio", color = TripInk, fontWeight = FontWeight.Bold) }
-        if (initial != null && initial.route == null) item {
-            Text("Questo viaggio precedente non ha un tracciato. Aggiungi la partenza per scegliere il percorso.", color = TripMuted)
+        if (!hasStages) item {
+            Text("Bastano destinazione confermata e date valide. Partenza e percorso sono facoltativi: senza tracciato la ricerca usa l’area della destinazione.",
+                color = TripMuted, modifier = Modifier.testTag("trip-route-optional"))
         }
         if (hasStages) item { Text("${departure?.name} → ${place?.name}. Per modificare località e percorsi usa Organizza tappe nel viaggio.", color = TripMuted) }
         if (!hasStages) item { ConfirmedPlaceForm("trip-departure", departure, geocoder, now, title = "partenza", onConfirmed = {
@@ -475,7 +476,7 @@ private fun ColumnScope.TripForm(initial: Trip?, geocoder: PlaceSearch, now: () 
         item { OutlinedTextField(startsOn, { startsOn = it }, Modifier.fillMaxWidth().testTag("trip-start"), label = { Text("Dal (AAAA-MM-GG)") }, singleLine = true) }
         item { OutlinedTextField(endsOn, { endsOn = it }, Modifier.fillMaxWidth().testTag("trip-end"), label = { Text("Al (AAAA-MM-GG, massimo un anno)") }, singleLine = true) }
         if (!hasStages) item {
-            Text("Percorso in auto", color = TripInk, fontWeight = FontWeight.Bold)
+            Text("Percorso in auto (facoltativo)", color = TripInk, fontWeight = FontWeight.Bold)
             Button(onClick = {
                 val start = departure ?: return@Button
                 val end = place ?: return@Button
@@ -531,15 +532,11 @@ private fun ColumnScope.TripForm(initial: Trip?, geocoder: PlaceSearch, now: () 
         item {
             Button(onClick = {
                 runCatching {
-                    if (initial == null || departure != null || initial.route != null) {
-                        requireNotNull(departure) { "Conferma la partenza." }
-                        requireNotNull(selectedRoute) { "Calcola e scegli il percorso prima di salvare." }
-                    }
                     Trip(identity, name.trim().ifBlank { place?.name.orEmpty() }, requireNotNull(place), LocalDate.parse(startsOn), LocalDate.parse(endsOn),
                         radius.replace(',', '.').toDouble() * 1_000, interests.map(AnimalInterest::valueOf).toSet(), initial?.createdAt ?: now(), now(), departure, selectedRoute, initial?.stages.orEmpty())
                 }.onSuccess { error = null; onSave(it) }.onFailure {
                     error = if (hasStages) "Le date devono includere tutte le tappe (massimo un anno). Controlla il raggio 0,05–20 km."
-                        else "Conferma partenza e destinazione, calcola e scegli il percorso. Controlla date (massimo un anno) e raggio 0,05–20 km."
+                        else "Conferma la destinazione. Controlla date (massimo un anno) e raggio 0,05–20 km; partenza e percorso sono facoltativi."
                 }
             }, enabled = !saving && !planning, modifier = Modifier.testTag("trip-save")) { Text(if (saving) "Salvataggio…" else "Salva viaggio") }
             OutlinedButton(onClick = onCancel, enabled = !saving, modifier = Modifier.testTag("trip-cancel")) { Text("Annulla") }

@@ -14,7 +14,7 @@ La ricerca parte da **Animali tipici**, con dodici profili pilota e vista comple
 
 ## Obiettivo
 
-Un'app Android personale centrata sul viaggio: partenza, destinazione, date e tracciato scelto sulla mappa interna → animali pertinenti → Diario con foto private. Google Maps apre le indicazioni fra gli estremi e le ricalcola autonomamente; Faunavia conserva la propria traccia. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Schede offline, curiosità con fonti, fallback 2D e illustrazioni 3D personali completano la consultazione.
+Un'app Android personale centrata sul viaggio: destinazione confermata e date valide → animali pertinenti → Diario con foto private. Partenza e itinerario sono facoltativi e si possono aggiungere anche in seguito; senza tracciato, la ricerca usa l'area della destinazione. Quando presente, Faunavia conserva la traccia scelta sulla mappa interna. Google Maps apre le indicazioni fra gli estremi confermati e le ricalcola autonomamente. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Schede offline, curiosità con fonti, fallback 2D e illustrazioni 3D personali completano la consultazione. Modifica e limiti di verifica: [[37 - Viaggi senza itinerario]].
 
 ## Vincoli guida
 

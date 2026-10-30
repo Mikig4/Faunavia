@@ -17,7 +17,7 @@ edges:
   - target: patterns/debug-gradle-android-gates.md
     condition: when verification infrastructure or Compose tests fail
 grounds_to: []
-last_updated: 2026-10-02
+last_updated: 2026-10-30
 ---
 
 # Plan trips and record memories
@@ -28,7 +28,7 @@ F8B separates four concepts: planning, chosen external evidence, identified pers
 
 ## Steps
 
-0. Keep the ordinary path confirmed departure/destination + dates → choose the full trace on the internal map → trip → evidence/diary. Name, radius/interests, manual coordinates, outings and imported routes are optional. OSRM calculation is explicit, endpoint-only, rate-limited and authorized. Maps directions receive the endpoints on click and recalculate independently; legacy trips/outings still open a point.
+0. Keep the ordinary path confirmed destination + valid dates → trip → evidence/diary. Departure and selected trace are optional and can be added later; missing routing, failed calculation or unselected alternatives must not block saving. Without a trace, use the existing bounded destination-area analysis, never an invented line. Name, radius/interests, manual coordinates, outings and imported routes remain optional. OSRM calculation is explicit, endpoint-only, rate-limited and authorized. Maps directions receive confirmed endpoints on click and recalculate independently; trips without a departure and manual outings open a point. Explicit dated stages still require their chosen leg geometry.
 1. Confirm destinations explicitly and validate dates/radius before analysis. Copy normalized route geometry into outings; F17 discovery is not a route-import feature.
 2. Save complete original result period/area, saved time, explanations, evidence provenance and partial/stale flags. Include scope changes in the analysis key, not display-only names. Require explicit recalculation after dates/area/radius/interests/outing geometry change.
 3. Prefill a personal observation only with a verified accepted taxon and trip/outing links. Require actual date/location confirmation; never copy provider occurrence coordinates. Missing identity is a taxonomy selection, not permission to create a new accepted taxon.
@@ -58,7 +58,7 @@ F8B separates four concepts: planning, chosen external evidence, identified pers
 ## Verify
 
 - [ ] Free dated stages preserve order/full geometry/provenance, invalidate changed legs, reject out-of-range/backwards dates, survive reopening, and scope Maps/evidence to the selected leg/day. Removing a stage retains diary memories and marks old stage snapshots outdated.
-- [ ] Endpoints/date/trace creation, explicit route selection, changed-endpoint invalidation, routing retry, Maps directions/failure and legacy point links work; general catalogue and diary retry work.
+- [ ] Destination/date-only creation, optional departure, file-backed reopening and editing work without routing. Invalid dates/missing destination still fail. A failed calculation or unselected alternatives never create geometry or block saving; adding a chosen route later works. Endpoint changes can save without the obsolete trace. Explicit route selection, routing retry, Maps directions/failure and point links work; general catalogue and diary retry work.
 - [ ] Reopening preserves trips/outings, copied route geometry, result provenance and drafts.
 - [ ] Populated migration retains diary precision, quantities, photos, settings and cache.
 - [ ] Raw SQL rejects invalid membership/duplicate identity; planning deletion preserves memories.

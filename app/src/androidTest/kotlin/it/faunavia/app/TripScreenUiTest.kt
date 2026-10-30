@@ -206,7 +206,7 @@ class TripScreenUiTest {
         assertNull(opened.extras)
     }
 
-    @Test fun routingFailureCanRetryAndChangingAnEndpointInvalidatesTheChosenTrace() {
+    @Test fun routingFailureCanRetryAndChangingAnEndpointSavesWithoutTheObsoleteTrace() {
         var requests = 0
         show(PlaceSearch { PlaceSearchResult.Matches(listOf(
             PlaceCandidate("1", "Milano", PlaceKind.CITY, "it", GeoPoint(45.0, 9.0), null)), PlaceOrigin.NETWORK) },
@@ -231,13 +231,101 @@ class TripScreenUiTest {
         click("trip-editor", "trip-departure-confirm-coordinates")
         composeRule.onNodeWithTag("trip-route-selected").assertDoesNotExist()
         click("trip-editor", "trip-save")
+        waitFor { local.trips.get("ui-memory") != null }
+        val withoutRoute = runBlocking { local.trips.get("ui-memory")!! }
+        assertNull(withoutRoute.route)
+        assertEquals(GeoPoint(45.2, 9.1), withoutRoute.departure!!.center)
+        assertEquals(2, requests)
+        click("trip-content", "trip-edit")
+        chooseRoute()
+        click("trip-editor", "trip-save")
+        waitFor { local.trips.get("ui-memory")?.route != null }
+        assertEquals(GeoPoint(45.2, 9.1), runBlocking { local.trips.get("ui-memory")!!.route!!.geometry.points.first() })
+    }
+
+    @Test fun destinationAndValidDatesSaveAndReopenWithoutDepartureOrRouting() {
+        var routingCalls = 0
+        show(PlaceSearch { PlaceSearchResult.Matches(listOf(
+            PlaceCandidate("1", "Milano", PlaceKind.CITY, "it", GeoPoint(45.0, 9.0), null)), PlaceOrigin.NETWORK) },
+            routing = TripRouting { _, _ -> routingCalls++; TripRoutingResult.Unavailable })
+        composeRule.onNodeWithTag("trip-new").performClick()
+        scroll("trip-editor", "trip-route-optional")
+        composeRule.onNodeWithTag("trip-route-optional").assertTextContains("facoltativi", substring = true)
+        type("trip-editor", "trip-place-query", "Milano")
+        click("trip-editor", "trip-place-search")
+        waitForNode("trip-place-confirm-0")
+        click("trip-editor", "trip-place-confirm-0")
+        type("trip-editor", "trip-start", "2026-10-07")
+        type("trip-editor", "trip-end", "2026-10-01")
+        click("trip-editor", "trip-save")
         scroll("trip-editor", "trip-form-error")
         composeRule.onNodeWithTag("trip-form-error").assertIsDisplayed()
         assertNull(runBlocking { local.trips.get("ui-memory") })
-        chooseRoute()
+        type("trip-editor", "trip-start", "2026-10-01")
+        type("trip-editor", "trip-end", "2026-10-07")
         click("trip-editor", "trip-save")
         waitFor { local.trips.get("ui-memory") != null }
-        assertEquals(GeoPoint(45.2, 9.1), runBlocking { local.trips.get("ui-memory")!!.route!!.geometry.points.first() })
+        val reopenedDb = FaunaviaDatabase.open(context, name)
+        val saved = try {
+            runBlocking { LocalRepositories(reopenedDb, FakeClock(f8bNow.toEpochMilli())).trips.get("ui-memory")!! }
+        } finally { reopenedDb.close() }
+        assertEquals("Milano", saved.name)
+        assertNull(saved.departure)
+        assertNull(saved.route)
+        assertTrue(saved.stages.isEmpty())
+        assertEquals(0, routingCalls)
+        assertEquals(0, provider.calls)
+        scroll("trip-content", "trip-coverage")
+        composeRule.onNodeWithTag("trip-coverage").assertTextContains("campione attorno al luogo confermato", substring = true)
+        click("trip-content", "trip-edit")
+        type("trip-editor", "trip-name", "Senza itinerario")
+        click("trip-editor", "trip-save")
+        waitFor { local.trips.get(saved.id)?.name == "Senza itinerario" }
+        assertNull(runBlocking { local.trips.get(saved.id)!!.route })
+        assertEquals(0, routingCalls)
+        click("trip-content", "trip-analyze")
+        waitForNode("trip-live-results")
+        assertTrue(provider.calls > 0)
+        assertEquals(0, routingCalls)
+    }
+
+    @Test fun failedRoutingAndUnselectedChoicesDoNotPreventSavingOrLaterAddingATrace() {
+        var requests = 0
+        show(PlaceSearch { PlaceSearchResult.Matches(listOf(
+            PlaceCandidate("1", "Milano", PlaceKind.CITY, "it", GeoPoint(45.0, 9.0), null)), PlaceOrigin.NETWORK) },
+            routing = TripRouting { start, end ->
+                requests++
+                if (requests == 1) TripRoutingResult.Unavailable
+                else TripRoutingResult.Routes(listOf(testTripRoute(start.center, end.center)))
+            })
+        composeRule.onNodeWithTag("trip-new").performClick()
+        confirmDeparture()
+        type("trip-editor", "trip-place-query", "Milano")
+        click("trip-editor", "trip-place-search")
+        waitForNode("trip-place-confirm-0")
+        click("trip-editor", "trip-place-confirm-0")
+        click("trip-editor", "trip-plan")
+        waitForNode("trip-plan-error")
+        click("trip-editor", "trip-save")
+        waitFor { local.trips.get("ui-memory") != null }
+        val saved = runBlocking { local.trips.get("ui-memory")!! }
+        assertNotNull(saved.departure)
+        assertNull(saved.route)
+        assertEquals(1, requests)
+        click("trip-content", "trip-edit")
+        click("trip-editor", "trip-plan")
+        waitForNode("trip-route-choice-0")
+        click("trip-editor", "trip-save")
+        waitForNode("trip-detail")
+        assertNull(runBlocking { local.trips.get(saved.id)!!.route })
+        assertEquals(2, requests)
+        click("trip-content", "trip-edit")
+        chooseRoute()
+        click("trip-editor", "trip-save")
+        waitFor { local.trips.get(saved.id)?.route != null }
+        assertEquals(3, requests)
+        assertEquals(saved.departure, runBlocking { local.trips.get(saved.id)!!.departure })
+        assertEquals(0, provider.calls)
     }
 
     @Test fun endpointsDatesAndChosenRouteCreateATripAndLinkedObservation() {

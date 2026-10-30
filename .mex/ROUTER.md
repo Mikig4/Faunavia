@@ -36,7 +36,7 @@ edges:
     condition: when changing saved trips, outings, result snapshots, diary links or unidentified drafts
   - target: patterns/discover-naturalist-outings.md
     condition: when changing F17 outing discovery, public catalogue or saved proposal details
-last_updated: 2026-10-03
+last_updated: 2026-10-30
 ---
 
 # Session Bootstrap
@@ -48,6 +48,7 @@ Then read this file fully before doing anything else in this session.
 ## Current Project State
 
 **Working:**
+- Trip creation/editing now accepts a confirmed destination and valid dates without a departure or selected route. A failed route calculation or unselected alternatives do not block saving; changing an endpoint discards obsolete geometry. Existing point-area analysis is reused without inventing a trace, and dated-stage route invariants remain unchanged. Added two Android regressions, updated the changed-endpoint test and added one domain regression. Format/boundaries/secret scan and 13 direct Node F0 tests pass. Gradle/JVM/Android/visual verification is blocked: the pinned JDK/SDK toolchain is absent and `pwsh` is not installed. No new APK or green cumulative gate is claimed. See `37 - Viaggi senza itinerario.md`.
 - Obsidian project folder and Git repository created.
 - MEX 0.8.2 scaffold initialized with Codex skills and a fresh code graph.
 - Product brief, architecture proposal, data plan, asset plan and roadmap are documented in the vault.

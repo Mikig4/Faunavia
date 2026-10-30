@@ -22,7 +22,7 @@ edges:
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-10-03
+last_updated: 2026-10-30
 ---
 
 # Architecture
@@ -35,7 +35,7 @@ last_updated: 2026-10-03
 
 ## System Overview
 
-- User starts with confirmed departure/destination, dates and a chosen trace. Optional ordered stages have destinations, days and chosen leg geometry; exploration without a trip, imported tracks and manual coordinates remain optional tools.
+- User starts with a confirmed destination and valid dates. Departure and chosen trace are optional; without geometry, analysis uses a bounded area around the destination. Optional ordered stages retain their destinations, days and chosen leg geometry; exploration without a trip, imported tracks and manual coordinates remain optional tools.
 - The route engine validates coordinates, samples the geometry, and builds a configurable corridor.
 - Provider adapters query bounded areas; the local store caches raw metadata and normalized records.
 - The evidence engine deduplicates species, scores recency/distance/quality, and preserves provenance.
@@ -110,7 +110,7 @@ last_updated: 2026-10-03
 
 ## F8B trip and memory boundary
 
-- Viaggi is the launch destination; primary navigation contains Viaggi, Diario, Catalogo and Impostazioni. New trips confirm departure/destination and dates, calculate driving choices, preview/select the full route on MapLibre, and persist it. Optional exploration/import stay reachable; name defaults to the destination and radius/interests/manual coordinates are disclosed on demand.
+- Viaggi is the launch destination; primary navigation contains Viaggi, Diario, Catalogo and Impostazioni. New trips need only a confirmed destination and valid dates; departure and route calculation/selection are optional and can be added later. Unavailable routing and unselected alternatives do not block saving or create implicit geometry. When selected, the full route is previewed on MapLibre and persisted. Existing point-area analysis handles trips without a trace. Optional exploration/import stay reachable; name defaults to the destination and radius/interests/manual coordinates are disclosed on demand.
 - `TripRouting` and the OSRM adapter live in pure `:core:exploration`. The user authorized sending the two endpoints to the public demo on explicit calculation, limited to one request/second with transient cache; chosen route geometry/provenance is durable. Changed endpoints invalidate unsaved choices and obsolete responses are ignored. No straight-line fallback is invented.
 - `mapsDirectionsUrl` and `mapsSearchUrl` live in pure `:core:exploration`; Android opens directions for two endpoints or a legacy/outing point after a click, catching missing activity/security failures. No API key, date, complete route or diary content is included. Google Maps recalculates directions; it cannot return the selected trace through the link.
 - Diary catalogue lookup reuses F3 with a 350 ms debounce, error/retry and selected-local fallback. Explicit selection persists the accepted taxon and aliases before the editor accepts it; observation writes remain local. Failed selection retains fields and never creates an observation. Selected prefills require no lookup to save.

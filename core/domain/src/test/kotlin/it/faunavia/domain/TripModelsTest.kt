@@ -13,6 +13,17 @@ class TripModelsTest {
     private val trip = Trip("t", "Vacanza", place, LocalDate.of(2026, 10, 1), LocalDate.of(2026, 10, 7),
         1_000.0, setOf(AnimalInterest.BIRDS), now, now)
 
+    @Test fun destinationAndDatesAllowAnOptionalDepartureWithoutInventingAnItinerary() {
+        assertNull(trip.departure)
+        assertNull(trip.route)
+        assertTrue(trip.stages.isEmpty())
+        val withDeparture = trip.copy(departure = place.copy(name = "Partenza", center = GeoPoint(45.1, 9.1)))
+        assertNull(withDeparture.route)
+        assertTrue(withDeparture.stages.isEmpty())
+        assertEquals(withDeparture, withDeparture.stageScope(null))
+        assertEquals(withDeparture.analysisKey, withDeparture.copy(name = "Viaggio rinominato").analysisKey)
+    }
+
     @Test fun invalidDatesRadiusAndMemoryLinksAreRejected() {
         assertThrows(IllegalArgumentException::class.java) { trip.copy(endsOn = trip.startsOn.minusDays(1)) }
         assertThrows(IllegalArgumentException::class.java) { trip.copy(endsOn = trip.startsOn.plusDays(367)) }
