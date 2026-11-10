@@ -1,17 +1,19 @@
 ---
 name: discover-naturalist-outings
-description: Extend the bounded F17 public outing catalogue, ranking and durable planning snapshots.
+description: Maintain explicit route-scoped online outing search and durable source snapshots.
 triggers:
   - "F17"
   - "outing discovery"
   - "sentieri"
 edges:
   - target: context/data-and-provenance.md
-    condition: always, before curating sources or coordinates
+    condition: always, before changing sources or coordinates
+  - target: context/route-analysis.md
+    condition: when modifying route scope or query boxes
   - target: patterns/plan-trip-and-record-memory.md
     condition: when changing outing storage or diary links
   - target: patterns/backup-and-restore.md
-    condition: when changing durable outing payload fields
+    condition: when changing durable outing fields
 last_updated: 2026-10-03
 ---
 
@@ -19,32 +21,32 @@ last_updated: 2026-10-03
 
 ## Context
 
-`OutingDiscovery` lives in pure exploration; `OutingGuide`/`OutingSpecies` are domain snapshots. `PilotOutingCatalogue` includes five original factual summaries at three public sites. Room 10 stores outing payload v2 and still reads v1; backup format 2 includes it without new tables. Regional map/gazetteer F15 and sync decision F16 remain separate.
+The explicit help button searches the selected Trip.stageScope or whole trip through OutingSearch/OverpassOutingSearch. F5 aggregate 20 km boxes are capped at 12 with an honest partial-coverage warning. The former included catalogue is only a JVM/Android fixture; production ships no predefined outing catalogue. OutingDiscovery ranks the returned proposals locally. OutingGuide still uses Room-10 payload v2 (reads v1), included in backup format 2.
 
 ## Steps
 
-1. Verify primary public-access, itinerary and fauna sources. Preserve separate itinerary/access/species/coordinate provenance. Summarize facts in original text; do not copy prose, photographs, PDFs or cartography without reusable rights.
-2. Record only documented metrics, season recommendations and access restrictions. Missing months mean unspecified, not all-year presence. Missing difficulty/accessibility remain unknown. Distance to the reference point is geodesic, never transfer time.
-3. Use verified public visitor/reference coordinates, documenting their precision and whether they are an actual entrance or representative center. Exclude sensitive locations. Do not generate a walking trace from biodiversity occurrences.
-4. Filter by destination radius/date/interests and exact accepted wishlist identities. Stable tie-breaking uses proposal ID. Curation cannot change F7 evidence or create a diary record.
-5. Save an immutable copy with stable trip/proposal/day identity. A repeat click opens the existing snapshot; source changes/outages must not replace it. Different days can have different outing IDs. Keep original route segments; never bridge them.
-6. Include new fields in the bounded domain mapper, keeping v1 readable and rejecting unsupported payload versions. Changing an outing’s place/route removes the now-unrelated guide; name/date edits preserve it. Existing backup staging must validate the new fields.
+1. Verify source license, API limits and public-instance usage. Keep the replaceable endpoint suitable for personal tests; distributed production needs dedicated hosting/provider. Never upload full tracks, diary or wishlist when aggregate boxes suffice.
+2. Start only from explicit help/retry buttons. Retain in-flight/completed state in OutingSearchViewModel across Activity recreation; selection, restoration and local filters cannot trigger a request. Ignore superseded/cancelled completions.
+3. Bound POST time/body/elements and query area count. Preserve OSM identity, retrieval/database/object version, license, attribution and query. Handle incomplete records, server remarks, coverage limits, 429 cooldown and outage explicitly, with no automatic retries.
+4. Filter nearest distance to each original route segment. Never connect separated segments. Missing fauna allows geographic proposals; explicit wish/season/metric filters exclude unknown facts. No encounter probabilities, access guarantees or synthetic walking geometry.
+5. Label website tags as links indicated in OSM. Exclude private/no access or foot records. Centers are representative, not verified entrances. Only documented duration/distance/sac_scale/wheelchair values become facts.
+6. Keep stable trip/proposal/day saves and immutable sources. Repeated saves open the existing snapshot; name/date edits preserve the guide, place/route changes discard it. Diary/backup behavior stays independent of live services.
 
 ## Gotchas
 
-- A route description is not an authorized route geometry. The pilot deliberately has no trace; show the official start label and explicit absent geometry.
-- Torbiere central routes have a published partial safety closure; WWF Vanzago uses guided visits. Preserve these facts and source dates instead of assuming future access.
-- Modal source buttons use `ProfileSource` and `LocalProfileSourceOpener`. Lazy content needs `performScrollToNode` and a closed keyboard in Compose tests.
-- Public geographic point sources and species sources are different; preserve both, including OSM ODbL or Wikidata CC0.
+- No default request in LaunchedEffect or on route selection. After process death, restored open UI requires another explicit search click.
+- Google is a browser search using public place labels, not an integrated billed Google Search/Places API and never full route geometry.
+- Network calls live in the exploration adapter; UI source cannot include provider endpoint URLs.
+- Lazy Compose assertions require performScrollToNode after awaited results; close the keyboard. Real Activity recreation tests need AnalysisTestActivity.testContent rather than a bare test Activity.
 
 ## Verify
 
-- Deterministic `OutingDiscoveryTest`: coverage, dates/interests/wishes, unknown metrics, stable sorting, sensitive exclusions, repeat identity, original segments.
-- `F17DiscoveryUiTest`: save/reopen/restoration, linked draft, missing duration/invalid date, outage/retry and preserved old snapshot.
-- `F17PersistenceTest`: file-backed reopen, no implicit taxon, links/deletion, v1 and invalid v2.
-- `F12BackupTest` complete ZIP round-trip must retain the guide and all its source fields after reopening.
-- Finish with unfiltered `verifyAll`, omission detection and existing visual signatures.
+- OverpassOutingSearchTest: bounded privacy/partial coverage, route midpoint/gaps, attribution, unknown fauna/metrics, restrictive access, malformed data, 429/empty/failure and safe links.
+- JsonHttpTransportTest: POST form, response bounds and resource cleanup.
+- F17DiscoveryUiTest and OutingSearchLifecycleTest: no selection/filter/restoration calls, selected stage/full scope, real recreation, save/reopen, outage/retry and preserved old sources.
+- Existing F17PersistenceTest and populated F12BackupTest keep snapshots/legacy readers/links intact.
+- Full unfiltered verifyAll, anti-omission and existing visual signatures. Live smoke is separate and saves only a status/count/source summary.
 
 ## Update Scaffold
 
-Update Router, offline/data/architecture context, report and guide; retain F14 manual-review and F15/F16 boundaries.
+Update Router, architecture/offline/data/decision/stack, report and guide. Keep F14 human/physical review, F15 regional packages and F16 sync decision open.

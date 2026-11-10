@@ -16,7 +16,7 @@ edges:
   - target: context/conventions.md
     condition: before accepting a verification result
 grounds_to: []
-last_updated: 2026-10-03
+last_updated: 2026-11-10
 ---
 
 # Debug Gradle and Android gates
@@ -39,13 +39,20 @@ Source `scripts/android-env.ps1` before every Gradle command. Generated output b
 
 ## Gotchas
 
-- F14 native graphics need an actual surface/pixel test: SwiftShader OpenGL killed Windows qemu with access violation while a resource-only preflight passed. Filament selects Vulkan when Android advertises it, otherwise OpenGL. Capture after multiple rendered frames rather than the first submitted frame: TextureView can still contain an all-black pending GPU buffer. Keep geometry/colour signature and pause/disposal assertions, without accepting a parser-only substitute.
+- A managed-device boot snapshot can restore a Launcher3 ANR dialog and steal Activity focus before the first UI tests. On 2026-11-10, two `AnalysisLifecycleTest` cases repeatedly failed in `closeSoftKeyboard`; `adb shell dumpsys window` identified `Application Not Responding: com.android.launcher3`, and `dumpsys activity processes` confirmed `mNotResponding=true`. After the run finished and `adb devices` showed no emulator, only the exact AVD's `snapshots/default_boot` was moved to a recoverable sibling backup. `:app:pixel2Api36Setup --rerun-tasks` regenerated it, and all three focused tests passed unchanged. Preserve a recovery audit, verify paths remain within the intended disposable AVD, and finish with unfiltered `verifyAll`. Do not dismiss or suppress application failures as a workaround. See `artifacts/pending-emulator-recovery.json`.
+- If Gradle cannot delete an old generated output, use a fresh `FAUNAVIA_BUILD_ROOT` outside OneDrive and rerun the canonical gate; preserve the prior output for diagnosis. The 2026-11-10 run used `builds/Faunavia-pending-20261110` after deletion of a generated manifest report failed in the previous build root.
+
+- A cancelled managed-device run can leave `~/.android/avd/gradle-managed/active_gradle_devices` with a stale `MDLockCount`. On 2026-10-26 it was 4 with no emulator or previous build remaining; the next owned Gradle thread waited in `ManagedVirtualDeviceLockManager` before launching any emulator. Stop the waiting build, verify no active emulator/other device build, back up the counter and reset only that verified stale counter to zero. Keep a recovery audit record. Do not delete the AVD/snapshots or reset a live reservation. See `GUIDA-GRADLE-LOOPBACK.md`.
+- Video preview semantics can be ready before the recreated native surface draws. Require actual selected-color pixels in the device capture, explicitly close the playback dialog and wait for Activity focus before ending the UI test. The first video gate exposed a black premature capture and later Espresso root-focus errors; the strengthened pixel/focus checks exercise the complete return path rather than masking failures with sleeps.
+
 - Saved state inside nested native Compose Dialog content can be outside the test restoration registry. Hoist model visibility to the species-profile owner, with the model dialog as its sibling; clip/play controls then restore consistently. SAF `Until.findObject` can return an object made stale by animation: wait for presence/idle, then fetch a fresh node before clicking.
 
 - `--no-daemon` still uses a single-use daemon if wrapper/build JVM arguments or instrumentation-agent status differ. Keep `JAVA_OPTS`, `JAVA_TOOL_OPTIONS` and the related `gradle.properties` settings synchronized.
 - PowerShell arguments beginning with `-P` should be quoted when passed to `gradlew.bat`.
 - A generated APK or test APK does not prove instrumentation ran. Require the XML report and the `verifyDevice` anti-omission check.
 - Use Espresso `closeSoftKeyboard()` to dismiss the IME in UI tests. After a Save button already hides it, `UiDevice.pressBack()` can navigate out of Settings; F13 exposed this timing dependency in the existing F11 permission test. Retain the actual permission denial assertion rather than skipping the scenario.
+- Android PermissionController can expose its denial button before the input window accepts touches: UiAutomator can find the node yet InputDispatcher drops the click. Re-query the button with a bounded retry and wait for the dialog to disappear, then assert the real permission, switch, database and diary states. Do not treat finding the node or clicking it as proof the system received the denial.
+- The formatting gate scans `.xml` files under `artifacts` too. A failed Android test report may contain tab-indented stack traces; preserve that raw diagnostic as a `.log` file so it does not cause a separate formatting failure in the next run.
 - Do not accept direct JUnit execution or in-process compilation as the final gate when canonical Gradle execution is available outside the sandbox.
 - On this OneDrive checkout, `mex wiki validate` can temporarily report `Could not safely read` for placeholder Markdown files. Materialize them by reading their content with native file tools, then retry validation. Do not delete prose or change metadata to suppress a filesystem read failure. The 2026-10-02 retry validated all 27 canonical files.
 

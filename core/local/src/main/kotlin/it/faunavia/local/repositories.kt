@@ -27,11 +27,25 @@ class LocalRepositories(
     private val dao = database.dao()
     private val writeGeneration = java.util.concurrent.atomic.AtomicLong()
     val backup = LocalBackupStore(database, io) { writeGeneration.incrementAndGet() }
-    val personalModels: PersonalModelRepository = object : PersonalModelRepository {
-        override suspend fun get(taxonId: String): PersonalModel? = read { dao.personalModel(taxonId)?.toDomain() }
-        override suspend fun all(): List<PersonalModel> = read { dao.allPersonalModels().map { it.toDomain() } }
-        override suspend fun save(model: PersonalModel) { write { dao.savePersonalModel(model.toRow()) } }
-        override suspend fun remove(taxonId: String) { write { dao.deletePersonalModel(taxonId) } }
+    val videos: MemoryVideoRepository = object : MemoryVideoRepository {
+        override suspend fun get(memoryId: String): MemoryVideo? = read {
+            dao.observationVideo(memoryId)?.toDomain() ?: dao.draftVideo(memoryId)?.toDomain()
+        }
+        override suspend fun all(): List<MemoryVideo> = read {
+            dao.observationVideos().map { it.toDomain() } + dao.draftVideos().map { it.toDomain() }
+        }
+        override suspend fun save(video: MemoryVideo) { write {
+            if (dao.observation(video.memoryId) != null) dao.saveVideo(video.toObservationRow())
+            else {
+                require(dao.unidentified(video.memoryId) != null) { "Save the memory first." }
+                dao.saveDraftVideo(video.toDraftVideoRow())
+            }
+        } }
+        override suspend fun remove(memoryId: String): MemoryVideo? = write {
+            val old = dao.observationVideo(memoryId)?.toDomain() ?: dao.draftVideo(memoryId)?.toDomain()
+            dao.deleteVideo(memoryId); dao.deleteDraftVideo(memoryId)
+            old
+        }
     }
     private suspend fun <T> read(block: () -> T): T = withContext(io) { block() }
     private suspend fun <T> write(block: () -> T): T {
@@ -74,7 +88,7 @@ class LocalRepositories(
         validateLink(draft.tripId, draft.outingId)
         val now = maxOf(createdAt ?: Instant.MIN, Instant.ofEpochMilli(clock.nowEpochMillis()))
         val observation = Observation(draft.id, draft.taxonId, draft.observedAt, draft.zoneId,
-            draft.location, draft.notes, createdAt ?: now, now, draft.quantity, draft.tripId, draft.outingId)
+            draft.location, draft.notes, createdAt ?: now, now, draft.quantity, draft.tripId, draft.outingId, draft.personalCommonName)
         dao.insertObservation(observation.toRow())
         photos.forEach {
             require(it.observationId == observation.id) { "Photo belongs to another observation." }
@@ -108,7 +122,8 @@ class LocalRepositories(
             val now = maxOf(old.updatedAt, Instant.ofEpochMilli(clock.nowEpochMillis()))
             val observation = old.copy(taxonId = draft.taxonId, observedAt = draft.observedAt,
                 zoneId = draft.zoneId, location = draft.location, notes = draft.notes,
-                quantity = draft.quantity, updatedAt = now, tripId = draft.tripId, outingId = draft.outingId)
+                quantity = draft.quantity, updatedAt = now, tripId = draft.tripId, outingId = draft.outingId,
+                personalCommonName = draft.personalCommonName)
             check(dao.updateObservation(observation.toRow()) == 1)
             observation
         }
@@ -195,8 +210,11 @@ class LocalRepositories(
         override suspend fun convert(draft: ObservationDraft): Observation = write {
             val old = requireNotNull(dao.unidentified(draft.id)?.toDomain()) { "Draft does not exist or was already converted." }
             val photos = dao.draftPhotos(draft.id).map { it.toDomain() }
+            val video = dao.draftVideo(draft.id)?.toDomain()
             dao.deleteUnidentified(draft.id)
-            createObservation(draft, photos = photos, createdAt = old.createdAt)
+            createObservation(draft, photos = photos, createdAt = old.createdAt).also {
+                video?.let { dao.saveVideo(it.toObservationRow()) }
+            }
         }
     }
 

@@ -1,0 +1,69 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :core:domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:domain:processResources NO-SOURCE
+> Task :core:network:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:network:compileKotlin UP-TO-DATE
+> Task :core:network:compileJava NO-SOURCE
+> Task :core:network:processResources NO-SOURCE
+> Task :core:network:classes UP-TO-DATE
+> Task :core:network:jar UP-TO-DATE
+> Task :core:taxonomy:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:taxonomy:processResources NO-SOURCE
+> Task :core:exploration:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:occurrence:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:route:processResources NO-SOURCE
+> Task :core:occurrence:processResources NO-SOURCE
+> Task :core:plausibility:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:plausibility:processResources NO-SOURCE
+> Task :core:exploration:processResources NO-SOURCE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :core:local:preBuild UP-TO-DATE
+> Task :core:local:preDebugBuild UP-TO-DATE
+> Task :core:local:processDebugNavigationResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :core:local:generateDebugResources UP-TO-DATE
+> Task :core:local:packageDebugResources UP-TO-DATE
+> Task :core:local:parseDebugLocalResources UP-TO-DATE
+> Task :core:local:generateDebugRFile UP-TO-DATE
+> Task :core:local:javaPreCompileDebug UP-TO-DATE
+> Task :core:domain:compileKotlin
+> Task :core:domain:compileJava NO-SOURCE
+> Task :core:domain:classes UP-TO-DATE
+> Task :core:domain:jar
+> Task :core:taxonomy:compileKotlin
+> Task :core:taxonomy:compileJava NO-SOURCE
+> Task :core:taxonomy:classes UP-TO-DATE
+> Task :core:taxonomy:jar UP-TO-DATE
+> Task :core:route:compileKotlin
+> Task :core:route:compileJava NO-SOURCE
+> Task :core:route:classes UP-TO-DATE
+> Task :core:route:jar UP-TO-DATE
+> Task :core:occurrence:compileKotlin
+> Task :core:occurrence:compileJava NO-SOURCE
+> Task :core:occurrence:classes UP-TO-DATE
+> Task :core:occurrence:jar UP-TO-DATE
+> Task :core:plausibility:compileKotlin
+> Task :core:plausibility:compileJava NO-SOURCE
+> Task :core:plausibility:classes UP-TO-DATE
+> Task :core:plausibility:jar UP-TO-DATE
+> Task :core:exploration:compileKotlin
+> Task :core:exploration:compileJava NO-SOURCE
+> Task :core:exploration:classes UP-TO-DATE
+> Task :core:exploration:jar UP-TO-DATE
+> Task :core:local:kspDebugKotlin
+> Task :core:local:compileDebugKotlin
+> Task :core:local:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:local:copyRoomSchemas
+> Task :core:local:bundleLibCompileToJarDebug
+> Task :app:compileDebugKotlin
+
+BUILD SUCCESSFUL in 1m 14s
+30 actionable tasks: 12 executed, 18 up-to-date

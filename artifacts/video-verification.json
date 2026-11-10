@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-26",
+  "versionName": "0.17.2-video",
+  "versionCode": 24,
+  "gate": "verifyAll --no-daemon",
+  "result": "PASS",
+  "duration": "14m49s",
+  "f0": 13,
+  "jvm": 150,
+  "android": 174,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "omissions": 0,
+  "visualSignatures": 5,
+  "databaseSchema": 11,
+  "backupFormat": 3,
+  "apk": "artifacts/Faunavia-video-debug.apk",
+  "apkBytes": 90064608,
+  "apkSha256": "e68d9ef186bd3144d6ec9ce782e1fd8388458688fe3a5515e7c1b88c23e16e51",
+  "signerSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "screenshot": "artifacts/video-editor.png",
+  "androidReport": "artifacts/video-android-results.xml",
+  "buildLog": "artifacts/video-final-verify-all.log",
+  "limits": [
+    "API 36 emulator only",
+    "No physical phone, 2 GiB source or full HDR/codec matrix verification",
+    "Previous backup readers use synthetic compatibility fixtures"
+  ]
+}

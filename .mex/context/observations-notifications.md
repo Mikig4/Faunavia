@@ -18,7 +18,7 @@ edges:
     condition: when implementing Room, Photo Picker, alarms, or notification permission
   - target: context/offline-first.md
     condition: when storing photos and diary data without network access
-last_updated: 2026-10-02
+last_updated: 2026-11-10
 ---
 
 # Observations and notifications
@@ -29,11 +29,15 @@ The F8B usability refinement searches the general catalogue directly in the diar
 
 An observation must point to a selected taxon from the adopted animal catalogue. The user may search by common/scientific name or synonym, but the saved record uses the accepted taxon ID. It may include local date/time, optional coordinates, count, notes, and one or more local photo references. Manual records remain distinct from imported provider records.
 
+`Observation.personalCommonName` is an optional private label for one identified memory, not a taxonomy correction. The editor accepts it when a taxon is selected, including later edits and draft identification; trims outer whitespace, maps empty input to null, and rejects over 160 characters or embedded control characters. Switching species clears the pending label. Lists and the daily summary label it personal; diary filtering matches it as well as catalogue/scientific names. Clearing it restores the catalogue fallback. Taxon identity, common name, aliases, provenance, counts and other observations remain unchanged. Room 12 adds the nullable column with migration 11→12; format-3/schema-12 backups preserve it and older schema 8–11 imports default it to null. Kotlin/Android regressions and the compiler-exported schema 12 were verified by the unfiltered 2026-11-10 verifyAll gate; see `38 - Nome comune personale negli avvistamenti.md`.
+
 ## Suggestion contract
 
 Suggestions are a curated discovery layer, not the set of all possible animals. A `SuggestionProfile` needs area/habitat, distinctiveness, an urban-common exclusion flag, a source or curator note, and an explanation that can be shown to the user. The diary must never reject an animal because it is not suggested.
 
 ## Implemented F8B memories
+
+The 2026-10-29 diary refinement removes the inline observation/species counts and personal-first summary from the diary list. Calendar, map, filters and the separate daily notification summary remain available. Each identified or draft row opens with its first gallery photo, or the saved video's opening frame when no photo exists. `MemoryMediaPreview` reads private media only for composed rows on IO; tapping opens the existing gallery. Closing the gallery refreshes the cover, and unreadable media exposes a clickable fallback without hiding the memory. Existing metadata defines gallery order; it does not record chronological attachment order across photos and video.
 
 Persistent unidentified drafts now preserve date, optional location, notes, quantity and trip/outing links in a separate table. Conversion requires an accepted Animalia taxon, retains identity/creation time and is atomic; failed or concurrent conversion cannot lose or duplicate the memory. Drafts never enter identified species counts.
 
@@ -62,6 +66,8 @@ Room 9 adds an additive delivery ledger keyed by local date, deliberately not by
 Notification tap preserves date and zone, showing local catalogue names, count, time, quantity, notes and private photo gallery. A current-day shortcut and empty/error/retry states are available. Summary/gallery navigation survives Activity recreation; all photo recovery includes both identified and draft references. No GBIF, NNB, Firebase, exact alarm or network constraint is introduced. See `GUIDA-FASE-11.md` and `29 - Rapporto Fase 11.md` for evidence and limits.
 
 ## Photos
+
+Video extension 2026-10-26: **Foto e video** also accepts one private video per identified or unidentified memory. The editor selects start/end and previews only that interval before saving; replacement keeps the previous attachment until the new complete MP4 and metadata commit. Identification retains video atomically; deleting a memory cascades metadata and attempts private-file cleanup. Video copies are independent from image normalization, included in format-3 backup and never treated as taxonomy/evidence input. Original staging is limited to 2 GiB; final MP4 to 100 MiB, export to five minutes, orphan recovery to unreferenced files older than 24 hours. See `GUIDA-VIDEO.md`.
 
 F10 uses Android Photo Picker through Activity 1.12.3, with document-picker fallback and no broad storage permission. Save the text memory first, then open its gallery. AndroidX ExifInterface 1.4.2 reads the input orientation; sampled decoding and fresh JPEG encoding apply all eight orientations and omit original EXIF/GPS. Private copies have a maximum 2048-pixel edge and 320-pixel thumbnail. Input is bounded to 32 MiB/100 MP with 48 MiB storage reserve.
 

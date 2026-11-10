@@ -16,12 +16,14 @@ edges:
   - target: context/offline-first.md
     condition: when choosing storage, caching, or installable-app behavior
 grounds_to: []
-last_updated: 2026-10-03
+last_updated: 2026-10-26
 ---
 
 # Stack
 
 ## Core Technologies
+
+The 3D feature and Filament/Blender/Khronos dependencies were removed on 2026-10-26. Current species profiles use photos and the 2D fallback. Legacy backup files require no rendering library.
 
 - **Kotlin 2.3.21** — Compose compiler plugin and pure-JVM domain/testing modules; the Android module uses AGP 9.4 built-in Kotlin.
 - **Jetpack Compose BOM 2026.08.00** — Android UI toolkit used by the F1 scaffold.
@@ -36,18 +38,18 @@ last_updated: 2026-10-03
 
 ## Key Libraries
 
+- **AndroidX Media3 Transformer 1.10.1** — local frame-accurate video trim and H.264/AAC MP4 export, via platform codecs and an explicit metadata-clearing muxer; diagnostics disabled. Native Android VideoView/MediaPlayer supply optional local preview/playback. No backend or paid service. Version is pinned in the Gradle catalogue; see `GUIDA-VIDEO.md`.
+
 - **Provider/route payload parsing** — F5 GPX/GeoJSON, F6 occurrence and F8A Nominatim adapters normalize externally supplied data outside the UI; Room mapping remains in `:core:local`.
 - **HttpURLConnection** — post-F10 `:core:network` centralizes blocking JSON GET without a new external library. Six typed clients retain provider-specific status/error, timeout, size and User-Agent policies; transport tests use fake connections.
 - **GBIF Species API** — candidate taxonomy autocomplete and accepted taxon identifiers; filter to Animalia.
 - **GBIF Maps v2 + Wikimedia Commons/MediaWiki imageinfo + Wikidata Action API** — F9 internal distribution presentation: historical observation density, attributed reusable range illustrations and exact P225/P181 association. Separate from F7 range evidence and accepted taxonomy selection; no new backend or account.
 - **Wikipedia MediaWiki PageImages/pageprops** — F17 main species photograph via exact Wikidata P225/sitelinks and Commons imageinfo rights/credits, using existing HTTP/cache/BitmapFactory dependencies. Italian article preferred, verified English fallback; no remote taxonomy selection.
+- **OpenStreetMap / Overpass QL** — explicit F17 route/stage discovery via bounded form POST and existing HTTP/JSON/coroutine stack; no API key, new dependency or predefined outing catalogue. ODbL snapshots are durable only after save. Public instance is a personal prototype boundary, not a distributed production backend.
 - **Nominatim** — F8A explicit-submit place search for country/region/city with bounded results, rate limit and local cache; no client-side network autocomplete.
 - **OSRM Route API v1** — F8B user-triggered driving routes from two confirmed endpoints, explicitly authorized for the personal prototype. Public demo: one request/second maximum, no uptime/traffic guarantee. Full chosen geometry/provenance is copied into the trip; no new package or paid API is needed.
 - **Android Photo Picker** — select photos with the least invasive storage permission flow.
 - **AndroidX ExifInterface 1.4.2** — F10 reads local orientation before metadata-free bitmap encoding; official maintained parser instead of the legacy platform EXIF implementation. Android BitmapFactory/Canvas provide sampled decoding and fresh JPEG pixels without an image-loader dependency.
-- **Filament / gltfio / filament-utils Android 1.77.1** — F14 native lazy GLB viewer, bounded personal-file preflight, orbit/pinch and selected animation clip. Vulkan where advertised, otherwise OpenGL; lifecycle disposal and the existing 2D return path. No SceneView or hosted renderer dependency.
-- **Blender / official bpy 4.5.3** — original asset authoring/rendering through portable Python 3.11; deterministic study-specific GLB export, retained `.blend`/preview/reference. Launcher SideBySide failure is bypassed with the official bpy module, without a global installation.
-- **Khronos glTF Validator 2.0.0-dev.3.10** — pinned Node dev dependency under `assets-3d/`, zero errors/warnings and manifest/hash check included in `verifyFast`.
 - **JUnit 4.13.2 + AndroidX Test** — JVM, Compose, UI Automator and managed-device verification.
 - **Firebase Firestore** (optional) — structured sync only after the local-first MVP proves the need.
 
@@ -56,7 +58,6 @@ last_updated: 2026-10-03
 - No paid maps, hosted database, serverless subscription, cloud photo bucket, or paid AI asset generator as a prerequisite.
 - No direct provider calls scattered through UI components; all external data goes through adapters.
 - No automatic bulk download of OSM tiles or systematic geocoding queries.
-- No framework-specific 3D authoring dependency: Blender files remain source assets, GLB is the delivery artifact.
 - No Firebase dependency for local notifications; the daily summary is computed from Room on-device.
 
 ## Version Constraints

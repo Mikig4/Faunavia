@@ -9,17 +9,18 @@ import androidx.room.Upsert
 /** Blocking DAO is confined to the repository IO dispatcher; Room still rejects main-thread access. */
 @Dao
 interface LocalDao {
-    @Query("SELECT * FROM personal_models WHERE taxonId = :taxonId")
-    fun personalModel(taxonId: String): PersonalModelRow?
+    @Query("SELECT * FROM observation_videos WHERE memoryId = :id") fun observationVideo(id: String): ObservationVideoRow?
+    @Query("SELECT * FROM draft_videos WHERE memoryId = :id") fun draftVideo(id: String): DraftVideoRow?
+    @Query("SELECT * FROM observation_videos") fun observationVideos(): List<ObservationVideoRow>
+    @Query("SELECT * FROM draft_videos") fun draftVideos(): List<DraftVideoRow>
+    @Upsert fun saveVideo(video: ObservationVideoRow)
+    @Upsert fun saveDraftVideo(video: DraftVideoRow)
+    @Query("DELETE FROM observation_videos WHERE memoryId = :id") fun deleteVideo(id: String)
+    @Query("DELETE FROM draft_videos WHERE memoryId = :id") fun deleteDraftVideo(id: String)
 
+    // Read-only archive compatibility for the retired feature; no application CRUD API.
     @Query("SELECT * FROM personal_models ORDER BY taxonId")
-    fun allPersonalModels(): List<PersonalModelRow>
-
-    @Upsert
-    fun savePersonalModel(model: PersonalModelRow)
-
-    @Query("DELETE FROM personal_models WHERE taxonId = :taxonId")
-    fun deletePersonalModel(taxonId: String)
+    fun legacyAttachments(): List<PersonalModelRow>
 
     @Query("SELECT * FROM taxa") fun allTaxa(): List<TaxonRow>
     @Query("SELECT * FROM taxon_aliases") fun allAliases(): List<TaxonAliasRow>

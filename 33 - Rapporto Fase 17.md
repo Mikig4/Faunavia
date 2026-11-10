@@ -1,5 +1,7 @@
 # Fase 17 — Scoperta di uscite e foto Wikipedia
 
+**Rapporto storico della versione 0.17.0.** Il catalogo incluso descritto qui è stato sostituito dalla ricerca online su richiesta lungo percorso/tappa: [[34 - Ricerca online delle uscite]]. Le foto Wikipedia e i precedenti snapshot salvati restano compatibili.
+
 Verifica del 2026-10-03. F17 è stata anticipata su richiesta utilizzando il catalogo curato incluso e la persistenza/backup esistenti. F15 mappe/gazetteer regionali, F16 decisione sul sync e il gate umano/fisico F14 rimangono aperti.
 
 ## Risultato

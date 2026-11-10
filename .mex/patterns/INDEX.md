@@ -1,7 +1,7 @@
 ---
 name: patterns-index
 description: Task-specific implementation and verification runbooks.
-last_updated: 2026-10-03
+last_updated: 2026-10-26
 ---
 
 # Pattern Index
@@ -30,13 +30,13 @@ Lookup table for all pattern files in this directory. Check here before starting
 | Pattern | Use when |
 |---------|----------|
 | [add-data-provider.md](add-data-provider.md) | Adding or changing GBIF/iNaturalist or another biodiversity provider adapter |
-| [add-observation-and-notification.md](add-observation-and-notification.md) | Adding manual observations, photos, peculiar-species rules, or the daily summary notification |
+| [add-observation-and-notification.md](add-observation-and-notification.md) | Adding manual observations, private photos/videos with trimming, peculiar-species rules, or the daily summary notification |
 | [add-plausibility-evidence.md](add-plausibility-evidence.md) | Changing range, habitat, season, Natura 2000 or observability evidence rules |
-| [add-species-and-3d-asset.md](add-species-and-3d-asset.md) | Adding a species profile, Blender source, GLB model, or 2D fallback |
+| [add-species-profile.md](add-species-profile.md) | Adding sourced species facts, photographs or a 2D fallback |
 | [backup-and-restore.md](backup-and-restore.md) | Evolving ZIP archives, SAF export/import, staged validation or atomic database/photo restoration |
 | [change-local-storage.md](change-local-storage.md) | Changing Room schemas, local repositories, migrations or diary integrity constraints |
 | [debug-gradle-android-gates.md](debug-gradle-android-gates.md) | Diagnosing Gradle, JVM worker, managed-device, UTP or Compose UI gate failures |
-| [discover-naturalist-outings.md](discover-naturalist-outings.md) | Extending F17 public outing catalogue, documented ranking, offline snapshots and backup |
+| [discover-naturalist-outings.md](discover-naturalist-outings.md) | Explicit route-scoped online outing search, documented ranking, durable snapshots and backup |
 | [explore-place-and-map.md](explore-place-and-map.md) | Changing F8A geographic search, period exploration, MapLibre rendering or fallback |
 | [import-route-and-analyze.md](import-route-and-analyze.md) | Importing a route, sampling it, building a corridor, and querying evidence |
 | [plan-trip-and-record-memory.md](plan-trip-and-record-memory.md) | Changing saved trips/outings, result snapshots, personal diary links or unidentified-draft conversion |

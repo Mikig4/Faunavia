@@ -14,7 +14,7 @@ edges:
     condition: when implementing Room, Photo Picker, WorkManager, alarms, or Android permissions
   - target: context/data-and-provenance.md
     condition: when distinguishing manual records from provider evidence
-last_updated: 2026-10-02
+last_updated: 2026-10-30
 ---
 
 # Add an observation or daily notification
@@ -56,6 +56,22 @@ F9 verification: pure profile/threshold/sort/identity/absence tests; Room popula
 5. Keep `PhotoGalleryModel` jobs across Activity recreation and the open memory ID in saveable state. After process death reload committed Room metadata/private copies; unfinished import requires re-selection. Missing/corrupt copies show a fallback, never remove text or silently erase metadata. Backup work remains F12.
 
 Verify with `F10PhotoTest`, `F10PhotoUiTest`, domain metadata constraints and the full `verifyAll` gate. Seed only synthetic images into MediaStore for the real UI Automator picker; delete those test media afterward. Capture the gallery and check actual rotated image colors, not only semantics. See `GUIDA-FASE-10.md`.
+
+## Private memory video extension
+
+1. Keep the gallery's image picker and the single-video picker separate. Use `MemoryVideoSection`/`MemoryVideoModel` for staged source/range/preview/export; cancellation preserves the old attachment and the selected range. Retain the selection/jobs across real Activity recreation, not in a large saved-state bundle.
+2. `PrivateVideoStore` owns source bounds, media parsing, frame-accurate Transformer export, metadata removal and private paths. Force video/audio encoding; do not approximate start times with previous-keyframe remuxing or preserve hidden pre-roll through MP4 edit lists. Keep Transformer callbacks/cancellation on its application looper and wait for cancellation before deleting output.
+3. `MemoryVideos` shares the photo mutex/restore generation. Export outside the lock, recheck the staged generation inside it, save complete unique bytes before Room, and delete only new unpublished output on failure. Remove metadata before physical deletion; keep cleanup warnings visible and preserve referenced/recent files during recovery.
+4. Evolve both owner tables and transfer metadata during draft conversion in the existing transaction. Include every durable video in the backup version, table inventory, reader compatibility, size/hash/media validation and restored path rewriting. Missing/corrupt files must block export rather than silently disappear.
+5. Run `VideoModelsTest`, `MemoryVideoTest`, `MemoryVideoUiTest` and the full unfiltered `verifyAll`. Generate only original synthetic media: the fixture encodes color sections and an AAC tone locally. Check encoded first/last frames and audio, actual picker, cursors/preview/recreation, replacement/cancellation, migration and backup. Do not treat emulator codec evidence as coverage for every phone/HDR format.
+
+## Diary list media previews
+
+Diary list refinement: keep the inline species/count/personal-first summary removed. `MemoryMediaPreview` belongs inside each lazy identified/draft row, before its text; use the first photo in gallery order or a still at time zero of the saved video, without autoplay. Keep decode work off the main thread, refresh after gallery close, and preserve a clickable missing-media fallback. Verify actual preview pixels, photo removal/refresh and video-only drafts; diary filter tests should assert entries/calendar/map rather than the removed `diary-summary` tag.
+
+## Personal common-name labels
+
+Keep the optional `personalCommonName` on the identified observation/draft-to-observation input, never overwrite the selected taxon's name, aliases or provider provenance. The editor supports creation and later edits; trim outer whitespace, clear blank labels and clear pending labels when the species changes. Label personal names explicitly in the list/daily summary, retain the scientific identity and match the local diary filter. Persist in the same observation transaction, preserve photos/video and creation timestamps, and include the nullable field in backup compatibility. Test independent names for the same taxon, validation, edit/clear, reopening, identification/media, populated 11→12 migration, summary and schema-11 archives. Schema export and Android/Room checks remain pending until the toolchain is restored.
 
 ## F11 reminders
 

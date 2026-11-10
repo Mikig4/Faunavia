@@ -6,10 +6,10 @@ Per il primo rilascio propongo un'app Android nativa in Kotlin con Jetpack Compo
 
 ## Direzione delle dipendenze
 
-La dipendenza è sempre rivolta verso l'interno: UI e framework dipendono dai casi d'uso; i casi d'uso dipendono dal dominio e da interfacce; Room, rete, mappa, notifiche e renderer 3D implementano adapter esterni. Il dominio non importa API Android, client HTTP, modelli Room o tipi MapLibre. In questo modo la logica di percorso, tassonomia, diario e plausibilità resta deterministica e testabile senza dispositivo o rete.
+La dipendenza è sempre rivolta verso l'interno: UI e framework dipendono dai casi d'uso; i casi d'uso dipendono dal dominio e da interfacce; Room, rete, mappa, notifiche implementano adapter esterni. Il dominio non importa API Android, client HTTP, modelli Room o tipi MapLibre. In questo modo la logica di percorso, tassonomia, diario e plausibilità resta deterministica e testabile senza dispositivo o rete.
 
 ```text
-UI / Android / provider / Room / MapLibre / renderer 3D
+UI / Android / provider / Room / MapLibre
                          ↓
                adapter e repository
                          ↓
@@ -35,7 +35,7 @@ normalizzazione, deduplicazione e ranking delle evidenze
         ↓
 lista specie peculiari + mappa + filtri + fonti
         ↓
-scheda animale + modello GLB lazy-loaded + fallback 2D
+scheda animale + fotografia con crediti + fallback 2D
         ↓
 diario personale + foto locali + riepilogo serale + notifica locale
 ```
@@ -84,7 +84,7 @@ Programma con WorkManager un controllo locale giornaliero attorno all'orario sce
 
 ### 10. Species profile e asset registry
 
-Contiene i profili curati dall'utente, i riferimenti alle fonti e il mapping specie → modello 3D/immagine. Gli asset sono file locali e vengono caricati solo quando servono.
+Contiene i profili curati dall'utente, i riferimenti alle fonti e i riferimenti alle fotografie e al fallback 2D. Gli asset sono file locali e vengono caricati solo quando servono.
 
 ### 11. Map adapter
 

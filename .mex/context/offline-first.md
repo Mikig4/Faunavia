@@ -18,14 +18,14 @@ edges:
     condition: when choosing Room, photo storage, MapLibre offline regions, or APK packaging
   - target: context/decisions.md
     condition: when choosing between cached results, downloadable datasets, and a backend
-last_updated: 2026-10-03
+last_updated: 2026-10-27
 ---
 
 # Offline-first
 
 ## F17 prepared outing materials and profile photographs
 
-Five original factual outing summaries at three Lombardia public sites ship in the APK. Saved proposal metrics/access notes/species and separate source/coordinate provenance are durable outing payload v2; previous v1 outings remain readable in Room 10. Complete format-2 local backup includes these fields; offline reopening and links/deletion are tested. Public source pages require network, and the pilot contains no acquired trail geometry or regional map tiles. Existing/imported geometries can be viewed as a disconnected-segment offline schematic. This is the F17 local consultation boundary, not completion of F15 regional maps/gazetteer.
+There is no predefined offline outing catalogue. Explicit `Richiedi aiuto` searches online around the chosen whole route/stage; transient results survive configuration changes but are not a downloadable regional package. Saving copies OSM identity, date/license/version, access facts and metrics into durable outing payload v2; legacy v1, Room 10 and backup format 2 remain compatible. Source outages preserve saved outings and diary links. Imported geometries retain their disconnected-segment offline schematic. Regional map tiles/gazetteer F15 remain open.
 
 Wikipedia photos load on profile opening with exact identity and Commons license/author validation. First download requires network; 30-day normalized metadata and the existing bounded HTTP media cache may support later consultation but are expellable and excluded from diary backup. Stale metadata is labelled; missing/failed media retains the generic illustration and visible retry. Profiles and diary remain usable independently.
 
@@ -35,7 +35,7 @@ The MVP must show previously loaded routes, diary entries, source metadata, loca
 
 ## Local backup
 
-F12 exports the complete durable Room snapshot and private controlled photos through a user-selected SAF document; F14 extends it to format 2/schema 10 with personal GLB bytes/credits and still reads released format-1 schema-9 archives. Validation and restoration need no network once the archive is readable; a cloud document provider can require connectivity to supply/store that document. No Faunavia upload service is introduced. Cache provenance/expiry is preserved, so restoring a cache never makes stale evidence fresh.
+F12 exports the durable Room snapshot and private controlled photos through a user-selected SAF document; the current format 3/schema 11 includes photos/videos and reads earlier archives. Intact historical model attachments remain opaque bytes after removal of the 3D feature. Missing or damaged legacy attachments are excluded from the export with a visible warning; local data remains untouched. Validation and restoration need no network once the archive is readable; a cloud document provider can require connectivity to supply/store that document. No Faunavia upload service is introduced. Cache provenance/expiry is preserved, so restoring a cache never makes stale evidence fresh.
 
 The ZIP is unencrypted and contains personal notes/locations/images/model credits. Hashes check integrity, not author identity. Transient map/image/geocoder caches and in-flight analyses are not archived. Restoring replaces current durable data after a validated preview; creating a separate export beforehand is the way to retain both states. Images/models are appended under unique private paths before atomic row replacement, with old orphan cleanup deferred. Scheduling is recreated using restored preferences and current device permissions/timezone. See `GUIDA-FASE-12.md` and `GUIDA-FASE-14.md`.
 
@@ -66,3 +66,5 @@ F8A caches confirmed place candidates in Android preferences for 30 days, normal
 F8B persists trips, chosen full route geometry/provenance, outings, chosen places/results and unidentified drafts in Room independently of those caches. OSRM calculations require network; its ten-minute cache is distinct from the durable confirmed trace. Saved traces reopen without a routing request; base tiles remain ordinary HTTP cache, not a regional offline package. A chosen result keeps original period/area, saved date, evidence sources and partial/stale flags; changing scope requires explicit recalculation. Offline provider or tile failure leaves planning, saved explanations and textual memories available. Deleting planning only unlinks memories; failed draft conversion rolls back atomically. Regional packages and backups remain later phases.
 
 F10 stores controlled photo copies/thumbnails in Android no-backup private files and their normalized metadata in Room 8. Save/view/remove and draft identification need no network once the selected image is locally readable. Picker providers may offer remote images; obtaining one depends on that provider, but Faunavia never uploads a copy. Original URIs, EXIF/GPS and full-resolution originals are not kept in the committed photo archive. Missing/corrupt copies expose a fallback without losing text. Completed images reopen after process restart; unfinished imports need re-selection and old unreferenced files are cleaned after 24 hours. F12 includes these controlled copies in its local archive.
+
+The 2026-10-26 video extension keeps one local MP4 per memory alongside photos. Selection may use a picker provider, but trim, preview, encoding, identification and later playback require no network once staged. The saved interval is re-encoded without source metadata; a failed/cancelled replacement preserves the previous committed file. Format-3 backup includes complete videos; original staging and unfinished selections are excluded. Export has a five-minute attempt bound and originals are capped at 2 GiB; see `GUIDA-VIDEO.md`.

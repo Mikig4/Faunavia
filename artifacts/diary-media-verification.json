@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-29",
+  "versionName": "0.17.4-diary",
+  "versionCode": 26,
+  "result": "PASS",
+  "gate": "verifyAll --no-daemon",
+  "durationSeconds": 1484,
+  "apk": {
+    "path": "artifacts/Faunavia-diario-debug.apk",
+    "bytes": 59505397,
+    "sha256": "081415979ab4e92d4e7e2bce2183ae6ddf033b1729c06bd752d8370491327980",
+    "signerMatchesPrevious": true
+  },
+  "tests": {
+    "f0": 13,
+    "jvm": 150,
+    "android": 165,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "omitted": 0,
+    "visualSignatures": 4
+  },
+  "behavior": [
+    "Removed inline diary counts/species/personal-first summary",
+    "Identified observations and drafts show first gallery photo, or opening saved-video frame if there are no photos",
+    "Tap opens existing gallery; gallery close refreshes cover; missing media has a visible clickable fallback"
+  ],
+  "verifiedPreviewTests": [
+    "diaryShowsFirstGalleryPhotoAndRefreshesItAfterRemoval",
+    "diaryShowsTheSavedVideoOpeningFrameForObservationsAndDrafts",
+    "missingPhotoHasVisibleFallbackAndCanBeRemovedWithoutLosingTheObservation",
+    "diaryTripSpeciesCalendarAndMapFiltersIncludeUnlocatedMemoriesWithoutASummary"
+  ],
+  "conventions": [
+    {
+      "item": 1,
+      "check": "No direct provider calls from UI",
+      "result": "PASS"
+    },
+    {
+      "item": 2,
+      "check": "Imported provenance preserved",
+      "result": "PASS"
+    },
+    {
+      "item": 3,
+      "check": "Visible fallback/retry for unavailable data and media",
+      "result": "PASS"
+    },
+    {
+      "item": 4,
+      "check": "Observed and plausible remain distinct",
+      "result": "PASS"
+    },
+    {
+      "item": 5,
+      "check": "Asset metadata and licensing",
+      "result": "PASS",
+      "scope": "No new bundled assets; test media is original synthetic content"
+    },
+    {
+      "item": 6,
+      "check": "Deterministic geometry/ranking regression tests",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "No physical-device test",
+    "API 26 compatibility path compiled/linted but not executed on API 26",
+    "Gallery metadata does not store attachment chronology across photos and video"
+  ],
+  "reports": [
+    "artifacts/diary-media-verify-all.log",
+    "artifacts/diary-media-android-results.xml"
+  ]
+}

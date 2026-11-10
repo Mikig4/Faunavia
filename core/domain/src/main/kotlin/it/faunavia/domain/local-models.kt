@@ -103,12 +103,14 @@ data class Observation(
     val quantity: Int = 1,
     val tripId: String? = null,
     val outingId: String? = null,
+    val personalCommonName: String? = null,
 ) {
     init {
         require(id.isNotBlank() && taxonId.isNotBlank())
         require(!updatedAt.isBefore(createdAt))
         require(quantity in 1..MAX_OBSERVATION_QUANTITY)
         require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
+        validatePersonalCommonName(personalCommonName)
         validateMemoryLink(tripId, outingId)
     }
     val localDate: LocalDate get() = observedAt.atZone(zoneId).toLocalDate()
@@ -194,17 +196,32 @@ data class ObservationDraft(
     val quantity: Int = 1,
     val tripId: String? = null,
     val outingId: String? = null,
+    val personalCommonName: String? = null,
 ) {
     init {
         require(id.isNotBlank() && taxonId.isNotBlank())
         require(quantity in 1..MAX_OBSERVATION_QUANTITY)
         require(notes.length <= MAX_OBSERVATION_NOTES_LENGTH)
+        validatePersonalCommonName(personalCommonName)
         validateMemoryLink(tripId, outingId)
     }
 }
 
 const val MAX_OBSERVATION_QUANTITY = 9_999
 const val MAX_OBSERVATION_NOTES_LENGTH = 2_000
+const val MAX_PERSONAL_COMMON_NAME_LENGTH = 160
+
+/** A private label on one observation, never provider taxonomy or evidence. */
+fun normalizePersonalCommonName(value: String): String? = value.trim().takeIf(String::isNotEmpty).also {
+    validatePersonalCommonName(it)
+}
+
+private fun validatePersonalCommonName(value: String?) {
+    require(value == null || (value.isNotBlank() && value == value.trim() &&
+        value.length <= MAX_PERSONAL_COMMON_NAME_LENGTH && value.none { it.isISOControl() })) {
+        "Il nome comune personale deve contenere al massimo $MAX_PERSONAL_COMMON_NAME_LENGTH caratteri, su una sola riga."
+    }
+}
 
 /** Missing reads return null/empty; invalid references and duplicate creates fail without writes. */
 interface DiaryRepository {

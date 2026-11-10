@@ -439,8 +439,8 @@ class TripScreenUiTest {
         val observation = runBlocking { local.diary.get("ui-memory")!! }
         assertEquals(trip.id, observation.tripId); assertNull(observation.location)
         click("trip-content", "trip-diary")
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("1 avvistamenti · 1 specie", substring = true)
+        scroll("diary-list", "diary-entry-ui-memory")
+        composeRule.onNodeWithTag("diary-entry-ui-memory").assertIsDisplayed()
         click("diary-list", "diary-view-calendar")
         scroll("diary-list", "diary-calendar-2026-10-02")
         composeRule.onNodeWithTag("diary-calendar-2026-10-02").assertIsDisplayed()
@@ -461,8 +461,8 @@ class TripScreenUiTest {
         assertTrue(runBlocking { local.diary.list().isEmpty() })
         tester.emulateSavedInstanceStateRestore()
         waitForNode("diary-draft-ui-memory")
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("0 avvistamenti · 0 specie", substring = true)
+        scroll("diary-list", "diary-empty")
+        composeRule.onNodeWithTag("diary-empty").assertIsDisplayed()
         click("diary-list", "diary-draft-edit-ui-memory")
         type("diary-editor", "diary-notes", "Merlo da confermare")
         click("diary-editor", "diary-save")
@@ -474,8 +474,8 @@ class TripScreenUiTest {
         click("diary-editor", "diary-save")
         waitFor { local.diary.get("ui-memory") != null && local.unidentified.get("ui-memory") == null }
         assertEquals(1, runBlocking { local.diary.list().size })
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("1 avvistamenti · 1 specie", substring = true)
+        scroll("diary-list", "diary-entry-ui-memory")
+        composeRule.onNodeWithTag("diary-entry-ui-memory").assertIsDisplayed()
     }
 
     @Test fun importedOutingCanBeEditedAndDeletedWithoutLosingItsLinkedMemories() {
@@ -536,7 +536,7 @@ class TripScreenUiTest {
         composeRule.onNodeWithTag("trip-empty").assertIsDisplayed()
     }
 
-    @Test fun diaryTripSpeciesCalendarAndMapFiltersIncludeUnlocatedMemoriesInTheirSummary() {
+    @Test fun diaryTripSpeciesCalendarAndMapFiltersIncludeUnlocatedMemoriesWithoutASummary() {
         seedTrip()
         runBlocking {
             local.trips.save(f8bTrip("other", "Altro viaggio"))
@@ -546,11 +546,18 @@ class TripScreenUiTest {
             local.unidentified.save(UnidentifiedInput("draft", f8bNow, ZoneId.of("Europe/Rome"), tripId = trip.id))
         }
         composeRule.setContent { FaunaviaTheme { TestDiary() } }
-        waitForNode("diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("3 avvistamenti · 1 specie", substring = true)
+        waitForNode("diary-view-list")
+        composeRule.onNodeWithTag("diary-summary").assertDoesNotExist()
+        listOf("a", "b", "c").forEach { id ->
+            scroll("diary-list", "diary-entry-$id")
+            composeRule.onNodeWithTag("diary-entry-$id").assertIsDisplayed()
+        }
         click("diary-list", "diary-filter-trip-t")
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("2 avvistamenti", substring = true)
+        scroll("diary-list", "diary-entry-a")
+        composeRule.onNodeWithTag("diary-entry-a").assertIsDisplayed()
+        scroll("diary-list", "diary-entry-b")
+        composeRule.onNodeWithTag("diary-entry-b").assertIsDisplayed()
+        composeRule.onNodeWithTag("diary-entry-c").assertDoesNotExist()
         click("diary-list", "diary-view-calendar")
         scroll("diary-list", "diary-calendar-2026-09-29")
         composeRule.onNodeWithTag("diary-calendar-2026-09-29").assertIsDisplayed()
@@ -559,12 +566,13 @@ class TripScreenUiTest {
         composeRule.onNodeWithTag("diary-map-count").assertTextContains("1 senza coordinate", substring = true)
         composeRule.onNodeWithTag("diary-fake-map").assertTextContains("1 punti", substring = true)
         type("diary-list", "diary-species-filter", "Gazella")
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("0 avvistamenti", substring = true)
+        scroll("diary-list", "diary-empty")
+        composeRule.onNodeWithTag("diary-empty").assertIsDisplayed()
         type("diary-list", "diary-species-filter", "merlo")
         type("diary-list", "diary-date-filter", "2026-09-30")
-        scroll("diary-list", "diary-summary")
-        composeRule.onNodeWithTag("diary-summary").assertTextContains("1 avvistamenti", substring = true)
+        scroll("diary-list", "diary-entry-a")
+        composeRule.onNodeWithTag("diary-entry-a").assertIsDisplayed()
+        composeRule.onNodeWithTag("diary-entry-b").assertDoesNotExist()
     }
 
     @Test fun draftDeletionRequiresConfirmationAndLeavesTheDiaryIntact() {
@@ -710,6 +718,8 @@ class TripScreenUiTest {
     private fun seedTrip() = runBlocking { local.trips.save(trip) }
     private fun selectTrip() { waitForNode("trip-select-t"); click("trip-content", "trip-select-t"); waitForNode("trip-detail") }
     private fun scroll(container: String, tag: String) {
+        // Pump Compose frames while waiting for focus before handing control to Espresso.
+        composeRule.waitUntil(10_000) { composeRule.activity.hasWindowFocus() }
         closeSoftKeyboard()
         if (container == "trip-editor" && (tag in listOf("trip-name", "trip-radius") || tag.startsWith("trip-interest-"))) {
             composeRule.onNodeWithTag(container).performScrollToNode(hasTestTag("trip-options-toggle"))

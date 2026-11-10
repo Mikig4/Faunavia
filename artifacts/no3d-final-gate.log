@@ -1,0 +1,63 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Task :verifyF0
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\clcplus-2021-samples.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\eea-article12.parco-nord.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\eea-article17.parco-nord.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\eea-maes-2014.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\gbif-occurrence.parco-nord.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\gbif-taxa-initial.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\providers\nnb-wfs.parco-nord.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\habitat-maes.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\occurrence-gbif.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\occurrence-nnb.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\range-article17.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\season-article12.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\normalized\taxon-turdus-merula.json
+PASS schema: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\f0\fixtures\routes\pilot-routes.geojson
+✔ le cinque tracce WGS84 hanno coordinate valide e una sola pilota (3.9402ms)
+✔ celle, chunk, metriche e fingerprint sono deterministici (10.3584ms)
+✔ il fingerprint ignora rumore sotto la precisione contrattuale (1.3598ms)
+✔ tutte le query rispettano il limite interno e quello noto del provider (0.8867ms)
+✔ le fixture provider sono rileggibili offline e protette da hash (2.8375ms)
+✔ i normalizzatori riproducono gli esempi GBIF e NNB (1.3101ms)
+✔ solo un taxon Animalia accettato supera il gate di persistenza (0.726ms)
+✔ documented, plausible e insufficient restano semanticamente distinti (0.8418ms)
+✔ la mancanza del crosswalk CLCplus-MAES produce insufficient (0.1371ms)
+✔ gli esiti reali conservano fallback, errori e non-equivalenza temporale (1.2316ms)
+✔ ogni record normalizzato mantiene provenienza completa e fixture grezza (2.2384ms)
+✔ un'occorrenza storica conserva la data e non dichiara presenza attuale (0.3387ms)
+✔ registro fonti rende leggibili licenza, attribuzione, uso e rischio (0.7746ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118.6998
+
+> Task :formatCheck FAILED
+Exception: C:\Users\MicheleGreco\OneDrive - Fusion AI Labs\Desktop\Progetti\Faunavia\scripts\quality\check-format.ps1:27
+Line |
+  27 |      throw "Format check failed:`n$($violations -join "`n")"
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Format check failed: tab: C:\Users\MicheleGreco\OneDrive - Fusion AI
+     | Labs\Desktop\Progetti\Faunavia\artifacts\no3d-recovery-android-results.xml
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':formatCheck' (registered in build file 'build.gradle.kts').
+> Process 'command 'pwsh'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 30s
+2 actionable tasks: 2 executed

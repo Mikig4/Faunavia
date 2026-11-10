@@ -17,8 +17,8 @@ android {
         applicationId = "it.faunavia.app"
         minSdk = 26
         targetSdk = 37
-        versionCode = 22
-        versionName = "0.17.0-f17"
+        versionCode = 26
+        versionName = "0.17.4-diary"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
@@ -88,6 +88,7 @@ tasks.matching { it.name == "mergeDebugAndroidTestAssets" }.configureEach {
 }
 
 dependencies {
+    implementation(libs.media3.transformer)
     // Align app and instrumentation runtimes: Room migration testing needs 1.8.1.
     // AGP otherwise keeps the app's older serialization-core beside newer test JSON.
     implementation(libs.kotlinx.serialization.json)
@@ -99,9 +100,6 @@ dependencies {
     implementation(project(":core:exploration"))
     implementation(libs.maplibre.opengl)
     implementation(libs.okhttp)
-    implementation(libs.filament.android)
-    implementation(libs.filament.gltfio)
-    implementation(libs.filament.utils)
     implementation(libs.coroutines.android)
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(libs.room.runtime)

@@ -106,8 +106,8 @@ internal fun PhotoGallery(memoryId: String, manager: MemoryPhotos, onClose: () -
             LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.testTag("photo-list")) {
                 item {
-                    Text("Foto del ricordo", style = MaterialTheme.typography.titleLarge)
-                    Text("Copie private su questo dispositivo. Posizione GPS e altri metadati EXIF rimossi.",
+                    Text("Foto e video del ricordo", style = MaterialTheme.typography.titleLarge)
+                    Text("Copie private su questo dispositivo. Le foto vengono salvate senza posizione GPS e metadati EXIF.",
                         style = MaterialTheme.typography.bodySmall)
                     Text("${model.photos.size} foto", modifier = Modifier.testTag("photo-count"))
                     Button(onClick = {
@@ -121,6 +121,7 @@ internal fun PhotoGallery(memoryId: String, manager: MemoryPhotos, onClose: () -
                     }
                     TextButton(onClick = onClose, enabled = !model.busy, modifier = Modifier.testTag("photo-close")) { Text("Chiudi") }
                 }
+                manager.videos?.let { videos -> item { MemoryVideoSection(memoryId, videos) } }
                 if (!model.busy && model.photos.isEmpty()) item {
                     Text("Nessuna foto. Il ricordo resta completo anche senza immagini.", modifier = Modifier.testTag("photo-empty"))
                 }

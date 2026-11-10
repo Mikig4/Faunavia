@@ -1,7 +1,7 @@
 ---
 name: agents
 description: Always-loaded project anchor. Read this first. Contains project identity, non-negotiables, commands, and pointer to ROUTER.md for full context.
-last_updated: 2026-09-14
+last_updated: 2026-10-26
 ---
 
 # Atlante faunistico personale
@@ -12,7 +12,7 @@ last_updated: 2026-09-14
      Not a tagline — a factual description of what the software does.
      Example: "A REST API for managing inventory across multiple warehouse locations." -->
 
-Un'app personale che analizza una posizione o un itinerario e mostra specie animali documentate o plausibili nell'area, con fonti, schede informative e asset 3D.
+Un'app personale che analizza una posizione o un itinerario e mostra specie animali documentate o plausibili nell'area, con fonti, schede informative, foto e video privati.
 
 ## Non-Negotiables
 <!-- Hard rules the agent must never violate. Not preferences — rules.

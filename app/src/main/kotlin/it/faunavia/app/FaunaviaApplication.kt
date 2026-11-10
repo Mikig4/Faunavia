@@ -34,15 +34,16 @@ class FaunaviaApplication : Application() {
         LocalRepositories.open(this, clock)
     }
     internal val privatePhotos by lazy { PrivatePhotoStore(this) }
-    internal val personalModels by lazy { PersonalModelStore(this, repositories.personalModels, privatePhotos) }
-    @Volatile internal var modelCleanupWarning: String? = null
-    internal val localBackup by lazy { LocalBackupArchive(this, repositories.backup, privatePhotos, models = personalModels) }
+    internal val privateVideos by lazy { PrivateVideoStore(this, privatePhotos) }
+    internal val memoryVideos by lazy { MemoryVideos(privateVideos, repositories.videos, privatePhotos) }
+    internal val localBackup by lazy { LocalBackupArchive(this, repositories.backup, privatePhotos, videos = privateVideos) }
     internal suspend fun restoreBackup(prepared: PreparedBackup): BackupPreview =
         kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable) {
             val report = reminderPreferences.withBackup { localBackup.restore(prepared) }
             summaryNotifications.cancel()
             val scheduled = runCatching { reminderPreferences.reconcile(force = true) }.isSuccess
             localBackup.lastMessage = listOfNotNull("Ripristino completato: ${report.summary}.",
+                report.legacyWarning,
                 if (scheduled) null else "Controlla il riepilogo giornaliero nelle impostazioni: la pianificazione va riprovata.",
                 localBackup.cleanupWarning).joinToString(" ")
             report
@@ -59,9 +60,6 @@ class FaunaviaApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
-            runCatching { personalModels.recover() }.onSuccess {
-                if (!it) modelCleanupWarning = "Pulizia dei modelli inutilizzati incompleta. Libera spazio e riapri l’app per riprovare."
-            }.onFailure { modelCleanupWarning = "Non riesco a recuperare lo spazio dei modelli inutilizzati. Riapri l’app per riprovare." }
             try { reminderPreferences.reconcile() }
             catch (failure: Exception) { reminderRecoveryWarning(failure, "Cannot restore reminder; next app opening retries.") }
         }

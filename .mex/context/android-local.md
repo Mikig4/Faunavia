@@ -18,14 +18,18 @@ edges:
     condition: when implementing diary photos or local reminders
   - target: context/architecture.md
     condition: when Android platform behavior changes a component boundary
-last_updated: 2026-10-03
+last_updated: 2026-11-10
 ---
 
 # Android local architecture
 
 ## Local source of truth
 
-Room/SQLite stores structured data. Photos are files in app-private storage with metadata in Room. The APK can bundle a small curated catalogue and GLB assets; larger regional map packages are separate, versioned imports.
+Room/SQLite stores structured data. Photos are files in app-private storage with metadata in Room. The APK bundles a small curated catalogue and the accessible 2D fallback; larger regional map packages are separate, versioned imports.
+
+## Personal common-name annotation (verified 2026-11-10)
+
+Room 12 adds nullable `observations.personalCommonName` through additive migration 11→12, preserving identities, creation timestamps and attached media. Domain/draft/Room mappers and transactional create/update/identification carry the label independently from `Taxon.commonName`. Format-3 backups target schema 12; strict schema 8–11 column inventories omit only the new nullable column, allowing SQLite to supply NULL. Existing exported schemas remain unchanged; schema 12 matches the Room compiler identity hash. The populated 11-to-12 migration, media preservation, CRUD/reopening and backup regressions passed on Android in the unfiltered 2026-11-10 verifyAll gate (13 F0, 152 JVM, 174 Android, zero failures/skips/omissions). See `38 - Nome comune personale negli avvistamenti.md`.
 
 ## F2 storage implementation
 
@@ -112,13 +116,9 @@ The F13 baseline retains schema 9 and format-1 backup with the same 19-table inv
 
 The UI exposes headings, explicit unavailable states, labelled generic 2D fallback, saveable curiosity/source disclosures and a fixed close action. The native Dialog content retains parent density; the large-text test measures rendered TextLayoutResult font scale 1.8. Automated tests cover long accented text, semantics, source-open failure and four versioned visual signatures. Final `verifyAll`: 13 F0, 123 JVM, 144 Android, no failures/errors/skips/omissions. No new library, physical-device or actual TalkBack session was used.
 
-## F14 personal GLB storage and rendering
+## Retired 3D archive compatibility
 
-Current schema is 10: additive migration 9→10 adds `personal_models` with domain-checked credits/import date/hash/path/size. Association is to the displayed taxon identity, separate from selected catalogue rows; importing an illustration cannot create a diary taxon. Private no-backup UUID model directories are published complete before metadata and recovered after the photo-style 24-hour grace. File import, replacement/removal and restoration share the photo mutex/generation.
-
-Format-2 ZIP adds exact referenced model bytes/provenance to all 20 durable tables, still accepting released format-1/schema-9 input and synthetic schema-8 compatibility. Limits remain 2 GiB archive/10,000 resource files/64 MiB JSON/100,000 rows; models additionally have 20 MiB/file and 100 associations maximum. Staging checks structure and Filament resources; fresh paths are committed with rows, failed restore removes only newly published copies. A legacy backup has an empty model library and replaces the current one after preview/confirmation.
-
-Filament 1.77.1 renders only when the shared profile's model dialog is opened. Vulkan is preferred on advertised hardware support, otherwise OpenGL; lifecycle pause stops callbacks, detach releases native ownership exactly once. Model dialog visibility/controls belong to the profile's composition so saveable state survives restoration, including a selected paused/playing clip. Actual native pixels/touch/disposal, invalid files, migration, SAF and backup are covered by F14 tests. Physical-device performance and human asset approval remain pending; see `GUIDA-FASE-14.md`.
+Removed on user request, 2026-10-26: model UI/importer/parser, Filament, bundled assets, pipeline and dedicated tests/golden. Room 11 keeps the historical personal_models table inert, with a read-only archive DAO and no domain repository or app CRUD API. Backup 3 preserves intact prior rows and bounded opaque attachment bytes with path/size/hash checks and fresh UUID publication before atomic replacement. Missing or damaged attachments are excluded only from the export and clearly reported; local data remains untouched. It does not parse or render GLB. See 36 - Rimozione modelli 3D.md.
 
 ## Maps (existing F9 boundary)
 
@@ -129,6 +129,8 @@ The green Scaffold now sets `contentColor = onBackground`, and essential title/s
 MapLibre Native Android is the F8A renderer, isolated from F5/F6/F7 behind an Android adapter. Online sources must be used according to their terms. Offline regions must come from a source/process that permits offline packaging; standard OSM tile servers are not a source for bulk offline downloads.
 
 ## Distribution
+
+Memory video extension 2026-10-26: Room 11 adds `observation_videos`/`draft_videos`, each keyed by its owner; migration 10→11 preserves existing rows. `MemoryVideoRepository` resolves the current owner in a transaction, including draft conversion. Private complete MP4 files live in `noBackupFilesDir/videos/<uuid>/clip.mp4`; incomplete originals live separately in `video-staging`. Transformer is confined to its main looper; cancellation stops codecs before deleting only unpublished output. Final bytes are hashed/synced before metadata. Format-3 backup inventories video files, validates headers/durations/dimensions and uses fresh restored paths before atomic database publication. Earlier archive readers remain available. Limits and device-test evidence are in `GUIDA-VIDEO.md`.
 
 Generate and sideload a debug/release APK locally for the zero-cost path. Play Store publication is a separate decision and may introduce account or publishing costs.
 

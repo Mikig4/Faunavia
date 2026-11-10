@@ -2,7 +2,7 @@
 
 ## Visione
 
-Quando l'utente apre l'app, sceglie partenza, destinazione, date e tracciato del viaggio sulla mappa interna. Nello stesso viaggio consulta gli animali pertinenti e registra i ricordi nel Diario. Può aprire le indicazioni anche in Google Maps, che le ricalcola autonomamente. Esplorazione senza viaggio, posizione corrente e importazione di un itinerario sono ingressi facoltativi. L'app distingue evidenze documentate, plausibilità e suggerimenti personali; schede e 3D arrivano nelle rispettive fasi.
+Quando l'utente apre l'app, sceglie partenza, destinazione, date e tracciato del viaggio sulla mappa interna. Nello stesso viaggio consulta gli animali pertinenti e registra i ricordi nel Diario. Può aprire le indicazioni anche in Google Maps, che le ricalcola autonomamente. Esplorazione senza viaggio, posizione corrente e importazione di un itinerario sono ingressi facoltativi. L'app distingue evidenze documentate, plausibilità e suggerimenti personali; schede e foto arrivano nelle rispettive fasi.
 
 ## Requisiti funzionali
 
@@ -41,7 +41,7 @@ Il viaggio può essere organizzato in tappe libere ordinate, con un giorno e un 
 2. Permette di cercare e selezionare un paese, una regione o una città per nome, con gestione dei risultati ambigui e dei nomi non trovati.
 3. Permette di filtrare per gruppo animale, periodo, habitat e livello di evidenza.
 4. Apre una scheda specie compatta con nome comune quando disponibile, nome scientifico, habitat e stagionalità. Habitat è cliccabile e apre una mappa generale di distribuzione verificata, distinta dai punti di avvistamento o dal corridoio del viaggio. Descrizione, dimensioni, dieta, comportamento e note di sicurezza/conservazione restano approfondimenti su richiesta; in F13 la sezione **Curiosità** deve essere cliccabile/espandibile e ogni fatto deve avere una fonte verificabile.
-5. Mostra un modello 3D locale in formato glTF/GLB, con fallback a immagine o silhouette.
+5. Mostra fotografie con crediti e un simbolo 2D quando le immagini non sono disponibili.
 6. Mantiene il link alla fonte e la data di aggiornamento del dato.
 7. Nei risultati del catalogo mostra, quando disponibile, una miniatura dell'animale con fonte, autore e licenza prima della conferma.
 8. Se la foto non è disponibile o non è riutilizzabile, mostra un placeholder senza impedire la selezione.
@@ -78,7 +78,7 @@ Il viaggio può essere organizzato in tappe libere ordinate, con un giorno e un 
 - Android-first: il primo prodotto distribuibile è un APK installabile senza obbligo di pubblicazione sul Play Store.
 - Local-first: diario, foto, ricerche geografiche già effettuate e schede disponibili devono restare consultabili senza rete.
 - Privacy: la posizione non viene inviata a un server personale; eventuali richieste esterne usano solo l'area minima necessaria.
-- Prestazioni: la prima schermata deve funzionare su telefono medio senza caricare tutti i modelli 3D insieme.
+- Prestazioni: la prima schermata deve funzionare su telefono medio con caricamento delle immagini solo quando servono.
 - Notifiche: il riepilogo serale deve essere locale e legato al fuso orario corrente, con gestione del permesso Android.
 - Trasparenza: l'app non deve presentare una presenza storica come avvistamento in tempo reale.
 - Costi: nessun servizio a pagamento è indispensabile per il percorso MVP.
@@ -94,4 +94,4 @@ Il viaggio può essere organizzato in tappe libere ordinate, con un giorno e un 
 
 ## Definition of Done dell'MVP
 
-Una persona può aprire l'app, confermare partenza e destinazione, scegliere date e tracciato sulla mappa interna, salvare il viaggio e consultare evidenze e suggerimenti motivati lungo il percorso. Può aprire le indicazioni in Maps e registrare dal catalogo generale un avvistamento collegato al viaggio, anche senza coordinate. Può aprire una scheda e visualizzare almeno un modello 3D locale senza account né costo ricorrente; percorsi importati ed esplorazione senza viaggio restano facoltativi.
+Una persona può aprire l'app, confermare partenza e destinazione, scegliere date e tracciato sulla mappa interna, salvare il viaggio e consultare evidenze e suggerimenti motivati lungo il percorso. Può aprire le indicazioni in Maps e registrare dal catalogo generale un avvistamento collegato al viaggio, anche senza coordinate. Può aprire una scheda con foto e fallback 2D senza account né costo ricorrente; percorsi importati ed esplorazione senza viaggio restano facoltativi.

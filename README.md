@@ -1,12 +1,18 @@
 # Atlante faunistico personale
 
-Stato: Fasi 0–13 e rifiniture verificate; F14 implementata, con revisione umana e prova su telefono necessarie per il completamento formale. Gate cumulativo automatizzato verde: 13 F0, 123 JVM, 155 Android, zero errori/skipped/omissioni, lint/confini/formattazione e cinque firme visive. APK corrente F14: `artifacts/Faunavia-f14-debug.apk`, versione `0.14.0-f14` (21), 86.635.610 byte, stessa firma precedente; Room 10, backup ZIP 2. Esiti e limiti in [[32 - Rapporto Fase 14]].
+**Modelli 3D rimossi:** visualizzatore, importazione, asset, dipendenze e test dedicati eliminati su richiesta. Restano schede specie, foto e video con taglio in app. Compatibilità dei backup precedenti conservata. Dettagli in [[36 - Rimozione modelli 3D]].
 
-**3D e libreria personale:** dalla scheda specie apri **Modello 3D e libreria personale**. Merlo originale offline, rotazione/zoom e due clip con play/pausa; import, sostituzione e rimozione di GLB personali con crediti e copie private. Un file invalido conserva il precedente; simbolo 2D e diario restano disponibili. Guida [[GUIDA-FASE-14]]. Il modello è illustrativo, con revisione umana ancora da completare.
+Verifica finale: 13 test F0, 150 JVM, 163 Android e quattro firme visive, senza errori, test saltati o omessi. APK `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), con la firma precedente; prove Android su emulatore API 36.
 
-**Backup locale:** Impostazioni → **Backup e ripristino** esporta diario, bozze, foto, viaggi, uscite, desideri, impostazioni e GLB personali/crediti in un ZIP nella destinazione scelta. Formato 2, con lettura dei backup formato 1 precedenti. L’import verifica file e relazioni, mostra i conteggi e sostituisce i dati soltanto dopo conferma; un errore prima del commit conserva lo stato precedente. Il file non è cifrato. Guida [[GUIDA-FASE-12]] e aggiornamento [[GUIDA-FASE-14]]. Il riepilogo giornaliero locale F11 resta configurabile dalle Impostazioni.
+**Video privati:** dal Diario apri **Foto e video → Aggiungi video**, scegli inizio/fine con i cursori, prova lo spezzone e salvalo. Un video per ricordo, oltre alle foto, anche per le bozze da identificare; copia finale fino a 100 MB e originale intatto. Sostituzione, rimozione, conservazione durante l’identificazione e backup sono inclusi. Guida [[GUIDA-VIDEO]], implementazione/verifiche [[35 - Video privati e taglio]]. La build corrente è `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), Room 11 e backup 3 con reader precedenti.
 
-**Foto private:** dopo aver salvato un avvistamento o una bozza, apri **Foto (n)** per aggiungere immagini dal Photo Picker. Miniature e copie controllate funzionano offline, senza upload o permessi generali sulla galleria; i metadati EXIF sensibili sono rimossi e l’orientamento viene applicato ai pixel. Una foto si può eliminare mantenendo il ricordo; identificare una bozza conserva tutte le immagini. Guida [[GUIDA-FASE-10]], dettagli e verifiche in [[27 - Rapporto Fase 10]].
+Gate della precedente build video verde: 13 F0, 150 JVM e 174 Android, zero errori/skipped/omissioni, lint/confini/formato e cinque firme visive. Anteprima reale e selezione dopo rotazione verificate su emulatore; resta la prova con i propri video sul telefono. Evidenze in `artifacts/video-verification.json`.
+
+Baseline precedente (F17): ricerca online lungo percorso/tappa solo dal pulsante Richiedi aiuto; nessun catalogo offline predefinito di uscite. Foto Wikipedia nelle schede specie con crediti e fallback. Gate finale verde: 13 F0, 148 JVM, 165 Android, zero errori/skipped/omissioni, lint/confini/formato e cinque firme visive. APK artifacts/Faunavia-f17-online-debug.apk, 0.17.1-f17 (23), stessa firma precedente. Room 10 e backup 2 invariati. Guida [[GUIDA-FASE-17]], esiti/limiti [[34 - Ricerca online delle uscite]]. F14 è stata rimossa; F15 e F16 restano aperte.
+
+**Backup locale:** Impostazioni → **Backup e ripristino** esporta diario, bozze, foto, video, viaggi, uscite, desideri, impostazioni in un ZIP nella destinazione scelta. Formato 3, con lettura dei backup formato 1 e 2 precedenti. L’import verifica file e relazioni, mostra i conteggi e sostituisce i dati soltanto dopo conferma; un errore prima del commit conserva lo stato precedente. Il file non è cifrato. Guide [[GUIDA-FASE-12]] e [[GUIDA-VIDEO]]. Gli allegati integri delle vecchie versioni restano conservati come file opachi. Se uno manca o è danneggiato, il backup lo segnala e lo esclude senza modificare i dati sul dispositivo. Il riepilogo giornaliero locale F11 resta configurabile dalle Impostazioni.
+
+**Foto private:** dopo aver salvato un avvistamento o una bozza, apri **Foto e video** per aggiungere immagini dal Photo Picker. Miniature e copie controllate funzionano offline, senza upload o permessi generali sulla galleria; i metadati EXIF sensibili sono rimossi e l’orientamento viene applicato ai pixel. Una foto si può eliminare mantenendo il ricordo; identificare una bozza conserva tutte le immagini. Guida [[GUIDA-FASE-10]], dettagli e verifiche in [[27 - Rapporto Fase 10]].
 
 Viaggi conserva partenza, destinazione, tappe con giorni e tracciati scelti; **Suggerimenti e desideri** aggiunge profili curati del pilota, viste tipici/più facili/mai osservati e lista desideri offline. La vista più facili dichiara la mancanza di stime confrontabili; non inventa un ranking. Il Catalogo permette di aggiungere un taxon selezionato ai desideri; il diario resta indipendente dai suggerimenti. Fonti, livelli di evidenza e ricordi personali rimangono distinti. Guida [[GUIDA-FASE-9]], verifiche e sole evoluzioni dei suggerimenti/desideri in [[24 - Rapporto Fase 9]]. Le funzionalità F8B precedenti restano documentate in [[23 - Tappe e giorni del viaggio]].
 
@@ -14,7 +20,7 @@ La ricerca parte da **Animali tipici**, con dodici profili pilota e vista comple
 
 ## Obiettivo
 
-Un'app Android personale centrata sul viaggio: destinazione confermata e date valide → animali pertinenti → Diario con foto private. Partenza e itinerario sono facoltativi e si possono aggiungere anche in seguito; senza tracciato, la ricerca usa l'area della destinazione. Quando presente, Faunavia conserva la traccia scelta sulla mappa interna. Google Maps apre le indicazioni fra gli estremi confermati e le ricalcola autonomamente. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Schede offline, curiosità con fonti, fallback 2D e illustrazioni 3D personali completano la consultazione. Modifica e limiti di verifica: [[37 - Viaggi senza itinerario]].
+Un'app Android personale centrata sul viaggio: destinazione confermata e date valide → animali pertinenti → Diario con foto private. Partenza e itinerario sono facoltativi e si possono aggiungere anche in seguito; senza tracciato, la ricerca usa l'area della destinazione. Quando presente, Faunavia conserva la traccia scelta sulla mappa interna. Google Maps apre le indicazioni fra gli estremi confermati e le ricalcola autonomamente. La ricerca delle specie avviene direttamente nel Diario. Esplorazione senza viaggio e percorsi importati sono facoltativi. Schede offline, curiosità con fonti, fallback 2D e foto Wikipedia con crediti completano la consultazione. Modifica e limiti di verifica: [[37 - Viaggi senza itinerario]].
 
 ## Vincoli guida
 
@@ -29,7 +35,7 @@ Un'app Android personale centrata sul viaggio: destinazione confermata e date va
 - [[01 - Obiettivo e requisiti]] — cosa deve fare l'app e cosa è fuori ambito.
 - [[02 - Architettura proposta]] — componenti, flussi e modello concettuale.
 - [[03 - Dati e fonti]] — fonti gratuite, licenze e qualità del dato.
-- [[04 - Asset 3D]] — pipeline per modelli e schede degli animali.
+- [[04 - Asset 3D]] — nota storica della funzionalità rimossa.
 - [[05 - Roadmap]] — fasi di realizzazione e criteri di completamento.
 - [[06 - Domande aperte]] — decisioni da prendere prima dell'implementazione.
 - [[07 - Strategia mappa e database]] — cosa salvare localmente e quando valutare Firebase.

@@ -43,6 +43,8 @@ import it.faunavia.domain.DiaryRepository
 import it.faunavia.domain.GeoPoint
 import it.faunavia.domain.MAX_OBSERVATION_NOTES_LENGTH
 import it.faunavia.domain.MAX_OBSERVATION_QUANTITY
+import it.faunavia.domain.MAX_PERSONAL_COMMON_NAME_LENGTH
+import it.faunavia.domain.normalizePersonalCommonName
 import it.faunavia.domain.Observation
 import it.faunavia.domain.ObservationDraft
 import it.faunavia.domain.Taxon
@@ -94,6 +96,7 @@ private data class DiaryEditor(
     val tripId: String? = null,
     val outingId: String? = null,
     val unidentified: Boolean = false,
+    val personalCommonName: String = "",
 ) {
     companion object {
         fun new(now: Instant, zoneId: ZoneId): DiaryEditor {
@@ -127,6 +130,7 @@ private data class DiaryEditor(
                 longitude = entry.observation.location?.longitude?.toString().orEmpty(),
                 tripId = entry.observation.tripId,
                 outingId = entry.observation.outingId,
+                personalCommonName = entry.observation.personalCommonName.orEmpty(),
             )
         }
 
@@ -151,6 +155,7 @@ private data class DiaryEditor(
             quantity = parsed.quantity,
             tripId = tripId,
             outingId = outingId,
+            personalCommonName = normalizePersonalCommonName(personalCommonName),
         )
     }
 
@@ -195,7 +200,9 @@ internal fun DiaryScreen(
 ) {
     val context = LocalContext.current
     val photos = remember(context, diary, unidentifiedRepository, photoManager) {
-        photoManager ?: MemoryPhotos((context.applicationContext as FaunaviaApplication).privatePhotos, diary, unidentifiedRepository)
+        photoManager ?: (context.applicationContext as FaunaviaApplication).let {
+            MemoryPhotos(it.privatePhotos, diary, unidentifiedRepository, it.memoryVideos)
+        }
     }
     var photoMemoryId by rememberSaveable { mutableStateOf<String?>(null) }
     var draftPhotoCounts by remember { mutableStateOf<Map<String, Int>>(emptyMap()) }
@@ -249,7 +256,8 @@ internal fun DiaryScreen(
                 (selectedTrip == null || entry.observation.tripId == selectedTrip) &&
                     (selectedOuting == null || entry.observation.outingId == selectedOuting) &&
                     (speciesFilter.isBlank() || (entry.taxon?.scientificName ?: entry.observation.taxonId).contains(speciesFilter, true) ||
-                        entry.taxon?.commonName?.contains(speciesFilter, true) == true) &&
+                        entry.taxon?.commonName?.contains(speciesFilter, true) == true ||
+                        entry.observation.personalCommonName?.contains(speciesFilter, true) == true) &&
                     (dateFilter.isBlank() || entry.observation.localDate.toString() == dateFilter)
             }
             DiaryList(
@@ -260,6 +268,8 @@ internal fun DiaryScreen(
                 onCreate = { editor = DiaryEditor.new(now(), deviceZone).copy(tripId = selectedTrip, outingId = selectedOuting) },
                 onEdit = { entry -> editor = DiaryEditor.from(entry) },
                 onPhotos = { photoMemoryId = it },
+                photoManager = photos,
+                mediaRefresh = refresh,
                 onStartDelete = { deletingId = it },
                 onCancelDelete = { deletingId = null },
                 onConfirmDelete = { id ->
@@ -295,13 +305,6 @@ internal fun DiaryScreen(
                                 OutlinedButton(onClick = { view = id }, modifier = Modifier.testTag("diary-view-$id")) { Text(label) }
                             }
                         }
-                        val allSummary = PersonalDiaryViews.species(entries.map { it.observation }).associateBy { it.taxonId }
-                        val summaries = PersonalDiaryViews.species(scoped.map { it.observation })
-                        Text("${scoped.size} avvistamenti · ${summaries.size} specie · bozze escluse", modifier = Modifier.testTag("diary-summary"), color = FaunaviaColors.Ink)
-                        summaries.forEach { summary ->
-                            val name = entries.firstOrNull { it.observation.taxonId == summary.taxonId }?.taxon?.scientificName ?: summary.taxonId
-                            Text("$name · prima osservazione personale ${allSummary.getValue(summary.taxonId).first.localDate}", color = FaunaviaColors.Muted)
-                        }
                         if (view == "calendar") PersonalDiaryViews.calendar(scoped.map { it.observation }).forEach { (day, memories) ->
                             Text("$day · ${memories.size} avvistamenti", modifier = Modifier.testTag("diary-calendar-$day"), color = FaunaviaColors.Ink)
                         }
@@ -322,10 +325,11 @@ internal fun DiaryScreen(
                             (selectedOuting == null || it.input.outingId == selectedOuting) && speciesFilter.isBlank() &&
                             (dateFilter.isBlank() || it.input.observedAt.atZone(it.input.zoneId).toLocalDate().toString() == dateFilter) }, key = { "draft-${it.input.id}" }) { draft ->
                             Column(Modifier.fillMaxWidth().testTag("diary-draft-${draft.input.id}"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                MemoryMediaPreview(draft.input.id, photos, refresh, onOpen = { photoMemoryId = draft.input.id })
                                 Text("Da identificare · ${draft.input.observedAt.atZone(draft.input.zoneId).toLocalDate()}", fontWeight = FontWeight.Bold, color = FaunaviaColors.Ink)
                                 Text(draft.input.notes.ifBlank { "Nessuna nota" }, color = FaunaviaColors.Muted)
                                 OutlinedButton(onClick = { photoMemoryId = draft.input.id }, modifier = Modifier.testTag("diary-photos-${draft.input.id}")) {
-                                    Text("Foto (${draftPhotoCounts[draft.input.id] ?: 0})")
+                                    Text("Foto e video (${draftPhotoCounts[draft.input.id] ?: 0} foto)")
                                 }
                                 OutlinedButton(onClick = { editor = DiaryEditor.from(draft) }, modifier = Modifier.testTag("diary-draft-edit-${draft.input.id}")) { Text("Modifica o identifica") }
                                 if (deletingDraft == draft.input.id) {
@@ -380,6 +384,8 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
     onCreate: () -> Unit,
     onEdit: (DiaryListEntry) -> Unit,
     onPhotos: (String) -> Unit,
+    photoManager: MemoryPhotos,
+    mediaRefresh: Int,
     onStartDelete: (String) -> Unit,
     onCancelDelete: () -> Unit,
     onConfirmDelete: (String) -> Unit,
@@ -422,6 +428,8 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryList(
                     deleteConfirmation = deletingId == entry.observation.id,
                     onEdit = { onEdit(entry) },
                     onPhotos = { onPhotos(entry.observation.id) },
+                    photoManager = photoManager,
+                    mediaRefresh = mediaRefresh,
                     onStartDelete = { onStartDelete(entry.observation.id) },
                     onCancelDelete = onCancelDelete,
                     onConfirmDelete = { onConfirmDelete(entry.observation.id) },
@@ -444,6 +452,8 @@ private fun DiaryEntry(
     deleteConfirmation: Boolean,
     onEdit: () -> Unit,
     onPhotos: () -> Unit,
+    photoManager: MemoryPhotos,
+    mediaRefresh: Int,
     onStartDelete: () -> Unit,
     onCancelDelete: () -> Unit,
     onConfirmDelete: () -> Unit,
@@ -456,8 +466,13 @@ private fun DiaryEntry(
         colors = CardDefaults.cardColors(containerColor = Color.White),
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            MemoryMediaPreview(observation.id, photoManager, mediaRefresh, onOpen = onPhotos)
             Text(entry.taxon?.scientificName ?: observation.taxonId, color = FaunaviaColors.Ink, fontWeight = FontWeight.Bold)
-            entry.taxon?.commonName?.let { Text(it, color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodyMedium) }
+            (observation.personalCommonName ?: entry.taxon?.commonName)?.let {
+                Text(if (observation.personalCommonName != null) "$it · nome personale" else it,
+                    color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.testTag("diary-common-name-${observation.id}"))
+            }
             Text(
                 "${DiaryDateFormatter.format(observation.observedAt.atZone(observation.zoneId))} · " +
                     "${DiaryTimeFormatter.format(observation.observedAt.atZone(observation.zoneId))} · " +
@@ -470,7 +485,7 @@ private fun DiaryEntry(
                 Text("Posizione salvata", color = FaunaviaColors.Muted, style = MaterialTheme.typography.bodySmall)
             }
             if (observation.tripId != null) Text("Collegato al viaggio${if (observation.outingId != null) " e all’uscita" else ""}", color = FaunaviaColors.Muted)
-            OutlinedButton(onClick = onPhotos, modifier = Modifier.testTag("diary-photos-${observation.id}")) { Text("Foto (${entry.photoCount})") }
+            OutlinedButton(onClick = onPhotos, modifier = Modifier.testTag("diary-photos-${observation.id}")) { Text("Foto e video (${entry.photoCount} foto)") }
             if (deleteConfirmation) {
                 Text("Eliminare definitivamente questo avvistamento?", color = FaunaviaColors.Error, style = MaterialTheme.typography.bodyMedium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -555,7 +570,7 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
             OutlinedTextField(
                 value = editor.taxonQuery,
                 onValueChange = { query ->
-                    onEditorChange(editor.copy(taxonQuery = query, selectedTaxon = null))
+                    onEditorChange(editor.copy(taxonQuery = query, selectedTaxon = null, personalCommonName = ""))
                 },
                 modifier = Modifier.fillMaxWidth().testTag("diary-taxon-query"),
                 label = { Text(if (editor.unidentified) "Specie (se identificata, converte la bozza)" else "Specie obbligatoria") },
@@ -604,6 +619,20 @@ private fun androidx.compose.foundation.layout.ColumnScope.DiaryEditorForm(
                         Text(entry.taxon.commonName ?: "Nome comune non disponibile")
                     }
                 }
+            }
+        }
+        if (editor.selectedTaxon != null) item {
+            OutlinedTextField(
+                value = editor.personalCommonName,
+                onValueChange = { onEditorChange(editor.copy(personalCommonName = it)) },
+                modifier = Modifier.fillMaxWidth().testTag("diary-personal-common-name"),
+                label = { Text("Nome comune personale (facoltativo)") },
+                supportingText = { Text("Se il nome manca, puoi aggiungerlo qui anche in seguito. Solo per questo avvistamento; massimo $MAX_PERSONAL_COMMON_NAME_LENGTH caratteri. Non modifica il catalogo.") },
+                enabled = !saving && !selecting,
+                singleLine = true,
+            )
+            editor.selectedTaxon.commonName?.takeIf(String::isNotBlank)?.let {
+                Text("Nome nel catalogo: $it", color = FaunaviaColors.Muted)
             }
         }
         if (trips.isNotEmpty()) item {

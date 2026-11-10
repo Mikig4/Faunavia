@@ -1,38 +1,27 @@
-# Fase 17 — Luoghi, sentieri e foto Wikipedia
+# Fase 17 — Ricerca online di uscite e foto Wikipedia
 
-## Usare la scoperta
+1. Apri il viaggio e seleziona **Intero viaggio** oppure una tappa. Il percorso scelto definisce l’area della ricerca; per i viaggi precedenti senza traccia si usa il luogo confermato.
+2. In **Uscite**, premi **Richiedi aiuto**. Solo questo clic avvia la ricerca online di riserve, parchi, punti di osservazione e itinerari a piedi in OpenStreetMap.
+3. Confronta le proposte entro il raggio del viaggio, fino a 20 km dalla traccia. La distanza è in linea d’aria dal percorso al punto rappresentativo del luogo; non è il tempo di trasferimento o la distanza a piedi.
+4. Scegli il giorno e i filtri. Cambiare data, ordinamento o filtro lavora sui risultati già ricevuti. I filtri su durata, specie desiderate e periodo documentato escludono i dati mancanti. OpenStreetMap normalmente non documenta fauna e mesi consigliati: questi campi restano sconosciuti.
+5. Consulta **Fonte dell’itinerario**, coordinate, licenza e data. **Sito indicato in OpenStreetMap** apre il collegamento del record, quando disponibile. **Approfondisci su Google** apre una ricerca nel browser con i nomi pubblici di partenza/arrivo; la traccia e il diario non sono inviati a Google.
+6. **Salva nel viaggio** conserva proposta, fonti e informazioni per la consultazione offline. Un secondo salvataggio della stessa proposta nello stesso giorno riapre la precedente uscita senza modificarne lo snapshot.
+7. Dall’uscita puoi aggiungere un avvistamento identificato o una bozza collegata, con conferma dei dati personali. Una proposta non diventa un avvistamento.
 
-1. Apri o crea un viaggio con destinazione e date confermate.
-2. In **Uscite**, scegli **Scopri luoghi e sentieri**. Il raggio è quello del viaggio, fino a 20 km dalla base; modifica il viaggio per cambiarlo.
-3. Scegli un giorno del viaggio. Confronta distanza in linea d’aria, lunghezza, durata indicativa, difficoltà e accessi. Puoi ordinare per pertinenza, distanza o durata e filtrare per durata documentata, desideri e periodo consigliato documentato.
-4. Apri le fonti per controllare condizioni aggiornate. Le specie sono riportate nella documentazione generale del luogo: non sono avvistamenti in tempo reale e non cambiano il livello delle evidenze F7.
-5. **Salva nel viaggio** conserva proposta, fonti e dettagli. Se la stessa proposta è già salvata nello stesso giorno, l’azione la riapre senza sostituire il precedente snapshot. Giorni diversi possono avere uscite distinte.
-6. Dall’uscita selezionata, **Aggiungi avvistamento** o **Ricordo da identificare** conserva il collegamento. Conferma specie, data e posizione effettive: le coordinate pubbliche del luogo non vengono copiate nel ricordo.
+## Rete e limiti
 
-## Copertura e dati mancanti
+Non esiste più un catalogo offline predefinito delle uscite. La ricerca richiede rete; uscite salvate, diario, backup e pianificazione manuale restano locali. La rotazione conserva richiesta e risultati; dopo la chiusura del processo una nuova ricerca richiede un clic esplicito. **Riprova ricerca** ripete la richiesta, senza tentativi automatici.
 
-Il catalogo incluso contiene cinque proposte in tre luoghi pubblici della Lombardia: Torbiere del Sebino (percorso per tutti, nord-sud, nord-centrale), Palude Brabbia e Bosco WWF di Vanzago. È una selezione pilota, non una ricerca mondiale o esaustiva.
+Il prototipo invia al provider solo riquadri aggregati del corridoio europeo F5, non l’intera traccia, GPX o dati del diario. Una richiesta ha limiti di tempo, dimensione e risultati; percorsi molto lunghi interrogano al massimo 12 aree distribuite lungo il corridoio e dichiarano la copertura parziale. Seleziona una tappa per restringere la ricerca. Sono mostrate al massimo 40 proposte dopo i filtri; il limite è esplicito.
 
-Lunghezza e durata sono quelle documentate dai gestori. Difficoltà e accessibilità non documentate restano esplicite. Il filtro sulla durata esclude le proposte prive del dato. La distanza dalla base è geografica, verso un punto pubblico rappresentativo; non è la distanza stradale o il tempo di trasferimento. L’indirizzo di partenza, quando disponibile, è riportato separatamente.
+Sono esclusi i record con accesso privato o vietato dichiarato. L’assenza di un divieto non certifica l’accesso: verifica chiusure, ingresso e condizioni con il gestore. I centri OSM sono punti rappresentativi e possono differire dall’ingresso. Difficoltà sac_scale, accessibilità wheelchair, durata e distanza sono riportate solo se disponibili nella fonte. Non viene inventata una traccia del sentiero dalle coordinate rappresentative.
 
-Le tracce di questi cinque itinerari non sono incorporate: diritti di riuso e geometrie dei singoli sentieri non sono stati acquisiti. Nessuna linea viene inventata dai punti fauna. Le uscite con una traccia conservata mostrano uno schema offline dei segmenti, senza creare connessioni tra segmenti separati. Importazione GPX/GeoJSON e pianificazione manuale restano disponibili fuori copertura o in assenza di proposte.
+Le istanze pubbliche Overpass sono utilizzate per questa prova personale, con richieste limitate e senza prefetch. Una distribuzione stabile richiede un endpoint dedicato o un fornitore appropriato. [Indicazioni del gestore](https://dev.overpass-api.de/overpass-doc/en/preface/commons.html).
 
-Gli accessi vanno verificati prima di partire: il centrale del Sebino risulta riaperto solo parzialmente dopo la chiusura stagionale 2026; Vanzago richiede visita guidata ed esclude agosto dalle visite ordinarie. Gli avvisi e le fonti restano nella proposta, senza una promessa di apertura futura. Dopo 90 giorni la fonte conservata è segnalata come datata.
+## Foto nelle schede specie
 
-## Offline e backup
+Aprire una scheda carica la foto principale Wikipedia, quando disponibile, dopo controllo dell’identità scientifica e dei diritti Commons. Sono visibili autore, licenza, fonti e collegamento alla voce. Immagini assenti, ambigue o senza diritti verificati mantengono il simbolo generico e permettono di riprovare.
 
-Il catalogo è incluso nell’APK. Proposte salvate, fonti, dettagli, eventuali geometrie e ricordi restano locali. Backup e ripristino F12/F14 includono automaticamente i nuovi dettagli dell’uscita nel payload versione 2; le precedenti uscite versione 1 restano leggibili, Room rimane 10 e il formato ZIP rimane 2.
+La prima foto richiede rete; metadati e cache delle immagini sono espellibili. I dati datati sono segnalati. Foto Wikipedia e cache temporanee non entrano nel backup del diario.
 
-Le pagine dei gestori e le mappe di base online richiedono rete. F15 (pacchetti regionali di mappe/gazetteer) e F16 (decisione sulla sincronizzazione opzionale) rimangono aperte: questo incremento F17 è stato anticipato su richiesta e usa il catalogo incluso e la persistenza già disponibile.
-
-## Foto Wikipedia
-
-Aprire **Scheda specie** avvia il recupero della foto principale della voce Wikipedia associata all’identità scientifica esatta. La voce italiana ha priorità; se manca la sua immagine, si verifica la voce inglese. Commons fornisce miniatura, autore, licenza e data. Sono accettate soltanto le licenze libere supportate e i domini media ufficiali.
-
-Foto e crediti appaiono nella scheda, con **Fonte e licenza della foto** e **Apri voce Wikipedia**. Un’identità ambigua, diritti non supportati, una foto assente o un errore di rete mantengono il simbolo generico e **Riprova foto Wikipedia**. Non viene selezionato automaticamente alcun taxon per il diario.
-
-La prima foto richiede rete. I metadati hanno scadenza di 30 giorni; la cache HTTP delle immagini è limitata e può essere rimossa dal sistema. Una foto in cache non aggiornata viene dichiarata. Foto Wikipedia e cache temporanee non entrano nel backup del diario.
-
-## Verifiche e artefatti
-
-Esiti cumulativi, APK, hash e limiti della verifica sono in [[33 - Rapporto Fase 17]]. Lo smoke online separato si ripete con `pwsh -NoProfile -File scripts/verify-species-photo-smoke.ps1`; non fa parte dei test deterministici.
+Esiti e APK correnti: [[34 - Ricerca online delle uscite]]. Il precedente pilota incluso è documentato come storico in [[33 - Rapporto Fase 17]]. Smoke separati: scripts/verify-outing-search-smoke.ps1 e scripts/verify-species-photo-smoke.ps1.

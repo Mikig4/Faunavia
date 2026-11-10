@@ -1,6 +1,6 @@
 # Piano di sviluppo dettagliato
 
-Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti datati conservano la storia delle verifiche; F0–F13 sono completate. F14 è implementata con gate automatizzato verde; la chiusura formale attende revisione umana e prova su telefono. F15 e F16 rimangono aperte. F17 è stata anticipata su richiesta il 2026-10-03 con catalogo curato incluso e consultazione locale: [[33 - Rapporto Fase 17]]. Questo incremento non chiude i pacchetti mappe/gazetteer F15 né la decisione di sincronizzazione F16.
+Questo piano definisce fasi ordinate, dipendenze, artefatti, test e gate. Gli esiti datati conservano la storia delle verifiche; F0–F13 sono completate. F14 è stata rimossa su richiesta il 2026-10-26; non resta un gate 3D da completare. F15 e F16 rimangono aperte. F17 è stata anticipata su richiesta il 2026-10-03; il catalogo iniziale è stato sostituito dalla ricerca online esplicita lungo percorso/tappa: [[34 - Ricerca online delle uscite]]. Il rapporto [[33 - Rapporto Fase 17]] conserva la baseline storica. Questo incremento non chiude i pacchetti mappe/gazetteer F15 né la decisione di sincronizzazione F16.
 
 ## Estensioni funzionali approvate il 2026-09-20
 
@@ -52,12 +52,9 @@ Questa sezione integra attività e gate delle fasi indicate. In caso di contrast
 - F12: includere viaggi, uscite, luoghi/risultati salvati, desideri, bozze, foto e collegamenti nel backup versionato. Prevedere l'importazione degli archivi precedenti, senza inventare dati mancanti.
 - **Gate aggiuntivo:** conversione bozza con foto senza perdita/orfani; round-trip completo e import di archivio precedente; rollback conserva tutti i dati e collegamenti.
 
-### F14 — Libreria personale di modelli e animazioni
+### F14 — Funzionalità rimossa
 
-- Oltre al primo asset incluso, offrire importazione locale di GLB, associazione a un taxon, anteprima, sostituzione e rimozione. Raccogliere provenienza e licenza; un file non valido non sostituisce un asset funzionante.
-- Per file con animazioni supportate mostrare le clip disponibili, selezione e riproduci/pausa; per file statici mantenere rotazione e zoom. Creare o animare modelli dentro l'app resta fuori perimetro.
-- La rimozione di un asset non elimina scheda o osservazioni. Modelli personali e metadati devono essere recuperabili tramite estensione versionata del backup F12.
-- **Gate aggiuntivo:** import statico/animato, clip assenti/multiple/non supportate, sostituzione fallita, riavvio, rimozione e backup/ripristino; fallback 2D e diario sempre utilizzabili. Restano obbligatori i controlli di provenienza, validità e prestazioni della fase.
+Modelli, animazioni, importazione e test 3D rimossi su richiesta il 2026-10-26. Restano fotografie e fallback 2D. I backup precedenti restano leggibili senza renderer. Vedi [[36 - Rimozione modelli 3D]].
 
 ### F15 — Prepara il viaggio offline
 
@@ -413,27 +410,9 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Esito F13 — 2026-10-03:** completata e verificata nella build 0.13.0-f13 (20), Room 9/backup formato 1. Schede condivise, dodici profili con fatti originali da fonti primarie, provenienza per campo/nome, curiosità cliccabili e dati mancanti espliciti. Simbolo 2D generico originale e recupero Canvas, cache normalizzata distinta dai dati durevoli. Gate cumulativo verde: 13 F0, 123 JVM, 144 Android, zero errori/skipped/omissioni e quattro firme visive. Testo renderizzato a 1,8× misurato, link/fallback/recreation e sentinel risultati/mappa/diario/backup verificati su API 36; nessun telefono o TalkBack reale. Dettagli in [[31 - Rapporto Fase 13]], uso in [[GUIDA-FASE-13]]. F14 è la prossima fase.
 
-## F14 — Pipeline 3D e primo asset GLB
+## F14 — Funzionalità rimossa
 
-**Obiettivo:** aggiungere il 3D come arricchimento verificato, mai come requisito per usare l'app.
-
-**Dipendenze:** F13.
-
-**Attività e artefatti:**
-
-1. Versionare sorgente `.blend`, script Blender Python headless, reference board e licenze.
-2. Automatizzare convenzioni, export GLB, preview e aggiornamento di `asset-manifest.json`.
-3. Eseguire Khronos glTF Validator e controlli di scala, asse, pivot, poligoni, materiali, texture, hash e peso.
-4. Caricare il modello lazy e liberare memoria quando la scheda viene chiusa.
-5. Eseguire revisione umana anatomica, visiva e legale prima dell'approvazione.
-
-**Test della fase:** export ripetibile; validatore glTF; manifest coerente; asset mancante/corrotto; budget dimensione/memoria/tempo; render golden; rotazione/touch; ripresa ciclo vita; test su emulatore e almeno un dispositivo reale.
-
-**Non regressione:** suite completa F1–F13; sentinel che rimuove o corrompe il GLB e verifica scheda 2D, diario, mappa e risultati ancora funzionanti.
-
-**Gate di completamento:** primo modello approvato, validato e performante; fallback automatico sempre verde. Solo dopo il gate si scala a 5–10 specie.
-
-**Esito implementazione F14 — 2026-10-03:** build 0.14.0-f14 (21), Room 10 e backup 2 con reader formato 1. Merlo originale procedurale, sorgente .blend/script/reference/preview, GLB ripetibile di 172.764 byte con due clip e Khronos zero errori/warning. Viewer lazy Filament 1.77.1, gesti, clip/pausa, libreria GLB personale con crediti e sostituzione controllata, copie private e backup completo. Verifica cumulativa automatica verde in 10m 31s: 13 F0, 123 JVM, 155 Android, zero errori/skipped/omissioni e cinque firme visive. APK 86.635.610 byte, firma identica a F13. **Gate formale aperto:** review umana anatomica/visiva/dei termini di distribuzione e test su almeno un telefono fisico non eseguiti; non sono dichiarati approvati. Dettagli in [[32 - Rapporto Fase 14]], uso in [[GUIDA-FASE-14]].
+Rimossa il 2026-10-26: interfaccia, importazione, Filament, asset e pipeline Blender/Khronos, test dedicati e firma visiva 3D. Room 11 e backup 3 conservano la compatibilità con le copie precedenti. Il rapporto [[32 - Rapporto Fase 14]] descrive la build storica. Esito corrente: [[36 - Rimozione modelli 3D]].
 
 ## F15 — Pacchetto mappa regionale offline
 
@@ -452,7 +431,7 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 **Test della fase:** licenza/manifest; pacchetto valido/corrotto; spazio insufficiente; aggiornamento/rollback; ricerca per nome dentro/fuori copertura; regione fuori copertura; assenza totale rete; memoria e prestazioni; cancellazione; attribuzione visibile.
 
-**Non regressione:** suite completa F1–F14; sentinel del vertical slice con rete disattivata; modalità online e fallback testuale invariati; asset 3D non caricato durante la mappa.
+**Non regressione:** suite completa F1–F14; sentinel del vertical slice con rete disattivata; modalità online e fallback testuale invariati; foto caricate solo su richiesta.
 
 **Gate di completamento:** il percorso pilota funziona offline entro limiti dichiarati e la rimozione del pacchetto non elimina dati utente.
 
@@ -478,13 +457,13 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 
 ## F17 — Scoperta di luoghi e sentieri naturalistici
 
-**Obiettivo:** partire dalla destinazione e dalle date per scegliere dove andare a osservare animali, senza dover già possedere una traccia.
+**Obiettivo:** cercare online uscite lungo il percorso o la tappa scelta, solo su richiesta esplicita; i viaggi precedenti senza traccia usano il luogo confermato.
 
 **Dipendenze:** viaggi e uscite F8B, suggerimenti F9, backup F12 e preparazione offline F15. F16 può essere chiusa senza backend.
 
 **Attività e artefatti:**
 
-1. Selezionare fonti riutilizzabili per un'area pilota di punti di osservazione e sentieri; iniziare anche con un catalogo curato e delimitato. Non derivare un sentiero percorribile dai soli punti di presenza animale.
+1. Cercare online punti di osservazione e sentieri vicino al percorso o alla tappa selezionata, solo dopo il pulsante Richiedi aiuto. Nessun catalogo offline predefinito; Overpass usa riquadri aggregati e Google è un approfondimento esterno esplicito. Non derivare un sentiero percorribile dai soli punti di presenza animale.
 2. Proporre uscite pertinenti a destinazione, date, raggio di spostamento, interessi e lista desideri, motivando il collegamento con le specie e il livello delle evidenze.
 3. Mostrare punto di partenza, lunghezza, durata indicativa, difficoltà e distanza dalla base quando documentati; distinguere distanza geografica e tempo di trasferimento, senza inventare quest'ultimo. Indicare fonte/data ed eventuali informazioni di accessibilità o chiusura disponibili; dato assente non significa accesso garantito.
 4. Confrontare e filtrare le uscite; salvare una proposta nel viaggio, visualizzarne la geometria quando disponibile e collegare osservazioni/bozze all'uscita. Conservare la proposta salvata anche se la fonte diventa indisponibile, indicandone l'anzianità.
@@ -502,13 +481,13 @@ I nomi diventano task Gradle o script equivalenti in F1. Ogni esecuzione salva r
 ```text
 F0 → F1 → F2 → F3 → F4 → F5 → F6 → F7 → F8A → F8B
                                                     ↓
-F9 → F10 → F11 → F12 → F13 → F14 → F15 → F16 → F17
+F9 → F10 → F11 → F12 → F13 → F15 → F16 → F17 (F14 rimossa)
 ```
 
 - **Primo valore locale:** F4, diario offline con specie obbligatoria.
 - **Primo vertical slice naturalistico:** F8A, luogo/percorso e periodo, risultati spiegati, mappa e scheda essenziale.
 - **Vacanza e ricordi collegati:** F8B, viaggi e uscite salvati, diario collegato e bozze persistenti.
-- **MVP completo definito nei requisiti:** F14, con un GLB e fallback 2D.
+- **Consultazione specie:** schede, foto e fallback 2D; il 3D è stato rimosso.
 - **Estensioni post-MVP:** F15 viaggio offline, F16 valutazione sync e F17 scoperta di luoghi/sentieri.
 
 ## Strumenti durante lo sviluppo
@@ -517,5 +496,4 @@ F9 → F10 → F11 → F12 → F13 → F14 → F15 → F16 → F17
 - Test JVM, Room instrumentation, Compose UI, UI Automator, screenshot golden e ADB coprono logica, persistenza e interazione nativa.
 - Un Mobile/Android MCP può pilotare emulatore o dispositivo per ispezioni esplorative e controllo schermo; i test di accettazione restano comunque script ripetibili nel repository.
 - Playwright MCP serve soltanto se viene introdotta una superficie browser o WebView; non è lo strumento primario per un'app Android nativa.
-- Blender headless + Python + Khronos glTF Validator costituiscono la pipeline 3D riproducibile. Un Blender MCP è opzionale e va abilitato solo dopo verifica di sicurezza, permessi e telemetria.
 - Il controllo schermo di Codex può aiutare la verifica esplorativa; non sostituisce i gate automatici né i test di non regressione.

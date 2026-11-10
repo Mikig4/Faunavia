@@ -18,13 +18,10 @@ Per creare o modificare un viaggio bastano una **destinazione confermata** e **d
 
 `TripScreenUiTest.kt` aggiunge due scenari: creazione, riapertura del database e modifica senza partenza/percorso, con rifiuto delle date invertite e analisi esplicita; salvataggio dopo errore di routing, alternative non selezionate e aggiunta successiva di una traccia. Il test del cambio di estremo ora richiede di poter salvare senza geometria obsoleta. `TripModelsTest.kt` aggiunge una regressione per il viaggio senza itinerario, con e senza partenza.
 
-## Verifica effettiva
+## Verifica effettiva — 2026-11-10
 
-- PASS: `scripts/quality/check-format.ps1`, eseguito con Windows PowerShell.
-- PASS: `scripts/quality/check-boundaries.ps1`, inclusa la scansione dei segreti.
-- PASS: `git diff --check`.
-- PASS: `node --test f0/tests/*.test.mjs`, 13 test, nessun errore o test saltato. Questa esecuzione diretta non comprende la validazione JSON Schema del gate F0 completo.
-- BLOCCATO: `npm --prefix f0 test`, perché `pwsh` non è installato.
-- BLOCCATO: `. scripts/android-env.ps1; .\gradlew.bat verifyAll --no-daemon --stacktrace`, perché manca il JDK nella toolchain configurata. Anche l'SDK Android indicato da `local.properties` non è presente. I nuovi test Kotlin/Android non sono stati eseguiti.
+- PASS: `verifyAll --no-daemon --stacktrace` senza filtri, in 17m37s; formato, confini architetturali, scansione dei segreti, lint e build.
+- PASS: 13 test F0 con validazione degli schemi, 152 JVM e 174 Android, zero fallimenti/errori/test saltati o omessi e quattro firme visive.
+- PASS: tutti i 21 test `TripScreenUiTest`, inclusi viaggio senza partenza/percorso, errore di routing, alternative non selezionate, aggiunta successiva della traccia e rimozione della geometria obsoleta.
 
-Non è stato prodotto un nuovo APK. Gli esiti verdi e gli APK delle fasi precedenti non certificano questa modifica. Prima di distribuirla, ripristinare PowerShell 7 e la toolchain tramite `scripts/bootstrap-android.ps1`, quindi eseguire il gate canonico `verifyAll`.
+APK corrente: `artifacts/Faunavia-verificata-debug.apk`, stessa firma del precedente APK; include anche il nome comune personale. Report: `artifacts/pending-verification.json`. Il gate usa una nuova cartella di build e uno snapshot dell'emulatore rigenerato dopo un blocco del Launcher3; il recupero è documentato in `artifacts/pending-emulator-recovery.json`. Nessuna prova su telefono fisico. Le modifiche sono nel working tree e richiedono commit/push per essere condivise.

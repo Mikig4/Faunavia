@@ -69,13 +69,14 @@ internal fun DailySummaryScreen(link: SummaryLink, diary: DiaryRepository, catal
                         val observation = entry.observation
                         Column(Modifier.fillMaxWidth().testTag("summary-observation-${observation.id}"),
                             verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text(entry.taxon?.commonName ?: entry.taxon?.scientificName ?: "Specie salvata",
+                            Text(observation.personalCommonName ?: entry.taxon?.commonName ?: entry.taxon?.scientificName ?: "Specie salvata",
                                 style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            if (observation.personalCommonName != null) Text("Nome comune personale", color = FaunaviaColors.Muted)
                             entry.taxon?.scientificName?.let { Text(it, color = FaunaviaColors.Muted) }
                             Text("${observation.observedAt.atZone(link.zoneId).format(DateTimeFormatter.ofPattern("HH:mm"))} · Quantità: ${observation.quantity}")
                             if (observation.notes.isNotBlank()) Text(observation.notes)
                             TextButton(onClick = { gallery = observation.id }, modifier = Modifier.testTag("summary-photos-${observation.id}")) {
-                                Text("Foto (${entry.photoCount})")
+                                Text("Foto e video (${entry.photoCount} foto)")
                             }
                             HorizontalDivider()
                         }

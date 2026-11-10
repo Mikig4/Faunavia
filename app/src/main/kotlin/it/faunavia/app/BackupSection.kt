@@ -7,6 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.LocalActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -69,7 +71,8 @@ internal class BackupViewModel(private val application: android.app.Application,
             try {
                 val output = application.contentResolver.openOutputStream(uri, "w") ?: throw BackupFailure("Destinazione non accessibile. Scegli un altro file.")
                 val result = output.use { archive.export(it) { phase = it } }
-                message = "Backup creato: ${result.summary}."
+                message = listOfNotNull("Backup creato: ${result.summary}.", result.legacyWarning,
+                    if (result.omittedLegacyAttachments > 0) "I dati sul dispositivo non sono stati modificati." else null).joinToString(" ")
             } catch (failure: Throwable) {
                 // CreateDocument returns a newly chosen document. Remove an incomplete export when its provider permits it.
                 withContext(NonCancellable) {
@@ -97,7 +100,7 @@ internal class BackupViewModel(private val application: android.app.Application,
             phase = "Ripristino dei dati e delle foto…"
             val result = withContext(NonCancellable) { restoreBackup(pending) }
             prepared = null
-            archive.lastMessage = archive.lastMessage ?: "Ripristino completato: ${result.summary}."
+            archive.lastMessage = archive.lastMessage ?: listOfNotNull("Ripristino completato: ${result.summary}.", result.legacyWarning).joinToString(" ")
             message = archive.lastMessage
             onRestored()
         }
@@ -159,9 +162,10 @@ internal fun BackupControls(model: BackupViewModel, onExport: () -> Unit, onImpo
         })
     if (!model.busy) model.prepared?.let { prepared ->
         AlertDialog(onDismissRequest = { model.dismissPreview() }, title = { Text("Ripristinare questo backup?") },
-            text = { Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            text = { Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("Archivio del ${prepared.preview.createdAt.atZone(java.time.ZoneId.systemDefault()).toLocalDate()}")
                 Text(prepared.preview.summary, modifier = Modifier.testTag("backup-preview"))
+                prepared.preview.legacyWarning?.let { Text(it, modifier = Modifier.testTag("backup-legacy-warning")) }
                 Text("Dimensione dei dati: ${prepared.preview.bytes / (1024 * 1024)} MB")
                 if (prepared.preview.schema == 8) Text("Questo archivio precedente non contiene lo storico di invio delle notifiche.")
                 Text("${prepared.preview.counts["wishlist"] ?: 0} desideri; ${prepared.preview.counts["saved_trip_results"] ?: 0} risultati salvati. Impostazioni e collegamenti sono inclusi.")

@@ -28,6 +28,23 @@ class LocalModelsTest {
         assertThrows(IllegalArgumentException::class.java) { observation.copy(notes = "n".repeat(MAX_OBSERVATION_NOTES_LENGTH + 1)) }
     }
 
+    @Test fun personalCommonNamesAreOptionalBoundedAndSeparateFromTaxonomy() {
+        assertNull(normalizePersonalCommonName("  "))
+        assertEquals("Cinciallegra", normalizePersonalCommonName("  Cinciallegra  "))
+        val draft = ObservationDraft("o", "t", now, ZoneId.of("UTC"), personalCommonName = "Cinciallegra")
+        val observation = Observation("o", draft.taxonId, now, draft.zoneId, null, "", now, now,
+            personalCommonName = draft.personalCommonName)
+        assertEquals("Cinciallegra", observation.personalCommonName)
+        assertEquals("t", observation.taxonId)
+        assertNull(observation.copy(personalCommonName = null).personalCommonName)
+        assertEquals("n".repeat(MAX_PERSONAL_COMMON_NAME_LENGTH), normalizePersonalCommonName("n".repeat(MAX_PERSONAL_COMMON_NAME_LENGTH)))
+        listOf(" ", " Cinciallegra", "nome\ncomune", "nome\tcomune", "n".repeat(MAX_PERSONAL_COMMON_NAME_LENGTH + 1)).forEach { invalid ->
+            assertThrows(IllegalArgumentException::class.java) { draft.copy(personalCommonName = invalid) }
+            assertThrows(IllegalArgumentException::class.java) { observation.copy(personalCommonName = invalid) }
+        }
+        assertThrows(IllegalArgumentException::class.java) { normalizePersonalCommonName("nome\ncomune") }
+    }
+
     @Test fun provenanceCannotSilentlyLoseLicenseOrQuality() {
         assertThrows(IllegalArgumentException::class.java) { source.copy(license = "") }
         assertThrows(IllegalArgumentException::class.java) { source.copy(quality = "") }

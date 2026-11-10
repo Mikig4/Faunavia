@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="3" failures="0" errors="0" skipped="0" time="0.000" timestamp="2026-11-10T14:16:42" hostname="localhost">
+  <testsuite name="it.faunavia.app.AnalysisLifecycleTest" tests="3" failures="0" errors="0" skipped="0" time="20.259" timestamp="2026-11-10T14:16:42" hostname="localhost">
+    <properties>
+      <property name="device" value="_app_pixel2Api36DebugAndroidTest" />
+    </properties>
+    <testcase name="tripLiveResultsSurviveActivityRecreationWithoutSavingOrRequerying" classname="it.faunavia.app.AnalysisLifecycleTest" time="6.170" />
+    <testcase name="completedAnalysisSurvivesActivityRecreationWithoutAnotherProviderCall" classname="it.faunavia.app.AnalysisLifecycleTest" time="6.808" />
+    <testcase name="inFlightAnalysisContinuesThroughActivityRecreationAndDeliversItsResultOnce" classname="it.faunavia.app.AnalysisLifecycleTest" time="7.281" />
+  </testsuite>
+</testsuites>

@@ -98,7 +98,7 @@ internal fun TripsScreen(
     routeMap: TripRouteMapAdapter = MapLibreTripRouteMapAdapter,
     openDirections: ((GeoPoint, GeoPoint) -> Boolean)? = null,
     wishlist: WishlistRepository? = null,
-    outingCatalogue: OutingCatalogue = PilotOutingCatalogue,
+    outingSearch: OutingSearch = PersonalOutingSearch,
 ) {
     var personalSuggestions by rememberSaveable { mutableStateOf(false) }
     var typicalOnly by rememberSaveable { mutableStateOf(true) }
@@ -117,6 +117,7 @@ internal fun TripsScreen(
     var memories by remember { mutableStateOf(false) }
     var prefill by remember { mutableStateOf<DiaryPrefill?>(null) }
     val analysisState = viewModel<AnalysisViewModel>(key = "trip-analysis")
+    val outingSearchState = viewModel<OutingSearchViewModel>(key = "outing-search")
     val live by analysisState.result
     val liveKey by analysisState.scopeKey
     var actionBusy by remember { mutableStateOf(false) }
@@ -283,7 +284,12 @@ internal fun TripsScreen(
                     item {
                         Text("Uscite", color = TripInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         Button(onClick = { outingEditor = "new" }, enabled = !busy, modifier = Modifier.testTag("outing-new")) { Text("Nuova uscita") }
-                        Button(onClick = { discoveryOpen = true }, enabled = !busy, modifier = Modifier.testTag("outing-discover")) { Text("Scopri luoghi e sentieri") }
+                        Button(onClick = {
+                            discoveryOpen = true
+                            outingSearchState.search(analysisTrip, tripAnalysisKey(trip, null, stageId), outingSearch)
+                        }, enabled = !busy, modifier = Modifier.testTag("outing-discover")) { Text("Richiedi aiuto") }
+                        Text("Cerca online luoghi e sentieri vicino al percorso selezionato.", color = TripMuted,
+                            style = MaterialTheme.typography.bodySmall)
                         OutlinedButton(onClick = { outingId = ""; stageId = null; analysisState.clear() }, modifier = Modifier.testTag("outing-destination")) { Text(if (trip.route == null) "Usa destinazione del viaggio" else "Usa percorso del viaggio") }
                     }
                     items(outings, key = { "outing-${it.id}" }) { saved ->
@@ -376,8 +382,11 @@ internal fun TripsScreen(
         }
         if (tripEditor != null || outingEditor != null || stageEditor) error?.let { Text(it, color = TripError, modifier = Modifier.padding(16.dp).testTag("trip-error")) }
     }
-    if (discoveryOpen && trip != null) OutingDiscoveryDialog(trip, wishlist, catalogue, outings, outingCatalogue, busy, error,
-        onClose = { discoveryOpen = false }, onSave = { proposal, date -> action {
+    if (discoveryOpen && trip != null && analysisTrip != null) OutingDiscoveryDialog(analysisTrip, wishlist, catalogue, outings,
+        outingSearchState.result.value.takeIf { outingSearchState.scopeKey.value == tripAnalysisKey(trip, null, stageId) },
+        outingSearchState.loading.value, busy, error,
+        onSearch = { outingSearchState.search(analysisTrip, tripAnalysisKey(trip, null, stageId), outingSearch) },
+        onClose = { outingSearchState.stop(); discoveryOpen = false }, onSave = { proposal, date -> action {
             val changed = proposal.saveFor(trip, date, now())
             if (repository.outing(changed.id) == null) repository.saveOuting(changed)
             outingId = changed.id; stageId = null; analysisState.clear(); discoveryOpen = false; refresh++

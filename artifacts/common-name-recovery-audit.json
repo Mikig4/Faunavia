@@ -1,0 +1,13 @@
+{
+  "event": "recover-stale-managed-device-reservation",
+  "observedAt": "2026-10-30T17:29:46.6224537Z",
+  "reason": "The owned focused Gradle test command exceeded its 900-second tool deadline and its process tree terminated.",
+  "evidence": {
+    "activeToolchainProcessCount": 0,
+    "adbDevices": [],
+    "counterBefore": "MDLockCount 1"
+  },
+  "backup": "C:/Users/MicheleGreco/AppData/Local/Temp/faunavia-active-gradle-devices-after-timeout-20261030.backup",
+  "action": "Changed only the verified stale active_gradle_devices counter to MDLockCount 0.",
+  "boundary": "No AVD, snapshot, application data, source test or assertion was removed."
+}

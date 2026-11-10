@@ -176,7 +176,7 @@ internal fun FaunaviaApp(
                 modifier = Modifier.weight(1f),
             ) {
                 composable("daily-summary") {
-                    val photos = remember(diary, unidentified) { MemoryPhotos(application.privatePhotos, diary, unidentified) }
+                    val photos = remember(diary, unidentified) { MemoryPhotos(application.privatePhotos, diary, unidentified, application.memoryVideos) }
                     DailySummaryScreen(SummaryLink(java.time.LocalDate.parse(summaryDate), java.time.ZoneId.of(summaryZone)),
                         diary, catalogue, photos, onBack = { navigate(AppDestination.DIARY) })
                 }

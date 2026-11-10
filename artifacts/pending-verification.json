@@ -1,0 +1,70 @@
+{
+  "buildRoot": "Faunavia/toolchains/builds/Faunavia-pending-20261110",
+  "result": "PASS",
+  "closed": [
+    "Trips without a mandatory route: complete JVM and Android verification",
+    "Personal common name: compiler Room schema 12, populated migration, CRUD, UI, summary and backup verification",
+    "Recovered disposable emulator Launcher3 ANR via backed-up boot snapshot regeneration"
+  ],
+  "limits": [
+    "No physical-device or API-26 runtime verification",
+    "F15 regional offline maps and F16 synchronization decision remain roadmap items",
+    "Working-tree changes are not committed or pushed"
+  ],
+  "date": "2026-11-10",
+  "tests": {
+    "failures": 0,
+    "omitted": 0,
+    "skipped": 0,
+    "jvm": 152,
+    "errors": 0,
+    "visualSignatures": 4,
+    "android": 174,
+    "f0": 13
+  },
+  "gate": "verifyAll --no-daemon --stacktrace",
+  "apk": {
+    "bytes": 59505397,
+    "signerMatchesPrevious": true,
+    "path": "artifacts/Faunavia-verificata-debug.apk",
+    "versionName": "0.17.4-diary",
+    "sha256": "56a4ee7b8a40b0fbe11397db431367c49da26648b6694595a277698c25849706",
+    "versionCode": 26,
+    "compilerIdentityHash": "0ae8e5ba7fce2012e0dd519f74c5bf3d",
+    "roomSchema": 12
+  },
+  "conventions": [
+    {
+      "item": 1,
+      "check": "No direct provider calls from UI",
+      "result": "PASS"
+    },
+    {
+      "item": 2,
+      "check": "Imported source, timestamp, license and quality preserved",
+      "result": "PASS"
+    },
+    {
+      "item": 3,
+      "check": "Visible network/provider failure fallback or retry",
+      "result": "PASS"
+    },
+    {
+      "item": 4,
+      "check": "Observed and plausible remain distinct",
+      "result": "PASS"
+    },
+    {
+      "item": 5,
+      "scope": "No new bundled media",
+      "check": "New asset metadata and license",
+      "result": "NOT_APPLICABLE"
+    },
+    {
+      "item": 6,
+      "check": "Deterministic geometry and ranking edge-case tests",
+      "result": "PASS"
+    }
+  ],
+  "durationSeconds": 1057
+}

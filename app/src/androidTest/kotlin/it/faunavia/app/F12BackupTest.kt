@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.supervisorScope
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.*
@@ -60,8 +61,8 @@ class F12BackupTest {
         photoFixture(image)
         sourcePhotos = PrivatePhotoStore(context, sourceRoot, { image.inputStream() }, { Long.MAX_VALUE })
         targetPhotos = PrivatePhotoStore(context, targetRoot, { image.inputStream() }, { Long.MAX_VALUE })
-        sourceArchive = LocalBackupArchive(context, source.backup, sourcePhotos, { Long.MAX_VALUE })
-        targetArchive = LocalBackupArchive(context, target.backup, targetPhotos, { Long.MAX_VALUE })
+        sourceArchive = LocalBackupArchive(context, source.backup, sourcePhotos, { Long.MAX_VALUE }, legacyRoot = sourceRoot)
+        targetArchive = LocalBackupArchive(context, target.backup, targetPhotos, { Long.MAX_VALUE }, legacyRoot = targetRoot)
     }
     @After fun cleanup() {
         sourceDb.close(); targetDb.close()
@@ -156,12 +157,40 @@ class F12BackupTest {
 
     @Test fun completeRoundTripPreservesEveryTablePhotosLinksProvenanceAndNotificationLedgerAfterReopen() = runBlocking<Unit> {
         populated(); sentinel()
+        // Historical private attachments survive as opaque bytes, without a model parser or renderer.
+        val legacyPath = "models/00000000-0000-0000-0000-000000000001/model.glb"
+        val legacyBytes = byteArrayOf(9, 8, 7)
+        File(sourceRoot, legacyPath).apply { parentFile!!.mkdirs(); writeBytes(legacyBytes) }
+        val legacyHash = MessageDigest.getInstance("SHA-256").digest(legacyBytes).joinToString("") { "%02x".format(it) }
+        sourceDb.openHelper.writableDatabase.execSQL("INSERT INTO personal_models VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            arrayOf<Any>("legacy", "Historical attachment", legacyPath, legacyHash, legacyBytes.size, "author", "source", "license", "unchanged", f8bNow.toString()))
+        val missingPath = "models/00000000-0000-0000-0000-000000000002/model.glb"
+        val damagedPath = "models/00000000-0000-0000-0000-000000000003/model.glb"
+        val truncatedPath = "models/00000000-0000-0000-0000-000000000004/model.glb"
+        File(sourceRoot, damagedPath).apply { parentFile!!.mkdirs(); writeBytes(byteArrayOf(1, 2, 3)) }
+        File(sourceRoot, truncatedPath).apply { parentFile!!.mkdirs(); writeBytes(byteArrayOf(1)) }
+        listOf(missingPath, damagedPath, truncatedPath).forEachIndexed { index, path ->
+            sourceDb.openHelper.writableDatabase.execSQL("INSERT INTO personal_models VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                arrayOf<Any>("legacy-${index + 1}", "Historical attachment", path, legacyHash, legacyBytes.size, "author", "source", "license", "unchanged", f8bNow.toString()))
+        }
         val original = source.backup.snapshot()
-        // This released F12 fixture populates every original table; F14 models have their own full round-trip fixture.
-        assertTrue(original.counts.filterKeys { it != "personal_models" }.values.all { it > 0 })
-        assertEquals(0, original.counts.getValue("personal_models"))
-        val prepared = targetArchive.prepare(ByteArrayInputStream(exported()))
-        assertEquals(original.counts, prepared.preview.counts)
+        assertTrue(original.counts.filterKeys { it !in setOf("observation_videos", "draft_videos") }.values.all { it > 0 })
+        assertEquals(4, original.counts.getValue("personal_models"))
+        val output = ByteArrayOutputStream()
+        val exported = sourceArchive.export(output)
+        assertEquals(3, exported.omittedLegacyAttachments)
+        assertTrue(exported.legacyWarning!!.contains("3 allegati"))
+        assertEquals(original.payload, source.backup.snapshot().payload)
+        assertFalse(File(sourceRoot, missingPath).exists())
+        assertArrayEquals(byteArrayOf(1, 2, 3), File(sourceRoot, damagedPath).readBytes())
+        assertArrayEquals(byteArrayOf(1), File(sourceRoot, truncatedPath).readBytes())
+        val manifest = JSONObject(entries(output.toByteArray()).getValue("manifest.json").toString(Charsets.UTF_8))
+        assertEquals(3, manifest.getInt("omittedLegacyAttachments"))
+        val prepared = targetArchive.prepare(ByteArrayInputStream(output.toByteArray()))
+        val expectedCounts = original.counts + ("personal_models" to 1)
+        assertEquals(expectedCounts, prepared.preview.counts)
+        assertEquals(3, prepared.preview.omittedLegacyAttachments)
+        assertEquals(exported.legacyWarning, prepared.preview.legacyWarning)
         // Staging and preview must leave the populated installation alone.
         assertNotNull(target.diary.get("old"))
         targetArchive.restore(prepared)
@@ -170,9 +199,19 @@ class F12BackupTest {
         targetDb = FaunaviaDatabase.open(context, targetName)
         target = LocalRepositories(targetDb, FakeClock(f8bNow.toEpochMilli()))
         val restored = target.backup.snapshot()
-        assertEquals(original.counts, restored.counts)
+        assertEquals(expectedCounts, restored.counts)
         val oldTables = JSONObject(original.payload).getJSONObject("tables")
         val newTables = JSONObject(restored.payload).getJSONObject("tables")
+        val legacy = restored.legacyAttachments.single()
+        assertEquals(original.legacyAttachments.single { it.relativePath == legacyPath }.copy(relativePath = legacy.relativePath), legacy)
+        assertArrayEquals(legacyBytes, File(targetRoot, legacy.relativePath).readBytes())
+        val oldLegacyTable = oldTables.getJSONObject("personal_models")
+        val legacyColumns = oldLegacyTable.getJSONArray("columns")
+        val pathColumn = (0 until legacyColumns.length()).first { legacyColumns.getString(it) == "relativePath" }
+        val oldRows = oldLegacyTable.getJSONArray("rows")
+        val originalRow = (0 until oldRows.length()).map(oldRows::getJSONArray).single { it.getString(pathColumn) == legacyPath }
+        originalRow.put(pathColumn, legacy.relativePath)
+        oldLegacyTable.put("rows", JSONArray().put(originalRow))
         LocalBackupStore.TABLES.filterNot { it.endsWith("photos") }.forEach { assertEquals(it, oldTables.getJSONObject(it).toString(), newTables.getJSONObject(it).toString()) }
         assertEquals(source.diary.get("o"), target.diary.get("o"))
         assertEquals(source.unidentified.get("d"), target.unidentified.get("d"))
@@ -211,6 +250,9 @@ class F12BackupTest {
         val valid = exported()
         rejects(mutate(valid) { _, manifest -> manifest.put("formatVersion", 999) })
         rejects(mutate(valid) { _, manifest -> manifest.put("databaseSchema", 999) })
+        rejects(mutate(valid) { _, manifest -> manifest.put("omittedLegacyAttachments", -1) })
+        rejects(mutate(valid) { _, manifest -> manifest.put("omittedLegacyAttachments", 101) })
+        rejects(mutate(valid) { _, manifest -> manifest.put("omittedLegacyAttachments", "3") })
         rejects(mutate(valid) { _, manifest -> val files = manifest.getJSONArray("files"); files.put(files.getJSONObject(0)) })
         rejects(mutate(valid) { _, manifest -> manifest.getJSONArray("files").getJSONObject(1).put("path", "photos/../../outside.jpg") })
         rejects(mutate(valid) { _, manifest -> manifest.getJSONArray("files").getJSONObject(1).put("bytes", 1) })
@@ -239,8 +281,14 @@ class F12BackupTest {
             manifest.put("databaseSchema", 8)
             manifest.getJSONObject("counts").remove("daily_summary_deliveries")
             manifest.getJSONObject("counts").remove("personal_models")
+            manifest.getJSONObject("counts").remove("observation_videos")
+            manifest.getJSONObject("counts").remove("draft_videos")
             manifest.put("formatVersion", 1)
-            changePayload(files, manifest) { it.put("schemaVersion", 8); it.getJSONObject("tables").remove("daily_summary_deliveries"); it.getJSONObject("tables").remove("personal_models") }
+            changePayload(files, manifest) {
+                it.put("schemaVersion", 8)
+                removePersonalCommonNameColumn(it)
+                for (table in listOf("daily_summary_deliveries", "personal_models", "observation_videos", "draft_videos")) it.getJSONObject("tables").remove(table)
+            }
         }
         val pending = targetArchive.prepare(ByteArrayInputStream(older))
         assertEquals(8, pending.preview.schema)
@@ -248,6 +296,36 @@ class F12BackupTest {
         assertEquals(0, target.backup.snapshot().counts["daily_summary_deliveries"])
         assertEquals(source.diary.get("o"), target.diary.get("o"))
         assertEquals(2, target.backup.snapshot().photos.size)
+    }
+
+    @Test fun personalCommonNameRoundTripsAndSchemaElevenDefaultsItToNull() = runBlocking<Unit> {
+        populated()
+        source.diary.update(ObservationDraft("o", f8bTaxon.id, f8bNow, zone, notes = "Nome privato",
+            personalCommonName = "Merlo del mio diario"))
+        val valid = exported()
+        targetArchive.restore(targetArchive.prepare(ByteArrayInputStream(valid)))
+        assertEquals("Merlo del mio diario", target.diary.get("o")!!.personalCommonName)
+        assertEquals(source.catalogue.taxon(f8bTaxon.id), target.catalogue.taxon(f8bTaxon.id))
+        val older = mutate(valid) { files, manifest ->
+            manifest.put("databaseSchema", 11)
+            changePayload(files, manifest) { payload ->
+                payload.put("schemaVersion", 11)
+                removePersonalCommonNameColumn(payload)
+            }
+        }
+        targetArchive.restore(targetArchive.prepare(ByteArrayInputStream(older)))
+        assertNull(target.diary.get("o")!!.personalCommonName)
+        assertEquals("Nome privato", target.diary.get("o")!!.notes)
+        assertEquals(1, target.diary.photos("o").size)
+        val sentinel = target.backup.snapshot().payload
+        val invalid = mutate(valid) { files, manifest -> changePayload(files, manifest) { payload ->
+            val table = payload.getJSONObject("tables").getJSONObject("observations")
+            val columns = table.getJSONArray("columns")
+            val column = (0 until columns.length()).single { columns.getString(it) == "personalCommonName" }
+            table.getJSONArray("rows").getJSONArray(0).put(column, "x".repeat(MAX_PERSONAL_COMMON_NAME_LENGTH + 1))
+        } }
+        assertTrue(runCatching { targetArchive.prepare(ByteArrayInputStream(invalid)) }.isFailure)
+        assertEquals(sentinel, target.backup.snapshot().payload)
     }
 
     @Test fun failureAfterAllRowsWereInsertedRollsBackDatabaseAndRemovesOnlyNewPhotoCopies() = runBlocking<Unit> {

@@ -93,6 +93,44 @@ class LocalPersistenceTest {
         assertEquals(listOf("Merlo", "Turdus merula"), local.catalogue.aliases(taxon.id).map { it.name })
     }
 
+    @Test fun personalCommonNameCanBeAddedEditedClearedAndReopenedWithoutChangingTaxonomyOrOtherMemories() = runBlocking<Unit> {
+        val unnamed = taxon.copy(commonName = null)
+        local.catalogue.saveTaxonWithAliases(unnamed, listOf("Turdus merula"))
+        val created = local.diary.create(draft(), listOf(photo()))
+        local.diary.create(draft("other"))
+        assertNull(created.personalCommonName)
+        val named = local.diary.update(draft().copy(personalCommonName = "Merlo personale"))
+        assertEquals(created.createdAt, named.createdAt)
+        assertEquals("Merlo personale", local.diary.get("o")!!.personalCommonName)
+        assertNull(local.diary.get("other")!!.personalCommonName)
+        assertEquals(unnamed, local.catalogue.taxon(taxon.id))
+        assertEquals(listOf("Turdus merula"), local.catalogue.aliases(taxon.id).map { it.name })
+        db.close()
+        db = FaunaviaDatabase.open(context, name)
+        local = LocalRepositories(db, clock)
+        assertEquals(named, local.diary.get("o"))
+        local.catalogue.saveTaxon(taxon)
+        assertEquals("Merlo personale", local.diary.get("o")!!.personalCommonName)
+        local.diary.update(draft().copy(personalCommonName = "Merlo corretto"))
+        assertEquals("Merlo corretto", local.diary.onDate(named.localDate, zone).first { it.id == "o" }.personalCommonName)
+        local.diary.update(draft())
+        assertNull(local.diary.get("o")!!.personalCommonName)
+        assertEquals(listOf(photo()), local.diary.photos("o"))
+        assertEquals(taxon, local.catalogue.taxon(taxon.id))
+    }
+
+    @Test fun identificationKeepsThePersonalCommonNameAndDraftPhoto() = runBlocking<Unit> {
+        local.catalogue.saveTaxon(taxon.copy(commonName = null))
+        val input = UnidentifiedInput("d", instant, zone, notes = "Da identificare")
+        val old = local.unidentified.save(input)
+        local.unidentified.addPhoto(photo(observation = "d"))
+        val identified = local.unidentified.convert(draft("d").copy(personalCommonName = "Merlo personale"))
+        assertEquals("Merlo personale", identified.personalCommonName)
+        assertEquals(old.createdAt, identified.createdAt)
+        assertNull(local.unidentified.get("d"))
+        assertEquals(listOf(photo(observation = "d")), local.diary.photos("d"))
+    }
+
     @Test fun repositoryRejectsMissingNonAnimalAndUnacceptedTaxa() = runBlocking {
         rejects { local.diary.create(draft(taxonId = "")) }
         rejects { local.diary.create(draft(taxonId = "missing")) }

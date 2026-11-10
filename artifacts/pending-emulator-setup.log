@@ -1,0 +1,14 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=NUL
+
+> Task :app:pixel2Api36Setup
+The device "pixel2Api36" does not specify a "testedAbi".
+This currently defaults to "x86_64", but will change to "arm64-v8a" in AGP 10.0.
+
+The system image configured for "pixel2Api36" does not support NDK translation,
+so it will be unable to run tests built for "arm64-v8a".
+
+To keep the current behavior and prevent test failures in AGP 10.0,
+explicitly set the ABI: testedAbi = "x86_64"
+
+BUILD SUCCESSFUL in 1m 10s
+1 actionable task: 1 executed

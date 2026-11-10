@@ -197,6 +197,7 @@ internal class MemoryPhotos(
     val store: PrivatePhotoStore,
     private val diary: DiaryRepository,
     private val drafts: UnidentifiedRepository?,
+    val videos: MemoryVideos? = null,
 ) {
     suspend fun list(id: String): List<ObservationPhoto> =
         if (diary.get(id) != null) diary.photos(id) else drafts?.photos(id).orEmpty()
@@ -237,8 +238,11 @@ internal class MemoryPhotos(
         return withContext(Dispatchers.IO + NonCancellable) {
             store.mutex.withLock {
                 if (generation != store.restoreGeneration) throw PhotoFailure("I dati sono stati ripristinati. Apri di nuovo il ricordo.")
+                val video = videos?.get(id)
                 val removed = if (identified) diary.delete(id) else requireNotNull(drafts).deleteWithPhotos(id)
-                removed.map { store.delete(it) }.all { it }
+                val photosCleaned = removed.map { store.delete(it) }.all { it }
+                val videoCleaned = video?.let { requireNotNull(videos).store.delete(it) } ?: true
+                photosCleaned && videoCleaned
             }
         }
     }

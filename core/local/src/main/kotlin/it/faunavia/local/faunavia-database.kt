@@ -12,8 +12,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         SuggestionProfileRow::class, ObservationRow::class, ObservationPhotoRow::class,
         RouteRow::class, SourceEvidenceRow::class, OccurrenceCacheRow::class, AppSettingsRow::class,
         TripRow::class, OutingRow::class, SavedTripPlaceRow::class, SavedTripResultRow::class, UnidentifiedRow::class, WishlistRow::class, DraftPhotoRow::class,
-        DailySummaryDeliveryRow::class, PersonalModelRow::class],
-    version = 10,
+        DailySummaryDeliveryRow::class, PersonalModelRow::class, ObservationVideoRow::class, DraftVideoRow::class],
+    version = 12,
     exportSchema = true,
 )
 abstract class FaunaviaDatabase : RoomDatabase() {
@@ -126,9 +126,24 @@ abstract class FaunaviaDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                for ((table, owner) in listOf("observation_videos" to "observations", "draft_videos" to "unidentified_drafts")) {
+                    db.execSQL("CREATE TABLE IF NOT EXISTS `$table` (memoryId TEXT NOT NULL, relativePath TEXT NOT NULL, sha256 TEXT NOT NULL, byteSize INTEGER NOT NULL, durationMs INTEGER NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL, PRIMARY KEY(memoryId), FOREIGN KEY(memoryId) REFERENCES `$owner`(id) ON UPDATE NO ACTION ON DELETE CASCADE)")
+                }
+            }
+        }
+
+        /** Preserve existing memories and taxonomy; a personal name belongs only to its observation. */
+        val MIGRATION_11_12 = object : Migration(11, 12) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE observations ADD COLUMN personalCommonName TEXT DEFAULT NULL")
+            }
+        }
+
         fun open(context: Context, name: String = "faunavia.db"): FaunaviaDatabase =
             Room.databaseBuilder(context.applicationContext, FaunaviaDatabase::class.java, name)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12)
                 .addCallback(INTEGRITY_CALLBACK)
                 .build()
 

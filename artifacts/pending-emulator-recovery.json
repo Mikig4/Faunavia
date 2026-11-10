@@ -1,0 +1,8 @@
+{
+  "action": "Moved only default_boot snapshot; retained AVD and application source",
+  "event": "quarantine-managed-device-boot-snapshot",
+  "evidence": "Repeated Launcher3 ANR stole AnalysisTestActivity focus; no emulator active before move",
+  "source": "C:\\Users\\MicheleGreco\\.android\\avd\\gradle-managed\\dev36_default_x86_64_Pixel_2.avd\\snapshots\\default_boot",
+  "backup": "C:\\Users\\MicheleGreco\\.android\\avd\\gradle-managed\\dev36_default_x86_64_Pixel_2.avd\\snapshot-backup-20261110",
+  "date": "2026-11-10"
+}

@@ -117,6 +117,7 @@ data class ObservationRow(
     @ColumnInfo(defaultValue = "1") val quantity: Int = 1,
     val tripId: String? = null,
     val outingId: String? = null,
+    @ColumnInfo(defaultValue = "NULL") val personalCommonName: String? = null,
 )
 
 @Entity(
@@ -213,6 +214,7 @@ data class AppSettingsRow(
 @Entity(tableName = "daily_summary_deliveries", primaryKeys = ["date"])
 data class DailySummaryDeliveryRow(val date: String, val zoneId: String, val notifiedAt: String)
 
+// Retained only for lossless backup compatibility after removal of the 3D feature.
 @Entity(tableName = "personal_models", primaryKeys = ["taxonId"])
 data class PersonalModelRow(val taxonId: String, val scientificName: String, val relativePath: String,
     val sha256: String, val byteSize: Long, val author: String, val source: String, val license: String,

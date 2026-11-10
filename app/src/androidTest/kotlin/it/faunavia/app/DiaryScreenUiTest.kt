@@ -1,10 +1,12 @@
 package it.faunavia.app
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
@@ -14,6 +16,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.platform.app.InstrumentationRegistry
 import it.faunavia.domain.Provenance
+import it.faunavia.domain.ObservationDraft
+import it.faunavia.domain.MAX_PERSONAL_COMMON_NAME_LENGTH
 import it.faunavia.domain.Taxon
 import it.faunavia.domain.TaxonomicStatus
 import it.faunavia.local.FaunaviaDatabase
@@ -86,7 +90,9 @@ class DiaryScreenUiTest {
         composeRule.onNodeWithTag("diary-taxon-query").performTextInput("merlo")
         waitForTaxon(taxon.id)
         composeRule.onNodeWithTag("diary-taxon-result-gbif:2490719").assertIsDisplayed().performClick()
+        scrollEditorTo("diary-quantity")
         composeRule.onNodeWithTag("diary-quantity").performTextReplacement("2")
+        scrollEditorTo("diary-notes")
         composeRule.onNodeWithTag("diary-notes").performTextInput("Due merli sul prato")
         scrollEditorTo("diary-save")
         composeRule.onNodeWithTag("diary-save").performClick()
@@ -201,6 +207,106 @@ class DiaryScreenUiTest {
         composeRule.onNodeWithTag("diary-save").performClick()
         waitFor { local.diary.get("ui-observation") != null }
         assertNotNull(runBlocking { local.diary.get("ui-observation") })
+    }
+
+    @Test fun missingCommonNameCanBeAddedLaterFilteredAndClearedForOnlyOneObservation() {
+        val unnamed = taxon.copy(commonName = null)
+        runBlocking {
+            local.catalogue.saveTaxonWithAliases(unnamed, listOf(unnamed.scientificName))
+            local.diary.create(ObservationDraft("saved", unnamed.id, now, zone))
+            local.diary.create(ObservationDraft("other", unnamed.id, now, zone))
+        }
+        showDiary()
+        composeRule.waitUntil(5_000) {
+            runCatching {
+                composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-edit-saved"))
+                composeRule.onNodeWithTag("diary-edit-saved").assertIsDisplayed()
+                true
+            }.getOrDefault(false)
+        }
+        composeRule.onNodeWithTag("diary-edit-saved").performClick()
+        composeRule.waitUntil(5_000) { composeRule.onAllNodesWithTag("diary-editor").fetchSemanticsNodes().isNotEmpty() }
+        scrollEditorTo("diary-personal-common-name")
+        composeRule.onNodeWithTag("diary-personal-common-name").performTextReplacement("  Merlo del giardino  ")
+        scrollEditorTo("diary-save")
+        composeRule.onNodeWithTag("diary-save").performClick()
+        waitFor { local.diary.get("saved")?.personalCommonName == "Merlo del giardino" }
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-common-name-saved"))
+        composeRule.onNodeWithTag("diary-common-name-saved").assertTextContains("Merlo del giardino · nome personale", substring = true)
+        assertEquals(unnamed, runBlocking { local.catalogue.taxon(unnamed.id) })
+        assertNull(runBlocking { local.diary.get("other")!!.personalCommonName })
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-species-filter"))
+        composeRule.onNodeWithTag("diary-species-filter").performTextReplacement("giardino")
+        closeSoftKeyboard()
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-entry-saved"))
+        composeRule.onNodeWithTag("diary-entry-saved").assertIsDisplayed()
+        composeRule.onNodeWithTag("diary-entry-other").assertDoesNotExist()
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-species-filter"))
+        composeRule.onNodeWithTag("diary-species-filter").performTextReplacement("")
+        closeSoftKeyboard()
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-edit-saved"))
+        composeRule.onNodeWithTag("diary-edit-saved").performClick()
+        scrollEditorTo("diary-personal-common-name")
+        composeRule.onNodeWithTag("diary-personal-common-name").assertTextContains("Merlo del giardino", substring = true)
+        composeRule.onNodeWithTag("diary-personal-common-name").performTextReplacement("")
+        scrollEditorTo("diary-save")
+        composeRule.onNodeWithTag("diary-save").performClick()
+        waitFor { local.diary.get("saved")?.personalCommonName == null }
+        composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-entry-saved"))
+        composeRule.onNodeWithTag("diary-common-name-saved").assertDoesNotExist()
+    }
+
+    @Test fun newPersonalCommonNameIsValidatedAndClearedWhenTheSelectedSpeciesChanges() {
+        val unnamed = taxon.copy(commonName = null)
+        val fox = taxon.copy(id = "gbif:fox", scientificName = "Vulpes vulpes", commonName = "Volpe")
+        runBlocking {
+            local.catalogue.saveTaxon(unnamed)
+            local.catalogue.saveTaxon(fox)
+        }
+        showDiary(OfflineTaxonomySearch(listOf(TaxonomySearchEntry(unnamed, emptyList()), TaxonomySearchEntry(fox, emptyList()))))
+        composeRule.onNodeWithTag("diary-new").performClick()
+        composeRule.onNodeWithTag("diary-taxon-query").performTextInput("Turdus")
+        waitForTaxon(unnamed.id)
+        composeRule.onNodeWithTag("diary-taxon-result-${unnamed.id}").performClick()
+        scrollEditorTo("diary-personal-common-name")
+        composeRule.onNodeWithTag("diary-personal-common-name").performTextReplacement("x".repeat(MAX_PERSONAL_COMMON_NAME_LENGTH + 1))
+        scrollEditorTo("diary-save")
+        composeRule.onNodeWithTag("diary-save").performClick()
+        scrollEditorTo("diary-editor-error")
+        composeRule.onNodeWithTag("diary-editor-error").assertTextContains("nome comune personale", substring = true)
+        assertNull(runBlocking { local.diary.get("ui-observation") })
+        scrollEditorTo("diary-personal-common-name")
+        composeRule.onNodeWithTag("diary-personal-common-name").performTextReplacement("Merlo manuale")
+        scrollEditorTo("diary-taxon-query")
+        composeRule.onNodeWithTag("diary-taxon-query").performTextReplacement("Vulpes")
+        waitForTaxon(fox.id)
+        composeRule.onNodeWithTag("diary-taxon-result-${fox.id}").performClick()
+        scrollEditorTo("diary-personal-common-name")
+        assertEquals("", composeRule.onNodeWithTag("diary-personal-common-name").fetchSemanticsNode().config[SemanticsProperties.EditableText].text)
+        composeRule.onNodeWithTag("diary-personal-common-name").performTextReplacement("Volpe personale")
+        scrollEditorTo("diary-save")
+        composeRule.onNodeWithTag("diary-save").performClick()
+        waitFor { local.diary.get("ui-observation") != null }
+        assertEquals(fox.id, runBlocking { local.diary.get("ui-observation")!!.taxonId })
+        assertEquals("Volpe personale", runBlocking { local.diary.get("ui-observation")!!.personalCommonName })
+        assertEquals(fox, runBlocking { local.catalogue.taxon(fox.id) })
+    }
+
+    @Test fun dailySummaryShowsThePersonalNameAndKeepsTheScientificIdentity() {
+        runBlocking {
+            local.catalogue.saveTaxon(taxon.copy(commonName = null))
+            local.diary.create(ObservationDraft("named", taxon.id, now, zone, personalCommonName = "Merlo personale"))
+        }
+        val photos = MemoryPhotos((context.applicationContext as FaunaviaApplication).privatePhotos, local.diary, null)
+        composeRule.setContent { FaunaviaTheme {
+            DailySummaryScreen(SummaryLink(now.atZone(zone).toLocalDate(), zone), local.diary, local.catalogue, photos, onBack = {})
+        } }
+        composeRule.waitUntil(5_000) { composeRule.onAllNodesWithTag("summary-observation-named").fetchSemanticsNodes().isNotEmpty() }
+        composeRule.onNodeWithTag("summary-content").performScrollToNode(hasTestTag("summary-observation-named"))
+        composeRule.onNodeWithText("Merlo personale").assertIsDisplayed()
+        composeRule.onNodeWithText("Nome comune personale").assertIsDisplayed()
+        composeRule.onNodeWithText(taxon.scientificName).assertIsDisplayed()
+        assertEquals(taxon.id, runBlocking { local.diary.get("named")!!.taxonId })
     }
 
     private fun waitForTaxon(id: String) {

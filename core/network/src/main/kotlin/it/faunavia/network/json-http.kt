@@ -29,14 +29,29 @@ class JsonHttpTransport(
     private val openConnection: (String) -> HttpURLConnection = { URL(it).openConnection() as HttpURLConnection },
 ) {
     fun get(url: String, policy: JsonHttpPolicy = JsonHttpPolicy(),
-        statusFailure: (Int) -> IOException? = { null }): JsonHttpResponse {
+        statusFailure: (Int) -> IOException? = { null }): JsonHttpResponse =
+        exchange(url, policy, statusFailure)
+
+    fun post(url: String, body: String, policy: JsonHttpPolicy = JsonHttpPolicy(),
+        statusFailure: (Int) -> IOException? = { null }): JsonHttpResponse =
+        exchange(url, policy, statusFailure, body)
+
+    private fun exchange(url: String, policy: JsonHttpPolicy, statusFailure: (Int) -> IOException?,
+        bodyToSend: String? = null): JsonHttpResponse {
         val connection = openConnection(url)
         try {
             connection.connectTimeout = policy.connectTimeoutMillis
             connection.readTimeout = policy.readTimeoutMillis
-            connection.requestMethod = "GET"
+            connection.requestMethod = if (bodyToSend == null) "GET" else "POST"
             connection.setRequestProperty("Accept", "application/json")
             policy.userAgent?.let { connection.setRequestProperty("User-Agent", it) }
+            if (bodyToSend != null) {
+                connection.doOutput = true
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                val bytes = bodyToSend.toByteArray(Charsets.UTF_8)
+                connection.setFixedLengthStreamingMode(bytes.size)
+                connection.outputStream.use { it.write(bytes) }
+            }
             val status = connection.responseCode
             statusFailure(status)?.let { throw it }
             val stream = if (status in 200..299) connection.inputStream else connection.errorStream

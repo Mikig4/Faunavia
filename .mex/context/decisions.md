@@ -16,12 +16,36 @@ edges:
   - target: context/offline-first.md
     condition: when changing local storage or network behavior
 grounds_to: []
-last_updated: 2026-09-20
+last_updated: 2026-10-27
 ---
 
 # Decisions
 
 ## Decision Log
+
+### Remove the 3D feature
+
+**Date:** 2026-10-26. **Source:** explicit user request in this session.
+
+**Decision:** Remove viewer/importer/parser, bundled assets, Filament/Blender/Khronos dependencies and dedicated model tests/golden. Retain photos, profiles and memory video trimming.
+
+**Compatibility:** Keep Room 11 and the historical personal_models table inert; preserve intact old rows/files in backup 3 as bounded opaque attachments with path/size/hash checks. There is no model domain repository or app CRUD API. If a historical file is missing or damaged, exclude only its row from the exported snapshot, leave the local database and files intact, and visibly report the omission in export and restore preview. Propagate other I/O errors. This avoids blocking a diary backup while preserving existing personal bytes and making any omission explicit. Existing F14 decisions below are superseded; their reports remain historical.
+
+
+### One private video per memory with in-app trimming
+**Date:** 2026-10-26
+**Status:** Active, user requested implementation and direct in-app segment selection.
+**Decision:** Extend the private diary gallery to identified/unidentified memories with one video alongside photos, explicit start/end selection and local preview before saving. Use pinned AndroidX Media3 Transformer 1.10.1, complete H.264/AAC MP4 encoding without source metadata, Room 11 owner tables and format-3 backup with prior readers.
+**Reasoning:** A file reference or gallery-only change would omit identification/backup guarantees. Full encoding honors the chosen start frame without preceding-keyframe approximation or hidden pre-roll; no backend or paid service is needed.
+**Alternatives considered:** External-editor-only trimming (does not meet the user request); keyframe-only native remuxing (does not honor arbitrary boundaries); server editing (unnecessary privacy/cost/network dependency).
+**Consequences:** Original staging needs bounded private space (2 GiB input), the final copy is capped at 100 MiB and each cancellable export at five minutes. Unsupported device codecs remain explicit errors. Existing attachments survive failure/cancellation; only committed videos survive process death. Physical-device/large-source coverage is separate from emulator evidence; see `GUIDA-VIDEO.md`.
+
+### Explicit live outing discovery along the selected route
+**Date:** 2026-10-03
+**Status:** Approved, implemented and verified (verifyAll 2026-10-03)
+**Decision:** Replace the included F17 outing pilot with explicit online Overpass discovery around the selected whole route or dated stage. The help button is the request trigger; no selection/restoration/filter-triggered requests. Keep only saved outing snapshots offline and provide an external Google search link.
+**Reasoning:** The user rejected a fixed offline suggestion catalogue and approved the researched route-scoped online proposal. Overpass supplies geographic objects without mandatory paid credentials; Google Places requires billing and Google's old Custom Search JSON API is closed to new customers.
+**Consequences:** Reuse F5 aggregate boxes, never upload full traces. Limit public-instance load and report partial coverage. Do not infer access, fauna, season or trail geometry from incomplete OSM tags. No hosted backend or paid search API is introduced; production distribution needs a dedicated/appropriate endpoint. Room/backup contracts and previous saved outings remain compatible. Canonical implementation/verification: `34 - Ricerca online delle uscite.md`.
 
 ### Trip planning and connected personal diary
 **Date:** 2026-09-20

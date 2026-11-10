@@ -14,7 +14,7 @@ edges:
   - target: context/data-and-provenance.md
     condition: when writing provider, occurrence, or attribution code
 grounds_to: []
-last_updated: 2026-09-14
+last_updated: 2026-10-26
 ---
 
 # Conventions
@@ -37,7 +37,7 @@ last_updated: 2026-09-14
 
 - Provider failures are explicit and recoverable: show cached data with a stale indicator or a clear retry state.
 - Evidence explanations are data, not hard-coded prose: the UI renders score reasons and source links.
-- Large 3D assets are lazy-loaded and always have a fallback representation.
+- Species photographs load on request; the accessible 2D fallback works offline. The 3D feature was removed.
 
 ## Verify Checklist
 

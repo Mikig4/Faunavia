@@ -10,6 +10,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.nio.file.Files
+import java.nio.file.NoSuchFileException
+import java.nio.file.attribute.BasicFileAttributes
 import java.security.MessageDigest
 import java.time.Instant
 import java.util.UUID
@@ -28,12 +31,18 @@ import org.json.JSONObject
 
 internal class BackupFailure(message: String) : IOException(message)
 internal data class BackupInventory(val path: String, val bytes: Long, val sha256: String)
-internal data class BackupPreview(val createdAt: Instant, val schema: Int, val counts: Map<String, Int>, val bytes: Long) {
+internal data class BackupPreview(val createdAt: Instant, val schema: Int, val counts: Map<String, Int>, val bytes: Long,
+    val omittedLegacyAttachments: Int = 0) {
     private fun count(table: String, one: String, many: String): String = (counts[table] ?: 0).let { "$it ${if (it == 1) one else many}" }
     val summary: String get() = listOf(count("observations", "avvistamento", "avvistamenti"), count("unidentified_drafts", "bozza", "bozze"),
         count("trips", "viaggio", "viaggi"), count("outings", "uscita", "uscite"),
         "${(counts["observation_photos"] ?: 0) + (counts["draft_photos"] ?: 0)} foto",
-        "${counts["personal_models"] ?: 0} modelli 3D").joinToString(", ")
+        "${(counts["observation_videos"] ?: 0) + (counts["draft_videos"] ?: 0)} video").joinToString(", ")
+    val legacyWarning: String? get() = when (omittedLegacyAttachments) {
+        0 -> null
+        1 -> "Un allegato di una versione precedente era mancante o danneggiato e non è incluso in questo backup."
+        else -> "$omittedLegacyAttachments allegati di una versione precedente erano mancanti o danneggiati e non sono inclusi in questo backup."
+    }
 }
 internal class PreparedBackup(val directory: File, val snapshot: LocalBackupSnapshot,
     val inventory: List<BackupInventory>, val preview: BackupPreview) {
@@ -48,10 +57,11 @@ internal class LocalBackupArchive(
     private val photos: PrivatePhotoStore,
     private val availableBytes: () -> Long = { StatFs(context.noBackupFilesDir.absolutePath).availableBytes },
     private val beforeCommit: () -> Unit = {},
-    private val models: PersonalModelStore? = null,
+    private val videos: PrivateVideoStore? = null,
+    private val legacyRoot: File = context.noBackupFilesDir,
 ) {
     companion object {
-        const val FORMAT = 2
+        const val FORMAT = 3
         const val MAX_BYTES = 2L * 1024 * 1024 * 1024
         private const val RESERVE = 64L * 1024 * 1024
         private const val MAX_MANIFEST = 2L * 1024 * 1024
@@ -87,14 +97,21 @@ internal class LocalBackupArchive(
             val stage = staging()
             try {
                 progress("Preparazione del database…")
-                val snapshot = database.snapshot()
+                val original = database.snapshot()
+                if (original.legacyAttachments.size > 100) throw BackupFailure("Inventario degli allegati precedenti non valido.")
+                val omitted = mutableSetOf<String>()
+                for (item in original.legacyAttachments) {
+                    if (!legacyAvailable(item.relativePath, item.byteSize, item.sha256)) omitted.add(item.relativePath)
+                }
+                val snapshot = omitLegacyAttachments(original, omitted)
                 requireSpace(snapshot.payload.toByteArray(Charsets.UTF_8).size.toLong() + RESERVE)
                 val data = File(stage, "database.json")
                 writeSynced(data, snapshot.payload.toByteArray(Charsets.UTF_8))
                 val paths = snapshot.photos.flatMap { listOfNotNull(it.relativePath, it.thumbnailPath) }.toSet().sorted()
                 val files = linkedMapOf("database.json" to data)
                 paths.forEach { path -> files[path] = photos.file(path) }
-                snapshot.models.forEach { model -> files[model.relativePath] = requireNotNull(models) { "Model store unavailable." }.file(model.relativePath) }
+                snapshot.legacyAttachments.forEach { item -> files[item.relativePath] = legacyFile(item.relativePath) }
+                snapshot.videos.forEach { video -> files[video.relativePath] = requireNotNull(videos) { "Video store unavailable." }.file(video.relativePath) }
                 if (files.size > MAX_FILES) throw BackupFailure("Il backup supera il limite di 10.000 file foto.")
                 val inventory = files.map { (path, file) ->
                     checkedPath(path)
@@ -102,10 +119,12 @@ internal class LocalBackupArchive(
                     BackupInventory(path, file.length(), hash(file)).also(::checkInventory)
                 }
                 validatePhotos(snapshot, inventory) { photos.file(it) }
-                validateModels(snapshot, inventory) { requireNotNull(models).file(it) }
+                validateLegacyAttachments(snapshot, inventory)
+                validateVideos(snapshot, inventory) { requireNotNull(videos).file(it) }
                 val total = inventory.sumOf { it.bytes }
                 if (total > MAX_BYTES) throw BackupFailure("Il backup supera il limite di 2 GB.")
-                val preview = BackupPreview(Instant.now(), LocalBackupStore.SCHEMA, snapshot.counts, total)
+                val preview = BackupPreview(Instant.now(), LocalBackupStore.SCHEMA, snapshot.counts, total,
+                    original.legacyAttachments.size - snapshot.legacyAttachments.size)
                 val manifest = manifest(preview, inventory).toString().toByteArray(Charsets.UTF_8)
                 if (manifest.size > MAX_MANIFEST) throw BackupFailure("Inventario del backup troppo grande.")
                 ZipOutputStream(output).use { zip ->
@@ -163,12 +182,14 @@ internal class LocalBackupArchive(
                 val schema = manifest.getInt("databaseSchema")
                 if (schema !in 8..LocalBackupStore.SCHEMA) throw BackupFailure("Versione del database non supportata.")
                 if (format == 1 && schema > 9) throw BackupFailure("Versioni di archivio e database incompatibili.")
+                if (format < 3 && schema > 10) throw BackupFailure("Il formato precedente non supporta video.")
                 val listed = manifest.getJSONArray("files")
                 if (listed.length() !in 1..MAX_FILES) throw BackupFailure("Inventario non valido o troppo grande.")
                 inventory = (0 until listed.length()).map { i -> listed.getJSONObject(i).let {
                     BackupInventory(it.getString("path"), it.getLong("bytes"), it.getString("sha256")).also(::checkInventory)
                 } }
-                if (format == 1 && inventory.any { it.path.startsWith("models/") }) throw BackupFailure("Il formato precedente non supporta modelli 3D.")
+                if (format == 1 && inventory.any { it.path.startsWith("models/") }) throw BackupFailure("Il formato precedente non supporta questi allegati.")
+                if (format < 3 && inventory.any { it.path.startsWith("videos/") }) throw BackupFailure("Il formato precedente non supporta video.")
                 if (inventory.map { it.path }.distinct().size != inventory.size || inventory.count { it.path == "database.json" } != 1) {
                     throw BackupFailure("L’archivio contiene file duplicati o manca il database.")
                 }
@@ -179,7 +200,14 @@ internal class LocalBackupArchive(
                 val counts = countsJson.keys().asSequence().associateWith { countsJson.getInt(it) }
                 val expectedTables = LocalBackupStore.tablesFor(schema)
                 if (counts.keys != expectedTables.toSet() || counts.values.any { it < 0 }) throw BackupFailure("Conteggi del backup non validi.")
-                preview = BackupPreview(Instant.parse(manifest.getString("createdAt")), schema, counts, total)
+                val omitted = if (manifest.has("omittedLegacyAttachments")) {
+                    val value = manifest.get("omittedLegacyAttachments")
+                    if (value !is Int && value !is Long) throw BackupFailure("Conteggio degli allegati precedenti non valido.")
+                    val count = (value as Number).toLong()
+                    if (count !in 0L..100L) throw BackupFailure("Conteggio degli allegati precedenti non valido.")
+                    count.toInt()
+                } else 0
+                preview = BackupPreview(Instant.parse(manifest.getString("createdAt")), schema, counts, total, omitted)
                 val expected = inventory.associateBy { it.path }
                 val seen = mutableSetOf<String>()
                 for (entry in entries.drop(1)) {
@@ -202,7 +230,8 @@ internal class LocalBackupArchive(
             val snapshot = database.validate(context, payload)
             if (preview.counts.any { (table, count) -> snapshot.counts[table] != count }) throw BackupFailure("I conteggi dell’archivio non corrispondono ai dati.")
             validatePhotos(snapshot, inventory) { stagedFile(stage, it) }
-            validateModels(snapshot, inventory) { stagedFile(stage, it) }
+            validateLegacyAttachments(snapshot, inventory)
+            validateVideos(snapshot, inventory) { stagedFile(stage, it) }
             PreparedBackup(stage, snapshot, inventory, preview)
         } catch (failure: Throwable) {
             cleanup(stage)
@@ -215,13 +244,15 @@ internal class LocalBackupArchive(
         withContext(Dispatchers.IO + NonCancellable) { photos.mutex.withLock {
             check(!prepared.consumed) { "Backup preview expired." }
             val photoEntries = prepared.inventory.filter { it.path.startsWith("photos/") }
-            val modelEntries = prepared.inventory.filter { it.path.startsWith("models/") }
-            requireSpace((photoEntries + modelEntries).sumOf { it.bytes } + RESERVE)
+            val legacyEntries = prepared.inventory.filter { it.path.startsWith("models/") }
+            val videoEntries = prepared.inventory.filter { it.path.startsWith("videos/") }
+            requireSpace((photoEntries + legacyEntries + videoEntries).sumOf { it.bytes } + RESERVE)
             val prefix = "photos/restore-${UUID.randomUUID()}"
             val directory = photos.file("$prefix/placeholder").parentFile!!
             if (!directory.mkdirs()) throw BackupFailure("Non riesco a preparare le foto del ripristino.")
             var committed = false
-            val modelDirectories = mutableListOf<File>()
+            val legacyDirectories = mutableListOf<File>()
+            val videoFiles = mutableListOf<File>()
             try {
                 val mapping = photoEntries.mapIndexed { i, item -> item.path to "$prefix/$i.image" }.toMap()
                 photoEntries.forEachIndexed { i, item ->
@@ -233,17 +264,28 @@ internal class LocalBackupArchive(
                     } }
                     if (hash(target) != item.sha256) throw BackupFailure("La copia delle foto non è riuscita. I dati precedenti sono conservati.")
                 }
-                val modelMapping = modelEntries.associate { it.path to "models/${UUID.randomUUID()}/model.glb" }
-                modelEntries.forEachIndexed { i, item ->
-                    progress("Preparazione dei modelli: ${i + 1}/${modelEntries.size}…")
-                    val target = requireNotNull(models) { "Model store unavailable." }.file(modelMapping.getValue(item.path))
-                    val modelDirectory = target.parentFile!!
-                    if (!modelDirectory.mkdirs()) throw BackupFailure("Non riesco a preparare i modelli del ripristino.")
-                    modelDirectories.add(modelDirectory)
+                val legacyMapping = legacyEntries.associate { it.path to "models/${UUID.randomUUID()}/model.glb" }
+                legacyEntries.forEachIndexed { i, item ->
+                    progress("Preparazione degli allegati precedenti: ${i + 1}/${legacyEntries.size}…")
+                    val target = legacyFile(legacyMapping.getValue(item.path))
+                    val legacyDirectory = target.parentFile!!
+                    if (!legacyDirectory.mkdirs()) throw BackupFailure("Non riesco a preparare gli allegati precedenti del ripristino.")
+                    legacyDirectories.add(legacyDirectory)
                     stagedFile(prepared.directory, item.path).inputStream().use { input -> FileOutputStream(target).use { output ->
                         copyChecked(input, output, item.bytes); output.fd.sync()
                     } }
-                    if (hash(target) != item.sha256) throw BackupFailure("Copia dei modelli fallita. I dati precedenti sono conservati.")
+                    if (hash(target) != item.sha256) throw BackupFailure("Copia degli allegati precedenti fallita. I dati precedenti sono conservati.")
+                }
+                val videoMapping = videoEntries.associate { it.path to "videos/${UUID.randomUUID()}/clip.mp4" }
+                videoEntries.forEachIndexed { i, item ->
+                    progress("Preparazione dei video: ${i + 1}/${videoEntries.size}…")
+                    val target = requireNotNull(videos) { "Video store unavailable." }.file(videoMapping.getValue(item.path))
+                    if (!target.parentFile!!.mkdirs()) throw BackupFailure("Non riesco a preparare i video del ripristino.")
+                    videoFiles.add(target)
+                    stagedFile(prepared.directory, item.path).inputStream().use { input -> FileOutputStream(target).use { output ->
+                        copyChecked(input, output, item.bytes); output.fd.sync()
+                    } }
+                    if (hash(target) != item.sha256) throw BackupFailure("Copia del video fallita. I dati precedenti sono conservati.")
                 }
                 progress("Ripristino dei dati…")
                 val rewritten = JSONObject(prepared.snapshot.payload)
@@ -265,23 +307,31 @@ internal class LocalBackupArchive(
                     val columns = content.getJSONArray("columns")
                     val column = (0 until columns.length()).first { columns.getString(it) == "relativePath" }
                     val rows = content.getJSONArray("rows")
-                    for (i in 0 until rows.length()) rows.getJSONArray(i).let { it.put(column, modelMapping.getValue(it.getString(column))) }
+                    for (i in 0 until rows.length()) rows.getJSONArray(i).let { it.put(column, legacyMapping.getValue(it.getString(column))) }
+                }
+                for (table in listOf("observation_videos", "draft_videos")) {
+                    val content = tables.getJSONObject(table)
+                    val columns = content.getJSONArray("columns")
+                    val column = (0 until columns.length()).first { columns.getString(it) == "relativePath" }
+                    val rows = content.getJSONArray("rows")
+                    for (i in 0 until rows.length()) rows.getJSONArray(i).let { it.put(column, videoMapping.getValue(it.getString(column))) }
                 }
                 database.replace(rewritten.toString(), beforeCommit)
                 committed = true
                 photos.restoreGeneration++
                 if (!prepared.discard()) cleanupWarning = "Ripristino completato; pulizia dei file temporanei da riprovare dopo aver liberato spazio."
                 prepared.preview
-            } finally { if (!committed) { cleanup(directory); modelDirectories.forEach(::cleanup) } }
+            } finally { if (!committed) { cleanup(directory); legacyDirectories.forEach(::cleanup); videoFiles.forEach { cleanup(it.parentFile!!) } } }
         } }
 
     private fun manifest(preview: BackupPreview, files: List<BackupInventory>) = JSONObject()
         .put("application", "it.faunavia.app").put("formatVersion", FORMAT).put("databaseSchema", preview.schema)
         .put("createdAt", preview.createdAt.toString()).put("counts", JSONObject(preview.counts))
         .put("files", JSONArray(files.map { JSONObject().put("path", it.path).put("bytes", it.bytes).put("sha256", it.sha256) }))
+        .apply { if (preview.omittedLegacyAttachments > 0) put("omittedLegacyAttachments", preview.omittedLegacyAttachments) }
 
     private fun checkedPath(path: String) {
-        if (path.length > 240 || (path != "database.json" && !path.startsWith("photos/") && !path.matches(Regex("models/[a-f0-9-]{36}/model\\.glb"))) ||
+        if (path.length > 240 || (path != "database.json" && !path.startsWith("photos/") && !path.matches(Regex("models/[a-f0-9-]{36}/model\\.glb")) && !path.matches(Regex("videos/[a-f0-9-]{36}/clip\\.mp4"))) ||
             ':' in path || '\\' in path || path.split('/').any { it.isEmpty() || it == "." || it == ".." }) {
             throw BackupFailure("L’archivio contiene un percorso non valido.")
         }
@@ -289,7 +339,8 @@ internal class LocalBackupArchive(
     private fun checkInventory(item: BackupInventory) {
         checkedPath(item.path)
         val limit = when { item.path == "database.json" -> LocalBackupStore.MAX_PAYLOAD_BYTES
-            item.path.startsWith("models/") -> GlbInspection.MAX_BYTES.toLong()
+            item.path.startsWith("models/") -> 20L * 1024 * 1024
+            item.path.startsWith("videos/") -> it.faunavia.domain.MAX_MEMORY_VIDEO_BYTES
             else -> PrivatePhotoStore.MAX_INPUT_BYTES }
         if (item.bytes !in 1..limit || !item.sha256.matches(Regex("[a-f0-9]{64}"))) throw BackupFailure("Inventario file non valido.")
     }
@@ -331,7 +382,7 @@ internal class LocalBackupArchive(
     }
     private suspend fun hash(file: File): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        file.inputStream().use { input ->
+        Files.newInputStream(file.toPath()).use { input ->
             val buffer = ByteArray(8192)
             while (true) {
                 currentCoroutineContext().ensureActive()
@@ -345,7 +396,7 @@ internal class LocalBackupArchive(
     private fun writeSynced(file: File, bytes: ByteArray) = FileOutputStream(file).use { it.write(bytes); it.fd.sync() }
     private fun validatePhotos(snapshot: LocalBackupSnapshot, inventory: List<BackupInventory>, file: (String) -> File) {
         val referenced = snapshot.photos.flatMap { listOfNotNull(it.relativePath, it.thumbnailPath) }.toSet()
-        if (inventory.filterNot { it.path.startsWith("models/") }.map { it.path }.toSet() != referenced + "database.json") throw BackupFailure("Inventario delle foto incompleto o incoerente.")
+        if (inventory.filterNot { it.path.startsWith("models/") || it.path.startsWith("videos/") }.map { it.path }.toSet() != referenced + "database.json") throw BackupFailure("Inventario delle foto incompleto o incoerente.")
         val byPath = inventory.associateBy { it.path }
         snapshot.photos.forEach { photo ->
             val item = byPath.getValue(photo.relativePath)
@@ -360,16 +411,57 @@ internal class LocalBackupArchive(
             }
         }
     }
-    private fun validateModels(snapshot: LocalBackupSnapshot, inventory: List<BackupInventory>, file: (String) -> File) {
+    private fun validateVideos(snapshot: LocalBackupSnapshot, inventory: List<BackupInventory>, file: (String) -> File) {
+        val listed = inventory.filter { it.path.startsWith("videos/") }.associateBy { it.path }
+        if (snapshot.videos.map { it.relativePath }.toSet() != listed.keys || snapshot.videos.map { it.relativePath }.distinct().size != snapshot.videos.size) {
+            throw BackupFailure("Inventario dei video incompleto o incoerente.")
+        }
+        snapshot.videos.forEach { video ->
+            val item = listed.getValue(video.relativePath)
+            if (video.byteSize != item.bytes || video.sha256 != item.sha256) throw BackupFailure("Video incoerente con i metadati.")
+            VideoInspection.validate(video, file(video.relativePath))
+        }
+    }
+    // Legacy attachments are copied as opaque bytes. No model parser, importer or renderer remains.
+    private fun legacyFile(path: String): File {
+        require(path.matches(Regex("models/[a-f0-9-]{36}/model\\.glb")))
+        return stagedFile(legacyRoot, path)
+    }
+
+    private suspend fun legacyAvailable(path: String, size: Long, sha256: String): Boolean {
+        val file = legacyFile(path)
+        val attributes = try { Files.readAttributes(file.toPath(), BasicFileAttributes::class.java) }
+        catch (_: NoSuchFileException) { return false }
+        if (!attributes.isRegularFile || attributes.size() != size) return false
+        return try { hash(file) == sha256 } catch (_: NoSuchFileException) { false }
+    }
+
+    /** Remove unavailable legacy rows from the export only; the live database and files stay intact. */
+    private fun omitLegacyAttachments(snapshot: LocalBackupSnapshot, omitted: Set<String>): LocalBackupSnapshot {
+        if (omitted.isEmpty()) return snapshot
+        val root = JSONObject(snapshot.payload)
+        val table = root.getJSONObject("tables").getJSONObject("personal_models")
+        val columns = table.getJSONArray("columns")
+        val pathColumn = (0 until columns.length()).first { columns.getString(it) == "relativePath" }
+        val rows = table.getJSONArray("rows")
+        val kept = JSONArray()
+        for (i in 0 until rows.length()) {
+            val row = rows.getJSONArray(i)
+            if (row.getString(pathColumn) !in omitted) kept.put(row)
+        }
+        table.put("rows", kept)
+        return snapshot.copy(payload = root.toString(), counts = snapshot.counts + ("personal_models" to kept.length()),
+            legacyAttachments = snapshot.legacyAttachments.filterNot { it.relativePath in omitted })
+    }
+
+    private fun validateLegacyAttachments(snapshot: LocalBackupSnapshot, inventory: List<BackupInventory>) {
         val listed = inventory.filter { it.path.startsWith("models/") }.associateBy { it.path }
-        if (snapshot.models.size > 100 || snapshot.models.map { it.relativePath }.toSet() != listed.keys ||
-            snapshot.models.map { it.relativePath }.distinct().size != snapshot.models.size) throw BackupFailure("Inventario dei modelli non valido.")
-        snapshot.models.forEach { model ->
-            val item = listed.getValue(model.relativePath)
-            if (model.byteSize != item.bytes || model.sha256 != item.sha256) throw BackupFailure("Modello incoerente con i metadati.")
-            val bytes = file(model.relativePath).readBytes()
-            GlbInspection.inspect(bytes)
-            validateModelResources(bytes)
+        val attachments = snapshot.legacyAttachments
+        if (attachments.size > 100 || attachments.map { it.relativePath }.toSet() != listed.keys ||
+            attachments.map { it.relativePath }.distinct().size != attachments.size) throw BackupFailure("Inventario degli allegati precedenti non valido.")
+        attachments.forEach { attachment ->
+            val item = listed.getValue(attachment.relativePath)
+            if (attachment.byteSize != item.bytes || attachment.sha256 != item.sha256) throw BackupFailure("Allegato precedente incoerente con i metadati.")
         }
     }
 }

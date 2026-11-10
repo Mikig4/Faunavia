@@ -1,5 +1,7 @@
 # Valutazione architetturale
 
+Aggiornamento 2026-10-26: 3D e relativi test rimossi; i riferimenti alla fase F14 sotto descrivono valutazioni precedenti. Stato corrente: [[36 - Rimozione modelli 3D]].
+
 Data della revisione: 2026-09-14
 
 ## Giudizio sintetico
@@ -43,7 +45,7 @@ La divisione F0–F16 è adeguata perché ogni fase produce un solo incremento p
 
 - F4: primo valore locale, diario offline;
 - F8: primo vertical slice naturalistico;
-- F14: MVP completo con un asset GLB e fallback;
+- F14: funzionalità rimossa su richiesta il 2026-10-26;
 - F15–F16: estensioni post-MVP.
 
 Il gate di non regressione da F2 evita che nuove integrazioni — soprattutto provider, mappa, WorkManager e 3D — compromettano i percorsi locali già funzionanti.

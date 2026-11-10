@@ -16,22 +16,24 @@ edges:
   - target: context/data-and-provenance.md
     condition: when implementing provider adapters or evidence ranking
   - target: context/assets-3d.md
-    condition: when implementing the species catalogue or 3D asset loading
+    condition: when checking historical 3D retirement and old archives
   - target: context/observations-notifications.md
     condition: when implementing manual observations, photos, daily summaries, or notifications
   - target: context/android-local.md
     condition: when implementing Android storage, Room, MapLibre, or offline packages
 grounds_to: []
-last_updated: 2026-10-30
+last_updated: 2026-11-10
 ---
 
 # Architecture
 
 ## F17 public outing discovery and Wikipedia photographs
 
-`OutingDiscovery` in pure exploration filters/ranks a bundled five-entry Lombardia catalogue by confirmed destination radius, date, interests and accepted wishlist names. Documented visitor-site fauna and season recommendations remain separate from F7 and diary sightings. Public reference points never become precise wildlife coordinates; absent trace/difficulty/accessibility/transfer time stay explicit. `OutingGuide` copies sources, metrics/access notes and species into the existing Room-10 outing payload v2, reading v1 and participating in format-2 backup/staged domain validation. Stable trip/proposal/day IDs prevent repeated saves; source outages and new catalogue versions cannot replace an existing snapshot. Name/date edits preserve the guide; place/route changes discard unrelated guide data.
+The explicit `Richiedi aiuto` button invokes `OutingSearch`/`OverpassOutingSearch` for the selected `Trip.stageScope` or whole trip. F5 supplies aggregate 20 km corridor boxes, capped at 12 with a partial-coverage warning. No full trace, diary or wishlist is uploaded. One bounded POST selects reserves, national parks, bird hides and walking route relations; normalized OSM identities, source/version/date/license/access facts become `OutingProposal` entries. No predefined outing catalogue ships; the old pilot exists only in test fixtures. `OutingSearchViewModel` retains jobs/results across Activity recreation; selection, restoration and local filter changes never start a search. Google is an explicit external public-label search link. Public Overpass is a personal-prototype endpoint, replaceable before distributed production.
 
-`SpeciesMetadataLookup.photo` uses unique exact Wikidata P225 identity and verified Italian/English Wikipedia sitelinks/pageprops, then PageImages and Commons rights/author/media validation. Android reuses the bounded Commons image loader; the shared profile displays photo/credits/source/article and fallback/retry/stale state. This neither selects a taxon nor affects biodiversity evidence. No package/backend/schema dependency is added. F15 regional packages, F16 sync decision and F14 human/physical review remain open.
+`OutingDiscovery` filters/ranks received entries locally by nearest distance to original route segments (or confirmed point), documented date/interests/wishlist facts and metrics. Unknown fauna does not exclude otherwise relevant sites; explicit fauna/season filters require evidence. No current fauna or trail geometry is invented. `OutingGuide` remains the immutable Room-10 payload-v2 snapshot, reading v1 and included in format-2 backup. Stable trip/proposal/day IDs prevent duplicates and cannot replace saved source snapshots; name/date edits preserve the guide while place/route changes discard unrelated facts.
+
+`SpeciesMetadataLookup.photo` uses unique exact Wikidata P225 identity and verified Italian/English Wikipedia sitelinks/pageprops, then PageImages and Commons rights/author/media validation. Android reuses the bounded Commons image loader; the shared profile displays photo/credits/source/article and fallback/retry/stale state. This neither selects a taxon nor affects biodiversity evidence. No package/backend/schema dependency is added. F15 regional packages and the F16 sync decision remain open. F14 was removed; no model-review gate remains active.
 
 ## System Overview
 
@@ -40,7 +42,7 @@ last_updated: 2026-10-30
 - Provider adapters query bounded areas; the local store caches raw metadata and normalized records.
 - The evidence engine deduplicates species, scores recency/distance/quality, and preserves provenance.
 - The UI renders map, corridor, curated peculiar-species suggestions, evidence labels, sources, diary entries, and species details.
-- A lazy-loaded GLB model enriches a species profile; every profile also has a 2D fallback.
+- Species profiles show sourced photographs and retain an accessible offline 2D fallback.
 - Room/SQLite stores the diary, local photos, cache, catalogue and notification settings.
 - A local scheduler creates a daily summary notification only when the user entered observations that day.
 
@@ -51,7 +53,7 @@ last_updated: 2026-10-30
 - **Geographic search adapter** — resolves country/region/city names to canonical places and point/bbox/polygon geometry; provider-specific geocoding stays outside UI and domain.
 - **Biodiversity gateway** — provider adapters with bounded queries, caching and provenance; first candidate is GBIF.
 - **Evidence engine** — taxonomy normalization, deduplication and explainable evidence levels.
-- **Local store and asset registry** — Room/SQLite records, local photo references, and versioned GLB/2D assets.
+- **Local store and asset registry** — Room/SQLite records, local photo references, and the versioned 2D fallback.
 - **Taxonomy catalogue** — common/scientific-name autocomplete, synonym resolution and accepted Animalia taxa.
 - **Suggestion engine** — curated regional profiles with distinctiveness and urban-common exclusion rules.
 - **Notification scheduler** — timezone-aware local daily summary; no server or FCM dependency.
@@ -163,15 +165,20 @@ F9 refinement 2026-10-02: `typicalTaxa` reuses the pure suggestion engine on exi
 - `SpeciesProfileService` reads existing local profiles without selecting taxa or writing Room. Current local fields override included facts; missing fields/curiosities can use the exact reviewed pilot identity. Other species retain explicit unavailable fields. Subspecies do not inherit nominal-species facts implicitly.
 - Android `SpeciesProfileDialog` is shared by catalogue/research/trips/suggestions, with saveable disclosures, distribution/return navigation, validated HTTPS source opening and an original generic 2D symbol plus procedural recovery. Received catalogue/F9 name provenance is retained separately when different from natural-history name provenance; missing name source is explicit. UI makes no curiosity-provider requests.
 - `SpeciesProfileCachePreferences` commits at most 64 profiles of 128 KiB. Old copies are used with warnings only when local reading fails, never over successful reads/restored removals. This presentation cache is excluded from backup; Room 9 and format-1 durable backup are unchanged.
-- See `GUIDA-FASE-13.md`, `31 - Rapporto Fase 13.md` and `patterns/add-species-and-3d-asset.md` for the F13 baseline.
+- See `GUIDA-FASE-13.md`, `31 - Rapporto Fase 13.md` and `patterns/add-species-profile.md` for the F13 baseline.
 
-## F14 personal model boundary
+## Retired 3D feature and archive compatibility
 
-- Pure domain `PersonalModel`/`PersonalModelRepository` retain displayed taxon ID, scientific name, private relative path, hash/size, credits and import Instant. Room 10 adds `personal_models` through non-destructive migration 9→10; it has no selected-taxon foreign key, so viewing/importing an illustration does not select taxa or create observations.
-- Android `GlbInspection` checks the bounded self-contained glTF-2 subset; `PersonalModelStore` validates native resources and syncs complete unique files before publishing metadata. It shares `PrivatePhotoStore` mutex/restore generation; invalid replacement leaves previous references unchanged. Metadata removal returns the bundled model or 2D; physical orphan cleanup retains the grace period.
-- `SpeciesModelDialog` is opened from the shared profile, lazy-loads local bytes and preserves clip/play/form state. `ModelSurface` isolates Filament, touch orbit/pinch and clip timing. Resume/pause control frame callbacks; detach removes owned lighting and lets ModelViewer release model, resources and engine exactly once. Renderer failure exposes retry and return to 2D.
-- Backup format 2 snapshots all 20 Room-10 tables plus exact personal GLB inventory/provenance. Model publication uses fresh UUID directories before atomic replacement, rollback cleans only new files, and both photo/model queued writes respect restoration. Format-1 schema-9 released archives remain readable; schema-8 compatibility is synthetic.
-- Procedural original blackbird pipeline, deterministic delivery, reference/preview/`.blend`, shared asset manifest and Khronos validation are versioned. Human anatomy/visual/license approval and physical-device performance are pending; this automated implementation does not close the formal F14 gate. See `GUIDA-FASE-14.md` and `32 - Rapporto Fase 14.md`.
+- Removed on explicit user request, 2026-10-26: profile action/dialog, importer, GLB parser, Filament libraries, bundled assets, Blender/Khronos tooling and dedicated model tests/golden.
+- Room 11 retains the inert historical personal_models table to avoid destructive migration. Its DAO is read-only for archives; there is no domain repository or application CRUD API.
+- Backup 3 preserves intact old file bytes and row metadata as bounded opaque attachments with inventory/hash/path checks. Missing or damaged legacy files are omitted only from the export, with a visible count carried in the manifest and restore preview; local rows and files stay untouched. Other I/O errors remain explicit. Restore publishes fresh UUID files before atomic Room replacement. No GLB parsing or rendering is needed. See 36 - Rimozione modelli 3D.md; the F14 report is historical.
+
+## Private memory video boundary
+
+- Pure domain `MemoryVideo`/`VideoTrim` and `MemoryVideoRepository` retain one private video per stable memory ID. Room 11 adds observation/draft video tables with owner primary keys and cascading foreign keys; conversion transfers video metadata in its existing transaction. Schema 10 migrates additively.
+- Android `PrivateVideoStore` stages bounded original copies, checks media headers and uses Media3 Transformer 1.10.1 to encode the chosen time range into H.264/AAC MP4. Original metadata is removed through the muxer, platform diagnostics are disabled, and originals remain untouched. `MemoryVideos` publishes complete unique files before metadata, preserves prior attachments on failure and checks the shared photo/restore generation at commit.
+- `MemoryVideoSection` extends the existing gallery with single-video selection, range cursors, local preview, progress/cancellation, replacement and removal. A keyed ViewModel retains source/range/jobs across Activity recreation; process death retains only committed copies. Native preview pauses at the selected end and on backgrounding.
+- Backup format 3 includes all 22 Room-11 tables and verified video bytes. Video restore publishes unique files before the existing atomic database replacement, with rollback and the shared restore generation. Format 2/schema 10 and format 1/schema 8–9 readers remain supported. See `GUIDA-VIDEO.md` for limits and verification.
 
 ## External Dependencies
 
@@ -180,7 +187,6 @@ AndroidX ExifInterface 1.4.2 supplies maintained local EXIF parsing. Android Bit
 - **GBIF API** — primary occurrence search candidate; bounded requests, caching and source metadata required.
 - **OpenStreetMap tiles/geocoding** — map context only; use attribution, rate limits and no bulk/offline tile prefetch.
 - **iNaturalist API** — optional secondary observation source after licensing and rate-limit review.
-- **Blender/glTF/GLB** — free asset authoring and local delivery format; no hosted asset service is required.
 - **Firebase/Firestore** — optional future sync for structured data only; not required by the MVP.
 
 ## What Does NOT Exist Here

@@ -63,10 +63,22 @@ class F11ReminderUiTest {
         androidx.test.espresso.Espresso.closeSoftKeyboard()
         compose.onNodeWithTag("settings-content").performScrollToNode(hasTestTag("reminder-enabled"))
         compose.onNodeWithTag("reminder-enabled").performClick()
-        val deny = device.wait(Until.findObject(By.res(Pattern.compile(".*:id/permission_deny_button"))), 10_000)
-        assertNotNull("Android must request notification permission only on activation.", deny)
-        deny!!.click()
+        val denySelector = By.res(Pattern.compile(".*:id/permission_deny_button"))
+        assertNotNull("Android must request notification permission only on activation.", device.wait(Until.findObject(denySelector), 10_000))
+        // The system dialog can expose its accessibility node before its input window is ready.
+        // Re-fetch on each attempt and require the dialog to close, rather than assuming a touch landed.
+        val deadline = android.os.SystemClock.elapsedRealtime() + 10_000
+        var dismissed = false
+        while (!dismissed && android.os.SystemClock.elapsedRealtime() < deadline) {
+            device.waitForIdle(1_000)
+            try { device.findObject(denySelector)?.click() }
+            catch (_: androidx.test.uiautomator.StaleObjectException) { /* Re-query while the dialog remains visible. */ }
+            dismissed = device.wait(Until.gone(denySelector), 1_000) == true
+        }
+        assertTrue("Android notification permission dialog did not close after denial.", dismissed)
         compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("reminder-enabled").assertIsOff().assertIsEnabled() }.isSuccess }
+        assertEquals(android.content.pm.PackageManager.PERMISSION_DENIED,
+            androidx.core.content.ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS))
         assertFalse(runBlocking { application.repositories.settings.get().reminderEnabled })
         compose.onNodeWithTag("destination-bar").performScrollToIndex(1)
         compose.onNodeWithTag("nav-diary").performClick()

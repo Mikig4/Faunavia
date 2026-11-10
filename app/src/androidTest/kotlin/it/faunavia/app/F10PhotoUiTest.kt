@@ -134,6 +134,53 @@ class F10PhotoUiTest {
         assertEquals("senza perdere testo", runBlocking { local.diary.get("o")!!.notes })
     }
 
+    @Test fun diaryShowsFirstGalleryPhotoAndRefreshesItAfterRemoval() {
+        val bitmap = androidx.core.graphics.createBitmap(80, 40)
+        try {
+            listOf(android.graphics.Color.RED, android.graphics.Color.BLUE).forEach { color ->
+                bitmap.eraseColor(color)
+                source.outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 100, it) }
+                runBlocking { manager.attach("o", Uri.fromFile(source)) }
+            }
+        } finally { bitmap.recycle() }
+        val first = runBlocking { manager.list("o").first() }
+        val second = runBlocking { manager.list("o").last() }
+        show()
+        fun assertCover(photo: ObservationPhoto) {
+            compose.waitUntil(10_000) {
+                runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-media-o")) }.isSuccess
+            }
+            val expected = requireNotNull(store.load(photo, true))
+            val color = expected.getPixel(expected.width / 2, expected.height / 2)
+            expected.recycle()
+            compose.waitUntil(10_000) {
+                val pixels = compose.onNodeWithTag("diary-media-o").captureToImage().toPixelMap()
+                val actual = pixels[pixels.width / 2, pixels.height / 2]
+                kotlin.math.abs(actual.red - android.graphics.Color.red(color) / 255f) < 0.1f &&
+                    kotlin.math.abs(actual.blue - android.graphics.Color.blue(color) / 255f) < 0.1f
+            }
+            compose.onNodeWithTag("diary-media-o").assertIsDisplayed()
+        }
+        assertCover(first)
+        val outputPath = InstrumentationRegistry.getArguments().getString("additionalTestOutputDir")
+        val output = (outputPath?.let(::File) ?: File(context.filesDir, "golden-output")).apply { mkdirs() }
+        File(output, "diary-photo-cover.png").outputStream().use {
+            compose.onNodeWithTag("screen-diary").captureToImage().asAndroidBitmap()
+                .compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it)
+        }
+        compose.onNodeWithTag("diary-media-o").performClick()
+        compose.waitUntil(10_000) { compose.onAllNodesWithTag("photo-image-${first.id}").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithTag("photo-list").performScrollToNode(hasTestTag("photo-delete-${first.id}"))
+        compose.onNodeWithTag("photo-delete-${first.id}").performClick()
+        compose.onNodeWithTag("photo-list").performScrollToNode(hasTestTag("photo-delete-confirm-${first.id}"))
+        compose.onNodeWithTag("photo-delete-confirm-${first.id}").performClick()
+        compose.waitUntil(10_000) { runBlocking { manager.list("o").size == 1 } }
+        compose.onNodeWithTag("photo-list").performScrollToNode(hasTestTag("photo-close"))
+        compose.onNodeWithTag("photo-close").performClick()
+        assertCover(second)
+        assertEquals("senza perdere testo", runBlocking { local.diary.get("o")!!.notes })
+    }
+
     @Test fun albumAndPrivateImagesSurviveRealActivityRecreationAndPhotoRemovalKeepsText() {
         val photo = runBlocking { manager.attach("o", publishPhoto()) }
         show(); open("o")
@@ -153,8 +200,9 @@ class F10PhotoUiTest {
         val photo = runBlocking { manager.attach("o", publishPhoto()) }
         store.file(photo.relativePath).delete()
         show()
-        compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-photos-o")) }.isSuccess }
-        compose.onNodeWithTag("diary-photos-o").performClick()
+        compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-media-o")) }.isSuccess }
+        compose.onNodeWithTag("diary-media-unavailable-o", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNodeWithTag("diary-media-o").performClick()
         compose.waitUntil(10_000) { compose.onAllNodesWithTag("photo-unavailable-${photo.id}").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithTag("photo-list").performScrollToNode(hasTestTag("photo-unavailable-${photo.id}"))
         compose.onNodeWithTag("photo-unavailable-${photo.id}").assertTextContains("Foto mancante", substring = true)
@@ -190,10 +238,13 @@ class F10PhotoUiTest {
         val photo = runBlocking { manager.attach("o", publishPhoto()) }
         val directory = store.file(photo.relativePath).parentFile!!
         show()
-        compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-delete-o")) }.isSuccess }
+        // The asynchronous cover adds height to the row; wait before positioning its actions.
+        compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-media-o")) }.isSuccess }
+        compose.onNodeWithTag("diary-media-o").assertIsDisplayed()
         assertTrue(directory.setWritable(false, false))
         try {
-            compose.onNodeWithTag("diary-delete-o").performClick()
+            compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-delete-o"))
+            compose.onNodeWithTag("diary-delete-o").assertIsDisplayed().performClick()
             compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-delete-confirm-o"))
             compose.onNodeWithTag("diary-delete-confirm-o").performClick()
             compose.waitUntil(10_000) { runBlocking { local.diary.get("o") == null } }

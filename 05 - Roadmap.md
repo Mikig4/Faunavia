@@ -1,8 +1,10 @@
 # Roadmap
 
+Stato corrente: la funzionalità 3D F14 è stata rimossa su richiesta; i rapporti delle build precedenti sono storici. Vedi [[36 - Rimozione modelli 3D]].
+
 Estensione della pianificazione F8B del 2026-10-02: [[23 - Tappe e giorni del viaggio]], con località libere, ordine, giorni e analisi del singolo tratto.
 
-La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B, chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F13 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]], riepilogo locale F11 in [[29 - Rapporto Fase 11]], backup F12 in [[30 - Rapporto Fase 12]], schede F13 in [[31 - Rapporto Fase 13]].
+La numerazione storica della roadmap va da F0 a F17, con F8 suddivisa in F8A e F8B; F14 è stata rimossa. Le fasi attive sono chiuse da gate verificabili. Una fase produce un incremento utilizzabile e non si apre la successiva finché build, test propri e gate di non regressione richiesti non sono verdi. F0–F13 sono completate e verificate; le estensioni delle fasi successive rimangono pianificate e non cambiano retroattivamente gli esiti delle fasi precedenti. Esiti F8B in [[20 - Rapporto Fase 8B]], F9 in [[24 - Rapporto Fase 9]], foto F10 in [[27 - Rapporto Fase 10]], riepilogo locale F11 in [[29 - Rapporto Fase 11]], backup F12 in [[30 - Rapporto Fase 12]], schede F13 in [[31 - Rapporto Fase 13]].
 
 | Fase | Incremento | Gate principale |
 |---|---|---|
@@ -21,10 +23,10 @@ La roadmap contiene 19 fasi operative, da F0 a F17 con F8 suddivisa in F8A e F8B
 | F11 | notifica flessibile | WorkManager, fuso, permessi, zero notifiche vuote |
 | F12 | export/import | archivio verificato, ripristino e rollback sicuro |
 | F13 | scheda specie e fallback 2D | approfondimenti e curiosità cliccabili, fonti e cache; scheda iniziale compatta |
-| F14 | pipeline e primo asset 3D | GLB validato, manifest, budget mobile e fallback integro |
+| F14 | rimossa su richiesta il 2026-10-26 | nessun renderer, asset o test 3D nella build corrente |
 | F15 | mappa e gazetteer regionali offline | licenza, pacchetto versionato, ricerca per nome, import/cancellazione |
 | F16 | sincronizzazione opzionale | decisione architetturale motivata prima di qualsiasi backend |
-| F17 | scoperta di luoghi e sentieri naturalistici | destinazione/date/interessi → uscite documentate → viaggio → diario |
+| F17 | scoperta di luoghi e sentieri naturalistici | percorso/tappa → Richiedi aiuto → ricerca online → uscita salvata → diario |
 
 ## Esperienza funzionale prevista
 
@@ -37,17 +39,17 @@ Il flusso principale è: preparo un viaggio → scelgo animali e luoghi → osse
 - **F8B–F10, bozze da identificare:** appunti persistenti separati dalle osservazioni identificate, con data, luogo, note e successivamente foto; conversione in osservazione solo dopo selezione di un taxon valido. Non modificare il vincolo della specie obbligatoria nelle osservazioni.
 - **F9, desideri e personalizzazione:** lista “vorrei vederlo” e viste “tipici del luogo”, “più facili da osservare” e “mai osservati da me”. Le specie comuni sono de-prioritizzabili, non escluse rigidamente da ogni vista.
 - **F12, backup completo:** includere viaggi, uscite, collegamenti, desideri e bozze con foto, oltre al diario esistente.
-- **F14, contenuti 3D personali:** importare un modello, associarlo a una specie, visualizzarlo, sostituirlo e rimuoverlo; per modelli animati selezionare una clip e riprodurla/metterla in pausa. Il fallback 2D resta disponibile.
+- **F14 rimossa:** nessun visualizzatore, importazione o test 3D nella build corrente.
 - **F15, prepara il viaggio offline:** salvare insieme luoghi, risultati, schede e mappe autorizzate, con copertura, data dei dati, dimensione e stato di disponibilità espliciti.
 - **F17, suggerire uscite:** scoprire punti di osservazione e sentieri anche senza importare una traccia, confrontando durata, difficoltà, distanza dalla base e specie pertinenti quando i dati sono disponibili. Salvare l'uscita nel viaggio e collegarla al diario; nessuna navigazione turn-by-turn richiesta.
 
 F8A permette di scegliere il periodo anche senza salvare un viaggio; F8B conserva destinazione, date e preferenze e le collega al diario. F9 parte dopo F8B. Le fasi successive mantengono la numerazione, inclusa F17 per i sentieri.
 
-Priorità di prodotto: viaggio, suggerimenti utilizzabili e diario collegato prima degli arricchimenti 3D; scoperta automatica dei sentieri nella nuova F17. I dettagli e i gate delle estensioni sono nel piano di sviluppo.
+Priorità di prodotto: viaggio, suggerimenti utilizzabili e diario collegato con schede specie e fotografie; ricerca online dei sentieri su richiesta esplicita nella F17. I dettagli e i gate delle estensioni sono nel piano di sviluppo.
 
 ## Stato corrente
 
-F0–F13 completate. F14 introduce il merlo originale, viewer lazy, clip/gesti e import/sostituzione/rimozione GLB personali; Room 10 e backup formato 2 con lettura del precedente formato 1. Gate automatizzato verde: 13 F0, 123 JVM, 155 Android, zero errori/skipped/omissioni, lint/confini/formattazione e cinque firme visive. APK 0.14.0-f14 (21), 86.635.610 byte, stessa firma precedente. Il gate formale F14 rimane aperto per revisione umana anatomica/visiva/dei termini e prova su telefono fisico; non si avvia l’espansione ad altre specie prima di chiuderlo. Esiti in [[32 - Rapporto Fase 14]], uso e controlli in [[GUIDA-FASE-14]]. F17 è stata anticipata su richiesta il 2026-10-03 con catalogo pilota incluso, salvataggi offline e foto Wikipedia nelle schede; gate cumulativo verde e APK 0.17.0-f17 (22). F15 mappe/gazetteer regionali e F16 valutazione sync restano aperte, così come il gate umano/fisico F14. Esiti in [[33 - Rapporto Fase 17]] e [[GUIDA-FASE-17]].
+F0–F13 completate; la precedente implementazione F14 è stata rimossa su richiesta il 2026-10-26. La ricerca uscite F17 e i video privati con taglio restano disponibili. I rapporti F14 precedenti sono storici; vedi [[36 - Rimozione modelli 3D]] per la build corrente.
 
 F3 è completata: il Catalogo cerca il primo provider GBIF con debounce, risolve i sinonimi al taxon Animalia accettato e conserva localmente solo le scelte esplicite con relativi nomi ricercabili. Le scelte restano utilizzabili offline; i suggerimenti remoti in memoria hanno una scadenza controllata. Il dettaglio è in [[14 - Rapporto Fase 3]].
 
@@ -64,10 +66,12 @@ F6 è completata e verificata: il modulo puro Kotlin `:core:occurrence` espone u
 - Da F2 in poi ogni fase aggiunge i propri test e riesegue l'intera suite accumulata come non regressione.
 - I provider reali vengono verificati con smoke test controllati; i test deterministici usano fake e fixture versionate.
 - I flussi critici Android vengono provati su emulatore gestito con Compose UI/UI Automator; screenshot e artefatti di test restano consultabili.
-- Playwright entra solo con una futura superficie browser/WebView. Il 3D usa Blender headless, glTF Validator, render golden e prova su dispositivo.
+- Playwright entra solo con una futura superficie browser/WebView.
 
 ## Criteri per non espandere troppo il progetto
 
 Una funzione entra nel backlog solo se migliora direttamente: (a) preparare un viaggio e trovare specie o uscite pertinenti, (b) capire perché sono state mostrate, (c) registrare e ritrovare osservazioni e ricordi, oppure (d) esplorare e arricchire la scheda dell'animale. Account, social, AI di riconoscimento e copertura mondiale restano fuori finché l'MVP non è piacevole e affidabile.
 
 Per la sequenza operativa dettagliata vedere [[09 - Piano di sviluppo dettagliato]].
+
+Aggiornamento F17 verificato 2026-10-03: il catalogo incluso della 0.17.0 è sostituito dalla ricerca online OpenStreetMap lungo il percorso/tappa, avviata solo da Richiedi aiuto. Uscite salvate offline e foto Wikipedia conservate. Gate 13 F0, 148 JVM, 165 Android, cinque firme visive; APK 0.17.1-f17 (23). [[34 - Ricerca online delle uscite]].

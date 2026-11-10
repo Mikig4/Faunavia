@@ -18,10 +18,14 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.util.UUID
 import java.util.regex.Pattern
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Rule
@@ -149,8 +153,26 @@ class F12BackupUiTest {
         compose.onNodeWithTag("backup-message").assertTextContains("backup Faunavia valido", substring = true)
         assertNotNull(local.diary.get("old"))
         temporary.outputStream().use { application.localBackup.export(it) }
+        // Simulate an otherwise valid archive that explicitly records omitted historical attachments.
+        val entries = linkedMapOf<String, ByteArray>()
+        ZipInputStream(temporary.inputStream()).use { zip ->
+            while (true) {
+                val entry = zip.nextEntry ?: break
+                entries[entry.name] = zip.readBytes()
+            }
+        }
+        val manifest = JSONObject(entries.getValue("manifest.json").toString(Charsets.UTF_8))
+            .put("omittedLegacyAttachments", 2)
+        entries["manifest.json"] = manifest.toString().toByteArray(Charsets.UTF_8)
+        ZipOutputStream(temporary.outputStream()).use { zip ->
+            entries.forEach { (name, bytes) ->
+                zip.putNextEntry(ZipEntry(name)); zip.write(bytes); zip.closeEntry()
+            }
+        }
         compose.runOnIdle { model.prepare(Uri.fromFile(temporary)) }
         compose.waitUntil(20_000) { !model.busy && model.prepared != null }
+        compose.onNodeWithTag("backup-legacy-warning").assertTextContains("2", substring = true)
+            .assertTextContains("allegat", substring = true)
         compose.onNodeWithTag("backup-dismiss").performClick()
         compose.waitUntil(10_000) { !model.busy && model.prepared == null }
         assertEquals("Da conservare", local.diary.get("old")!!.notes)

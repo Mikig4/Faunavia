@@ -8,7 +8,7 @@ Le decisioni approvate non vengono riaperte durante l'implementazione senza una 
 4. **[Chiusa] Significato di “ci sono”:** evidenze documentate e plausibilità sono mostrate separatamente; “plausibile” richiede areale + habitat e usa la stagione come modificatore.
 5. **[Chiusa] Distanza dal percorso:** default modificabile di 1 km, validato nello spike F0 e implementato in F5 con geometria metrica EPSG:3035, celle da 1 km e chunk da 5 km.
 6. **[Chiusa] Uso della posizione:** aggiornamento su richiesta, non tracking continuo.
-7. **[Chiusa] Stile 3D:** low-poly illustrato, con pipeline semi-automatizzata e revisione umana.
+7. **[Rimossa] Funzionalità 3D:** eliminata su richiesta il 2026-10-26; nessuna scelta di stile da completare.
 8. **[Chiusa] Percorsi:** GPX e GeoJSON nell'MVP; KML successivo.
 9. **[Chiusa] Offline:** diario, foto, cache e schede già viste subito; analisi offline di nuovi percorsi e mappa regionale in F15.
 10. **[Aperta] Specie delicate:** default conservativo: non aumentare la precisione pubblicata e applicare regole di oscuramento configurabili.
@@ -40,7 +40,6 @@ Le decisioni approvate non vengono riaperte durante l'implementazione senza una 
 - La logica di dominio non dipende da Android, Room, rete, mappa o renderer 3D.
 - Il primo vertical slice completo viene realizzato prima degli asset 3D di produzione.
 - Lo sviluppo e la verifica sono automatizzati con Gradle, test JVM/Room/Compose/UI Automator, emulatori gestiti, ADB e screenshot. Playwright è riservato a una futura superficie web/WebView.
-- La pipeline 3D usa Blender Python headless e glTF Validator; l'AI accelera blockout e script, ma non sostituisce controllo scientifico e licenze.
 
 ## Nuove domande da chiudere
 

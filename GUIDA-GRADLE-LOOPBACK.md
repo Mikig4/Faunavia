@@ -1,5 +1,13 @@
 # Recupero rapido: errore loopback di Gradle
 
+## Attesa dopo un test del dispositivo interrotto
+
+Se un run interrotto lascia il successivo fermo prima dell’avvio dell’emulatore, controlla i processi e il thread dump del solo Gradle interessato. In questa sessione del 2026-10-26 `ManagedVirtualDeviceLockManager` attendeva mentre `C:/Users/MicheleGreco/.android/avd/gradle-managed/active_gradle_devices` conteneva `MDLockCount 4`, senza alcun emulatore o altro build attivo. Dopo aver fermato il build in attesa, il solo contatore obsoleto è stato copiato in `artifacts/video-stale-device-counter.txt` e riportato a `MDLockCount 0`. Il successivo gate ha avviato regolarmente il dispositivo. Nessuna AVD o snapshot è stata rimossa.
+
+La stessa procedura si applica soltanto dopo aver verificato l’assenza di build/emulatori che possano usare una prenotazione valida. Registra l’intervento nel recovery audit MEX e conserva la copia precedente. Il problema è distinto dagli errori loopback descritti sotto.
+
+## Recupero del collegamento Java
+
 Se Gradle fallisce con `Unable to establish loopback connection`, apri PowerShell nella radice del progetto ed esegui:
 
 ```powershell

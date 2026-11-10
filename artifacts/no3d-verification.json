@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-27",
+  "versionName": "0.17.3-no3d",
+  "versionCode": 25,
+  "gate": "verifyAll --no-daemon",
+  "result": "PASS",
+  "duration": "13m38s",
+  "f0": 13,
+  "jvm": 150,
+  "android": 163,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "omissions": 0,
+  "visualSignatures": 4,
+  "videoTests": 9,
+  "databaseSchema": 11,
+  "backupFormat": 3,
+  "apk": "artifacts/Faunavia-no3d-debug.apk",
+  "apkBytes": 60353351,
+  "apkSha256": "cc17326e888da26e79d90086645775f2fac8e50a4066c6c0ca1b5e4d09bb2f52",
+  "signerSha256": "96e00fb74386cd7383852249ea80bb4acbd5daf99424c0fd5836c11cadc50f24",
+  "androidReport": "artifacts/no3d-android-results.xml",
+  "buildLog": "artifacts/no3d-final-gate-retry.log",
+  "limits": [
+    "Android verification on API 36 emulator, not physical phone",
+    "Legacy backup attachment fixture uses opaque synthetic bytes"
+  ]
+}

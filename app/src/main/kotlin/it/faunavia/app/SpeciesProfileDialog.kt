@@ -59,8 +59,6 @@ internal fun SpeciesProfileDialog(id: String, scientificName: String, commonName
     var loading by remember(id, scientificName) { mutableStateOf(true) }
     var curiositiesOpen by rememberSaveable(id, scientificName) { mutableStateOf(false) }
     var distributionOpen by rememberSaveable(id, scientificName) { mutableStateOf(false) }
-    var modelOpen by rememberSaveable(id, scientificName) { mutableStateOf(false) }
-    val modelStore = LocalPersonalModels.current ?: (LocalContext.current.applicationContext as? FaunaviaApplication)?.personalModels
     LaunchedEffect(id, scientificName, commonName, reader, retry) {
         loading = true
         try { result = withContext(Dispatchers.IO) { reader.read(id, scientificName, commonName) }
@@ -89,7 +87,6 @@ internal fun SpeciesProfileDialog(id: String, scientificName: String, commonName
                     Text("Storia naturale generale · non conferma la presenza nel luogo o nel periodo del viaggio.",
                         style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("profile-evidence-boundary"))
                     WikipediaSpeciesPhoto(id, scientificName)
-                    if (modelStore != null) SpeciesModelAction { modelOpen = true }
                     if (loading) Text("Caricamento della scheda…", modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
                     result?.warning?.let {
                         Text(it, color = MaterialTheme.colorScheme.error, modifier = Modifier.testTag("profile-warning"))
@@ -135,8 +132,6 @@ internal fun SpeciesProfileDialog(id: String, scientificName: String, commonName
         }
     }
     if (distributionOpen) SpeciesDistributionDialog(id, scientificName) { distributionOpen = false }
-    // Keep both dialog visibility and its saveable controls in the profile's owning composition.
-    if (modelOpen && modelStore != null) SpeciesModelDialog(id, scientificName, modelStore) { modelOpen = false }
 }
 
 @Composable

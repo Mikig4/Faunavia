@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -26,7 +27,8 @@ import kotlinx.coroutines.withContext
 
 @Composable
 internal fun OutingDiscoveryDialog(trip: Trip, wishlist: WishlistRepository?, catalogue: CatalogueRepository,
-    outings: List<Outing>, source: OutingCatalogue, saving: Boolean, saveError: String?, onClose: () -> Unit,
+    outings: List<Outing>, response: OutingSearchResult?, searching: Boolean, saving: Boolean, saveError: String?,
+    onSearch: () -> Unit, onClose: () -> Unit,
     onSave: (OutingProposal, LocalDate) -> Unit) {
     var dateText by rememberSaveable(trip.id) { mutableStateOf(trip.startsOn.toString()) }
     var shortOnly by rememberSaveable(trip.id) { mutableStateOf(false) }
@@ -42,27 +44,34 @@ internal fun OutingDiscoveryDialog(trip: Trip, wishlist: WishlistRepository?, ca
             .onSuccess { wishes = it }.onFailure { wishError = true }
     }
     val date = runCatching { LocalDate.parse(dateText) }.getOrNull()?.takeIf { it in trip.startsOn..trip.endsOn }
-    val discovery = remember(source) { OutingDiscovery(source) }
-    val result = remember(trip, date, wishes, shortOnly, wishedOnly, seasonalOnly, sort, discovery, retry) {
-        date?.let { discovery.discover(trip, wishes, OutingFilters(it, if (shortOnly) 120 else null,
+    val discovery = remember(response) { response?.let { OutingDiscovery(OutingCatalogue { it.proposals }) } }
+    val result = remember(trip, date, wishes, shortOnly, wishedOnly, seasonalOnly, sort, discovery) {
+        date?.let { discovery?.discover(trip, wishes, OutingFilters(it, if (shortOnly) 120 else null,
             wishedOnly = wishedOnly, seasonalOnly = seasonalOnly, sort = sort)) }
     }
     Dialog(onDismissRequest = onClose, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(Modifier.fillMaxSize().testTag("discovery-dialog"), color = MaterialTheme.colorScheme.surface) {
             Column(Modifier.fillMaxSize().systemBarsPadding()) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Scopri uscite", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 14.dp).semantics { heading() })
+                    Text("Aiuto per le uscite", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 14.dp).semantics { heading() })
                     TextButton(onClick = onClose, modifier = Modifier.testTag("discovery-close")) { Text("Chiudi") }
                 }
                 HorizontalDivider()
                 LazyColumn(Modifier.weight(1f).fillMaxWidth().testTag("discovery-content"), contentPadding = PaddingValues(20.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     item {
-                        Text("Dove andare da ${trip.destination.name}", style = MaterialTheme.typography.headlineSmall)
-                        Text("Pilota Lombardia · cinque proposte in tre aree. Raggio dalla base: ${trip.radiusMeters / 1_000} km. Catalogo incluso, consultabile offline.",
+                        Text(trip.departure?.let { "${it.name} → ${trip.destination.name}" } ?: "Vicino a ${trip.destination.name}", style = MaterialTheme.typography.headlineSmall)
+                        Text("Ricerca online OpenStreetMap · entro ${trip.radiusMeters / 1_000} km ${if (trip.route == null) "dal luogo" else "dal percorso selezionato"}.",
                             style = MaterialTheme.typography.bodySmall, modifier = Modifier.testTag("discovery-coverage"))
                         Text("Documentazione generale del luogo, senza garanzia di avvistamenti o accesso. I dettagli salvati conservano le fonti; verifica gli avvisi del gestore prima di partire.",
                             style = MaterialTheme.typography.bodySmall)
+                        if (searching) {
+                            LinearProgressIndicator(Modifier.fillMaxWidth().testTag("discovery-loading"))
+                            Text("Cerco luoghi e itinerari lungo il percorso…")
+                        }
+                        OutlinedButton(onClick = onSearch, enabled = !searching,
+                            modifier = Modifier.testTag("discovery-retry")) { Text(if (response == null) "Cerca online" else "Riprova ricerca") }
+                        OutingExternalLink(outingWebSearchUrl(trip), "Approfondisci su Google", "discovery-google")
                         OutlinedTextField(dateText, { dateText = it.take(10) }, label = { Text("Giorno dell’uscita (AAAA-MM-GG)") },
                             singleLine = true, modifier = Modifier.fillMaxWidth().testTag("discovery-date"))
                         if (date == null) Text("Scegli un giorno tra ${trip.startsOn} e ${trip.endsOn}.", color = MaterialTheme.colorScheme.error,
@@ -72,7 +81,7 @@ internal fun OutingDiscoveryDialog(trip: Trip, wishlist: WishlistRepository?, ca
                         Row(Modifier.fillMaxWidth()) { Checkbox(shortOnly, { shortOnly = it }, modifier = Modifier.testTag("discovery-short")); Text("Durata documentata fino a 2 ore", Modifier.padding(top = 12.dp)) }
                         Row(Modifier.fillMaxWidth()) { Checkbox(wishedOnly, { wishedOnly = it }, enabled = !wishError, modifier = Modifier.testTag("discovery-wishes")); Text("Specie della mia lista desideri", Modifier.padding(top = 12.dp)) }
                         Row(Modifier.fillMaxWidth()) { Checkbox(seasonalOnly, { seasonalOnly = it }, modifier = Modifier.testTag("discovery-season")); Text("Periodo consigliato documentato", Modifier.padding(top = 12.dp)) }
-                        Text("I filtri sui dati documentati escludono i campi mancanti. Gli interessi del viaggio selezionano le specie riportate nelle fonti.", style = MaterialTheme.typography.bodySmall)
+                        Text("I filtri escludono i dati mancanti. OpenStreetMap descrive luoghi e percorsi; specie e periodi consigliati potrebbero non essere documentati. Cambiare un filtro non avvia altre ricerche online.", style = MaterialTheme.typography.bodySmall)
                         if (wishError) {
                             Text("Non riesco a leggere i desideri locali.", color = MaterialTheme.colorScheme.error)
                             TextButton(onClick = { retry++ }) { Text("Riprova desideri") }
@@ -84,23 +93,27 @@ internal fun OutingDiscoveryDialog(trip: Trip, wishlist: WishlistRepository?, ca
                         }
                     }
                     saveError?.let { item { Text(it, color = MaterialTheme.colorScheme.error, modifier = Modifier.testTag("discovery-save-error")) } }
-                    result?.warning?.let { item {
+                    response?.warning?.let { item {
                         Text(it, color = MaterialTheme.colorScheme.error, modifier = Modifier.testTag("discovery-warning"))
-                        OutlinedButton(onClick = { retry++ }, modifier = Modifier.testTag("discovery-retry")) { Text("Riprova catalogo") }
                     } }
-                    if (result?.outings?.isEmpty() == true) item {
-                        Text("Nessuna proposta del pilota entro questo raggio e questi filtri. Non indica assenza di fauna. Puoi creare un’uscita manuale o importare un percorso da Viaggi.",
+                    if (!searching && result?.outings?.isEmpty() == true && response?.warning == null) item {
+                        Text("Nessuna proposta trovata entro questo raggio e questi filtri. Puoi approfondire su Google, creare un’uscita manuale o importare un percorso da Viaggi.",
                             modifier = Modifier.testTag("discovery-empty"))
                     }
-                    items(result?.outings.orEmpty(), key = { it.proposal.id }) { match ->
+                    val matches = result?.outings.orEmpty().take(40)
+                    if (result?.outings.orEmpty().size > matches.size) item { Text("Mostrate le prime 40 proposte. Restringi i filtri per vedere altri risultati.") }
+                    items(matches, key = { it.proposal.id }) { match ->
                         val proposal = match.proposal
                         val guide = proposal.guide
                         Column(Modifier.fillMaxWidth().testTag("discovery-${proposal.id}"), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text(proposal.name, style = MaterialTheme.typography.titleLarge, modifier = Modifier.semantics { heading() })
-                            Text(String.format(Locale.ITALY, "%.1f km in linea d’aria dalla base · tempo di trasferimento non disponibile", match.distanceMeters / 1_000),
+                            Text(String.format(Locale.ITALY, "%.1f km in linea d’aria %s · tempo di trasferimento non disponibile", match.distanceMeters / 1_000,
+                                if (trip.route == null) "dal luogo" else "dal percorso"),
                                 style = MaterialTheme.typography.bodySmall)
                             OutingGuideDetails(guide, proposal.route, "discovery-${proposal.id}")
-                            Text("Specie riportate per il luogo: ${match.species.joinToString { it.commonName }}. Documentazione del gestore, non presenza attuale né livello F7.",
+                            proposal.website?.let { OutingExternalLink(it, "Sito indicato in OpenStreetMap", "discovery-website-${proposal.id}") }
+                            Text(if (match.species.isEmpty()) "Specie del luogo non documentate in questa fonte."
+                                else "Specie riportate per il luogo: ${match.species.joinToString { it.commonName }}. Documentazione generale, non presenza attuale.",
                                 modifier = Modifier.testTag("discovery-species-${proposal.id}"))
                             if (match.wishedSpecies.isNotEmpty()) Text("Nei tuoi desideri: ${match.wishedSpecies.joinToString { it.commonName }}")
                             Text(if (match.seasonalSpecies.isEmpty()) "Periodo consigliato non documentato per queste date."
@@ -115,6 +128,17 @@ internal fun OutingDiscoveryDialog(trip: Trip, wishlist: WishlistRepository?, ca
             }
         }
     }
+}
+
+@Composable
+private fun OutingExternalLink(url: String, label: String, tag: String) {
+    val uriHandler = LocalUriHandler.current
+    val opener = LocalProfileSourceOpener.current
+    var failed by remember(url) { mutableStateOf(false) }
+    TextButton(onClick = {
+        failed = runCatching { if (opener != null) opener(url) else uriHandler.openUri(url) }.isFailure
+    }, modifier = Modifier.testTag(tag)) { Text(label) }
+    if (failed) Text("Non riesco ad aprire il collegamento. Riprova.", color = MaterialTheme.colorScheme.error)
 }
 
 @Composable

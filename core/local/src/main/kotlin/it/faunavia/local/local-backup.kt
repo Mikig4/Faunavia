@@ -3,7 +3,7 @@ package it.faunavia.local
 import android.content.Context
 import android.database.Cursor
 import it.faunavia.domain.ObservationPhoto
-import it.faunavia.domain.PersonalModel
+import it.faunavia.domain.MemoryVideo
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -15,26 +15,36 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 
+/** Opaque files retained solely to round-trip backups from the retired 3D feature. Never parsed or displayed. */
+data class LegacyBackupAttachment(val relativePath: String, val sha256: String, val byteSize: Long) {
+    init {
+        require(relativePath.matches(Regex("models/[a-f0-9-]{36}/model\\.glb")))
+        require(sha256.matches(Regex("[a-f0-9]{64}")))
+        require(byteSize in 1..20L * 1024 * 1024)
+    }
+}
+
 data class LocalBackupSnapshot(val payload: String, val counts: Map<String, Int>, val photos: List<ObservationPhoto>,
-    val models: List<PersonalModel> = emptyList())
+    val legacyAttachments: List<LegacyBackupAttachment> = emptyList(), val videos: List<MemoryVideo> = emptyList())
 
 /** Row snapshots avoid closing a live Room connection or copying an uncheckpointed WAL. */
 class LocalBackupStore(private val database: FaunaviaDatabase,
     private val io: CoroutineDispatcher = Dispatchers.IO,
     private val onReplacement: () -> Unit = {}) {
     companion object {
-        const val SCHEMA = 10
+        const val SCHEMA = 12
         const val MAX_PAYLOAD_BYTES = 64L * 1024 * 1024
         private const val MAX_ROWS = 100_000
         // Parents precede children. Reverse order also respects the custom planning unlink triggers.
         val TABLES = listOf("taxa", "taxon_aliases", "taxon_previews", "species_profiles", "suggestion_profiles",
             "wishlist", "source_evidence", "routes", "occurrence_cache", "app_settings", "trips", "outings",
             "saved_trip_places", "saved_trip_results", "observations", "unidentified_drafts",
-            "observation_photos", "draft_photos", "daily_summary_deliveries", "personal_models")
+            "observation_photos", "draft_photos", "daily_summary_deliveries", "personal_models", "observation_videos", "draft_videos")
         fun tablesFor(schema: Int): List<String> = when (schema) {
-            8 -> TABLES.dropLast(2)
-            9 -> TABLES.dropLast(1)
-            10 -> TABLES
+            8 -> TABLES.dropLast(4)
+            9 -> TABLES.dropLast(3)
+            10 -> TABLES.dropLast(2)
+            11, 12 -> TABLES
             else -> error("Unsupported database backup version.")
         }
     }
@@ -73,9 +83,13 @@ class LocalBackupStore(private val database: FaunaviaDatabase,
             expected.forEach { table ->
                 val saved = tables.getJSONObject(table)
                 val columns = saved.getJSONArray("columns")
-                val definition = sql.query("PRAGMA table_info(`$table`)").use { cursor ->
+                val currentDefinition = sql.query("PRAGMA table_info(`$table`)").use { cursor ->
                     buildList { while (cursor.moveToNext()) add(Triple(cursor.getString(1), cursor.getString(2), cursor.getInt(3) != 0)) }
                 }
+                // Older archives lack only this nullable field; SQLite supplies NULL on insertion.
+                // Do not relax column validation for current or unrelated table schemas.
+                val definition = if (schema < 12 && table == "observations")
+                    currentDefinition.filterNot { it.first == "personalCommonName" } else currentDefinition
                 require((0 until columns.length()).map(columns::getString) == definition.map { it.first })
                 val rows = saved.getJSONArray("rows")
                 totalRows += rows.length()
@@ -134,7 +148,8 @@ class LocalBackupStore(private val database: FaunaviaDatabase,
         require(payload.toByteArray(Charsets.UTF_8).size <= MAX_PAYLOAD_BYTES)
         val dao = database.dao()
         return LocalBackupSnapshot(payload, counts, dao.allPhotos().map { it.toDomain() } + dao.allDraftPhotos().map { it.toDomain() },
-            dao.allPersonalModels().map { it.toDomain() })
+            dao.legacyAttachments().map { LegacyBackupAttachment(it.relativePath, it.sha256, it.byteSize) },
+            dao.observationVideos().map { it.toDomain() } + dao.draftVideos().map { it.toDomain() })
     }
 
     private fun validateDomain() {
@@ -173,6 +188,8 @@ class LocalBackupStore(private val database: FaunaviaDatabase,
         dao.allTripResults().forEach { it.toDomain() }
         dao.settings()?.let { require(it.id == 1); it.toDomain() }
         dao.allDeliveries().forEach { LocalDate.parse(it.date); ZoneId.of(it.zoneId); Instant.parse(it.notifiedAt) }
-        dao.allPersonalModels().forEach { it.toDomain() }
+        dao.legacyAttachments().forEach { LegacyBackupAttachment(it.relativePath, it.sha256, it.byteSize) }
+        dao.observationVideos().forEach { it.toDomain() }
+        dao.draftVideos().forEach { it.toDomain() }
     }
 }

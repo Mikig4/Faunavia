@@ -1,6 +1,7 @@
 package it.faunavia.network
 
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -9,6 +10,17 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class JsonHttpTransportTest {
+    @Test fun postsUtf8FormAndRetainsResponseLimitsAndResourceCleanup() {
+        val connection = FakeConnection(200, "{}")
+        val body = "data=a%20b"
+        val result = JsonHttpTransport { connection }.post("unused", body, JsonHttpPolicy(maxBodyBytes = 2))
+        assertEquals("{}", result.body)
+        assertEquals("POST", connection.requestMethod)
+        assertTrue(connection.doOutput)
+        assertEquals("application/x-www-form-urlencoded; charset=UTF-8", connection.getRequestProperty("Content-Type"))
+        assertEquals(body, connection.sent.toString("UTF-8"))
+        assertTrue(connection.stream.closed); assertTrue(connection.disconnected)
+    }
     @Test fun configuresRequestAndClosesResponseAndConnection() {
         val connection = FakeConnection(200, "{\"name\":\"è\"}", retryAfter = "2")
         val result = JsonHttpTransport { connection }.get("unused", JsonHttpPolicy(123, 456, "Faunavia/test"))
@@ -82,9 +94,11 @@ class JsonHttpTransportTest {
     private class FakeConnection(private val status: Int, body: String, private val retryAfter: String? = null,
         private val missingErrorStream: Boolean = false, failRead: Boolean = false) : HttpURLConnection(URL("http://localhost/")) {
         val stream = TrackedStream(body, failRead)
+        val sent = ByteArrayOutputStream()
         var disconnected = false
         var bodyRequested = false
         override fun getResponseCode(): Int = status
+        override fun getOutputStream() = sent
         override fun getInputStream(): InputStream { bodyRequested = true; return stream }
         override fun getErrorStream(): InputStream? { bodyRequested = true; return if (missingErrorStream) null else stream }
         override fun getHeaderField(name: String): String? = if (name == "Retry-After") retryAfter else null
