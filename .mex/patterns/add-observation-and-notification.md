@@ -14,7 +14,7 @@ edges:
     condition: when implementing Room, Photo Picker, WorkManager, alarms, or Android permissions
   - target: context/data-and-provenance.md
     condition: when distinguishing manual records from provider evidence
-last_updated: 2026-10-30
+last_updated: 2026-11-10
 ---
 
 # Add an observation or daily notification
@@ -27,6 +27,14 @@ last_updated: 2026-10-30
 4. Resolve the local date using the device timezone and test midnight/DST boundaries.
 5. Schedule or update one idempotent daily local check; do not add FCM or a server for local data.
 6. Show the summary only when at least one manual observation exists.
+
+## Species-first diary navigation
+
+- Group identified records by accepted `taxonId`, never by display names. Preserve separate identities even when names match; per-observation personal names do not split or rename species cards.
+- Open the species card before testing encounter actions/gallery. `diary-species-<taxonId>` opens history; `diary-new` adds an encounter there, while the root action starts catalogue selection. `diary-species-back` returns to all species. Filters/calendar/map live behind `diary-filters-toggle`.
+- Prefill only the taxon and current trip/outing scope for a new encounter. Do not copy an earlier quantity, coordinates, notes, timestamp or personal name. Preserve existing rows/media, and delete only the explicitly confirmed encounter.
+- Use the newest encounter with media as the species cover; history keeps every encounter, including unlocated or media-free entries. Keep unidentified drafts outside species groups.
+- Verify grouping of repeated observations and distinct taxa with matching display names, offline add without catalogue calls, restored selection, independent edit/delete, filter scoping, gallery refresh and earlier-media fallback. Finish with the unfiltered cumulative gate.
 
 ## Verify
 
@@ -71,7 +79,7 @@ Diary list refinement: keep the inline species/count/personal-first summary remo
 
 ## Personal common-name labels
 
-Keep the optional `personalCommonName` on the identified observation/draft-to-observation input, never overwrite the selected taxon's name, aliases or provider provenance. The editor supports creation and later edits; trim outer whitespace, clear blank labels and clear pending labels when the species changes. Label personal names explicitly in the list/daily summary, retain the scientific identity and match the local diary filter. Persist in the same observation transaction, preserve photos/video and creation timestamps, and include the nullable field in backup compatibility. Test independent names for the same taxon, validation, edit/clear, reopening, identification/media, populated 11→12 migration, summary and schema-11 archives. Schema export and Android/Room checks remain pending until the toolchain is restored.
+Keep the optional `personalCommonName` on the identified observation/draft-to-observation input, never overwrite the selected taxon's name, aliases or provider provenance. The editor supports creation and later edits; trim outer whitespace, clear blank labels and clear pending labels when the species changes. Label personal names explicitly in the history/daily summary, retain the scientific identity and match the local diary filter. Persist in the same observation transaction, preserve photos/video and creation timestamps, and include the nullable field in backup compatibility. Test independent names for the same taxon, validation, edit/clear, reopening, identification/media, populated 11→12 migration, summary and schema-11 archives. Schema export and Android/Room checks passed on 2026-11-10; see report 38.
 
 ## F11 reminders
 

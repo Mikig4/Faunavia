@@ -26,6 +26,7 @@ Non deve sembrare un social network, un gioco a punti o una dashboard affollata.
 - Organizzare facoltativamente il viaggio in tappe libere con giorni separati; mostrare ordine, località e data, consentendo la scelta del singolo tratto per mappa e ricerca animali. Più tappe possono condividere un giorno.
 - Aprire sul viaggio: partenza, destinazione, date e scelta del tracciato sulla mappa; risultati e ricordi restano nello stesso contesto. Nome, raggio, interessi e uscite sono facoltativi. Google Maps apre le indicazioni, ricalcolate autonomamente.
 - Cercare le specie del catalogo generale direttamente nel Diario, conservando la possibilità di usare le scelte locali offline.
+- Aprire il Diario sulle specie incontrate: una scheda per identità tassonomica, con storico degli avvistamenti e aggiunta di nuovi incontri dalla stessa scheda. Data, luogo, quantità, note, nome personale, foto e video restano propri di ciascun incontro; non rappresentano il riconoscimento di un singolo individuo.
 - Rendere immediata la registrazione locale di un avvistamento.
 - Esplicitare le condizioni importanti, in particolare specie obbligatoria e dati opzionali.
 - Conservare la distinzione tra diario personale, evidenze importate e suggerimenti curati.

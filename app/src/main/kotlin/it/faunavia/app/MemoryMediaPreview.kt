@@ -34,7 +34,8 @@ private data class MemoryCover(val bitmap: Bitmap?, val video: Boolean = false)
 
 /** Decode only a visible row's first gallery photo, or the saved video's opening frame. */
 @Composable
-internal fun MemoryMediaPreview(memoryId: String, manager: MemoryPhotos, refresh: Int, onOpen: () -> Unit) {
+internal fun MemoryMediaPreview(memoryId: String, manager: MemoryPhotos, refresh: Int, onOpen: () -> Unit,
+    openLabel: String = "Apri foto e video") {
     val cover by produceState<MemoryCover?>(null, memoryId, manager, refresh) {
         value = null
         value = withContext(Dispatchers.IO) {
@@ -50,7 +51,7 @@ internal fun MemoryMediaPreview(memoryId: String, manager: MemoryPhotos, refresh
     }
     val preview = cover ?: return
     Box(Modifier.fillMaxWidth().clip(MaterialTheme.shapes.small)
-        .clickable(role = Role.Button, onClickLabel = "Apri foto e video", onClick = onOpen)
+        .clickable(role = Role.Button, onClickLabel = openLabel, onClick = onOpen)
         .testTag("diary-media-$memoryId")) {
         val bitmap = preview.bitmap
         if (bitmap != null) {
@@ -60,7 +61,7 @@ internal fun MemoryMediaPreview(memoryId: String, manager: MemoryPhotos, refresh
             if (preview.video) Text("▶ Video", color = Color.White,
                 modifier = Modifier.align(Alignment.BottomStart).background(Color.Black.copy(alpha = 0.75f)).padding(8.dp)
                     .testTag("diary-media-video-$memoryId"))
-        } else Text("Anteprima non disponibile · Apri foto e video", color = FaunaviaColors.Muted,
+        } else Text("Anteprima non disponibile · $openLabel", color = FaunaviaColors.Muted,
             modifier = Modifier.padding(8.dp).testTag("diary-media-unavailable-$memoryId"))
     }
 }

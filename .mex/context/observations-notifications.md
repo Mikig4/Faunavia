@@ -25,6 +25,8 @@ last_updated: 2026-11-10
 
 ## Observation contract
 
+The diary opens on species cards grouped by stored accepted taxon ID, not by common/personal names or individual-animal identity. Opening a card shows its encounters newest first and an add action that prefills only the taxon and current planning scope. New date/time uses the current clock; quantity starts at one, location/notes/personal name start empty. Existing observation IDs and media ownership stay unchanged (Room 12/backup 3). The cover uses the newest encounter with a photo or video; opening it navigates to the species history, where each encounter retains its own gallery and edit/delete actions. Drafts stay separate. Filters/calendar/map are disclosed on demand and apply to the selected species when its card is open. Selected species survives saved-state restoration; deleting the last encounter returns to the species list.
+
 The F8B usability refinement searches the general catalogue directly in the diary instead of requiring a previous Catalogo selection. Debounced online search returns local selections on provider failure; errors expose retry. Selection saves the accepted taxon and aliases first, while diary save/edit/delete remain offline. “Aggiungi avvistamento” from a trip prefills optional planning links without requiring a result or coordinates.
 
 An observation must point to a selected taxon from the adopted animal catalogue. The user may search by common/scientific name or synonym, but the saved record uses the accepted taxon ID. It may include local date/time, optional coordinates, count, notes, and one or more local photo references. Manual records remain distinct from imported provider records.

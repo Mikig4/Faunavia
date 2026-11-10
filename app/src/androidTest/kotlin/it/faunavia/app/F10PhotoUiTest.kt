@@ -60,10 +60,16 @@ class F10PhotoUiTest {
         db.close(); context.deleteDatabase(name); root.deleteRecursively(); source.delete()
     }
 
-    private fun show() = compose.activityRule.scenario.onActivity { activity ->
-        activity.showTestContent {
-            FaunaviaTheme { DiaryScreen(local.diary, local.catalogue, F8BOfflineTaxonomy(),
-                unidentifiedRepository = local.unidentified, deviceZone = zone, now = { f8bNow }, photoManager = manager) }
+    private fun show(openSpecies: Boolean = true) {
+        compose.activityRule.scenario.onActivity { activity ->
+            activity.showTestContent {
+                FaunaviaTheme { DiaryScreen(local.diary, local.catalogue, F8BOfflineTaxonomy(),
+                    unidentifiedRepository = local.unidentified, deviceZone = zone, now = { f8bNow }, photoManager = manager) }
+            }
+        }
+        if (openSpecies) {
+            compose.waitUntil(10_000) { runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-species-${f8bTaxon.id}")) }.isSuccess }
+            compose.onNodeWithTag("diary-species-${f8bTaxon.id}").performClick()
         }
     }
 
@@ -181,6 +187,23 @@ class F10PhotoUiTest {
         assertEquals("senza perdere testo", runBlocking { local.diary.get("o")!!.notes })
     }
 
+    @Test fun speciesCoverUsesEarlierMediaWhenTheLatestEncounterHasNone() {
+        runBlocking {
+            manager.attach("o", publishPhoto())
+            local.diary.create(ObservationDraft("newer", f8bTaxon.id, f8bNow.plusSeconds(3600), zone))
+        }
+        show(openSpecies = false)
+        compose.waitUntil(10_000) {
+            runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-media-o")) }.isSuccess
+        }
+        compose.onNodeWithTag("diary-media-o").assertIsDisplayed().performClick()
+        compose.onNodeWithTag("diary-species-back").assertIsDisplayed()
+        compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-entry-newer"))
+        compose.onNodeWithTag("diary-entry-newer").assertIsDisplayed()
+        assertEquals(2, runBlocking { local.diary.list().size })
+        assertEquals(1, runBlocking { manager.list("o").size })
+    }
+
     @Test fun albumAndPrivateImagesSurviveRealActivityRecreationAndPhotoRemovalKeepsText() {
         val photo = runBlocking { manager.attach("o", publishPhoto()) }
         show(); open("o")
@@ -217,7 +240,7 @@ class F10PhotoUiTest {
     @Test fun identifyingADraftThroughDiaryPreservesItsPrivatePhotos() {
         runBlocking { local.unidentified.save(UnidentifiedInput("d", f8bNow, zone, notes = "bozza con foto")) }
         val photo = runBlocking { manager.attach("d", publishPhoto()) }
-        show(); open("d")
+        show(openSpecies = false); open("d")
         compose.onNodeWithTag("photo-close").performClick()
         compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-draft-edit-d"))
         compose.onNodeWithTag("diary-draft-edit-d").performClick()

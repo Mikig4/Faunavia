@@ -1,10 +1,14 @@
 # Atlante faunistico personale
 
+**Diario per specie:** una scheda per animale incontrato, con tutti gli avvistamenti ordinati per data. Apri la scheda e scegli **Aggiungi avvistamento** per registrare un nuovo luogo, quantità e ricordo con la specie già selezionata. Foto, video e nomi personali restano associati al singolo incontro. Dettagli in [[39 - Diario per specie]].
+
+Build corrente: `artifacts/Faunavia-specie-debug.apk`, **0.17.5-species-diary (27)**, Room 12/backup 3 e firma precedente. `verifyAll` del 2026-11-10: 13 test F0, 152 JVM, 177 Android, quattro firme visive, zero errori/test saltati/omessi. Prove su emulatore API 36; nessuna verifica su telefono fisico.
+
 **Modelli 3D rimossi:** visualizzatore, importazione, asset, dipendenze e test dedicati eliminati su richiesta. Restano schede specie, foto e video con taglio in app. Compatibilità dei backup precedenti conservata. Dettagli in [[36 - Rimozione modelli 3D]].
 
-Verifica finale: 13 test F0, 150 JVM, 163 Android e quattro firme visive, senza errori, test saltati o omessi. APK `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), con la firma precedente; prove Android su emulatore API 36.
+Verifica storica della rimozione 3D: 13 test F0, 150 JVM, 163 Android e quattro firme visive, senza errori, test saltati o omessi. APK `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), con la firma precedente; prove Android su emulatore API 36.
 
-**Video privati:** dal Diario apri **Foto e video → Aggiungi video**, scegli inizio/fine con i cursori, prova lo spezzone e salvalo. Un video per ricordo, oltre alle foto, anche per le bozze da identificare; copia finale fino a 100 MB e originale intatto. Sostituzione, rimozione, conservazione durante l’identificazione e backup sono inclusi. Guida [[GUIDA-VIDEO]], implementazione/verifiche [[35 - Video privati e taglio]]. La build corrente è `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), Room 11 e backup 3 con reader precedenti.
+**Video privati:** dal Diario apri **Foto e video → Aggiungi video**, scegli inizio/fine con i cursori, prova lo spezzone e salvalo. Un video per ricordo, oltre alle foto, anche per le bozze da identificare; copia finale fino a 100 MB e originale intatto. Sostituzione, rimozione, conservazione durante l’identificazione e backup sono inclusi. Guida [[GUIDA-VIDEO]], implementazione/verifiche [[35 - Video privati e taglio]]. La baseline senza 3D era `artifacts/Faunavia-no3d-debug.apk`, 0.17.3-no3d (25), Room 11 e backup 3 con reader precedenti.
 
 Gate della precedente build video verde: 13 F0, 150 JVM e 174 Android, zero errori/skipped/omissioni, lint/confini/formato e cinque firme visive. Anteprima reale e selezione dopo rotazione verificate su emulatore; resta la prova con i propri video sul telefono. Evidenze in `artifacts/video-verification.json`.
 

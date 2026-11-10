@@ -439,6 +439,8 @@ class TripScreenUiTest {
         val observation = runBlocking { local.diary.get("ui-memory")!! }
         assertEquals(trip.id, observation.tripId); assertNull(observation.location)
         click("trip-content", "trip-diary")
+        click("diary-list", "diary-species-${f8bTaxon.id}")
+        click("diary-list", "diary-filters-toggle")
         scroll("diary-list", "diary-entry-ui-memory")
         composeRule.onNodeWithTag("diary-entry-ui-memory").assertIsDisplayed()
         click("diary-list", "diary-view-calendar")
@@ -546,6 +548,8 @@ class TripScreenUiTest {
             local.unidentified.save(UnidentifiedInput("draft", f8bNow, ZoneId.of("Europe/Rome"), tripId = trip.id))
         }
         composeRule.setContent { FaunaviaTheme { TestDiary() } }
+        click("diary-list", "diary-species-${f8bTaxon.id}")
+        click("diary-list", "diary-filters-toggle")
         waitForNode("diary-view-list")
         composeRule.onNodeWithTag("diary-summary").assertDoesNotExist()
         listOf("a", "b", "c").forEach { id ->

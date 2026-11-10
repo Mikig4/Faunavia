@@ -37,6 +37,7 @@ The explicit `Richiedi aiuto` button invokes `OutingSearch`/`OverpassOutingSearc
 
 ## System Overview
 
+- The personal diary projects existing observations into species cards keyed by taxon ID. A card opens a chronological encounter history and creates further observations with that taxon preselected; no species-level duplicate storage or migration is introduced. Per-encounter media, personal labels and planning links remain intact.
 - User starts with a confirmed destination and valid dates. Departure and chosen trace are optional; without geometry, analysis uses a bounded area around the destination. Optional ordered stages retain their destinations, days and chosen leg geometry; exploration without a trip, imported tracks and manual coordinates remain optional tools.
 - The route engine validates coordinates, samples the geometry, and builds a configurable corridor.
 - Provider adapters query bounded areas; the local store caches raw metadata and normalized records.

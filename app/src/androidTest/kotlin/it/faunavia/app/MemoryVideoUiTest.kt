@@ -147,6 +147,10 @@ class MemoryVideoUiTest {
             } }
         }
         listOf("d", "o").forEach { id ->
+            if (id == "o") {
+                compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-species-${f8bTaxon.id}"))
+                compose.onNodeWithTag("diary-species-${f8bTaxon.id}").performClick()
+            }
             compose.waitUntil(10_000) {
                 runCatching { compose.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-media-$id")) }.isSuccess
             }

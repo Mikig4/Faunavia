@@ -1,10 +1,13 @@
 package it.faunavia.app
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -17,6 +20,7 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.platform.app.InstrumentationRegistry
 import it.faunavia.domain.Provenance
 import it.faunavia.domain.ObservationDraft
+import it.faunavia.domain.GeoPoint
 import it.faunavia.domain.MAX_PERSONAL_COMMON_NAME_LENGTH
 import it.faunavia.domain.Taxon
 import it.faunavia.domain.TaxonomicStatus
@@ -219,6 +223,14 @@ class DiaryScreenUiTest {
         showDiary()
         composeRule.waitUntil(5_000) {
             runCatching {
+                composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-species-${taxon.id}"))
+                composeRule.onNodeWithTag("diary-species-${taxon.id}").performClick()
+                true
+            }.getOrDefault(false)
+        }
+        composeRule.onNodeWithTag("diary-filters-toggle").performClick()
+        composeRule.waitUntil(5_000) {
+            runCatching {
                 composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag("diary-edit-saved"))
                 composeRule.onNodeWithTag("diary-edit-saved").assertIsDisplayed()
                 true
@@ -307,6 +319,110 @@ class DiaryScreenUiTest {
         composeRule.onNodeWithText("Nome comune personale").assertIsDisplayed()
         composeRule.onNodeWithText(taxon.scientificName).assertIsDisplayed()
         assertEquals(taxon.id, runBlocking { local.diary.get("named")!!.taxonId })
+    }
+
+    @Test fun speciesCardsGroupIdentitiesAndAddAnIndependentEncounterOffline() {
+        val other = taxon.copy(id = "other-species", scientificName = "Turdus philomelos")
+        runBlocking {
+            local.catalogue.saveTaxon(other)
+            local.diary.create(ObservationDraft("old", taxon.id, now.minusSeconds(86_400), zone,
+                GeoPoint(45.0, 9.0), "Vecchio incontro", 4, personalCommonName = "Merlo del prato"))
+            local.diary.create(ObservationDraft("recent", taxon.id, now, zone, personalCommonName = "Merlo del bosco"))
+            local.diary.create(ObservationDraft("different", other.id, now, zone))
+        }
+        val before = runBlocking { local.diary.get("old") }
+        var searches = 0
+        showDiary(object : TaxonomySearch {
+            override suspend fun search(query: String, online: Boolean): TaxonomySearchResult {
+                searches++
+                return TaxonomySearchResult.Empty(TaxonomySearchOrigin.OFFLINE_SELECTED)
+            }
+            override suspend fun select(entry: TaxonomySearchEntry) = Unit
+        })
+        scrollDiaryTo("diary-species-${taxon.id}")
+        composeRule.onNodeWithTag("diary-species-count-${taxon.id}", useUnmergedTree = true).assertTextContains("2 avvistamenti", substring = true)
+        scrollDiaryTo("diary-species-${other.id}")
+        composeRule.onNodeWithTag("diary-species-${other.id}").assertIsDisplayed()
+        composeRule.onNodeWithTag("diary-entry-old").assertDoesNotExist()
+        scrollDiaryTo("diary-new")
+        captureDiary("species-list")
+        scrollDiaryTo("diary-species-${taxon.id}")
+        composeRule.onNodeWithTag("diary-species-${taxon.id}").performClick()
+        scrollDiaryTo("diary-entry-recent")
+        composeRule.onNodeWithTag("diary-entry-different").assertDoesNotExist()
+        scrollDiaryTo("diary-new")
+        captureDiary("species-detail")
+        composeRule.onNodeWithTag("diary-new").performClick()
+        composeRule.onNodeWithTag("diary-taxon-selected").assertTextContains(taxon.scientificName, substring = true)
+        scrollEditorTo("diary-quantity")
+        composeRule.onNodeWithTag("diary-quantity").assertTextContains("1", substring = true)
+        composeRule.onNodeWithTag("diary-quantity").performTextReplacement("2")
+        scrollEditorTo("diary-latitude")
+        assertEquals("", composeRule.onNodeWithTag("diary-latitude").fetchSemanticsNode().config[SemanticsProperties.EditableText].text)
+        composeRule.onNodeWithTag("diary-latitude").performTextInput("46.0")
+        scrollEditorTo("diary-longitude")
+        composeRule.onNodeWithTag("diary-longitude").performTextInput("10.0")
+        scrollEditorTo("diary-notes")
+        assertEquals("", composeRule.onNodeWithTag("diary-notes").fetchSemanticsNode().config[SemanticsProperties.EditableText].text)
+        composeRule.onNodeWithTag("diary-notes").performTextInput("Nuovo luogo")
+        scrollEditorTo("diary-save")
+        composeRule.onNodeWithTag("diary-save").performClick()
+        waitFor { local.diary.get("ui-observation") != null }
+        val saved = runBlocking { local.diary.get("ui-observation")!! }
+        assertEquals(taxon.id, saved.taxonId)
+        assertEquals(GeoPoint(46.0, 10.0), saved.location)
+        assertEquals(2, saved.quantity)
+        assertEquals(now, saved.observedAt)
+        assertNull(saved.personalCommonName)
+        assertEquals(before, runBlocking { local.diary.get("old") })
+        assertEquals(0, searches)
+        scrollDiaryTo("diary-entry-ui-observation")
+        scrollDiaryTo("diary-species-back")
+        composeRule.onNodeWithTag("diary-species-back").performClick()
+        scrollDiaryTo("diary-species-${taxon.id}")
+        composeRule.onNodeWithTag("diary-species-count-${taxon.id}", useUnmergedTree = true).assertTextContains("3 avvistamenti", substring = true)
+    }
+
+    @Test fun speciesDetailRestoresAndDeletingOneEncounterKeepsTheOthers() {
+        runBlocking {
+            local.diary.create(ObservationDraft("first", taxon.id, now, zone))
+            local.diary.create(ObservationDraft("second", taxon.id, now.minusSeconds(86_400), zone))
+        }
+        val restoration = StateRestorationTester(composeRule)
+        restoration.setContent { FaunaviaTheme {
+            DiaryScreen(local.diary, local.catalogue, OfflineTaxonomySearch(listOf(entry)), deviceZone = zone)
+        } }
+        scrollDiaryTo("diary-species-${taxon.id}")
+        composeRule.onNodeWithTag("diary-species-${taxon.id}").performClick()
+        restoration.emulateSavedInstanceStateRestore()
+        scrollDiaryTo("diary-species-back")
+        composeRule.onNodeWithTag("diary-species-title").assertTextContains("Merlo", substring = true)
+        scrollDiaryTo("diary-delete-first")
+        composeRule.onNodeWithTag("diary-delete-first").performClick()
+        scrollDiaryTo("diary-delete-confirm-first")
+        composeRule.onNodeWithTag("diary-delete-confirm-first").performClick()
+        waitFor { local.diary.get("first") == null }
+        scrollDiaryTo("diary-entry-second")
+        assertNotNull(runBlocking { local.diary.get("second") })
+        scrollDiaryTo("diary-species-back")
+        composeRule.onNodeWithTag("diary-species-back").performClick()
+        scrollDiaryTo("diary-species-${taxon.id}")
+        composeRule.onNodeWithTag("diary-species-count-${taxon.id}", useUnmergedTree = true).assertTextContains("1 avvistamento", substring = true)
+    }
+
+    private fun captureDiary(name: String) {
+        val directory = java.io.File(requireNotNull(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir"))).apply { mkdirs() }
+        java.io.File(directory, "$name.png").outputStream().use {
+            composeRule.onNodeWithTag("screen-diary").captureToImage().asAndroidBitmap()
+                .compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it)
+        }
+    }
+
+    private fun scrollDiaryTo(tag: String) {
+        composeRule.waitUntil(5_000) {
+            runCatching { composeRule.onNodeWithTag("diary-list").performScrollToNode(hasTestTag(tag)) }.isSuccess
+        }
+        composeRule.onNodeWithTag(tag).assertIsDisplayed()
     }
 
     private fun waitForTaxon(id: String) {

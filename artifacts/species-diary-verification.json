@@ -1,0 +1,75 @@
+{
+  "screenshots": [
+    "artifacts/species-list.png",
+    "artifacts/species-detail.png"
+  ],
+  "behavior": [
+    "One species card per stored taxon identity, independent of personal/common-name collisions",
+    "Newest-first encounter history and offline add with taxon preselected and independent date, quantity, location, notes and media",
+    "Latest encounter with media supplies species cover; drafts remain separate",
+    "Saved-state selection restoration and independent encounter deletion",
+    "Trip/date/species filters and map/calendar available on demand"
+  ],
+  "result": "PASS",
+  "date": "2026-11-10",
+  "limits": [
+    "No physical-device or API-26 runtime verification",
+    "New selected-species restoration tested through Compose saved-state registry",
+    "Existing editor field lifecycle behavior unchanged"
+  ],
+  "conventions": [
+    {
+      "result": "PASS",
+      "item": 1,
+      "check": "No direct provider calls from UI"
+    },
+    {
+      "result": "PASS",
+      "item": 2,
+      "check": "Imported source, date, license and quality preserved"
+    },
+    {
+      "result": "PASS",
+      "item": 3,
+      "check": "Visible provider/network fallback and retry"
+    },
+    {
+      "result": "PASS",
+      "item": 4,
+      "check": "Observed and plausible remain distinct"
+    },
+    {
+      "result": "NOT_APPLICABLE",
+      "item": 5,
+      "scope": "No new bundled media",
+      "check": "New bundled asset metadata/license"
+    },
+    {
+      "result": "PASS",
+      "item": 6,
+      "check": "Deterministic geometry/ranking tests"
+    }
+  ],
+  "apk": {
+    "bytes": 60407186,
+    "sha256": "387d668bc5e656aef57e85698c7ea2e9913123defa2d4180083ca0925e33a322",
+    "versionCode": 27,
+    "path": "artifacts/Faunavia-specie-debug.apk",
+    "roomSchema": 12,
+    "versionName": "0.17.5-species-diary",
+    "backupFormat": 3,
+    "signerMatchesPrevious": true
+  },
+  "gate": "verifyAll --no-daemon --stacktrace",
+  "durationSeconds": 924,
+  "tests": {
+    "skipped": 0,
+    "errors": 0,
+    "omitted": 0,
+    "failures": 0,
+    "visualSignatures": 4,
+    "android": 177,
+    "jvm": 152,
+    "f0": 13
+  }
+}
