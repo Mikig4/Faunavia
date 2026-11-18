@@ -1,0 +1,3650 @@
+[
+  {
+    "member": "XC001/000010.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "123482",
+    "author": "Jelmer Poelstra",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000013.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "124750",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000018.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "127481",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000029.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "132102",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000041.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "136343",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000045.flac",
+    "species": "Streptopelia turtur",
+    "probe": true,
+    "xc": "138438",
+    "author": "Bernard BOUSQUET",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000050.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "139038",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000066.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "148539",
+    "author": "Buhl Johannes",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000071.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "152483",
+    "author": "Stein Ø. Nilsen",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000072.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "152633",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000073.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "161794",
+    "author": "Jonas Grahn",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000079.flac",
+    "species": "Turdus philomelos",
+    "probe": true,
+    "xc": "165779",
+    "author": "Lars Lachmann",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000086.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "168406",
+    "author": "Sonnenburg",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000093.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "170389",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000107.flac",
+    "species": "Sylvia borin",
+    "probe": true,
+    "xc": "177015",
+    "author": "Sonnenburg",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000111.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "178371",
+    "author": "Bernard BOUSQUET",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000123.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "183876",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000128.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "189241",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000132.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "192924",
+    "author": "Buhl Johannes",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000133.flac",
+    "species": "Lophophanes cristatus",
+    "probe": true,
+    "xc": "192951",
+    "author": "Buhl Johannes",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000137.flac",
+    "species": "Picus canus",
+    "probe": false,
+    "xc": "197998",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000140.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "201004",
+    "author": "johannes buhl",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000143.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "202759",
+    "author": "Ross Gallardy",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000149.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "210741",
+    "author": "Eddy Scheinpflug",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000150.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "210743",
+    "author": "Eddy Scheinpflug",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000155.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "214648",
+    "author": "Matthieu Dvorak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000156.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "214649",
+    "author": "Matthieu Dvorak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000157.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "215518",
+    "author": "Henk Krajenbrink",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000159.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "216168",
+    "author": "Cedric MROCZKO",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000160.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "216173",
+    "author": "Cedric MROCZKO",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000164.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "219337",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000171.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "236351",
+    "author": "Arkadiusz Fröhlich",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000187.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "247333",
+    "author": "Szymon Czernek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000188.flac",
+    "species": "Turdus iliacus",
+    "probe": true,
+    "xc": "25117",
+    "author": "Niels Krabbe",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000197.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "256826",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000202.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "264099",
+    "author": "José Carlos Sires",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000205.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "265843",
+    "author": "Sonnenburg",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000206.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "266780",
+    "author": "Giovanni Boano",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000219.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "288348",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000225.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "291348",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000228.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "292095",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000237.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "299232",
+    "author": "Szymon Pławecki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000241.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "303353",
+    "author": "Lüthi Thomas",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000245.flac",
+    "species": "Picus canus",
+    "probe": true,
+    "xc": "305085",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000246.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "305097",
+    "author": "Szymon Pławecki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000249.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "306858",
+    "author": "Alex Rinkert",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000251.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "307581",
+    "author": "Wojciech Miczajka",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000263.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "312491",
+    "author": "Toon Jansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000268.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "314642",
+    "author": "Andrew Jones",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000269.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "314830",
+    "author": "Manuelle François",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000270.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "314931",
+    "author": "Rachael Fay",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000272.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "315212",
+    "author": "Rachael Fay",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000274.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "315924",
+    "author": "Joss Deffarges",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000275.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "316891",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000281.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "319361",
+    "author": "Sebastian Andrejeff",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000290.flac",
+    "species": "Columba palumbus",
+    "probe": true,
+    "xc": "328597",
+    "author": "Giuseppe Speranza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000294.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "334363",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000296.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "337152",
+    "author": "Nick Komar",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000297.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "337413",
+    "author": "Manuel Grosselet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000301.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "341685",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000302.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "342184",
+    "author": "Patrik Åberg",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000304.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "342327",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000312.flac",
+    "species": "Regulus regulus",
+    "probe": true,
+    "xc": "347418",
+    "author": "Tero Linjama",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000316.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "349530",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000322.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "354359",
+    "author": "Stanislas Wroza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000324.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "355291",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000326.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "355742",
+    "author": "David Darrell-Lambert",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000331.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "357119",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000341.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "360806",
+    "author": "Sulev Svilponis",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000345.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "361797",
+    "author": "MAHAMOUD ISSA Mathieu",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000352.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "363435",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000353.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "363443",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000354.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "363820",
+    "author": "Timo Schnabel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000357.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "364607",
+    "author": "Annette Hamann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000360.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "365776",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000362.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "366248",
+    "author": "liverbirder",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000364.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "366794",
+    "author": "David Bissett",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000367.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "36748",
+    "author": "Bob Planqué",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000373.flac",
+    "species": "Picus canus",
+    "probe": false,
+    "xc": "371105",
+    "author": "Weiting Liu",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000380.flac",
+    "species": "Phylloscopus sibilatrix",
+    "probe": false,
+    "xc": "371850",
+    "author": "Kostas",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000383.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "372443",
+    "author": "Pierre Mollet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000384.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "372450",
+    "author": "Sam Hardman",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000391.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "373482",
+    "author": "Roby",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000399.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "375139",
+    "author": "Roby",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000401.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "375557",
+    "author": "Roby",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000427.flac",
+    "species": "Prunella modularis",
+    "probe": true,
+    "xc": "391808",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000428.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "391839",
+    "author": "Andrea Simoncini",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000434.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "393838",
+    "author": "Toon Jansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000437.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "394406",
+    "author": "Heiko Liebel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000438.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "394765",
+    "author": "Frank Roos",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000444.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "400220",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000449.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "403639",
+    "author": "Toon Jansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000455.flac",
+    "species": "Picus canus",
+    "probe": false,
+    "xc": "407418",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000458.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "408219",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000459.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "409240",
+    "author": "Rolf Nessing",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000484.flac",
+    "species": "Streptopelia turtur",
+    "probe": false,
+    "xc": "423117",
+    "author": "Sonnenburg",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000499.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "432463",
+    "author": "Albert Lastukhin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000503.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "434462",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000504.flac",
+    "species": "Strix aluco",
+    "probe": true,
+    "xc": "437691",
+    "author": "Daniel Beuker",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000507.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "438277",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000509.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "438749",
+    "author": "Jens Kirkeby",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000512.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "439428",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000514.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "439439",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000517.flac",
+    "species": "Erithacus rubecula",
+    "probe": true,
+    "xc": "441304",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000518.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "441779",
+    "author": "W. Agster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000535.flac",
+    "species": "Curruca communis",
+    "probe": true,
+    "xc": "451166",
+    "author": "Tony Archer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000538.flac",
+    "species": "Nannus troglodytes",
+    "probe": true,
+    "xc": "452367",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000541.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "455241",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000545.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "457294",
+    "author": "maudoc",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000548.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "457558",
+    "author": "Petr Večeřa",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000552.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "458579",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000557.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "459751",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000559.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "460328",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000560.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "461138",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000565.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "461861",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000567.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "461893",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000570.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "462075",
+    "author": "Karin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000577.flac",
+    "species": "Poecile palustris",
+    "probe": false,
+    "xc": "463247",
+    "author": "Michał Jezierski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000595.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "466010",
+    "author": "Xavier VERGON",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000596.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "466265",
+    "author": "Vincent Martens",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000600.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "467564",
+    "author": "brickegickel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000604.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "469614",
+    "author": "Louis A. Hansen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000612.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "473213",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000620.flac",
+    "species": "Dendrocopos major",
+    "probe": true,
+    "xc": "475963",
+    "author": "Manuel Grosselet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000625.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "478301",
+    "author": "brickegickel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000632.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "481630",
+    "author": "Alexander Kürthy",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/000649.flac",
+    "species": "Phylloscopus sibilatrix",
+    "probe": true,
+    "xc": "487548",
+    "author": "W. Agster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000655.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "490917",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000659.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "493314",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000665.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "496374",
+    "author": "guus van duin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000667.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "496633",
+    "author": "Stanislas Wroza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000668.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "496753",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000669.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "497115",
+    "author": "Paul Ehlers",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000681.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "501526",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000683.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "502032",
+    "author": "Hannu Varkki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000689.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "503825",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000692.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "505743",
+    "author": "Jan Willem Oudijk",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000699.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "506868",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000700.flac",
+    "species": "Turdus viscivorus",
+    "probe": true,
+    "xc": "507329",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000702.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "507442",
+    "author": "Raphaël Nussbaumer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000703.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "507508",
+    "author": "Aurora Gonzalo-Tarodo",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000706.flac",
+    "species": "Carduelis carduelis",
+    "probe": true,
+    "xc": "508267",
+    "author": "James P",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000712.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "512849",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000720.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "518827",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000721.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "518936",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000725.flac",
+    "species": "Streptopelia turtur",
+    "probe": false,
+    "xc": "519703",
+    "author": "Danuta Peplowska-Marczak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000726.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "520422",
+    "author": "Tony Archer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000727.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "520434",
+    "author": "johannes buhl",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000728.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "520435",
+    "author": "johannes buhl",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000729.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "520704",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000731.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "521156",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000732.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "521440",
+    "author": "Teet Sirotkin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000734.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "521915",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000736.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "522337",
+    "author": "Marie-Lan Taÿ Pamart",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/000746.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "526042",
+    "author": "isaac kilusu",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000751.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "527420",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000752.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "527978",
+    "author": "Timon Boumon",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000753.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "528131",
+    "author": "James Lidster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000757.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "529912",
+    "author": "James P",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000761.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "530914",
+    "author": "Francesco Sottile",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000765.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "533380",
+    "author": "Joren van Schie",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000766.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "533790",
+    "author": "Michał Jezierski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000770.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "534460",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000782.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "536606",
+    "author": "Aitor Mora Solano",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000787.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "537300",
+    "author": "Jan Havlíček",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000789.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "537691",
+    "author": "Vincent Palomares",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000792.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "538071",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000793.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "53829",
+    "author": "Niels Krabbe",
+    "license": "CC-BY-NC-SA 3.0"
+  },
+  {
+    "member": "XC001/000805.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "540985",
+    "author": "Frank Pierik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000813.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "541689",
+    "author": "Nabholz Benoit",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000815.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "542209",
+    "author": "Étienne Leroy",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000819.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "543981",
+    "author": "Franck Hollander",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000832.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "547024",
+    "author": "Sławomir Karpicki-Ignatowski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000834.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "547360",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000837.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": true,
+    "xc": "547374",
+    "author": "riou",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000849.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "550345",
+    "author": "riou",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000856.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "552365",
+    "author": "julien Rochefort",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000867.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": true,
+    "xc": "553852",
+    "author": "Andrey Suravenkov",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000872.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "554782",
+    "author": "Calum Mckellar",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000887.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "558691",
+    "author": "B Whyte",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000893.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "559062",
+    "author": "riou",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000900.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "560346",
+    "author": "Stanislas Wroza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000902.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "560861",
+    "author": "Olivier Grimm",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/000909.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "562092",
+    "author": "Simon Brockmeyer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000910.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "562206",
+    "author": "johannes buhl",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000920.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "565354",
+    "author": "Simon Brockmeyer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000921.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "565945",
+    "author": "Sidney M",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000932.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "569501",
+    "author": "Bjørn Penk",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000941.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "571239",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000945.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "571973",
+    "author": "Nikita Panfilov",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/000948.flac",
+    "species": "Dryocopus martius",
+    "probe": true,
+    "xc": "573528",
+    "author": "Giuseppe Speranza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000954.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "574728",
+    "author": "Thomas Bergman",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000958.flac",
+    "species": "Sylvia atricapilla",
+    "probe": true,
+    "xc": "576562",
+    "author": "JEAN-PHILIPPE CARLIER",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000964.flac",
+    "species": "Regulus ignicapilla",
+    "probe": true,
+    "xc": "579182",
+    "author": "Wolfiejm",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000969.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "580603",
+    "author": "Jordi Calvet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000970.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "581288",
+    "author": "Benoit Paepegaey",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000976.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "584061",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/000985.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "587799",
+    "author": "edouard dansette",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001018.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "596347",
+    "author": "Alan Dalton",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001019.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "596504",
+    "author": "Tristan Guillebot de Nerville",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001020.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "596608",
+    "author": "Kalle Nibbenhagen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001026.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "597828",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001027.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "598268",
+    "author": "Ad Hilders",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001029.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "598531",
+    "author": "Luca Forneris",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001033.flac",
+    "species": "Lophophanes cristatus",
+    "probe": false,
+    "xc": "600119",
+    "author": "Wessel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001036.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "600671",
+    "author": "Ireneusz Oleksik",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001037.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "600946",
+    "author": "Adrien CHARBONNEAU",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001039.flac",
+    "species": "Turdus merula",
+    "probe": true,
+    "xc": "601460",
+    "author": "Mark Pearson",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001043.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "601972",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001047.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "602790",
+    "author": "Alain Malengreau",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001051.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "604001",
+    "author": "Kévin Giraudin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001054.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "604442",
+    "author": "Chiara Talia",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001056.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "604946",
+    "author": "Lluís Brotons",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001058.flac",
+    "species": "Spinus spinus",
+    "probe": true,
+    "xc": "605331",
+    "author": "Romain SPELLER",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001059.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "606074",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001068.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "607952",
+    "author": "Mikko Viholainen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001074.flac",
+    "species": "Streptopelia turtur",
+    "probe": false,
+    "xc": "609185",
+    "author": "Marcin Dec",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001075.flac",
+    "species": "Poecile palustris",
+    "probe": false,
+    "xc": "609683",
+    "author": "Pieter Gordijn",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001076.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "610337",
+    "author": "Xavier Riera",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001078.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "610860",
+    "author": "Ramya",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001083.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "611354",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001087.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "612555",
+    "author": "Andrew Harrop",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001094.flac",
+    "species": "Chloris chloris",
+    "probe": true,
+    "xc": "613594",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001097.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "614672",
+    "author": "Niko Björkell",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001100.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "615469",
+    "author": "Sidney M",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001103.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "616208",
+    "author": "Robert Manzano",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001111.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "618303",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001112.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "618400",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001113.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "618667",
+    "author": "Andrew Harrop",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001117.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "619084",
+    "author": "Romain SPELLER",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001124.flac",
+    "species": "Poecile palustris",
+    "probe": true,
+    "xc": "619598",
+    "author": "Robert Hutchinson",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001126.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "619608",
+    "author": "Michał Jezierski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001129.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "620505",
+    "author": "ArendsJP",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001130.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "620943",
+    "author": "Manceau Lionel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001131.flac",
+    "species": "Picus canus",
+    "probe": false,
+    "xc": "621018",
+    "author": "Jelle Scharringa",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001136.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "621720",
+    "author": "Vincent Pourchaire",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001139.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "622115",
+    "author": "Matt Osborne",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001141.flac",
+    "species": "Corvus monedula",
+    "probe": false,
+    "xc": "622181",
+    "author": "Jon Lowes",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001149.flac",
+    "species": "Dendrocoptes medius",
+    "probe": false,
+    "xc": "623901",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001161.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "626755",
+    "author": "Albert Subirà",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001164.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "626998",
+    "author": "Andrew Cobley",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001168.flac",
+    "species": "Picus viridis",
+    "probe": true,
+    "xc": "627110",
+    "author": "Beatrix Saadi-Varchmin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001172.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "627873",
+    "author": "Jarek Matusiak",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001174.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "627994",
+    "author": "ArendsJP",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001183.flac",
+    "species": "Alauda arvensis",
+    "probe": true,
+    "xc": "629293",
+    "author": "Sean Morris",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001184.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "629491",
+    "author": "Michele Viganò",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001189.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "629984",
+    "author": "Samuel Levy",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001190.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "630087",
+    "author": "riou",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001194.flac",
+    "species": "Loxia curvirostra",
+    "probe": true,
+    "xc": "630176",
+    "author": "Marcin Urbański",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001204.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "630978",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001208.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "632502",
+    "author": "Frédéric Cazaban",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001213.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "633135",
+    "author": "Rostyslav Romanyshyn",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001215.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "633616",
+    "author": "Béasse",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001217.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "634247",
+    "author": "Siméon Béasse",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001226.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "636241",
+    "author": "Sean Morris",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001227.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "636303",
+    "author": "Ahti Pulli",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001231.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "636725",
+    "author": "Goffette Etienne",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001234.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "637220",
+    "author": "Sunny Tseng",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001237.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "637771",
+    "author": "Dan Lombard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001240.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "637827",
+    "author": "Regina Eidner",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001242.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "638439",
+    "author": "Goffette Etienne",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001250.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "639504",
+    "author": "Bjarne Verhaeghe",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001252.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "639725",
+    "author": "Hannu Varkki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001281.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "644413",
+    "author": "Richard Parlitz",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001292.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "645006",
+    "author": "Mario Finkel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001294.flac",
+    "species": "Fringilla coelebs",
+    "probe": true,
+    "xc": "645237",
+    "author": "Valeria",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001298.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "645440",
+    "author": "Teet Sirotkin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001309.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "646905",
+    "author": "marc",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001311.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "647194",
+    "author": "Paul Marvin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001313.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "647388",
+    "author": "Gosse Hoekstra",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001315.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "647485",
+    "author": "Franck Hollander",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001319.flac",
+    "species": "Poecile palustris",
+    "probe": false,
+    "xc": "647594",
+    "author": "Henk Schreuders",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001324.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "647989",
+    "author": "Susanne Kuijpers",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001330.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "648305",
+    "author": "Ad Hilders",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001342.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "649982",
+    "author": "Franck Hollander",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001350.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "651683",
+    "author": "Sven Kransel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001351.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "651805",
+    "author": "Amir",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001360.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "654242",
+    "author": "Dan Martin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001367.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "656678",
+    "author": "Louis K. Poulsen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001373.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "657536",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001403.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "667130",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001405.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "667360",
+    "author": "Juan Pita-Romero Caamaño",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001411.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "669634",
+    "author": "Sidney Martin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001414.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "670207",
+    "author": "Lars Edenius",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001420.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "671967",
+    "author": "Paolo Zucca",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001421.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "672230",
+    "author": "Grzegorz Lorek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001428.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "673739",
+    "author": "willem van vliet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001429.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "676565",
+    "author": "Sun Madakan",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001432.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "677231",
+    "author": "Jessica Peruzzo",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001433.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "677476",
+    "author": "Lisette",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001437.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "678016",
+    "author": "Peter van Vlaardingen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001438.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "678444",
+    "author": "Michał Jezierski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001439.flac",
+    "species": "Corvus corone",
+    "probe": true,
+    "xc": "678776",
+    "author": "Ruud",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001442.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "679665",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001443.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "679940",
+    "author": "Valentin Monnoy",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001448.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "681078",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001456.flac",
+    "species": "Anthus trivialis",
+    "probe": false,
+    "xc": "682216",
+    "author": "C PAL",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001457.flac",
+    "species": "Phylloscopus collybita",
+    "probe": true,
+    "xc": "682378",
+    "author": "Bernhard Deykowski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001468.flac",
+    "species": "Chloris chloris",
+    "probe": false,
+    "xc": "682966",
+    "author": "Stanislas Wroza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001475.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "684043",
+    "author": "Stanislas Wroza",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001483.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "685028",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001487.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "685753",
+    "author": "Nelson Conceição",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001489.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "685851",
+    "author": "Paulo Alves",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001494.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "686202",
+    "author": "Jim Lloyd",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001500.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "686969",
+    "author": "Lars Edenius",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001504.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "687683",
+    "author": "Dag Österlund",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001505.flac",
+    "species": "Poecile palustris",
+    "probe": false,
+    "xc": "687991",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001506.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "688252",
+    "author": "Lars Edenius",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001508.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "688270",
+    "author": "Christian Kerihuel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001513.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "688828",
+    "author": "ArendsJP",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001514.flac",
+    "species": "Regulus regulus",
+    "probe": false,
+    "xc": "689382",
+    "author": "Georg Amann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001515.flac",
+    "species": "Periparus ater",
+    "probe": true,
+    "xc": "689388",
+    "author": "Georg Amann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001517.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "689398",
+    "author": "Georg Amann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001529.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": true,
+    "xc": "691517",
+    "author": "Alan Dalton",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001530.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "692088",
+    "author": "Toni Alonso Jardí",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001535.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "692908",
+    "author": "Allistair Fresse",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001536.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "692998",
+    "author": "Cedric Mroczko",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001540.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "695258",
+    "author": "Fernando aranguren jiménez",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001543.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "695595",
+    "author": "Pablo Valverde",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001544.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "696232",
+    "author": "Dominique Guillerme",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001548.flac",
+    "species": "Sylvia borin",
+    "probe": false,
+    "xc": "696885",
+    "author": "András Schmidt",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001550.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "697101",
+    "author": "Niccolò Fagotto",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001552.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "697381",
+    "author": "David Kuster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001553.flac",
+    "species": "Turdus philomelos",
+    "probe": false,
+    "xc": "697691",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001557.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "697751",
+    "author": "Georg Amann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001558.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "697766",
+    "author": "Olivier SWIFT",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001566.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "700276",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001569.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "701027",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001570.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "701225",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001580.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "702800",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001592.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "703684",
+    "author": "Török Tamás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001594.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "703934",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001597.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "704131",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001598.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "704488",
+    "author": "David Kuster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001599.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "704600",
+    "author": "Sarah Loving",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001600.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "704632",
+    "author": "Tony Archer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001604.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "704755",
+    "author": "James Lidster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001612.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "707167",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001614.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "707855",
+    "author": "Chris Batty",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001619.flac",
+    "species": "Emberiza citrinella",
+    "probe": false,
+    "xc": "708632",
+    "author": "per-anders svensson",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001625.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "709769",
+    "author": "Paweł Malczyk",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001626.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "709923",
+    "author": "Sven Kransel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001627.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "710088",
+    "author": "Georg Amann",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001633.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "710593",
+    "author": "Samuel Levy",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001636.flac",
+    "species": "Cyanistes caeruleus",
+    "probe": false,
+    "xc": "710913",
+    "author": "Susanne Kuijpers",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001639.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "711293",
+    "author": "Robert Ekman",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001649.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "712341",
+    "author": "Luca Fetique",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001660.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "714615",
+    "author": "Barbara Boysen",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001661.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "714655",
+    "author": "David Nayer",
+    "license": "CC-BY-NC 4.0"
+  },
+  {
+    "member": "XC001/001668.flac",
+    "species": "Poecile montanus",
+    "probe": false,
+    "xc": "715480",
+    "author": "David Nayer",
+    "license": "CC-BY-NC 4.0"
+  },
+  {
+    "member": "XC001/001677.flac",
+    "species": "Fringilla montifringilla",
+    "probe": true,
+    "xc": "718186",
+    "author": "Julien Piette",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001678.flac",
+    "species": "Phylloscopus sibilatrix",
+    "probe": false,
+    "xc": "718388",
+    "author": "Chèvremont Fabian",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001682.flac",
+    "species": "Poecile montanus",
+    "probe": true,
+    "xc": "719730",
+    "author": "Mikołaj Przygoda",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001685.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "720608",
+    "author": "Allistair Fresse",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001686.flac",
+    "species": "Anthus trivialis",
+    "probe": true,
+    "xc": "720656",
+    "author": "Stephan Börnecke",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001689.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "721828",
+    "author": "Soundkrampf",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001693.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": true,
+    "xc": "722362",
+    "author": "Andy Hannaford",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001700.flac",
+    "species": "Phylloscopus sibilatrix",
+    "probe": false,
+    "xc": "723563",
+    "author": "Kim Falck",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001701.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": true,
+    "xc": "724240",
+    "author": "Andreas Richter",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001704.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "725016",
+    "author": "Paul Kelly",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001722.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "728258",
+    "author": "Jonas Pottier",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001725.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "728945",
+    "author": "Tanguy Loïs",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001728.flac",
+    "species": "Sturnus vulgaris",
+    "probe": true,
+    "xc": "729294",
+    "author": "Török Tamás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001732.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "729727",
+    "author": "Manuel Tacke",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001738.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "731124",
+    "author": "Andrej Binz",
+    "license": "CC-BY-NC 4.0"
+  },
+  {
+    "member": "XC001/001739.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "731179",
+    "author": "Susanne Kuijpers",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001740.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "731713",
+    "author": "Sonothèque ADVL",
+    "license": "CC0 1.0"
+  },
+  {
+    "member": "XC001/001754.flac",
+    "species": "Phylloscopus collybita",
+    "probe": false,
+    "xc": "736527",
+    "author": "Susanne Kuijpers",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001770.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "741280",
+    "author": "Sébastien MARIE",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001775.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "743199",
+    "author": "雪鼬",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001786.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "747653",
+    "author": "Grzegorz Lorek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001788.flac",
+    "species": "Muscicapa striata",
+    "probe": true,
+    "xc": "747931",
+    "author": "Martin Billard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001798.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "753468",
+    "author": "Juha Saari",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001799.flac",
+    "species": "Sitta europaea",
+    "probe": false,
+    "xc": "753771",
+    "author": "Rocío",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001800.flac",
+    "species": "Regulus ignicapilla",
+    "probe": false,
+    "xc": "754040",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001803.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "754565",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001807.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "757123",
+    "author": "Alan Dalton",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001809.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "757177",
+    "author": "Xavier Riera",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001815.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "757942",
+    "author": "W. Agster",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001816.flac",
+    "species": "Cinclus cinclus",
+    "probe": false,
+    "xc": "757994",
+    "author": "Hannu Varkki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001818.flac",
+    "species": "Cinclus cinclus",
+    "probe": true,
+    "xc": "758055",
+    "author": "Paul Kelly",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001827.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "759515",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001837.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "761043",
+    "author": "David Tattersley",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001839.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "761571",
+    "author": "Francisco Molinero",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001841.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "762144",
+    "author": "Sergi Carreras",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001842.flac",
+    "species": "Certhia familiaris",
+    "probe": true,
+    "xc": "762241",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001843.flac",
+    "species": "Corvus corax",
+    "probe": true,
+    "xc": "763267",
+    "author": "Francisco Molinero",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001847.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "764268",
+    "author": "Paul Coiffard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001848.flac",
+    "species": "Dendrocoptes medius",
+    "probe": true,
+    "xc": "764522",
+    "author": "Frank Roos",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001850.flac",
+    "species": "Poecile palustris",
+    "probe": false,
+    "xc": "764837",
+    "author": "wilmet sebastien",
+    "license": "CC0 1.0"
+  },
+  {
+    "member": "XC001/001851.flac",
+    "species": "Turdus iliacus",
+    "probe": false,
+    "xc": "764900",
+    "author": "Fabien H",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001857.flac",
+    "species": "Turdus pilaris",
+    "probe": false,
+    "xc": "769705",
+    "author": "Michel Veldt",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001863.flac",
+    "species": "Parus major",
+    "probe": false,
+    "xc": "772369",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001865.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "774639",
+    "author": "Dan Lombard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001869.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "775784",
+    "author": "Ace",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001871.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "777197",
+    "author": "Emily Brhel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001873.flac",
+    "species": "Turdus pilaris",
+    "probe": true,
+    "xc": "777727",
+    "author": "João Tomás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001881.flac",
+    "species": "Certhia brachydactyla",
+    "probe": true,
+    "xc": "779577",
+    "author": "Yaëlle",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001886.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "780663",
+    "author": "Chèvremont Fabian",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001903.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "785474",
+    "author": "Romain Dumont de Chassart",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001906.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "785699",
+    "author": "Bernard Collet",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001915.flac",
+    "species": "Scolopax rusticola",
+    "probe": false,
+    "xc": "787120",
+    "author": "Marcin Karetta",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001919.flac",
+    "species": "Dendrocopos major",
+    "probe": false,
+    "xc": "787438",
+    "author": "João Tomás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001922.flac",
+    "species": "Parus major",
+    "probe": true,
+    "xc": "787502",
+    "author": "Paul Bourdin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001938.flac",
+    "species": "Scolopax rusticola",
+    "probe": true,
+    "xc": "790469",
+    "author": "Frode Falkenberg",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001948.flac",
+    "species": "Emberiza citrinella",
+    "probe": true,
+    "xc": "791955",
+    "author": "Jochem verweij",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/001949.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "792001",
+    "author": "Hannu Varkki",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001962.flac",
+    "species": "Ficedula hypoleuca",
+    "probe": false,
+    "xc": "793562",
+    "author": "Valentijn Hermans",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001965.flac",
+    "species": "Certhia familiaris",
+    "probe": false,
+    "xc": "793629",
+    "author": "Frank A. Roos",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001973.flac",
+    "species": "Picus viridis",
+    "probe": false,
+    "xc": "794466",
+    "author": "Sven Normant",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001981.flac",
+    "species": "Picus canus",
+    "probe": false,
+    "xc": "796120",
+    "author": "Romuald Mikusek",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001982.flac",
+    "species": "Carduelis carduelis",
+    "probe": false,
+    "xc": "796147",
+    "author": "Sven Normant",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/001994.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "797994",
+    "author": "Carlos Pereira",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002000.flac",
+    "species": "Curruca communis",
+    "probe": false,
+    "xc": "798502",
+    "author": "Xurde Acebrás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002005.flac",
+    "species": "Columba palumbus",
+    "probe": false,
+    "xc": "799201",
+    "author": "Carlos Pereira",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002017.flac",
+    "species": "Phylloscopus trochilus",
+    "probe": false,
+    "xc": "801235",
+    "author": "Romain Dumont de Chassart",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002018.flac",
+    "species": "Garrulus glandarius",
+    "probe": true,
+    "xc": "801313",
+    "author": "Rostyslav Romanyshyn",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002020.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "801365",
+    "author": "Raphaël Bussière",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002027.flac",
+    "species": "Prunella modularis",
+    "probe": false,
+    "xc": "802045",
+    "author": "Rostyslav Romanyshyn",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002031.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "802469",
+    "author": "Johannes Dag Mayer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002033.flac",
+    "species": "Luscinia megarhynchos",
+    "probe": false,
+    "xc": "803112",
+    "author": "Xurde Acebrás",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002042.flac",
+    "species": "Alauda arvensis",
+    "probe": false,
+    "xc": "805053",
+    "author": "Magnus Hellström",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002062.flac",
+    "species": "Fringilla coelebs",
+    "probe": false,
+    "xc": "808065",
+    "author": "Radek Grochowski",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002069.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "811706",
+    "author": "Thomas Bergman",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002082.flac",
+    "species": "Dryocopus martius",
+    "probe": false,
+    "xc": "817960",
+    "author": "王自堃",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002086.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": true,
+    "xc": "818801",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002090.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "819699",
+    "author": "Pablo Bolaños Sittler",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002092.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "820823",
+    "author": "Elisabeth Godding",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002095.flac",
+    "species": "Corvus monedula",
+    "probe": true,
+    "xc": "822493",
+    "author": "Uku Paal",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002099.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "824430",
+    "author": "Ingemar Gard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002102.flac",
+    "species": "Pyrrhula pyrrhula",
+    "probe": false,
+    "xc": "826355",
+    "author": "Daan van der Hoeven",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002107.flac",
+    "species": "Sturnus vulgaris",
+    "probe": false,
+    "xc": "828653",
+    "author": "Seynaeve Adriaan",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002113.flac",
+    "species": "Turdus merula",
+    "probe": false,
+    "xc": "831965",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002114.flac",
+    "species": "Garrulus glandarius",
+    "probe": false,
+    "xc": "832217",
+    "author": "COLLARD Martin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002121.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "833904",
+    "author": "Viral Patel &amp; Pankaj Maheria",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002123.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "834243",
+    "author": "Denis Provencher",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002125.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "835201",
+    "author": "Thomas SIGNEAU",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002126.flac",
+    "species": "Muscicapa striata",
+    "probe": false,
+    "xc": "835738",
+    "author": "Martin Billard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002129.flac",
+    "species": "Fringilla montifringilla",
+    "probe": false,
+    "xc": "836098",
+    "author": "Esperanza Poveda",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002132.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "836290",
+    "author": "Teet Sirotkin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002135.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "837383",
+    "author": "Johannes Dag Mayer",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002138.flac",
+    "species": "Turdus viscivorus",
+    "probe": false,
+    "xc": "838144",
+    "author": "Sergi Carreras",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002141.flac",
+    "species": "Erithacus rubecula",
+    "probe": false,
+    "xc": "838686",
+    "author": "Sidney Martin",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002142.flac",
+    "species": "Corvus corone",
+    "probe": false,
+    "xc": "838954",
+    "author": "Claudia Wascher",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002146.flac",
+    "species": "Corvus corax",
+    "probe": false,
+    "xc": "839191",
+    "author": "Sacha Balavoine",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002148.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "840565",
+    "author": "Frank A. Roos",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002151.flac",
+    "species": "Nannus troglodytes",
+    "probe": false,
+    "xc": "841274",
+    "author": "cyclopithecus",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002155.flac",
+    "species": "Coccothraustes coccothraustes",
+    "probe": false,
+    "xc": "842058",
+    "author": "王自堃",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002157.flac",
+    "species": "Certhia brachydactyla",
+    "probe": false,
+    "xc": "843020",
+    "author": "Simon Carrington",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002159.flac",
+    "species": "Sylvia atricapilla",
+    "probe": false,
+    "xc": "844183",
+    "author": "FREDERIC Lionel",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002173.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "855833",
+    "author": "Martin Billard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002183.flac",
+    "species": "Spinus spinus",
+    "probe": false,
+    "xc": "858492",
+    "author": "Jorge Leitão",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002194.flac",
+    "species": "Loxia curvirostra",
+    "probe": false,
+    "xc": "862386",
+    "author": "Martin Billard",
+    "license": "CC-BY-NC-SA 4.0"
+  },
+  {
+    "member": "XC001/002196.flac",
+    "species": "Sitta europaea",
+    "probe": true,
+    "xc": "863471",
+    "author": "Max Karlsson",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/002200.flac",
+    "species": "Strix aluco",
+    "probe": false,
+    "xc": "86915",
+    "author": "Alexander Kurthy",
+    "license": "CC-BY-SA 4.0"
+  },
+  {
+    "member": "XC001/002209.flac",
+    "species": "Periparus ater",
+    "probe": false,
+    "xc": "872317",
+    "author": "Sidney Martin",
+    "license": "CC-BY-NC-SA 4.0"
+  }
+]

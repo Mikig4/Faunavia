@@ -1,0 +1,569 @@
+[
+  {
+    "first": "Turdus iliacus",
+    "second": "Alauda arvensis",
+    "db": 0,
+    "improvement_db": -56.77798724882026,
+    "absent_stem_relative_db": -4.850946426391602
+  },
+  {
+    "first": "Turdus iliacus",
+    "second": "Alauda arvensis",
+    "db": -6,
+    "improvement_db": -56.50907552535571,
+    "absent_stem_relative_db": -4.850946426391602
+  },
+  {
+    "first": "Turdus iliacus",
+    "second": "Alauda arvensis",
+    "db": -12,
+    "improvement_db": -56.652820473512726,
+    "absent_stem_relative_db": -4.850946426391602
+  },
+  {
+    "first": "Scolopax rusticola",
+    "second": "Muscicapa striata",
+    "db": 0,
+    "improvement_db": -14.003121211449205,
+    "absent_stem_relative_db": -7.724241733551025
+  },
+  {
+    "first": "Scolopax rusticola",
+    "second": "Muscicapa striata",
+    "db": -6,
+    "improvement_db": -13.372115753833558,
+    "absent_stem_relative_db": -7.724241733551025
+  },
+  {
+    "first": "Scolopax rusticola",
+    "second": "Muscicapa striata",
+    "db": -12,
+    "improvement_db": -13.184839963873566,
+    "absent_stem_relative_db": -7.724241733551025
+  },
+  {
+    "first": "Certhia familiaris",
+    "second": "Sturnus vulgaris",
+    "db": 0,
+    "improvement_db": -1.297601565504559,
+    "absent_stem_relative_db": -21.463909149169922
+  },
+  {
+    "first": "Certhia familiaris",
+    "second": "Sturnus vulgaris",
+    "db": -6,
+    "improvement_db": 4.061651606356091,
+    "absent_stem_relative_db": -21.463909149169922
+  },
+  {
+    "first": "Certhia familiaris",
+    "second": "Sturnus vulgaris",
+    "db": -12,
+    "improvement_db": 8.44724142020387,
+    "absent_stem_relative_db": -21.463909149169922
+  },
+  {
+    "first": "Nannus troglodytes",
+    "second": "Periparus ater",
+    "db": 0,
+    "improvement_db": 1.7263235783750073,
+    "absent_stem_relative_db": -3.346560001373291
+  },
+  {
+    "first": "Nannus troglodytes",
+    "second": "Periparus ater",
+    "db": -6,
+    "improvement_db": 2.1543599892160876,
+    "absent_stem_relative_db": -3.346560001373291
+  },
+  {
+    "first": "Nannus troglodytes",
+    "second": "Periparus ater",
+    "db": -12,
+    "improvement_db": 1.9959645722747847,
+    "absent_stem_relative_db": -3.346560001373291
+  },
+  {
+    "first": "Carduelis carduelis",
+    "second": "Parus major",
+    "db": 0,
+    "improvement_db": -27.344427324021307,
+    "absent_stem_relative_db": -17.394954681396484
+  },
+  {
+    "first": "Carduelis carduelis",
+    "second": "Parus major",
+    "db": -6,
+    "improvement_db": -28.235059835261087,
+    "absent_stem_relative_db": -17.394954681396484
+  },
+  {
+    "first": "Carduelis carduelis",
+    "second": "Parus major",
+    "db": -12,
+    "improvement_db": -31.309002677075956,
+    "absent_stem_relative_db": -17.394954681396484
+  },
+  {
+    "first": "Turdus philomelos",
+    "second": "Poecile palustris",
+    "db": 0,
+    "improvement_db": 1.557748325452285,
+    "absent_stem_relative_db": -8.145269393920898
+  },
+  {
+    "first": "Turdus philomelos",
+    "second": "Poecile palustris",
+    "db": -6,
+    "improvement_db": 3.3226021934114898,
+    "absent_stem_relative_db": -8.145269393920898
+  },
+  {
+    "first": "Turdus philomelos",
+    "second": "Poecile palustris",
+    "db": -12,
+    "improvement_db": 3.5903345972205845,
+    "absent_stem_relative_db": -8.145269393920898
+  },
+  {
+    "first": "Garrulus glandarius",
+    "second": "Regulus regulus",
+    "db": 0,
+    "improvement_db": 2.933723461894283,
+    "absent_stem_relative_db": -45.85851287841797
+  },
+  {
+    "first": "Garrulus glandarius",
+    "second": "Regulus regulus",
+    "db": -6,
+    "improvement_db": 8.96295910428215,
+    "absent_stem_relative_db": -45.85851287841797
+  },
+  {
+    "first": "Garrulus glandarius",
+    "second": "Regulus regulus",
+    "db": -12,
+    "improvement_db": 15.019827466043271,
+    "absent_stem_relative_db": -45.85851287841797
+  },
+  {
+    "first": "Turdus pilaris",
+    "second": "Regulus ignicapilla",
+    "db": 0,
+    "improvement_db": -18.836951847641068,
+    "absent_stem_relative_db": -19.1968994140625
+  },
+  {
+    "first": "Turdus pilaris",
+    "second": "Regulus ignicapilla",
+    "db": -6,
+    "improvement_db": -16.231215463647956,
+    "absent_stem_relative_db": -19.1968994140625
+  },
+  {
+    "first": "Turdus pilaris",
+    "second": "Regulus ignicapilla",
+    "db": -12,
+    "improvement_db": -15.352528466878836,
+    "absent_stem_relative_db": -19.1968994140625
+  },
+  {
+    "first": "Emberiza citrinella",
+    "second": "Picus viridis",
+    "db": 0,
+    "improvement_db": 16.075261870117686,
+    "absent_stem_relative_db": -40.48543930053711
+  },
+  {
+    "first": "Emberiza citrinella",
+    "second": "Picus viridis",
+    "db": -6,
+    "improvement_db": 20.790532975921632,
+    "absent_stem_relative_db": -40.48543930053711
+  },
+  {
+    "first": "Emberiza citrinella",
+    "second": "Picus viridis",
+    "db": -12,
+    "improvement_db": 25.21535185810646,
+    "absent_stem_relative_db": -40.48543930053711
+  },
+  {
+    "first": "Prunella modularis",
+    "second": "Sylvia atricapilla",
+    "db": 0,
+    "improvement_db": 0.9598777332918759,
+    "absent_stem_relative_db": -11.597963333129883
+  },
+  {
+    "first": "Prunella modularis",
+    "second": "Sylvia atricapilla",
+    "db": -6,
+    "improvement_db": 4.459794394582632,
+    "absent_stem_relative_db": -11.597963333129883
+  },
+  {
+    "first": "Prunella modularis",
+    "second": "Sylvia atricapilla",
+    "db": -12,
+    "improvement_db": 5.850398240308956,
+    "absent_stem_relative_db": -11.597963333129883
+  },
+  {
+    "first": "Sitta europaea",
+    "second": "Picus canus",
+    "db": 0,
+    "improvement_db": -25.698346118532477,
+    "absent_stem_relative_db": -10.62930679321289
+  },
+  {
+    "first": "Sitta europaea",
+    "second": "Picus canus",
+    "db": -6,
+    "improvement_db": -19.94575582391105,
+    "absent_stem_relative_db": -10.62930679321289
+  },
+  {
+    "first": "Sitta europaea",
+    "second": "Picus canus",
+    "db": -12,
+    "improvement_db": -13.020704015819154,
+    "absent_stem_relative_db": -10.62930679321289
+  },
+  {
+    "first": "Spinus spinus",
+    "second": "Cinclus cinclus",
+    "db": 0,
+    "improvement_db": -13.155712581797125,
+    "absent_stem_relative_db": -29.73099708557129
+  },
+  {
+    "first": "Spinus spinus",
+    "second": "Cinclus cinclus",
+    "db": -6,
+    "improvement_db": -7.9089357092061245,
+    "absent_stem_relative_db": -29.73099708557129
+  },
+  {
+    "first": "Spinus spinus",
+    "second": "Cinclus cinclus",
+    "db": -12,
+    "improvement_db": -3.744385427645943,
+    "absent_stem_relative_db": -29.73099708557129
+  },
+  {
+    "first": "Columba palumbus",
+    "second": "Turdus merula",
+    "db": 0,
+    "improvement_db": -10.436425293144293,
+    "absent_stem_relative_db": -43.89226531982422
+  },
+  {
+    "first": "Columba palumbus",
+    "second": "Turdus merula",
+    "db": -6,
+    "improvement_db": -4.9016894664450215,
+    "absent_stem_relative_db": -43.89226531982422
+  },
+  {
+    "first": "Columba palumbus",
+    "second": "Turdus merula",
+    "db": -12,
+    "improvement_db": 0.22608255763780072,
+    "absent_stem_relative_db": -43.89226531982422
+  },
+  {
+    "first": "Anthus trivialis",
+    "second": "Phylloscopus collybita",
+    "db": 0,
+    "improvement_db": 2.4123910079838793,
+    "absent_stem_relative_db": -15.2620267868042
+  },
+  {
+    "first": "Anthus trivialis",
+    "second": "Phylloscopus collybita",
+    "db": -6,
+    "improvement_db": 6.605075835436034,
+    "absent_stem_relative_db": -15.2620267868042
+  },
+  {
+    "first": "Anthus trivialis",
+    "second": "Phylloscopus collybita",
+    "db": -12,
+    "improvement_db": 8.652703607918685,
+    "absent_stem_relative_db": -15.2620267868042
+  },
+  {
+    "first": "Lophophanes cristatus",
+    "second": "Dendrocoptes medius",
+    "db": 0,
+    "improvement_db": 7.932720746103088,
+    "absent_stem_relative_db": -46.760616302490234
+  },
+  {
+    "first": "Lophophanes cristatus",
+    "second": "Dendrocoptes medius",
+    "db": -6,
+    "improvement_db": 12.66693837428522,
+    "absent_stem_relative_db": -46.760616302490234
+  },
+  {
+    "first": "Lophophanes cristatus",
+    "second": "Dendrocoptes medius",
+    "db": -12,
+    "improvement_db": 17.246471176847336,
+    "absent_stem_relative_db": -46.760616302490234
+  },
+  {
+    "first": "Ficedula hypoleuca",
+    "second": "Dendrocopos major",
+    "db": 0,
+    "improvement_db": 11.186609362112943,
+    "absent_stem_relative_db": -22.84458351135254
+  },
+  {
+    "first": "Ficedula hypoleuca",
+    "second": "Dendrocopos major",
+    "db": -6,
+    "improvement_db": 15.160285281527273,
+    "absent_stem_relative_db": -22.84458351135254
+  },
+  {
+    "first": "Ficedula hypoleuca",
+    "second": "Dendrocopos major",
+    "db": -12,
+    "improvement_db": 17.46168321957856,
+    "absent_stem_relative_db": -22.84458351135254
+  },
+  {
+    "first": "Streptopelia turtur",
+    "second": "Turdus viscivorus",
+    "db": 0,
+    "improvement_db": 9.832031375947379,
+    "absent_stem_relative_db": -24.898405075073242
+  },
+  {
+    "first": "Streptopelia turtur",
+    "second": "Turdus viscivorus",
+    "db": -6,
+    "improvement_db": 14.792865704325967,
+    "absent_stem_relative_db": -24.898405075073242
+  },
+  {
+    "first": "Streptopelia turtur",
+    "second": "Turdus viscivorus",
+    "db": -12,
+    "improvement_db": 18.21617639771872,
+    "absent_stem_relative_db": -24.898405075073242
+  },
+  {
+    "first": "Pyrrhula pyrrhula",
+    "second": "Corvus corone",
+    "db": 0,
+    "improvement_db": -2.842991563762091,
+    "absent_stem_relative_db": -0.024244433268904686
+  },
+  {
+    "first": "Pyrrhula pyrrhula",
+    "second": "Corvus corone",
+    "db": -6,
+    "improvement_db": -2.414872860072797,
+    "absent_stem_relative_db": -0.024244433268904686
+  },
+  {
+    "first": "Pyrrhula pyrrhula",
+    "second": "Corvus corone",
+    "db": -12,
+    "improvement_db": -2.3002436161636304,
+    "absent_stem_relative_db": -0.024244433268904686
+  },
+  {
+    "first": "Sylvia borin",
+    "second": "Chloris chloris",
+    "db": 0,
+    "improvement_db": 6.586391930456869,
+    "absent_stem_relative_db": -7.94343376159668
+  },
+  {
+    "first": "Sylvia borin",
+    "second": "Chloris chloris",
+    "db": -6,
+    "improvement_db": 6.852654151280533,
+    "absent_stem_relative_db": -7.94343376159668
+  },
+  {
+    "first": "Sylvia borin",
+    "second": "Chloris chloris",
+    "db": -12,
+    "improvement_db": 6.889022881373288,
+    "absent_stem_relative_db": -7.94343376159668
+  },
+  {
+    "first": "Fringilla coelebs",
+    "second": "Poecile montanus",
+    "db": 0,
+    "improvement_db": -67.49770538785377,
+    "absent_stem_relative_db": -19.222394943237305
+  },
+  {
+    "first": "Fringilla coelebs",
+    "second": "Poecile montanus",
+    "db": -6,
+    "improvement_db": -78.59429747126418,
+    "absent_stem_relative_db": -19.222394943237305
+  },
+  {
+    "first": "Fringilla coelebs",
+    "second": "Poecile montanus",
+    "db": -12,
+    "improvement_db": -58.44030299477212,
+    "absent_stem_relative_db": -19.222394943237305
+  },
+  {
+    "first": "Curruca communis",
+    "second": "Certhia brachydactyla",
+    "db": 0,
+    "improvement_db": -2.123778983368579,
+    "absent_stem_relative_db": -13.545641899108887
+  },
+  {
+    "first": "Curruca communis",
+    "second": "Certhia brachydactyla",
+    "db": -6,
+    "improvement_db": 1.755597413745419,
+    "absent_stem_relative_db": -13.545641899108887
+  },
+  {
+    "first": "Curruca communis",
+    "second": "Certhia brachydactyla",
+    "db": -12,
+    "improvement_db": 3.2971591395832363,
+    "absent_stem_relative_db": -13.545641899108887
+  },
+  {
+    "first": "Corvus monedula",
+    "second": "Fringilla montifringilla",
+    "db": 0,
+    "improvement_db": 0.7428062717339301,
+    "absent_stem_relative_db": -23.219545364379883
+  },
+  {
+    "first": "Corvus monedula",
+    "second": "Fringilla montifringilla",
+    "db": -6,
+    "improvement_db": 6.175258037257694,
+    "absent_stem_relative_db": -23.219545364379883
+  },
+  {
+    "first": "Corvus monedula",
+    "second": "Fringilla montifringilla",
+    "db": -12,
+    "improvement_db": 10.122291092819136,
+    "absent_stem_relative_db": -23.219545364379883
+  },
+  {
+    "first": "Cyanistes caeruleus",
+    "second": "Erithacus rubecula",
+    "db": 0,
+    "improvement_db": -24.910117092560437,
+    "absent_stem_relative_db": -3.911733388900757
+  },
+  {
+    "first": "Cyanistes caeruleus",
+    "second": "Erithacus rubecula",
+    "db": -6,
+    "improvement_db": -24.702512133836905,
+    "absent_stem_relative_db": -3.911733388900757
+  },
+  {
+    "first": "Cyanistes caeruleus",
+    "second": "Erithacus rubecula",
+    "db": -12,
+    "improvement_db": -23.98020881931614,
+    "absent_stem_relative_db": -3.911733388900757
+  },
+  {
+    "first": "Luscinia megarhynchos",
+    "second": "Coccothraustes coccothraustes",
+    "db": 0,
+    "improvement_db": 11.444103789137486,
+    "absent_stem_relative_db": -29.655759811401367
+  },
+  {
+    "first": "Luscinia megarhynchos",
+    "second": "Coccothraustes coccothraustes",
+    "db": -6,
+    "improvement_db": 17.157671249259884,
+    "absent_stem_relative_db": -29.655759811401367
+  },
+  {
+    "first": "Luscinia megarhynchos",
+    "second": "Coccothraustes coccothraustes",
+    "db": -12,
+    "improvement_db": 22.246099872426935,
+    "absent_stem_relative_db": -29.655759811401367
+  },
+  {
+    "first": "Phylloscopus trochilus",
+    "second": "Dryocopus martius",
+    "db": 0,
+    "improvement_db": -2.8668526300595416,
+    "absent_stem_relative_db": -27.134281158447266
+  },
+  {
+    "first": "Phylloscopus trochilus",
+    "second": "Dryocopus martius",
+    "db": -6,
+    "improvement_db": 2.9777758366584566,
+    "absent_stem_relative_db": -27.134281158447266
+  },
+  {
+    "first": "Phylloscopus trochilus",
+    "second": "Dryocopus martius",
+    "db": -12,
+    "improvement_db": 8.366658913214234,
+    "absent_stem_relative_db": -27.134281158447266
+  },
+  {
+    "first": "Corvus corax",
+    "second": "Phylloscopus sibilatrix",
+    "db": 0,
+    "improvement_db": 11.622009190475334,
+    "absent_stem_relative_db": -19.669357299804688
+  },
+  {
+    "first": "Corvus corax",
+    "second": "Phylloscopus sibilatrix",
+    "db": -6,
+    "improvement_db": 15.94930116244111,
+    "absent_stem_relative_db": -19.669357299804688
+  },
+  {
+    "first": "Corvus corax",
+    "second": "Phylloscopus sibilatrix",
+    "db": -12,
+    "improvement_db": 17.821456883007258,
+    "absent_stem_relative_db": -19.669357299804688
+  },
+  {
+    "first": "Loxia curvirostra",
+    "second": "Strix aluco",
+    "db": 0,
+    "improvement_db": -16.28649359554464,
+    "absent_stem_relative_db": -47.11724090576172
+  },
+  {
+    "first": "Loxia curvirostra",
+    "second": "Strix aluco",
+    "db": -6,
+    "improvement_db": -10.290993301457892,
+    "absent_stem_relative_db": -47.11724090576172
+  },
+  {
+    "first": "Loxia curvirostra",
+    "second": "Strix aluco",
+    "db": -12,
+    "improvement_db": -4.297166732875922,
+    "absent_stem_relative_db": -47.11724090576172
+  }
+]
