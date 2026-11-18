@@ -52,7 +52,7 @@ def best(labels, values):
 
 def clean_views(audio, stems):
     """Fixed waveform-only rules. The classifier and reference labels are unavailable here."""
-    from scipy.signal import istft, stft
+    from scipy.signal import stft
 
     params = dict(fs=32000, nperseg=1024, noverlap=768)
     def transient_energy(stem):
@@ -62,12 +62,20 @@ def clean_views(audio, stems):
         return np.maximum(power - 3 * floor, 0).sum()
 
     chosen = int(np.argmax([transient_energy(stem) for stem in stems]))
+    return chosen, attenuate_floor(audio)
+
+
+def attenuate_floor(audio):
+    """Attenuate the estimated stationary background on mono 32 kHz input."""
+    from scipy.signal import istft, stft
+
+    params = dict(fs=32000, nperseg=1024, noverlap=768)
     _, _, spectrum = stft(audio, **params)
     power = np.abs(spectrum) ** 2
     floor = np.quantile(power[:, 1:-1], 0.2, axis=1, keepdims=True)
     gain = np.sqrt(np.clip(1 - 1.5 * floor / np.maximum(power, 1e-15), 0.01, 1))
     _, cleaned = istft(spectrum * gain, **params)
-    return chosen, cleaned[:len(audio)].astype("float32")
+    return cleaned[:len(audio)].astype("float32")
 
 
 def run(folder, output, baseline, clean_only=False, single=False):

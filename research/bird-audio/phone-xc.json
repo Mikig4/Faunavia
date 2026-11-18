@@ -1,0 +1,1227 @@
+[
+  {
+    "id": "XC1027029",
+    "country": "Indonesia",
+    "author": "Nick Brown",
+    "date": "2025-07-03",
+    "device": "Google Pixel 8a",
+    "microphone": "Google Pixel 8a",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1027029",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/ZVLDDACMJB/XC1027029-Indonesian_serin_2025_07_03_0911.wav",
+    "focal": "Chrysocorythus estherae",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/206"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Nick Brown"
+    ],
+    "secondary": "Tesia superciliaris",
+    "focal_event_s": [
+      9.0661,
+      9.1942
+    ],
+    "secondary_event_s": [
+      8.3533,
+      9.2382
+    ],
+    "overlap_s": 0.1281,
+    "center_s": 9.13015,
+    "sha256": "fd95c7546654c65b30cb66a0f34cad224469145a39a5e6be37a021b78e91063e"
+  },
+  {
+    "id": "XC1064664",
+    "country": "Italy",
+    "author": "Stef van Zimmeren",
+    "date": "2024-04-28",
+    "device": "iPhone",
+    "microphone": "iPhone build-in mic",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1064664",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/LJBCGKWVUL/XC1064664-2024-04-28_15h00_Cirlgors_ZangVanaf2%2C5sec_bgMerel_noiseReduction.wav",
+    "focal": "Emberiza cirlus",
+    "panel": "Italy-clip",
+    "secondary": "Turdus merula",
+    "sha256": "5ca44eb3258d5d0b832f667fddd69aca0b0bf04a8f0f1d74418ecfd99b90e47b"
+  },
+  {
+    "id": "XC1173143",
+    "country": "Poland",
+    "author": "Przemek Kvapil",
+    "date": "2026-07-20",
+    "device": "iPhone SE",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1173143",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/KRPHCOAFFP/XC1173143-2026-07-20-%28strzy%C5%BCyk%29.wav",
+    "focal": "Troglodytes troglodytes",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/438"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Przemek Kvapil"
+    ],
+    "secondary": "Sylvia atricapilla",
+    "focal_event_s": [
+      0.324,
+      4.7305
+    ],
+    "secondary_event_s": [
+      0.5248,
+      4.0887
+    ],
+    "overlap_s": 3.5639,
+    "center_s": 2.30675,
+    "sha256": "f87b5913d29dacec96526a3ad0a2229afb497a65c6885142f72c3608066720c9"
+  },
+  {
+    "id": "XC1177631",
+    "country": "Belgium",
+    "author": "Gil Lissens",
+    "date": "2026-05-24",
+    "device": "Smartphone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1177631",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OZGQBRPBWB/XC1177631-20260524-1232-Spa-Li%C3%A8ge.wav",
+    "focal": "Phylloscopus sibilatrix",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/589"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Gil Lissens"
+    ],
+    "secondary": "Fringilla coelebs",
+    "focal_event_s": [
+      22.286,
+      27.059
+    ],
+    "secondary_event_s": [
+      24.1035,
+      26.49
+    ],
+    "overlap_s": 2.3865,
+    "center_s": 25.29675,
+    "sha256": "118517b0e05efeaecca56d6428ef7768b8d91427a04c6daa204ce9eb2b2383da"
+  },
+  {
+    "id": "XC1184492",
+    "country": "Kenya",
+    "author": "Oliver Fowler",
+    "date": "2026-09-23",
+    "device": "iPhone 16e",
+    "microphone": "App: Voice Record Pro 7, no external microphone",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1184492",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OHDVJMHMQE/XC1184492-20260923-080959_Olive-Sunbird_Castle-Forest_edited.wav",
+    "focal": "Cyanomitra olivacea",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/520"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Oliver Fowler"
+    ],
+    "secondary": "Laniarius major",
+    "focal_event_s": [
+      0.2667,
+      35.6797
+    ],
+    "secondary_event_s": [
+      2.294,
+      9.8589
+    ],
+    "overlap_s": 7.5649,
+    "center_s": 6.0764499999999995,
+    "sha256": "42971a0ec71a5084dbf153cc13335776245ec6088877ddc19145ff01b656ff83"
+  },
+  {
+    "id": "XC1190174",
+    "country": "Kenya",
+    "author": "Oliver Fowler",
+    "date": "2026-10-23",
+    "device": "iPhone 16e",
+    "microphone": "App: Voice Record Pro 7, no external microphone",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1190174",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OHDVJMHMQE/XC1190174-20261023-072520_African-Hoopoe_Amboseli_edited.wav",
+    "focal": "Upupa africana",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/637"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Oliver Fowler"
+    ],
+    "secondary": "Ortygornis sephaena",
+    "focal_event_s": [
+      16.098,
+      22.2182
+    ],
+    "secondary_event_s": [
+      13.4035,
+      18.8673
+    ],
+    "overlap_s": 2.7693,
+    "center_s": 17.48265,
+    "sha256": "6bfa72a719fedaa249d8ac6489c398f7c4ad0df971e62fb8eb2446a9425a1c1c"
+  },
+  {
+    "id": "XC1190176",
+    "country": "Kenya",
+    "author": "Oliver Fowler",
+    "date": "2026-10-14",
+    "device": "iPhone 16e",
+    "microphone": "App: Voice Record Pro 7, no external microphone",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1190176",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OHDVJMHMQE/XC1190176-20261014-092712_Blue-headed-Coucal_Aberdare-Salient_edited.wav",
+    "focal": "Centropus monachus",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/639"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Oliver Fowler"
+    ],
+    "secondary": "Bradypterus cinnamomeus",
+    "focal_event_s": [
+      15.626,
+      18.2881
+    ],
+    "secondary_event_s": [
+      17.7279,
+      19.0563
+    ],
+    "overlap_s": 0.5602,
+    "center_s": 18.008000000000003,
+    "sha256": "e34c5a9c2e2ffc407845485415d7412c78f692ba75138d8b77261839f424db5e"
+  },
+  {
+    "id": "XC1191054",
+    "country": "Kenya",
+    "author": "Oliver Fowler",
+    "date": "2026-10-13",
+    "device": "iPhone 16e",
+    "microphone": "App: Voice Record Pro 7, no external microphone",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/1191054",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OHDVJMHMQE/XC1191054-20261013-172351_Cinnamon-Bracken-Warbler_African-Hill-Babbler_The-Ark_edited.wav",
+    "focal": "Bradypterus cinnamomeus",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/650"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Oliver Fowler"
+    ],
+    "secondary": "Sylvia abyssinica",
+    "focal_event_s": [
+      16.6625,
+      18.2738
+    ],
+    "secondary_event_s": [
+      15.6221,
+      17.0627
+    ],
+    "overlap_s": 0.4002,
+    "center_s": 16.8626,
+    "sha256": "e05ac0a48621348563aac1378123dd3f47ac5be0224d5190e83d67dc607e7620"
+  },
+  {
+    "id": "XC264198",
+    "country": "Finland",
+    "author": "Eetu Paljakka",
+    "date": "2014-05-25",
+    "device": "Samsung Galaxy Pocket",
+    "microphone": "-",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/264198",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/INCBVJJLBJ/XC264198-Default%20Project.mp3",
+    "focal": "Turdus pilaris",
+    "panel": "CEB-XC",
+    "member": "XC001/000203.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Sylvia borin",
+    "focal_event_s": [
+      1.5,
+      2.11
+    ],
+    "secondary_event_s": [
+      0.03,
+      2.19
+    ],
+    "overlap_s": 0.61,
+    "center_s": 1.805,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "c09dfc2bd478f403ba9027f16c6fea8199cd61768517f7914c1326185994688d"
+  },
+  {
+    "id": "XC484466",
+    "country": "Norway",
+    "author": "Lars Petter Marthinsen",
+    "date": "2019-06-16",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/484466",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/WVPAKMSDQV/XC484466-Flaggspett%20Hestejordene.mp3",
+    "focal": "Dendrocopos major",
+    "device_evidence": "Recorded with iPhone X from about 10m; animal seen:yes; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/000642.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      1.17,
+      1.66
+    ],
+    "secondary_event_s": [
+      0.54,
+      1.27
+    ],
+    "overlap_s": 0.1,
+    "center_s": 1.22,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "906ef68e2cb80753b0b4ee2f6275fad1bee1f546d74cae98d8711f489146a538"
+  },
+  {
+    "id": "XC539611",
+    "country": "Netherlands",
+    "author": "Ria Pasman",
+    "date": "2020-03-27",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/539611",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/QKSQZQGVEY/XC539611-IMG_4683-%5BAudioTrimmer.com%5D%20%281%29.mp3",
+    "focal": "Sitta europaea",
+    "device_evidence": "I filmed it with my Iphone.",
+    "panel": "CEB-XC",
+    "member": "XC001/000800.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Columba palumbus",
+    "focal_event_s": [
+      0.05,
+      0.91
+    ],
+    "secondary_event_s": [
+      0.12,
+      5.3
+    ],
+    "overlap_s": 0.79,
+    "center_s": 0.515,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "a175a9a2becd8901902b26577945a07b7944170b2c402a6365eda05f972c5a1c"
+  },
+  {
+    "id": "XC553089",
+    "country": "Netherlands",
+    "author": "Jorick van de Westeringh",
+    "date": "2020-04-20",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/553089",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/XLUZZZGMXU/XC553089-20-4-2020Tuinfluiter.mp3",
+    "focal": "Sylvia borin",
+    "device_evidence": "Recorded with mobile phone.; animal seen:yes; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/000859.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Phylloscopus collybita",
+    "focal_event_s": [
+      3.58,
+      8.94
+    ],
+    "secondary_event_s": [
+      3.85,
+      7.56
+    ],
+    "overlap_s": 3.71,
+    "center_s": 5.705,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "32e0261f3c5ca773eed3f19d275170b7e14c9a8c7837b44c9716741f879c315f"
+  },
+  {
+    "id": "XC555115",
+    "country": "United Kingdom",
+    "author": "Stephen Welch",
+    "date": "2020-05-06",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/555115",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/YEPAMFWVFE/XC555115-Willow%20Warbler%20mixed%20singer%20Longniddry%20Bents%206May20%202035hrs.mp3",
+    "focal": "Phylloscopus trochilus",
+    "device_evidence": "\"Mixed singer\" with most stanzas commencing with a rapid Chiffchaff like section followed by the typical descending cadence of Willow Warbler, others pure Willow Warbler (recorded on Huawei P30 lite mobile phone); animal seen:yes; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/000876.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      2.66,
+      5.79
+    ],
+    "secondary_event_s": [
+      2.7,
+      3.93
+    ],
+    "overlap_s": 1.23,
+    "center_s": 3.3150000000000004,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "4e9202050797061da9cc87c71ba74a5d908ec529b7a32ed4b388037637d1ce8b"
+  },
+  {
+    "id": "XC564815",
+    "country": "Switzerland",
+    "author": "Bill Kelly",
+    "date": "2020-06-03",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/564815",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/CEYRZPUJBP/XC564815-20200603_083257%20birdnet%20571%20peep%20at%205-7%20KHz%20is%20not%20pigeon%20-%20Common%20wood%20pigeon.mp3",
+    "focal": "Regulus ignicapilla",
+    "device_evidence": "Recorded on Samsung S-10 phone, edited in Audacity: Click Removal, High Pass filter, Normalization.; animal seen:no; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/000915.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      0.01,
+      2.3
+    ],
+    "secondary_event_s": [
+      0.45,
+      2.07
+    ],
+    "overlap_s": 1.62,
+    "center_s": 1.26,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "e578fa4dd08ca38c89372b00a7697c0d3068a2823cff9313c8d5f99636301b31"
+  },
+  {
+    "id": "XC585278",
+    "country": "Poland",
+    "author": "Adrianna Muszyńska",
+    "date": "2020-05-29",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/585278",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/GWHQFOGHOO/XC585278-Garrulus%20glandarius%20-%20Rydzyna%20Su%C5%82kowskiego%20no%20edits.mp3",
+    "focal": "Garrulus glandarius",
+    "device_evidence": "Recorded with a smartphone by Sebastian Nowak (he allowed me to upload the recording on xeno canto).; animal seen:yes; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/000980.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Phoenicurus ochruros",
+    "focal_event_s": [
+      1.77,
+      2.48
+    ],
+    "secondary_event_s": [
+      0.19,
+      7.06
+    ],
+    "overlap_s": 0.71,
+    "center_s": 2.125,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "78e9d04371e592c608bf8baded665c055865054eb7b774ce88fdd11587f86b30"
+  },
+  {
+    "id": "XC636675",
+    "country": "Netherlands",
+    "author": "djsaaltink",
+    "date": "2021-04-05",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/636675",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/PQRRZNJXAJ/XC636675-Boomklever%2020210405.mp3",
+    "focal": "Sitta europaea",
+    "device_evidence": "Opname is gemaakt met een smartphone en de BirdNET app langs een beukenlaan.",
+    "panel": "CEB-XC",
+    "member": "XC001/001230.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Erithacus rubecula",
+    "focal_event_s": [
+      0.68,
+      2.25
+    ],
+    "secondary_event_s": [
+      0.62,
+      2.93
+    ],
+    "overlap_s": 1.57,
+    "center_s": 1.4649999999999999,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "3eedb8bdc32e291cfe3aa25e903fd79400383685e3242062f25bcf702e46fc5f"
+  },
+  {
+    "id": "XC667540",
+    "country": "Sweden",
+    "author": "Johan Södercrantz",
+    "date": "2021-08-11",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/667540",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/CIHYZWBHFL/XC667540-20210811_0817_%5BC%5D_Gr%C3%B6ns%C3%A5ngare_Edsta_lockl%C3%A4te_%5BiPhone11Pro%5D.mp3",
+    "focal": "Phylloscopus sibilatrix",
+    "device_evidence": "Recorded with iPhone.; animal seen:yes; playback used:yes",
+    "panel": "CEB-XC",
+    "member": "XC001/001406.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Spinus spinus",
+    "focal_event_s": [
+      10.66,
+      12.39
+    ],
+    "secondary_event_s": [
+      11.4,
+      11.93
+    ],
+    "overlap_s": 0.53,
+    "center_s": 11.665,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "084dd4406c6238ffe433cc8aad23f05097edd561ccf24e95a6f4a386ef37f0fc"
+  },
+  {
+    "id": "XC746728",
+    "country": "Kyrgyzstan",
+    "author": "Louis-Philippe Campeau",
+    "date": "2022-05-07",
+    "device": "phone (recordist remarks)",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/746728",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/SOQFDRPHWK/XC746728-7_May_2022.mp3",
+    "focal": "Anthus trivialis",
+    "device_evidence": "From my phone.; animal seen:yes; playback used:no",
+    "panel": "CEB-XC",
+    "member": "XC001/001784.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus atrogularis",
+    "focal_event_s": [
+      3.39,
+      11.65
+    ],
+    "secondary_event_s": [
+      7.86,
+      9.58
+    ],
+    "overlap_s": 1.72,
+    "center_s": 8.72,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "968851a46010ebf6d05d2e50affa14f8c25ec3248270cf7583f48af4690e08eb"
+  },
+  {
+    "id": "XC759971",
+    "country": "Morocco",
+    "author": "Abdessamad Ennoury",
+    "date": "2022-11-07",
+    "device": "Smartphone",
+    "microphone": "yes",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/759971",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/IGKQIQKBYC/XC759971-certhia-brachydactyla-7-nov-2022-at-benahmed-by-Ennoury-Abdessamad.mp4-.mp3",
+    "focal": "Certhia brachydactyla",
+    "panel": "CEB-XC",
+    "member": "XC001/001832.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Pycnonotus barbatus",
+    "focal_event_s": [
+      0.53,
+      3.74
+    ],
+    "secondary_event_s": [
+      1.76,
+      3.74
+    ],
+    "overlap_s": 1.98,
+    "center_s": 2.75,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "44f1d2b76e31cb8b1005cd6d995a06a4aaff87961ccd030a45e222bc4e99a5af"
+  },
+  {
+    "id": "XC778695",
+    "country": "Finland",
+    "author": "Niclas Fritzén",
+    "date": "2023-02-06",
+    "device": "Iphone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/778695",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/CHYASEEZEO/XC778695-New-Recording-25.mp3",
+    "focal": "Periparus ater",
+    "panel": "CEB-XC",
+    "member": "XC001/001877.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Cyanistes caeruleus",
+    "focal_event_s": [
+      7.6,
+      7.79
+    ],
+    "secondary_event_s": [
+      7.03,
+      7.88
+    ],
+    "overlap_s": 0.19,
+    "center_s": 7.695,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "23a4a271b7b3c954d69f9c2d8dd2f3a3ce0294bb03b51957c1f068d74dbd1e09"
+  },
+  {
+    "id": "XC780884",
+    "country": "Netherlands",
+    "author": "Bas",
+    "date": "2023-02-14",
+    "device": "Mobile",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/780884",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/KEBNDYCVQQ/XC780884-Middelste-bonte-specht.mp3",
+    "focal": "Dendrocoptes medius",
+    "panel": "CEB-XC",
+    "member": "XC001/001888.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Cyanistes caeruleus",
+    "focal_event_s": [
+      0.71,
+      4.92
+    ],
+    "secondary_event_s": [
+      1.94,
+      2.82
+    ],
+    "overlap_s": 0.88,
+    "center_s": 2.38,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "20b6852ef3ee65dd2ea505e00c945eb6fc31057f7e77dc69c165cc5b5c5f93a7"
+  },
+  {
+    "id": "XC785326",
+    "country": "Italy",
+    "author": "Simone Bocca",
+    "date": "2023-03-11",
+    "device": "Android Smartphone via RecForge2 (free version)",
+    "microphone": "integrated microphone",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/785326",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/RARNEHKOFQ/XC785326-20230311_114216-capinera_fontanettopo.mp3",
+    "focal": "Sylvia atricapilla",
+    "panel": "CEB-XC",
+    "member": "XC001/001902.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Columba palumbus",
+    "focal_event_s": [
+      1.9,
+      2.96
+    ],
+    "secondary_event_s": [
+      0.13,
+      4.45
+    ],
+    "overlap_s": 1.06,
+    "center_s": 2.4299999999999997,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "f946a48202a47c01f9945a8065a2fbd2a184b92403c988b593604d09178997cf"
+  },
+  {
+    "id": "XC787530",
+    "country": "Croatia",
+    "author": "Domagoj Tomičić",
+    "date": "2023-03-21",
+    "device": "Samsung galaxy",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/787530",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/QWNVSAPPFP/XC787530-puzavac_josip.mp3",
+    "focal": "Certhia familiaris",
+    "panel": "CEB-XC",
+    "member": "XC001/001923.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Fringilla coelebs",
+    "focal_event_s": [
+      1.04,
+      3.28
+    ],
+    "secondary_event_s": [
+      0.37,
+      1.75
+    ],
+    "overlap_s": 0.71,
+    "center_s": 1.395,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "c63fa4cc6a74d07d7d3c57f8bb572a56170121774d2a0081c2b91ccb2e848c08"
+  },
+  {
+    "id": "XC788112",
+    "country": "Poland",
+    "author": "Franek J",
+    "date": "2023-03-25",
+    "device": "Phone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/788112",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/FIKHRVNGTO/XC788112-kowalik.mp3",
+    "focal": "Sitta europaea",
+    "panel": "CEB-XC",
+    "member": "XC001/001926.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Certhia familiaris",
+    "focal_event_s": [
+      7.8,
+      9.8
+    ],
+    "secondary_event_s": [
+      6.52,
+      8.9
+    ],
+    "overlap_s": 1.1,
+    "center_s": 8.35,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "bd7cf19f71ce1e14b6d21b60321c71572708cc94e1ca7349948476a99055f168"
+  },
+  {
+    "id": "XC791583",
+    "country": "Germany",
+    "author": "Dr Christoph Öhm-Kühnle",
+    "date": "2023-04-05",
+    "device": "iPhone 13 (Easy Voice Recorder App)",
+    "microphone": "internal iPhone 13 mic",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/791583",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/THVIVPOPLR/XC791583-M%C3%B6nchgrasm%C3%BCcke-Machu-Picchu-motive.wav",
+    "focal": "Sylvia atricapilla",
+    "panel": "CEB-XC",
+    "member": "XC001/001945.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      0.16,
+      7.6
+    ],
+    "secondary_event_s": [
+      0.12,
+      4.08
+    ],
+    "overlap_s": 3.92,
+    "center_s": 2.12,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "cb7428a149bcc93b70e53930781d03ec6e030f7bcea72117bcfa6baa53976fbd"
+  },
+  {
+    "id": "XC793163",
+    "country": "Germany",
+    "author": "Mathias Götz",
+    "date": "2023-04-10",
+    "device": "Iphone 8",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/793163",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/FYXGIECAUP/XC793163-Sumpfmeise--Wackersberger-Stra%C3%9Fe--M%C3%BCnchen.mp3",
+    "focal": "Poecile palustris",
+    "panel": "CEB-XC",
+    "member": "XC001/001955.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      19.32,
+      20.78
+    ],
+    "secondary_event_s": [
+      19.53,
+      21.1
+    ],
+    "overlap_s": 1.25,
+    "center_s": 20.155,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "13a9b3cc62f55b9bc0412236f55ed03399640250952a35d15c4572b9234625c1"
+  },
+  {
+    "id": "XC793508",
+    "country": "Germany",
+    "author": "Mathias Götz",
+    "date": "2023-04-09",
+    "device": "Iphone 8",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/793508",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/FYXGIECAUP/XC793508-Rabenkr%C3%A4he--Ostfriedhof-M%C3%BCnchen.mp3",
+    "focal": "Corvus corone",
+    "panel": "CEB-XC",
+    "member": "XC001/001958.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Columba palumbus",
+    "focal_event_s": [
+      20.78,
+      23.56
+    ],
+    "secondary_event_s": [
+      18.98,
+      23.96
+    ],
+    "overlap_s": 2.78,
+    "center_s": 22.17,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "14a56f32557bdbd16698a93ccbd1fbea31206a8e9c2135563112ea027a51e030"
+  },
+  {
+    "id": "XC793511",
+    "country": "Germany",
+    "author": "Mathias Götz",
+    "date": "2023-04-10",
+    "device": "Iphone 8",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/793511",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/FYXGIECAUP/XC793511-Rotkehlchen.mp3",
+    "focal": "Erithacus rubecula",
+    "panel": "CEB-XC",
+    "member": "XC001/001959.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Fringilla coelebs",
+    "focal_event_s": [
+      22.04,
+      23.45
+    ],
+    "secondary_event_s": [
+      22.82,
+      23.46
+    ],
+    "overlap_s": 0.63,
+    "center_s": 23.134999999999998,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "41199e0e5d5746855cfb326e4f312bccb1e2730db4512e82884d7025e7dfffe2"
+  },
+  {
+    "id": "XC797947",
+    "country": "Belgium",
+    "author": "Steven Van Garsse",
+    "date": "2023-02-05",
+    "device": "Iphone",
+    "microphone": "Rode Videomic",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/797947",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/QGPZZXOZXI/XC797947-bonte-vliegenvanger2023050204.wav",
+    "focal": "Ficedula hypoleuca",
+    "panel": "CEB-XC",
+    "member": "XC001/001992.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Cyanistes caeruleus",
+    "focal_event_s": [
+      5.58,
+      7.14
+    ],
+    "secondary_event_s": [
+      4.16,
+      7.98
+    ],
+    "overlap_s": 1.56,
+    "center_s": 6.359999999999999,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "9bbcaa331b63c0c7f55fc4300d351019be0507b69847fb21dd6758f99d95fdb9"
+  },
+  {
+    "id": "XC798162",
+    "country": "Finland",
+    "author": "Juha Ojala",
+    "date": "2023-05-03",
+    "device": "Samsung S21",
+    "microphone": "Rode VideoMic Me-C",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/798162",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/PDTCZSUYNL/XC798162-2023-05-03_Certhia-familiaris.mp3",
+    "focal": "Certhia familiaris",
+    "panel": "CEB-XC",
+    "member": "XC001/001995.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Fringilla coelebs",
+    "focal_event_s": [
+      164.26,
+      170.85
+    ],
+    "secondary_event_s": [
+      166.02,
+      168.68
+    ],
+    "overlap_s": 2.66,
+    "center_s": 167.35000000000002,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "167b3028c35a8d856797044403690b6f208a7edd6413825a5c248ff78112f8d5"
+  },
+  {
+    "id": "XC799083",
+    "country": "Portugal",
+    "author": "Bruno",
+    "date": "2023-04-28",
+    "device": "Google Pixel 6",
+    "microphone": "unspecified",
+    "media_license": "CC BY 4.0",
+    "source_page": "https://xeno-canto.org/799083",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/ZMDPFFODXX/XC799083-Trepadeira-Azul.wav",
+    "focal": "Sitta europaea",
+    "panel": "CEB-XC",
+    "member": "XC001/002003.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Regulus ignicapilla",
+    "focal_event_s": [
+      17.94,
+      19.58
+    ],
+    "secondary_event_s": [
+      17.16,
+      21.59
+    ],
+    "overlap_s": 1.64,
+    "center_s": 18.759999999999998,
+    "ceb_audio_license": "CC-BY 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "4144299ad3f22e62b5f40c371187ced34a4c6d7fa2ea5a1f3ee16f8a88eb073b"
+  },
+  {
+    "id": "XC801432",
+    "country": "Sweden",
+    "author": "Peter Lantz",
+    "date": "2023-05-16",
+    "device": "Xiaomi Redmi 9C smartphone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/801432",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/AXNEGBUXBR/XC801432-16-maj-04.52_-Svartvit-flugsnappare-Labro.mp3",
+    "focal": "Ficedula hypoleuca",
+    "panel": "CEB-XC",
+    "member": "XC001/002021.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Phylloscopus trochilus",
+    "focal_event_s": [
+      21.87,
+      25.16
+    ],
+    "secondary_event_s": [
+      19.93,
+      23.21
+    ],
+    "overlap_s": 1.34,
+    "center_s": 22.54,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "673dc055ad4f582428d36313ab38e1cdff1a1aefef3ed60c28cc3da9f49b4a31"
+  },
+  {
+    "id": "XC801576",
+    "country": "Germany",
+    "author": "Peter Brenner",
+    "date": "2023-05-12",
+    "device": "Smartphone",
+    "microphone": "Rohde",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/801576",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/GAMULQQVXQ/XC801576-recording_.wav",
+    "focal": "Picus canus",
+    "panel": "CEB-XC",
+    "member": "XC001/002023.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Phylloscopus trochilus",
+    "focal_event_s": [
+      0.36,
+      3.85
+    ],
+    "secondary_event_s": [
+      0.21,
+      3.34
+    ],
+    "overlap_s": 2.98,
+    "center_s": 1.85,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "463895c0df569eb5830bcfad655d93a8e6cf69a4663e3db82bb22952a7c8f402"
+  },
+  {
+    "id": "XC801760",
+    "country": "France",
+    "author": "Fabrice Mortreux",
+    "date": "2023-05-17",
+    "device": "smartphone",
+    "microphone": "em272",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/801760",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/NNOKNOHIPQ/XC801760-birdnet_mobile_0194197068_recording_695.mp3",
+    "focal": "Sylvia borin",
+    "panel": "CEB-XC",
+    "member": "XC001/002024.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Troglodytes troglodytes",
+    "focal_event_s": [
+      1.22,
+      6.04
+    ],
+    "secondary_event_s": [
+      3.5,
+      7.17
+    ],
+    "overlap_s": 2.54,
+    "center_s": 4.77,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "7d65412f04e678b8b6a713088dbce7fa94f38ce3959e27cdab006dae44d226e6"
+  },
+  {
+    "id": "XC807426",
+    "country": "Italy",
+    "author": "Gianluca Congi",
+    "date": "2023-06-05",
+    "device": "Redmi  Note 11 pro+",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/807426",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/TMIGGICBBW/XC807426-prispolone-volo-botted-6-giu%2C-10.17_.mp3",
+    "focal": "Anthus trivialis",
+    "panel": "CEB-XC",
+    "member": "XC001/002060.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Turdus merula",
+    "focal_event_s": [
+      0.07,
+      6.27
+    ],
+    "secondary_event_s": [
+      5.27,
+      6.03
+    ],
+    "overlap_s": 0.76,
+    "center_s": 5.65,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "f56d8d53203619739da23d396b30b62def267ca27d1a251d0f6c6b019fe22f55"
+  },
+  {
+    "id": "XC810484",
+    "country": "United Kingdom",
+    "author": "John Sirrett",
+    "date": "2023-06-21",
+    "device": "iPhone",
+    "microphone": "Integral",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/810484",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/GDEIUOUJZB/XC810484-20230621_1100_Earlswood_JS_MarshTit.wav",
+    "focal": "Poecile palustris",
+    "panel": "CEB-XC",
+    "member": "XC001/002067.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Troglodytes troglodytes",
+    "focal_event_s": [
+      13.49,
+      14.73
+    ],
+    "secondary_event_s": [
+      9.61,
+      16.65
+    ],
+    "overlap_s": 1.24,
+    "center_s": 14.11,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "7c56f6121bb7ae335bf8b2623a43c5157b0bdc473ee2dd992a6c41e7d27018fa"
+  },
+  {
+    "id": "XC821946",
+    "country": "France",
+    "author": "Penegal",
+    "date": "2023-08-11",
+    "device": "Samsung Galaxy XCover 5 (with BirdNET)",
+    "microphone": "Integrated",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/821946",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/DHVUPNNSJH/XC821946-birdnet_mobile_8629222379_recording_259.wav",
+    "focal": "Sitta europaea",
+    "panel": "CEB-XC",
+    "member": "XC001/002094.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Periparus ater",
+    "focal_event_s": [
+      0.11,
+      7.93
+    ],
+    "secondary_event_s": [
+      1.63,
+      3.53
+    ],
+    "overlap_s": 1.9,
+    "center_s": 2.58,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "edd6e71f2a8a7dc68018801e90dd3e3b10088e8113140dcdcbaf462c25a9b25a"
+  },
+  {
+    "id": "XC845466",
+    "country": "Poland",
+    "author": "Karol Łanocha",
+    "date": "2023-12-04",
+    "device": "mobile phone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/845466",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OYKHJEFUBO/XC845466-goldfinch.mp3",
+    "focal": "Carduelis carduelis",
+    "panel": "CEB-XC",
+    "member": "XC001/002163.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Pyrrhula pyrrhula",
+    "focal_event_s": [
+      3.54,
+      4.0
+    ],
+    "secondary_event_s": [
+      3.62,
+      3.81
+    ],
+    "overlap_s": 0.19,
+    "center_s": 3.715,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "8da8f38f8cb20d2ae8d33559a7e506c37ba685eff5c0af60225a9ee1b1dd2c10"
+  },
+  {
+    "id": "XC857694",
+    "country": "Poland",
+    "author": "Karol Łanocha",
+    "date": "2023-12-25",
+    "device": "mobile phone",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/857694",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/OYKHJEFUBO/XC857694-ccu.mp3",
+    "focal": "Coccothraustes coccothraustes",
+    "panel": "CEB-XC",
+    "member": "XC001/002181.flac",
+    "labels": "https://doi.org/10.5281/zenodo.21821133",
+    "secondary": "Streptopelia decaocto",
+    "focal_event_s": [
+      2.36,
+      2.49
+    ],
+    "secondary_event_s": [
+      1.37,
+      2.69
+    ],
+    "overlap_s": 0.13,
+    "center_s": 2.425,
+    "ceb_audio_license": "CC-BY-NC-SA 4.0",
+    "annotation_license": "CC BY 4.0",
+    "sha256": "08a38e01592d4ae43befc30e6df73f12f72e96637db02d5f01632af2530215ee"
+  },
+  {
+    "id": "XC934677",
+    "country": "Italy",
+    "author": "Gianluca Congi",
+    "date": "2024-09-20",
+    "device": "Xiaomi c",
+    "microphone": "Redmi Note 11 Pro+ 5G",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/934677",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/TMIGGICBBW/XC934677-p-%28mp3cut.net%29.mp3",
+    "focal": "Dryocopus martius",
+    "panel": "Italy-clip",
+    "secondary": "Certhia brachydactyla",
+    "sha256": "a341b13f528d75f6c83a4193fd6d7c72cc47201fd5157cae89824fe05d406cd4"
+  },
+  {
+    "id": "XC971223",
+    "country": "China",
+    "author": "Dave GUO",
+    "date": "2024-09-29",
+    "device": "iPhone SE2",
+    "microphone": "internal",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/971223",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/KQMHASAYBL/XC971223-%E7%8E%AF%E9%A2%88%E5%B1%B1%E9%B9%A7%E9%B8%AAcall-%E5%A2%A8%E8%84%B180k.mp3",
+    "focal": "Arborophila torqueola",
+    "panel": "XC",
+    "labels": [
+      "https://www.xeno-canto.org/annotation/set/655"
+    ],
+    "annotation_license": [
+      "CC-BY-NC-4.0"
+    ],
+    "annotators": [
+      "Nishant Bhagwat"
+    ],
+    "secondary": "Stachyris humei",
+    "focal_event_s": [
+      26.3793,
+      27.6176
+    ],
+    "secondary_event_s": [
+      26.2725,
+      27.5706
+    ],
+    "overlap_s": 1.1913,
+    "center_s": 26.97495,
+    "sha256": "8d5501459ca0f6bbbe6be97f6734d0ac0fc3598252f30b58d8b1465956fc8063"
+  },
+  {
+    "id": "XC972981",
+    "country": "Italy",
+    "author": "Marcin Przymencki",
+    "date": "2025-02-09",
+    "device": "smartphone Huawei P30",
+    "microphone": "unspecified",
+    "media_license": "CC BY-NC-SA 4.0",
+    "source_page": "https://xeno-canto.org/972981",
+    "source_url": "https://xeno-canto.org/sounds/uploaded/JIZCUJNIGM/XC972981-20250209_141605.mp3",
+    "focal": "Chroicocephalus ridibundus",
+    "panel": "Italy-clip",
+    "secondary": "Larus michahellis",
+    "sha256": "d4e1ad4110cc176ee35653b37a1258cd6d583b60e8c77ce189e2205d1a5908c1"
+  }
+]

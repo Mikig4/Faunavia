@@ -47,7 +47,7 @@ Then read this file fully before doing anything else in this session.
 
 ## Current Project State
 
-The offline [species recognition experiment](../research/bird-audio/README.md) compares BirdNET and Perch on paired CEB and WABAD clips. Its [follow-up](../research/bird-audio/ADATTAMENTO.md) tests filtering and supervised adaptation on earlier WABAD dates. The [preprocessing experiment](../research/bird-audio/SOLO-VERSO.md) tests recognition from separated sources alone or from the denoised mixture.
+The offline [species recognition experiment](../research/bird-audio/README.md) compares BirdNET and Perch on paired CEB and WABAD clips. Its [follow-up](../research/bird-audio/ADATTAMENTO.md) tests filtering and supervised adaptation on earlier WABAD dates. The [preprocessing experiment](../research/bird-audio/SOLO-VERSO.md) tests separated sources. The [phone study](../research/bird-audio/TELEFONI.md) checks recovery of a second, simultaneously vocalizing species on documented phones, including Italian recordings.
 
 **Working:**
 - The diary now opens on species cards grouped by stored taxon identity. Each card opens newest-first encounters and adds another observation with only the taxon/current planning scope prefilled; quantities, dates, locations, personal labels and media remain independent. Covers use the latest encounter with media, drafts remain separate, and filters/calendar/map are disclosed on demand. No migration: Room 12/backup 3. Unfiltered verifyAll passed on 2026-11-10 in 15m24s: 13 F0, 152 JVM, 177 Android, zero failures/errors/skips/omissions and four visual signatures. APK artifacts/Faunavia-specie-debug.apk, 0.17.5-species-diary (27), previous signer. See `39 - Diario per specie.md`; no physical-device check.
