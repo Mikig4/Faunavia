@@ -1,0 +1,273 @@
+{
+  "training": {
+    "examples": 863,
+    "classes": 335,
+    "positive_loss": [
+      0.5539753198071122,
+      0.5494909853192083,
+      0.5452845575221029,
+      0.5412003260498666,
+      0.5372508754597617,
+      0.5333897658598934,
+      0.5296565483854102,
+      0.526092143696954
+    ],
+    "model_sha256": "f47da34436b7e7e7efa3f3d93889081b6b47e14481f519eb2e9143d512a80608",
+    "base_sha256": "e78c3b50e224cd79d549d3c3b5efde2436acd1d3fbd72694f2a0b8547fa18685"
+  },
+  "threshold": 0.2509466409683228,
+  "panels": {
+    "CEB-XC": {
+      "windows": 31,
+      "pairs": 31,
+      "methods": {
+        "raw": {
+          "second": 26,
+          "both": 23,
+          "top3_second": 29
+        },
+        "tuned": {
+          "second": 26,
+          "both": 23,
+          "top3_second": 29
+        },
+        "fixed": {
+          "second": 26,
+          "both": 23,
+          "top3_second": 29
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "Italy-clip": {
+      "windows": 3,
+      "pairs": 3,
+      "methods": {
+        "raw": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 2
+        },
+        "tuned": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 2
+        },
+        "fixed": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 2
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "LG": {
+      "windows": 3,
+      "pairs": 3,
+      "methods": {
+        "raw": {
+          "second": 2,
+          "both": 2,
+          "top3_second": 2
+        },
+        "tuned": {
+          "second": 2,
+          "both": 2,
+          "top3_second": 2
+        },
+        "fixed": {
+          "second": 2,
+          "both": 2,
+          "top3_second": 2
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "LG-short": {
+      "windows": 1,
+      "pairs": 1,
+      "methods": {
+        "raw": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        },
+        "tuned": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        },
+        "fixed": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "XC": {
+      "windows": 8,
+      "pairs": 8,
+      "methods": {
+        "raw": {
+          "second": 4,
+          "both": 3,
+          "top3_second": 5
+        },
+        "tuned": {
+          "second": 4,
+          "both": 3,
+          "top3_second": 5
+        },
+        "fixed": {
+          "second": 4,
+          "both": 3,
+          "top3_second": 5
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "cal": {
+      "windows": 240,
+      "pairs": 20,
+      "methods": {
+        "raw": {
+          "second": 10,
+          "both": 8,
+          "top3_second": 13,
+          "fp": 150,
+          "tp": 281
+        },
+        "tuned": {
+          "second": 10,
+          "both": 8,
+          "top3_second": 13,
+          "fp": 150,
+          "tp": 283
+        },
+        "fixed": {
+          "second": 10,
+          "both": 8,
+          "top3_second": 13,
+          "fp": 151,
+          "tp": 283
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "extra": {
+      "windows": 2,
+      "pairs": 2,
+      "methods": {
+        "raw": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        },
+        "tuned": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        },
+        "fixed": {
+          "second": 1,
+          "both": 1,
+          "top3_second": 1
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "fresh": {
+      "windows": 492,
+      "pairs": 41,
+      "methods": {
+        "raw": {
+          "second": 22,
+          "both": 17,
+          "top3_second": 28,
+          "fp": 235,
+          "tp": 691
+        },
+        "tuned": {
+          "second": 22,
+          "both": 17,
+          "top3_second": 28,
+          "fp": 237,
+          "tp": 690
+        },
+        "fixed": {
+          "second": 22,
+          "both": 17,
+          "top3_second": 28,
+          "fp": 238,
+          "tp": 691
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "overlap39": {
+      "windows": 39,
+      "pairs": 39,
+      "methods": {
+        "raw": {
+          "second": 30,
+          "both": 26,
+          "top3_second": 34
+        },
+        "tuned": {
+          "second": 30,
+          "both": 26,
+          "top3_second": 34
+        },
+        "fixed": {
+          "second": 30,
+          "both": 26,
+          "top3_second": 34
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    },
+    "test": {
+      "windows": 576,
+      "pairs": 48,
+      "methods": {
+        "raw": {
+          "second": 32,
+          "both": 24,
+          "top3_second": 36,
+          "fp": 263,
+          "tp": 833
+        },
+        "tuned": {
+          "second": 32,
+          "both": 25,
+          "top3_second": 37,
+          "fp": 267,
+          "tp": 839
+        },
+        "fixed": {
+          "second": 32,
+          "both": 25,
+          "top3_second": 37,
+          "fp": 267,
+          "tp": 839
+        }
+      },
+      "gained": 0,
+      "lost": 0
+    }
+  },
+  "onnx_verification": {
+    "devices": 10,
+    "max_absolute_score_difference": 1.900370989460498e-07
+  }
+}

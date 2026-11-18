@@ -1,0 +1,2390 @@
+[
+  {
+    "file": "s2llg001_170430_2017-05-02_06-10.wav",
+    "device": "s2llg001",
+    "deployment": "s2llg001_170430",
+    "sha256": "49b5e2e43524d7caacfbb3696489589a41d357af45eb3fde579937a2f4d38f33",
+    "second": 23,
+    "secondary": "Junco hyemalis",
+    "companion": "Vireo cassinii",
+    "windows": [
+      [
+        "Colaptes auratus",
+        "Empidonax difficilis",
+        "Junco hyemalis"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Poecile rufescens"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Colaptes auratus",
+        "Empidonax difficilis",
+        "Junco hyemalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg001_170527_2017-05-28_09-20.wav",
+    "device": "s2llg001",
+    "deployment": "s2llg001_170527",
+    "sha256": "48fe60fa17a895fe6ae73b42cf731d3d5b4026ba2eeae70a9765d86fabc112a5",
+    "second": 27,
+    "secondary": "Baeolophus inornatus",
+    "companion": "Cyanocitta stelleri",
+    "windows": [
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Baeolophus inornatus"
+      ],
+      [
+        "Calypte anna"
+      ],
+      [
+        "Calypte anna",
+        "Cyanocitta stelleri"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg001_180425_2018-04-26_07-00.wav",
+    "device": "s2llg001",
+    "deployment": "s2llg001_180425",
+    "sha256": "fdea48ae12d187790d0e8914bbf869e55277d8c5f7de28f8423df81a4b3207d2",
+    "second": 27,
+    "secondary": "Meleagris gallopavo",
+    "companion": "Agelaius phoeniceus",
+    "windows": [
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Meleagris gallopavo",
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg001_180425_2018-04-28_07-30.wav",
+    "device": "s2llg001",
+    "deployment": "s2llg001_180425",
+    "sha256": "9a5597606542fd4dc3a25ff76830cd2939c0c97f2aa14fce8754b65a36a9d982",
+    "second": 17,
+    "secondary": "Catharus ustulatus",
+    "companion": "Agelaius phoeniceus",
+    "windows": [
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Catharus ustulatus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Catharus ustulatus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Catharus ustulatus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Catharus ustulatus"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Catharus ustulatus",
+        "Melospiza melodia"
+      ],
+      [
+        "Agelaius phoeniceus",
+        "Melospiza melodia"
+      ],
+      [
+        "Melospiza melodia"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg001_190414_2019-04-17_08-10.wav",
+    "device": "s2llg001",
+    "deployment": "s2llg001_190414",
+    "sha256": "39b561adb1bae12401e28bfac4481346dd7e52dde30db2e41aa05cd50d475785",
+    "second": 40,
+    "secondary": "Melozone crissalis",
+    "companion": "Melanerpes formicivorus",
+    "windows": [
+      [],
+      [
+        "Sturnella neglecta"
+      ],
+      [],
+      [],
+      [],
+      [
+        "Melozone crissalis",
+        "Sturnella neglecta"
+      ],
+      [],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Melanerpes formicivorus",
+        "Melozone crissalis"
+      ],
+      [],
+      [
+        "Vireo huttoni"
+      ],
+      [
+        "Empidonax difficilis"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg002_170430_2017-05-02_06-00.wav",
+    "device": "s2llg002",
+    "deployment": "s2llg002_170430",
+    "sha256": "2413695d7d3b5d3f0ded10dfa9526705d9da426fc4de7775184eded25432499a",
+    "second": 7,
+    "secondary": "Junco hyemalis",
+    "companion": "Vireo cassinii",
+    "windows": [
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg003_170613_2017-06-14_07-00.wav",
+    "device": "s2llg003",
+    "deployment": "s2llg003_170613",
+    "sha256": "26166f50dbb8b510f386a7f28f3653aed01eff994598984897749be5d0c89fc5",
+    "second": 44,
+    "secondary": "Empidonax difficilis",
+    "companion": "Melanerpes formicivorus",
+    "windows": [
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Melanerpes formicivorus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg003_180502_2018-05-06_06-00.wav",
+    "device": "s2llg003",
+    "deployment": "s2llg003_180502",
+    "sha256": "e36698e04d7bb661b34ddb229a82bcc6024a267386c68964e49cbdda07a8de08",
+    "second": 20,
+    "secondary": "Poecile rufescens",
+    "companion": "Empidonax difficilis",
+    "windows": [
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Empidonax difficilis",
+        "Poecile rufescens",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens",
+        "Turdus migratorius"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_170414_2017-04-16_08-20.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_170414",
+    "sha256": "259977b3360fbebbe1cc42132128dd9270ec3c9f1ea97a56854cc96afdc08212",
+    "second": 25,
+    "secondary": "Piranga ludoviciana",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Meleagris gallopavo"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Piranga ludoviciana"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Piranga ludoviciana"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Piranga ludoviciana"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Piranga ludoviciana"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Piranga ludoviciana",
+        "Setophaga nigrescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_170414_2017-04-18_07-10.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_170414",
+    "sha256": "c253147f8ce8e4fa0c00e8eadb5ffd72176b435f36f0b76e225c5936e186d15f",
+    "second": 47,
+    "secondary": "Junco hyemalis",
+    "companion": "Setophaga nigrescens",
+    "windows": [
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Setophaga nigrescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Setophaga nigrescens"
+      ],
+      [
+        "Setophaga nigrescens"
+      ],
+      [
+        "Setophaga nigrescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Setophaga nigrescens"
+      ],
+      [
+        "Setophaga nigrescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_170506_2017-05-07_06-10.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_170506",
+    "sha256": "f4e6cb5ed6ed5e406e03d14124fd8975568a893352ebb91012335567feefe2d7",
+    "second": 1,
+    "secondary": "Junco hyemalis",
+    "companion": "Vireo cassinii",
+    "windows": [
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Dryobates nuttallii",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Certhia americana",
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_180414_2018-04-15_06-30.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_180414",
+    "sha256": "8a3eff6feca6dade4fe7016d12dec3782301eaaf02e9f04ad2d84f6992a1c511",
+    "second": 19,
+    "secondary": "Melanerpes formicivorus",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Junco hyemalis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Baeolophus inornatus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_190414_2019-04-17_09-00.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_190414",
+    "sha256": "32ea3080ce578159acd6fd25a3a611022c5c42f695dbdd4bdaf95573c48e8d3d",
+    "second": 49,
+    "secondary": "Setophaga aestiva",
+    "companion": "Vireo huttoni",
+    "windows": [
+      [
+        "Cyanocitta stelleri",
+        "Setophaga aestiva",
+        "Vireo huttoni"
+      ],
+      [
+        "Vireo huttoni"
+      ],
+      [
+        "Vireo huttoni"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Vireo huttoni"
+      ],
+      [
+        "Setophaga aestiva",
+        "Vireo huttoni"
+      ],
+      [
+        "Callipepla californica",
+        "Cyanocitta stelleri",
+        "Vireo huttoni"
+      ],
+      [
+        "Vireo huttoni"
+      ],
+      [
+        "Polioptila caerulea",
+        "Setophaga aestiva",
+        "Vireo huttoni"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Setophaga nigrescens",
+        "Vireo huttoni"
+      ],
+      [
+        "Setophaga aestiva",
+        "Vireo huttoni"
+      ],
+      [
+        "Vireo huttoni"
+      ],
+      [
+        "Vireo huttoni"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg004_190530_2019-06-03_07-40.wav",
+    "device": "s2llg004",
+    "deployment": "s2llg004_190530",
+    "sha256": "6e8bcb2070e206dfe0921bfd8c6276ac25587553ec880e0d0e92c158aca3947e",
+    "second": 53,
+    "secondary": "Empidonax difficilis",
+    "companion": "Baeolophus inornatus",
+    "windows": [
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Empidonax difficilis",
+        "Melanerpes formicivorus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Empidonax difficilis"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Empidonax difficilis",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Colaptes auratus",
+        "Empidonax difficilis"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg005_170422_2017-04-24_08-20.wav",
+    "device": "s2llg005",
+    "deployment": "s2llg005_170422",
+    "sha256": "47548ed210ca7fd0a6c302d186ba3b2673d4d6f5980082948389749428eec935",
+    "second": 35,
+    "secondary": "Thryomanes bewickii",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Thryomanes bewickii"
+      ],
+      [],
+      [],
+      [
+        "Junco hyemalis",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Thryomanes bewickii"
+      ],
+      [],
+      [
+        "Junco hyemalis"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg005_170527_2017-05-28_09-00.wav",
+    "device": "s2llg005",
+    "deployment": "s2llg005_170527",
+    "sha256": "79dc5317ae7ce21682cb3d593a2b768ef82dfa71b10172e86991f5de604a2dc4",
+    "second": 45,
+    "secondary": "Pipilo maculatus",
+    "companion": "Poecile rufescens",
+    "windows": [
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Vireo gilvus"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Pipilo maculatus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Pipilo maculatus",
+        "Poecile rufescens",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Junco hyemalis",
+        "Pipilo maculatus",
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Junco hyemalis",
+        "Pipilo maculatus",
+        "Poecile rufescens",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Junco hyemalis",
+        "Pipilo maculatus",
+        "Poecile rufescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg005_170627_2017-06-28_12-50.wav",
+    "device": "s2llg005",
+    "deployment": "s2llg005_170627",
+    "sha256": "867f6979de80fd8cf0e283718ec8a7d1c1c5e2b1d3c9dad92a13bc9e801b434b",
+    "second": 1,
+    "secondary": "Aphelocoma californica",
+    "companion": "Empidonax difficilis",
+    "windows": [
+      [
+        "Aphelocoma californica",
+        "Empidonax difficilis"
+      ],
+      [],
+      [],
+      [
+        "Aphelocoma californica"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg005_180624_2018-06-28_07-20.wav",
+    "device": "s2llg005",
+    "deployment": "s2llg005_180624",
+    "sha256": "6d71465789cef40cc0b9e742938907cb8aa42ef8b82b845bad768382501b7d52",
+    "second": 6,
+    "secondary": "Leuconotopicus villosus",
+    "companion": "Cyanocitta stelleri",
+    "windows": [
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Leuconotopicus villosus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg005_190530_2019-06-01_08-30.wav",
+    "device": "s2llg005",
+    "deployment": "s2llg005_190530",
+    "sha256": "78cee24a8007c2dfa2f080d6886bdfb44b6f23d03156e1f1d91a8848b4e4cd99",
+    "second": 53,
+    "secondary": "Colaptes auratus",
+    "companion": "Leiothlypis celata",
+    "windows": [
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Callipepla californica",
+        "Colaptes auratus",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Colaptes auratus",
+        "Leiothlypis celata"
+      ],
+      [],
+      [
+        "Callipepla californica",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Leiothlypis celata",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Callipepla californica",
+        "Leiothlypis celata",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Colaptes auratus",
+        "Leiothlypis celata",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Callipepla californica",
+        "Melanerpes formicivorus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_170415_2017-04-18_06-30.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_170415",
+    "sha256": "8687584bb3403dee0da2ca7065ac4c9d1c379f12d0165bfe81d813e50f5a6c8d",
+    "second": 16,
+    "secondary": "Poecile rufescens",
+    "companion": "Piranga ludoviciana",
+    "windows": [
+      [
+        "Junco hyemalis",
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ],
+      [
+        "Junco hyemalis",
+        "Piranga ludoviciana",
+        "Poecile rufescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_170430_2017-05-02_11-20.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_170430",
+    "sha256": "70bae0f7ea5f706304b4eb87509bd1acfd9022c1b6af192bd7e9e099de7a4710",
+    "second": 16,
+    "secondary": "Vireo gilvus",
+    "companion": "Empidonax difficilis",
+    "windows": [
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Vireo gilvus"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Vireo gilvus"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Vireo gilvus"
+      ],
+      [],
+      [
+        "Vireo gilvus"
+      ],
+      [
+        "Empidonax difficilis"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_170527_2017-05-30_09-10.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_170527",
+    "sha256": "682983caf2407e82dcb1ec872589ef114bcc52bada5235e9b674bffdad5bfa5a",
+    "second": 59,
+    "secondary": "Poecile rufescens",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [],
+      [],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Dryocopus pileatus",
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Aphelocoma californica",
+        "Junco hyemalis",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_180502_2018-05-06_06-00.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_180502",
+    "sha256": "b433db98dfb6a8b9f4bcf3c2a973d6daef54d54cfe411596ed89838e6e7239f2",
+    "second": 56,
+    "secondary": "Zenaida macroura",
+    "companion": "Melanerpes formicivorus",
+    "windows": [
+      [
+        "Pipilo maculatus",
+        "Troglodytes aedon"
+      ],
+      [
+        "Pipilo maculatus",
+        "Troglodytes aedon"
+      ],
+      [
+        "Melozone crissalis",
+        "Pipilo maculatus"
+      ],
+      [
+        "Melozone crissalis",
+        "Pipilo maculatus",
+        "Troglodytes aedon"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Melozone crissalis",
+        "Pipilo maculatus"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Melozone crissalis",
+        "Troglodytes aedon"
+      ],
+      [
+        "Troglodytes aedon"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Troglodytes aedon"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Melozone crissalis"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Melozone crissalis",
+        "Pipilo maculatus",
+        "Troglodytes aedon"
+      ],
+      [
+        "Pipilo maculatus",
+        "Troglodytes aedon",
+        "Zenaida macroura"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Pipilo maculatus",
+        "Troglodytes aedon",
+        "Zenaida macroura"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_180502_2018-05-06_09-20.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_180502",
+    "sha256": "2c7a711972176911ec6adc3c8a57c31dc219289d694071fa5b2a8c7bbfd47e21",
+    "second": 12,
+    "secondary": "Baeolophus inornatus",
+    "companion": "Melanerpes formicivorus",
+    "windows": [
+      [
+        "Baeolophus inornatus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Empidonax difficilis",
+        "Melanerpes formicivorus",
+        "Pipilo maculatus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Melanerpes formicivorus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Pipilo maculatus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Melanerpes formicivorus",
+        "Pipilo maculatus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Melanerpes formicivorus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Callipepla californica",
+        "Melanerpes formicivorus",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Baeolophus inornatus"
+      ],
+      [
+        "Callipepla californica",
+        "Troglodytes pacificus"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Troglodytes pacificus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg006_190521_2019-05-23_08-20.wav",
+    "device": "s2llg006",
+    "deployment": "s2llg006_190521",
+    "sha256": "322fafaab61d33efff10b062ddf9c966bb7b8e663a71d7e8423debe83eac9ad0",
+    "second": 11,
+    "secondary": "Sturnella neglecta",
+    "companion": "Aphelocoma californica",
+    "windows": [
+      [
+        "Aphelocoma californica",
+        "Baeolophus inornatus"
+      ],
+      [
+        "Aphelocoma californica",
+        "Baeolophus inornatus"
+      ],
+      [
+        "Aphelocoma californica",
+        "Sturnella neglecta"
+      ],
+      [
+        "Aphelocoma californica",
+        "Sturnella neglecta"
+      ],
+      [
+        "Aphelocoma californica"
+      ],
+      [
+        "Sturnella neglecta"
+      ],
+      [],
+      [
+        "Aphelocoma californica",
+        "Baeolophus inornatus",
+        "Sturnella neglecta"
+      ],
+      [],
+      [
+        "Sturnella neglecta"
+      ],
+      [],
+      []
+    ]
+  },
+  {
+    "file": "s2llg007_170401_2017-04-03_08-50.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_170401",
+    "sha256": "9a3445b7671758761cbe2d48fdb41e334dd612c5ae3256eb0ea6045f545574c6",
+    "second": 25,
+    "secondary": "Thryomanes bewickii",
+    "companion": "Aphelocoma californica",
+    "windows": [
+      [
+        "Callipepla californica",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Callipepla californica",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Thryomanes bewickii",
+        "Zenaida macroura"
+      ],
+      [
+        "Aphelocoma californica",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Aphelocoma californica",
+        "Callipepla californica",
+        "Thryomanes bewickii"
+      ],
+      [],
+      [
+        "Thryomanes bewickii"
+      ],
+      [
+        "Chamaea fasciata",
+        "Thryomanes bewickii",
+        "Zenaida macroura"
+      ],
+      [
+        "Callipepla californica",
+        "Thryomanes bewickii",
+        "Zenaida macroura"
+      ],
+      [
+        "Chamaea fasciata",
+        "Thryomanes bewickii",
+        "Zenaida macroura"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_170506_2017-05-07_06-50.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_170506",
+    "sha256": "195c801a6ce159581ecc60ec1ef38d5627d0d2e309075347ea1815ced67944a5",
+    "second": 31,
+    "secondary": "Cardellina pusilla",
+    "companion": "Pipilo maculatus",
+    "windows": [
+      [
+        "Cardellina pusilla",
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Cardellina pusilla",
+        "Pipilo maculatus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Pipilo maculatus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Cardellina pusilla"
+      ],
+      [
+        "Pipilo maculatus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Cardellina pusilla",
+        "Pipilo maculatus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Cardellina pusilla",
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Cardellina pusilla",
+        "Thryomanes bewickii"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_170527_2017-05-28_06-00.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_170527",
+    "sha256": "d27c54cbc6e46ecbb186cc8c666c2f46c765eed4c65a3f76020acb0a19541fc4",
+    "second": 46,
+    "secondary": "Empidonax difficilis",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [
+        "Junco hyemalis",
+        "Patagioenas fasciata",
+        "Turdus migratorius"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Turdus migratorius"
+      ],
+      [
+        "Junco hyemalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Melozone crissalis"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Melozone crissalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Melozone crissalis",
+        "Patagioenas fasciata"
+      ],
+      [
+        "Junco hyemalis",
+        "Melozone crissalis",
+        "Patagioenas fasciata"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_170527_2017-05-28_06-50.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_170527",
+    "sha256": "42dbe01c3ad974c61c83f3444126ff73aee2101e12a91ed9813ff5d091b850e0",
+    "second": 54,
+    "secondary": "Leiothlypis celata",
+    "companion": "Turdus migratorius",
+    "windows": [
+      [
+        "Leiothlypis celata"
+      ],
+      [
+        "Vireo cassinii"
+      ],
+      [],
+      [
+        "Leiothlypis celata"
+      ],
+      [
+        "Leiothlypis celata",
+        "Vireo cassinii"
+      ],
+      [
+        "Leiothlypis celata",
+        "Turdus migratorius"
+      ],
+      [
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Leiothlypis celata",
+        "Turdus migratorius",
+        "Vireo cassinii"
+      ],
+      [
+        "Turdus migratorius"
+      ],
+      [
+        "Leiothlypis celata",
+        "Turdus migratorius"
+      ],
+      [
+        "Leiothlypis celata",
+        "Turdus migratorius"
+      ],
+      [
+        "Turdus migratorius"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_170613_2017-06-14_08-30.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_170613",
+    "sha256": "0e4e0d18285189eaa73f0cdbc3e0106d78cbf8bf8683eae0d3b08031fd1dde17",
+    "second": 33,
+    "secondary": "Melanerpes formicivorus",
+    "companion": "Cyanocitta stelleri",
+    "windows": [
+      [
+        "Melanerpes formicivorus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Pheucticus melanocephalus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pheucticus melanocephalus",
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Cyanocitta stelleri",
+        "Melanerpes formicivorus",
+        "Pipilo maculatus"
+      ],
+      [],
+      [
+        "Cyanocitta stelleri"
+      ],
+      [],
+      [],
+      []
+    ]
+  },
+  {
+    "file": "s2llg007_180414_2018-04-15_08-40.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_180414",
+    "sha256": "e2df275e99daf3684972ee06f43df1e4a847aa1ed7f316ed5681297c4fdc570c",
+    "second": 29,
+    "secondary": "Leiothlypis celata",
+    "companion": "Spinus psaltria",
+    "windows": [
+      [
+        "Haemorhous mexicanus",
+        "Polioptila caerulea",
+        "Sayornis nigricans",
+        "Spinus psaltria"
+      ],
+      [
+        "Aphelocoma californica",
+        "Haemorhous mexicanus",
+        "Polioptila caerulea",
+        "Spinus psaltria"
+      ],
+      [
+        "Polioptila caerulea",
+        "Sayornis nigricans",
+        "Spinus psaltria"
+      ],
+      [
+        "Haemorhous mexicanus",
+        "Polioptila caerulea",
+        "Sayornis nigricans",
+        "Spinus psaltria"
+      ],
+      [
+        "Polioptila caerulea",
+        "Sayornis nigricans"
+      ],
+      [
+        "Leiothlypis celata",
+        "Spinus psaltria"
+      ],
+      [
+        "Sayornis nigricans",
+        "Spinus psaltria"
+      ],
+      [
+        "Haemorhous purpureus",
+        "Leiothlypis celata",
+        "Sayornis nigricans"
+      ],
+      [
+        "Spinus psaltria"
+      ],
+      [
+        "Haemorhous purpureus",
+        "Leiothlypis celata"
+      ],
+      [
+        "Haemorhous purpureus",
+        "Leiothlypis celata",
+        "Spinus psaltria"
+      ],
+      [
+        "Haemorhous purpureus",
+        "Spinus psaltria"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_180414_2018-04-15_09-20.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_180414",
+    "sha256": "2e21d106440876f874fb20cf2fb10616adb6f688cd7cb6e2fefe944142d56d28",
+    "second": 6,
+    "secondary": "Thryomanes bewickii",
+    "companion": "Haemorhous mexicanus",
+    "windows": [
+      [
+        "Haemorhous mexicanus"
+      ],
+      [
+        "Haemorhous mexicanus",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Spinus psaltria",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Spinus psaltria"
+      ],
+      [
+        "Spinus psaltria",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Spinus psaltria"
+      ],
+      [
+        "Spinus psaltria",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Spinus psaltria"
+      ],
+      [
+        "Spinus psaltria",
+        "Thryomanes bewickii"
+      ],
+      [
+        "Spinus psaltria"
+      ],
+      [
+        "Spinus psaltria"
+      ],
+      [
+        "Spinus psaltria",
+        "Thryomanes bewickii"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_180425_2018-04-28_06-20.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_180425",
+    "sha256": "17785cd041028edee2dad6710a7565039be739a248f074119afd6f4331fbd1f4",
+    "second": 47,
+    "secondary": "Contopus sordidulus",
+    "companion": "Branta canadensis",
+    "windows": [
+      [
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Contopus sordidulus",
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Contopus sordidulus",
+        "Geothlypis trichas"
+      ],
+      [
+        "Anas platyrhynchos",
+        "Branta canadensis",
+        "Geothlypis trichas"
+      ],
+      [
+        "Anas platyrhynchos",
+        "Branta canadensis",
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Contopus sordidulus",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Contopus sordidulus"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Contopus sordidulus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_180425_2018-04-29_09-20.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_180425",
+    "sha256": "7d69bcc1abf598d6833210c9188e4c98475f915d53ede229102ccec1648bb251",
+    "second": 40,
+    "secondary": "Melospiza melodia",
+    "companion": "Branta canadensis",
+    "windows": [
+      [
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ],
+      [
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ],
+      [
+        "Geothlypis trichas"
+      ],
+      [
+        "Geothlypis trichas"
+      ],
+      [
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas"
+      ],
+      [
+        "Corvus brachyrhynchos",
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ],
+      [
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ],
+      [
+        "Branta canadensis",
+        "Geothlypis trichas",
+        "Melospiza melodia"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg007_180524_2018-05-29_08-50.wav",
+    "device": "s2llg007",
+    "deployment": "s2llg007_180524",
+    "sha256": "ebb0b88eca8051de04e36267fc9e842f8e20b727578f7f5717c03e37dd25a22c",
+    "second": 34,
+    "secondary": "Junco hyemalis",
+    "companion": "Vireo cassinii",
+    "windows": [
+      [
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii",
+        "Vireo gilvus"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii",
+        "Vireo gilvus"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii"
+      ],
+      [
+        "Poecile rufescens",
+        "Vireo cassinii",
+        "Vireo gilvus"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens",
+        "Vireo cassinii"
+      ],
+      [
+        "Baeolophus inornatus",
+        "Poecile rufescens",
+        "Vireo cassinii",
+        "Vireo gilvus"
+      ],
+      [
+        "Junco hyemalis",
+        "Poecile rufescens"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg008_170520_2017-05-21_07-40.wav",
+    "device": "s2llg008",
+    "deployment": "s2llg008_170520",
+    "sha256": "6c86399263e63b9aaa79b946f5eea857d8a88ce5c876d523544009a26576d5a7",
+    "second": 27,
+    "secondary": "Vireo gilvus",
+    "companion": "Poecile rufescens",
+    "windows": [
+      [
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Cardellina pusilla",
+        "Poecile rufescens"
+      ],
+      [
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Poecile rufescens"
+      ],
+      [
+        "Cardellina pusilla",
+        "Leiothlypis celata",
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ],
+      [
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ],
+      [
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ],
+      [
+        "Cardellina pusilla",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ],
+      [
+        "Cardellina pusilla",
+        "Leiothlypis celata",
+        "Poecile rufescens"
+      ],
+      [
+        "Poecile rufescens"
+      ],
+      [
+        "Cardellina pusilla",
+        "Leiothlypis celata",
+        "Poecile rufescens",
+        "Vireo gilvus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg008_170520_2017-05-21_08-50.wav",
+    "device": "s2llg008",
+    "deployment": "s2llg008_170520",
+    "sha256": "d7da98f2ef2f7862dc34a6b5d0bafc9fbd4ea12592235b47b21609d8a77f28ff",
+    "second": 42,
+    "secondary": "Turdus migratorius",
+    "companion": "Certhia americana",
+    "windows": [
+      [
+        "Cardellina pusilla",
+        "Empidonax difficilis"
+      ],
+      [],
+      [
+        "Cardellina pusilla",
+        "Empidonax difficilis"
+      ],
+      [
+        "Certhia americana"
+      ],
+      [
+        "Certhia americana"
+      ],
+      [],
+      [
+        "Cardellina pusilla",
+        "Certhia americana",
+        "Turdus migratorius"
+      ],
+      [
+        "Certhia americana"
+      ],
+      [
+        "Certhia americana",
+        "Turdus migratorius"
+      ],
+      [
+        "Cardellina pusilla"
+      ],
+      [
+        "Certhia americana",
+        "Turdus migratorius"
+      ],
+      [
+        "Cardellina pusilla",
+        "Turdus migratorius"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg008_170711_2017-07-14_08-40.wav",
+    "device": "s2llg008",
+    "deployment": "s2llg008_170711",
+    "sha256": "aced82267e468644be867c41b767c362fe3a924e27a8148b1f4f1e6221f31ed6",
+    "second": 28,
+    "secondary": "Sitta carolinensis",
+    "companion": "Pipilo maculatus",
+    "windows": [
+      [
+        "Pipilo maculatus",
+        "Sitta carolinensis"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus",
+        "Sitta carolinensis"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus",
+        "Sitta carolinensis"
+      ],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Melanerpes formicivorus",
+        "Pipilo maculatus"
+      ],
+      [],
+      [
+        "Pipilo maculatus"
+      ],
+      [
+        "Pipilo maculatus",
+        "Sitta carolinensis"
+      ],
+      [
+        "Pipilo maculatus"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg009_170422_2017-04-23_06-10.wav",
+    "device": "s2llg009",
+    "deployment": "s2llg009_170422",
+    "sha256": "d10f3f51bee5a75076980c8f31d97c15123611510c3d7ecd435068f50a713af0",
+    "second": 12,
+    "secondary": "Pheucticus melanocephalus",
+    "companion": "Junco hyemalis",
+    "windows": [
+      [
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Junco hyemalis",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata",
+        "Pheucticus melanocephalus"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ],
+      [
+        "Empidonax difficilis",
+        "Junco hyemalis",
+        "Leiothlypis celata"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg010_180422_2018-04-23_06-20.wav",
+    "device": "s2llg010",
+    "deployment": "s2llg010_180422",
+    "sha256": "2293ec7da06cde950fc7225c72eabb786ce22f36f9aee5ddee0d1ffd2b892078",
+    "second": 4,
+    "secondary": "Corvus brachyrhynchos",
+    "companion": "Melozone crissalis",
+    "windows": [
+      [
+        "Corvus brachyrhynchos",
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Corvus brachyrhynchos",
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Corvus brachyrhynchos"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Melozone crissalis"
+      ],
+      [
+        "Corvus brachyrhynchos",
+        "Melozone crissalis"
+      ]
+    ]
+  },
+  {
+    "file": "s2llg010_180624_2018-06-29_07-10.wav",
+    "device": "s2llg010",
+    "deployment": "s2llg010_180624",
+    "sha256": "2f1a8a321e4f9ed07e297d8d1cb874bc0efdd0d8a96f029e5f4652219dd9313f",
+    "second": 44,
+    "secondary": "Aphelocoma californica",
+    "companion": "Pipilo maculatus",
+    "windows": [
+      [
+        "Pipilo maculatus"
+      ],
+      [],
+      [],
+      [
+        "Pipilo maculatus"
+      ],
+      [],
+      [
+        "Pipilo maculatus"
+      ],
+      [],
+      [],
+      [
+        "Aphelocoma californica",
+        "Pipilo maculatus"
+      ],
+      [],
+      [],
+      [
+        "Pipilo maculatus"
+      ]
+    ]
+  }
+]
