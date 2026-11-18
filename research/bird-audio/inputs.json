@@ -1,0 +1,137 @@
+{
+  "ceb.csv": {
+    "url": "https://zenodo.org/api/records/21821133/files/test_soundscape.csv/content",
+    "bytes": 2401049,
+    "sha256": "f6e133ad48820ef1d8f1da8eecd3815fd43d82d89b45b1633829cc1091723f34"
+  },
+  "ceb.tar.gz": {
+    "url": "https://zenodo.org/api/records/21821133/files/test_soundscape.tar.gz/content",
+    "bytes": 489812822,
+    "sha256": "9100d0b66c510814b0f5fec8bb4909f545fda3dd45be7de486b2f0ed7c29bd34"
+  },
+  "wab.csv": {
+    "url": "https://zenodo.org/api/records/20513304/files/Pooled%20annotations.csv/content",
+    "bytes": 8717789,
+    "sha256": "7da2ceee2c6fca0fc7aa590dd27576dabee32571014a7d4e58afb755e2e844f2"
+  },
+  "sites.csv": {
+    "url": "https://zenodo.org/api/records/20513304/files/Metadata.csv/content",
+    "bytes": 13680,
+    "sha256": "44b15257e344783899a1bfa59313fda0b3855c02bd8481f91b7821cd5e11c9da"
+  },
+  "COU.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/COU.zip/content",
+    "bytes": 24856632,
+    "sha256": "a2b7830d05b89e74f680b6be6bba06961b1343a9ddfe1a9c955762f7b39efb0b"
+  },
+  "DEVA.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/DEVA.zip/content",
+    "bytes": 115470683,
+    "sha256": "b54bead865104f24ebecca4094f15d60f972957314c7fdd396d6e12b70f3a18f"
+  },
+  "EMP.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/EMP.zip/content",
+    "bytes": 34288763,
+    "sha256": "a4ac838e3db231f82cf8de89373ad23a17671a546a8b6ef02b04b53d84395731"
+  },
+  "HUAP.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/HUAP.zip/content",
+    "bytes": 244707519,
+    "sha256": "862332093ccadfb14f6cd6f63967f98e5a5dac6347d4fbdeb629a77d6dc02e81"
+  },
+  "MILLAN.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/MILLAN.zip/content",
+    "bytes": 49852800,
+    "sha256": "d712e02c5d30d763b12ae5098482dcd16c340c7bd9c64b68412e3b9d0b493ad4"
+  },
+  "OIO.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/OIO.zip/content",
+    "bytes": 244074681,
+    "sha256": "eb19984161408cd4b2b599bcf65d981ec4a941e7e7594b9d0fc4bfc37612d860"
+  },
+  "SD.zip": {
+    "url": "https://zenodo.org/api/records/20513304/files/SD.zip/content",
+    "bytes": 44724292,
+    "sha256": "b3ee6065d4b99b7571ffadbcd78a779a44a2f8db64929356a25a08dfb0a77396"
+  },
+  "bn.onnx": {
+    "url": "https://huggingface.co/tphakala/BirdNET-v2.4/resolve/c1c306dce2171b67c87b6442dd6f5f973da00c08/BirdNET_v2.4_fp32_foldconv.onnx",
+    "bytes": 52282093,
+    "sha256": "c11781f738119f610dca8297206cc539566262eb6a2db5824ac7f143df090b49"
+  },
+  "bn.txt": {
+    "url": "https://huggingface.co/tphakala/BirdNET-v2.4/resolve/c1c306dce2171b67c87b6442dd6f5f973da00c08/labels.txt",
+    "bytes": 259894,
+    "sha256": "487937b6ad132b8506215523209a87b86adc9dce8e5ed3048ce9268189dddd3d"
+  },
+  "perch.onnx": {
+    "url": "https://huggingface.co/tphakala/Perch-v2/resolve/d1eca4ca7e1fd0f65f50eba85fd58ce91b75219c/perch_v2.onnx",
+    "bytes": 409148616,
+    "sha256": "bf0c8467a924cb074663970ca4a0ab1e143602121930209657d0dff5d5cefa1f"
+  },
+  "perch.txt": {
+    "url": "https://huggingface.co/tphakala/Perch-v2/resolve/d1eca4ca7e1fd0f65f50eba85fd58ce91b75219c/labels.txt",
+    "bytes": 312716,
+    "sha256": "e4d5c0397d8fb08bf90c6b13a34810af53504faad927e472fcc567793c9de057"
+  },
+  "taxonomy.csv": {
+    "url": "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/630abbe93ba1d140f4598974b6d9540e5ca4f5ca/data-raw/ebird-taxonomy.csv",
+    "bytes": 2759868,
+    "sha256": "4dc6121e3767b965188da1db0383a5867c905f6128830a4d96bfc0e8a851aedc"
+  },
+  "1-137296-A-16.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-137296-A-16.wav",
+    "bytes": 441044,
+    "sha256": "73e2dd5e66dda29f76a54b53c3c8e33441d105fc35c1d231bfbd8f7a18442969"
+  },
+  "1-17367-A-10.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-17367-A-10.wav",
+    "bytes": 441044,
+    "sha256": "d732acd2e0c7c40405968010f49f250740c86998fc416eff2ed5330fc8c89dea"
+  },
+  "1-18527-A-44.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-18527-A-44.wav",
+    "bytes": 441044,
+    "sha256": "83eb3e6065246fd87d1acbbe414aa5bfb7c2081a57c188713cdc017819ffc38f"
+  },
+  "1-18527-B-44.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-18527-B-44.wav",
+    "bytes": 441044,
+    "sha256": "40f0ab8a2fa68cbdf814f10fc8b2c26916b3dc54c1b0e719d4697ba58c0bdb81"
+  },
+  "1-21189-A-10.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-21189-A-10.wav",
+    "bytes": 441044,
+    "sha256": "5f15ab2d8f6ef9932909b1b75c8ac254cbea46c93b4b2f0f3542abdf09b9abc0"
+  },
+  "1-22882-A-44.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-22882-A-44.wav",
+    "bytes": 441044,
+    "sha256": "b908257c714fdaa15dddfc814eb497397ada9bee501e8a5c9d6ec7adc325e2d0"
+  },
+  "1-26222-A-10.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-26222-A-10.wav",
+    "bytes": 441044,
+    "sha256": "7a03695543a56d61464ea2bd87e0947bb994d38c914492c02be686693b6e1dac"
+  },
+  "1-29532-A-16.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-29532-A-16.wav",
+    "bytes": 441044,
+    "sha256": "f7161457776ff69adbb903e870a3ecf532228a033de6896f25af2f4ce77c5f68"
+  },
+  "1-47709-A-16.wav": {
+    "url": "https://raw.githubusercontent.com/karolpiczak/ESC-50/33c8ce9eb2cf0b1c2f8bcf322eb349b6be34dbb6/audio/1-47709-A-16.wav",
+    "bytes": 441044,
+    "sha256": "179c0a007da435841be8bca63bb0aa44fefc1af1b9dbb2a413f9c0acff805fea"
+  },
+  "bn3.onnx": {
+    "url": "https://zenodo.org/api/records/24162518/files/BirdNET+_V3.0_Global_12K_FP32.onnx/content",
+    "bytes": 345249691,
+    "sha256": "e78c3b50e224cd79d549d3c3b5efde2436acd1d3fbd72694f2a0b8547fa18685"
+  },
+  "bn3.csv": {
+    "url": "https://zenodo.org/api/records/24162518/files/BirdNET+_V3.0_Global_12K_Labels.csv/content",
+    "bytes": 8007144,
+    "sha256": "88d976477fac81127ac8ac4c215c37749d0a6537944112ea606d321317cb7640"
+  }
+}

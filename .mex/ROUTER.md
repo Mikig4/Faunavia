@@ -36,7 +36,7 @@ edges:
     condition: when changing saved trips, outings, result snapshots, diary links or unidentified drafts
   - target: patterns/discover-naturalist-outings.md
     condition: when changing F17 outing discovery, public catalogue or saved proposal details
-last_updated: 2026-11-10
+last_updated: 2026-11-18
 ---
 
 # Session Bootstrap
@@ -46,6 +46,8 @@ If you haven't already read `AGENTS.md`, read it now — it contains the project
 Then read this file fully before doing anything else in this session.
 
 ## Current Project State
+
+The offline [species recognition experiment](../research/bird-audio/README.md) compares BirdNET and Perch on paired CEB and WABAD clips. The report records model versions, noise conditions and sampling limits.
 
 **Working:**
 - The diary now opens on species cards grouped by stored taxon identity. Each card opens newest-first encounters and adds another observation with only the taxon/current planning scope prefilled; quantities, dates, locations, personal labels and media remain independent. Covers use the latest encounter with media, drafts remain separate, and filters/calendar/map are disclosed on demand. No migration: Room 12/backup 3. Unfiltered verifyAll passed on 2026-11-10 in 15m24s: 13 F0, 152 JVM, 177 Android, zero failures/errors/skips/omissions and four visual signatures. APK artifacts/Faunavia-specie-debug.apk, 0.17.5-species-diary (27), previous signer. See `39 - Diario per specie.md`; no physical-device check.

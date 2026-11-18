@@ -1,0 +1,17 @@
+{
+  "aliases": {
+    "Accipiter atricapillus": "Astur atricapillus",
+    "Chrysococcyx lucidus": "Chalcites lucidus",
+    "Lanius corvinus": "Corvinella corvina",
+    "Troglodytes troglodytes": "Nannus troglodytes"
+  },
+  "authority": "Cornell Lab, auk eBird checklists: species rows with unambiguous name and unchanged species code in the inspected editions; names relevant to the evaluated targets.",
+  "sources": [
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/630abbe93ba1d140f4598974b6d9540e5ca4f5ca/data-raw/ebird-taxonomy.csv",
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/14c44b5ae2828465997e03c1e5499a80419eaa15/data-raw/ebird-taxonomy.csv",
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/1a5687bb3349eb91144309c910fa769895b0e8d9/data-raw/ebird-taxonomy.csv",
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/20f47c626b9c5068be2a791625f8c308eda5a697/data-raw/ebird-taxonomy.csv",
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/7b628f3fe24df71f046b576b3514fbc60141b005/data-raw/ebird-taxonomy.csv",
+    "https://raw.githubusercontent.com/CornellLabofOrnithology/auk/d05ca525836f2354c3edfcb9740636a6dbc6a116/data-raw/ebird-taxonomy.csv"
+  ]
+}

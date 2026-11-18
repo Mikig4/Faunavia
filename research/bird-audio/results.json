@@ -1,0 +1,458 @@
+{
+  "CEB": {
+    "files": 147,
+    "unique_windows": 639,
+    "uniform_windows": 441,
+    "uniform_empty": 39,
+    "species_in_sample": 50,
+    "groups": {
+      "single_original": {
+        "native": {
+          "n": 83,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            49.4,
+            73.49,
+            65.06,
+            80.72
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              4.82,
+              26.51
+            ],
+            [
+              -1.2,
+              16.87
+            ]
+          ]
+        },
+        "matched": {
+          "n": 82,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            51.22,
+            74.39,
+            67.07,
+            81.71
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.66,
+              28.05
+            ],
+            [
+              -2.44,
+              17.07
+            ]
+          ]
+        }
+      },
+      "overlap_original": {
+        "native": {
+          "n": 131,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            77.1,
+            53.35,
+            89.31,
+            64.81
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              4.58,
+              19.85
+            ],
+            [
+              7.05,
+              15.91
+            ]
+          ]
+        },
+        "matched": {
+          "n": 114,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            77.19,
+            54.89,
+            87.72,
+            67.23
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              2.63,
+              18.42
+            ],
+            [
+              7.79,
+              17.05
+            ]
+          ]
+        }
+      },
+      "single_noise": {
+        "native": {
+          "n": 83,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            34.94,
+            51.81,
+            48.19,
+            60.24
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.61,
+              22.89
+            ],
+            [
+              -2.41,
+              19.28
+            ]
+          ]
+        },
+        "matched": {
+          "n": 82,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            37.8,
+            56.1,
+            51.22,
+            62.2
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              2.44,
+              24.39
+            ],
+            [
+              -4.91,
+              17.1
+            ]
+          ]
+        }
+      },
+      "overlap_noise": {
+        "native": {
+          "n": 131,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            51.15,
+            31.86,
+            65.65,
+            45.7
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              6.87,
+              22.9
+            ],
+            [
+              8.64,
+              19.2
+            ]
+          ]
+        },
+        "matched": {
+          "n": 114,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            51.75,
+            33.5,
+            61.4,
+            47.75
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              0.88,
+              18.42
+            ],
+            [
+              8.57,
+              20.18
+            ]
+          ]
+        }
+      }
+    },
+    "both_species_in_first_three": {
+      "original": {
+        "windows": 55,
+        "bn": 22,
+        "perch": 33
+      },
+      "noise": {
+        "windows": 55,
+        "bn": 7,
+        "perch": 17
+      }
+    },
+    "noise_category": {
+      "wind": {
+        "windows": 66,
+        "bn": 39,
+        "perch": 44
+      },
+      "rain": {
+        "windows": 76,
+        "bn": 24,
+        "perch": 31
+      },
+      "engine": {
+        "windows": 72,
+        "bn": 33,
+        "perch": 51
+      }
+    },
+    "one_wrong_per_minute": {
+      "original": {
+        "bn": {
+          "correct": 203,
+          "wrong": 36,
+          "windows": 441,
+          "budget": 36
+        },
+        "perch": {
+          "correct": 315,
+          "wrong": 36,
+          "windows": 441,
+          "budget": 36
+        }
+      },
+      "noise": {
+        "bn": {
+          "correct": 111,
+          "wrong": 36,
+          "windows": 441,
+          "budget": 36
+        },
+        "perch": {
+          "correct": 253,
+          "wrong": 36,
+          "windows": 441,
+          "budget": 36
+        }
+      }
+    }
+  },
+  "WABAD": {
+    "files": 208,
+    "unique_windows": 869,
+    "uniform_windows": 624,
+    "uniform_empty": 58,
+    "species_in_sample": 135,
+    "groups": {
+      "single_original": {
+        "native": {
+          "n": 170,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            31.18,
+            40.0,
+            41.18,
+            52.94
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.53,
+              16.47
+            ],
+            [
+              6.47,
+              20.0
+            ]
+          ]
+        },
+        "matched": {
+          "n": 147,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            36.05,
+            46.26,
+            44.22,
+            57.14
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              1.36,
+              14.97
+            ],
+            [
+              4.08,
+              17.69
+            ]
+          ]
+        }
+      },
+      "overlap_original": {
+        "native": {
+          "n": 167,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            37.13,
+            24.88,
+            50.3,
+            37.3
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              5.97,
+              20.96
+            ],
+            [
+              8.01,
+              16.62
+            ]
+          ]
+        },
+        "matched": {
+          "n": 125,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            42.4,
+            27.99,
+            53.6,
+            38.11
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.2,
+              20.0
+            ],
+            [
+              5.59,
+              14.84
+            ]
+          ]
+        }
+      },
+      "single_noise": {
+        "native": {
+          "n": 170,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            15.29,
+            25.29,
+            21.76,
+            30.59
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              0.59,
+              12.35
+            ],
+            [
+              -0.59,
+              11.18
+            ]
+          ]
+        },
+        "matched": {
+          "n": 147,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            17.69,
+            30.61,
+            26.53,
+            36.05
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              2.04,
+              15.65
+            ],
+            [
+              -0.68,
+              12.24
+            ]
+          ]
+        }
+      },
+      "overlap_noise": {
+        "native": {
+          "n": 167,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            17.37,
+            13.65,
+            26.95,
+            19.12
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.59,
+              16.17
+            ],
+            [
+              1.93,
+              8.98
+            ]
+          ]
+        },
+        "matched": {
+          "n": 125,
+          "mean_percent_BN1_BNrec3_P1_Prec3": [
+            20.0,
+            15.08,
+            30.4,
+            21.52
+          ],
+          "paired_difference_95ci_pp_hit1_recall3": [
+            [
+              3.18,
+              18.4
+            ],
+            [
+              2.24,
+              10.61
+            ]
+          ]
+        }
+      }
+    },
+    "both_species_in_first_three": {
+      "original": {
+        "windows": 102,
+        "bn": 4,
+        "perch": 14
+      },
+      "noise": {
+        "windows": 102,
+        "bn": 4,
+        "perch": 6
+      }
+    },
+    "noise_category": {
+      "wind": {
+        "windows": 113,
+        "bn": 23,
+        "perch": 31
+      },
+      "rain": {
+        "windows": 115,
+        "bn": 10,
+        "perch": 18
+      },
+      "engine": {
+        "windows": 109,
+        "bn": 22,
+        "perch": 33
+      }
+    },
+    "one_wrong_per_minute": {
+      "original": {
+        "bn": {
+          "correct": 94,
+          "wrong": 52,
+          "windows": 624,
+          "budget": 52
+        },
+        "perch": {
+          "correct": 159,
+          "wrong": 52,
+          "windows": 624,
+          "budget": 52
+        }
+      },
+      "noise": {
+        "bn": {
+          "correct": 62,
+          "wrong": 52,
+          "windows": 624,
+          "budget": 52
+        },
+        "perch": {
+          "correct": 96,
+          "wrong": 52,
+          "windows": 624,
+          "budget": 52
+        }
+      }
+    }
+  }
+}

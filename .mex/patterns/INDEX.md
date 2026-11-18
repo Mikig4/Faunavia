@@ -1,7 +1,7 @@
 ---
 name: patterns-index
 description: Task-specific implementation and verification runbooks.
-last_updated: 2026-10-26
+last_updated: 2026-11-18
 ---
 
 # Pattern Index
@@ -30,6 +30,7 @@ Lookup table for all pattern files in this directory. Check here before starting
 | Pattern | Use when |
 |---------|----------|
 | [add-data-provider.md](add-data-provider.md) | Adding or changing GBIF/iNaturalist or another biodiversity provider adapter |
+| [Bird audio evaluation](../../research/bird-audio/README.md) | Repeating the paired species recognition benchmark on overlapping calls and environmental noise |
 | [add-observation-and-notification.md](add-observation-and-notification.md) | Adding manual observations, private photos/videos with trimming, peculiar-species rules, or the daily summary notification |
 | [add-plausibility-evidence.md](add-plausibility-evidence.md) | Changing range, habitat, season, Natura 2000 or observability evidence rules |
 | [add-species-profile.md](add-species-profile.md) | Adding sourced species facts, photographs or a 2D fallback |
