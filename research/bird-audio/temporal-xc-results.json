@@ -1,0 +1,66 @@
+[
+  {
+    "raw": {
+      "top3": [
+        "Zonotrichia capensis",
+        "Passer domesticus",
+        "Troglodytes musculus"
+      ],
+      "scores": {
+        "Zonotrichia capensis": 0.7401091456413269,
+        "Passer domesticus": 0.7322131395339966
+      }
+    },
+    "temporal": {
+      "top3": [
+        "Passer domesticus",
+        "Zonotrichia capensis",
+        "Troglodytes musculus"
+      ],
+      "scores": {
+        "Passer domesticus": 0.7557752132415771,
+        "Zonotrichia capensis": 0.7442739605903625
+      }
+    },
+    "id": "XC1177210",
+    "start": 56.0,
+    "secondary": "Zenaida auriculata",
+    "companion": "Mimus thenca",
+    "truth": [
+      "Mimus thenca",
+      "Zenaida auriculata"
+    ]
+  },
+  {
+    "raw": {
+      "top3": [
+        "Dendrocopos major",
+        "Phylloscopus collybita",
+        "Turdus merula"
+      ],
+      "scores": {
+        "Dendrocopos major": 0.7563118934631348,
+        "Phylloscopus collybita": 0.7055045962333679
+      }
+    },
+    "temporal": {
+      "top3": [
+        "Phylloscopus collybita",
+        "Dendrocopos major",
+        "Turdus merula"
+      ],
+      "scores": {
+        "Phylloscopus collybita": 0.7734413146972656,
+        "Dendrocopos major": 0.7563118934631348
+      }
+    },
+    "id": "XC1102885",
+    "start": 0.0,
+    "secondary": "Phylloscopus collybita",
+    "companion": "Dendrocopos major",
+    "truth": [
+      "Dendrocopos major",
+      "Phylloscopus collybita"
+    ]
+  }
+]

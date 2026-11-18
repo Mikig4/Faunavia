@@ -1,0 +1,79 @@
+{
+  "thresholds": {
+    "raw": 0.25,
+    "temporal": 0.31194877624511724
+  },
+  "cal": {
+    "raw": {
+      "fp": 150,
+      "correct": 281,
+      "fp_absent_in_minute": 94,
+      "windows": 240,
+      "pairs": 20,
+      "second": 10,
+      "both": 8,
+      "second_top3": 13
+    },
+    "temporal": {
+      "fp": 150,
+      "correct": 279,
+      "fp_absent_in_minute": 96,
+      "windows": 240,
+      "pairs": 20,
+      "second": 10,
+      "both": 9,
+      "second_top3": 14
+    },
+    "temporal_at_raw_threshold": {
+      "fp": 178,
+      "correct": 298,
+      "fp_absent_in_minute": 120,
+      "windows": 240,
+      "pairs": 20,
+      "second": 11,
+      "both": 10,
+      "second_top3": 14
+    },
+    "paired_second": {
+      "neither": 10,
+      "both": 10
+    }
+  },
+  "test": {
+    "raw": {
+      "fp": 263,
+      "correct": 833,
+      "fp_absent_in_minute": 168,
+      "windows": 576,
+      "pairs": 48,
+      "second": 32,
+      "both": 24,
+      "second_top3": 36
+    },
+    "temporal": {
+      "fp": 267,
+      "correct": 811,
+      "fp_absent_in_minute": 177,
+      "windows": 576,
+      "pairs": 48,
+      "second": 31,
+      "both": 24,
+      "second_top3": 37
+    },
+    "temporal_at_raw_threshold": {
+      "fp": 303,
+      "correct": 851,
+      "fp_absent_in_minute": 203,
+      "windows": 576,
+      "pairs": 48,
+      "second": 33,
+      "both": 26,
+      "second_top3": 37
+    },
+    "paired_second": {
+      "both": 31,
+      "neither": 16,
+      "lost": 1
+    }
+  }
+}

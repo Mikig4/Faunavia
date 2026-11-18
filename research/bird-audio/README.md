@@ -26,6 +26,8 @@ La [prova sui telefoni](TELEFONI.md) confronta BirdNET con e senza attenuazione 
 
 L'[esperimento di estrazione per specie](ESTRAZIONE.md) ricostruisce una traccia mono per ogni candidata e misura sia la fedeltà del suono su miscele controllate, sia il riconoscimento su telefoni e registrazioni ambientali.
 
+Il [test dell'estrattore temporale addestrato](ESTRATTORE-TEMPORALE.md) misura quante seconde specie si recuperano e quanti falsi suggerimenti si producono su 48 nuove registrazioni, dopo la calibrazione su altri dispositivi.
+
 Il [secondo esperimento](ADATTAMENTO.md) misura filtraggio, adattamento degli embedding di BirdNET+ 3.0 e separazione a quattro sorgenti. Il rapporto contiene i comandi per riprodurlo e distingue i campioni usati nei due confronti.
 
 Scaricare gli URL di inputs.json in una cartella, conservando i nomi locali e verificando gli SHA-256. Il test è stato eseguito con Python 3.13.12, NumPy 2.3.5, SciPy 1.17.1, SoundFile 0.14.0 e ONNX Runtime 1.27.0.

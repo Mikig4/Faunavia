@@ -1,0 +1,208 @@
+[
+  {
+    "id": "XC1177210",
+    "country": "Chile",
+    "author": "ELAS - Taller Ornitoacústica - Grupo III - EQUIPO CONTROL",
+    "date": "2026-09-05",
+    "device": "Iphone",
+    "license": "CC BY-NC-SA 4.0",
+    "url": "https://xeno-canto.org/sounds/uploaded/SEVIQQAKWM/XC1177210-20260905_122001_Normalizado_-3dB.wav",
+    "annotation": {
+      "set_name": "Annotation set for 1177210",
+      "set_license": "CC-BY-NC-4.0",
+      "set_uri": "https://www.xeno-canto.org/annotation/set/503",
+      "set_creation_date": "2026-10-05 15:08:47"
+    },
+    "annotators": [
+      "Cristian Pinto Fernandez"
+    ],
+    "center": 58.5,
+    "overlap": 3.0,
+    "secondary": "Zenaida auriculata",
+    "companion": "Mimus thenca",
+    "events": [
+      [
+        21.0,
+        24.0,
+        "Mimus thenca"
+      ],
+      [
+        57.0,
+        60.0,
+        "Mimus thenca"
+      ],
+      [
+        57.0,
+        60.0,
+        "Zenaida auriculata"
+      ],
+      [
+        144.0,
+        147.0,
+        "Zonotrichia capensis"
+      ],
+      [
+        171.0,
+        174.0,
+        "Zonotrichia capensis"
+      ],
+      [
+        180.0,
+        183.0,
+        "Zonotrichia capensis"
+      ],
+      [
+        192.0,
+        195.0,
+        "Zonotrichia capensis"
+      ],
+      [
+        372.0,
+        375.0,
+        "Mimus thenca"
+      ],
+      [
+        381.0,
+        384.0,
+        "Passer domesticus"
+      ],
+      [
+        447.0,
+        450.0,
+        "Passer domesticus"
+      ],
+      [
+        450.0,
+        453.0,
+        "Passer domesticus"
+      ],
+      [
+        459.0,
+        462.0,
+        "Passer domesticus"
+      ],
+      [
+        468.0,
+        471.0,
+        "Passer domesticus"
+      ],
+      [
+        471.0,
+        474.0,
+        "Passer domesticus"
+      ],
+      [
+        477.0,
+        480.0,
+        "Passer domesticus"
+      ],
+      [
+        480.0,
+        483.0,
+        "Passer domesticus"
+      ],
+      [
+        486.0,
+        489.0,
+        "Passer domesticus"
+      ],
+      [
+        489.0,
+        492.0,
+        "Passer domesticus"
+      ],
+      [
+        492.0,
+        495.0,
+        "Mimus thenca"
+      ],
+      [
+        492.0,
+        495.0,
+        "Turdus falcklandii"
+      ],
+      [
+        501.0,
+        504.0,
+        "Passer domesticus"
+      ],
+      [
+        507.0,
+        510.0,
+        "Passer domesticus"
+      ],
+      [
+        525.0,
+        528.0,
+        "Passer domesticus"
+      ],
+      [
+        594.0,
+        597.0,
+        "Passer domesticus"
+      ]
+    ],
+    "sha256": "fe59b49b118c1d42bc9358b44576ba8ebf7f18bb4b5ceaba928d74b7e2463b7c"
+  },
+  {
+    "id": "XC1102885",
+    "country": "Netherlands",
+    "author": "Burooj Ghani",
+    "date": "2026-04-25",
+    "device": "iPhone",
+    "license": "CC BY-NC-SA 4.0",
+    "url": "https://xeno-canto.org/sounds/uploaded/YYZYDAIRDD/XC1102885-woodopecker.mp3",
+    "annotation": {
+      "set_name": "Annotation set for 1102885",
+      "set_creator": "Burooj Ghani",
+      "set_license": "CC-BY-4.0",
+      "set_uri": "https://www.xeno-canto.org/annotation/set/92",
+      "set_creation_date": "2026-04-28 10:36:06"
+    },
+    "annotators": [
+      "Burooj Ghani"
+    ],
+    "center": 0.5680499999999999,
+    "overlap": 0.6481,
+    "secondary": "Phylloscopus collybita",
+    "companion": "Dendrocopos major",
+    "events": [
+      [
+        0.0484,
+        2.565,
+        "Phylloscopus collybita"
+      ],
+      [
+        0.244,
+        0.8921,
+        "Dendrocopos major"
+      ],
+      [
+        7.1205,
+        7.9187,
+        "Dendrocopos major"
+      ],
+      [
+        7.9951,
+        11.174,
+        "Troglodytes troglodytes"
+      ],
+      [
+        11.2446,
+        13.4223,
+        "Phylloscopus collybita"
+      ],
+      [
+        13.4873,
+        14.2278,
+        "Dendrocopos major"
+      ],
+      [
+        16.442,
+        17.7748,
+        "Parus major"
+      ]
+    ],
+    "sha256": "842be2ae0f58b5281335722ce8de608d3f6a7ccaf4b57618b03cf4f9d3823250"
+  }
+]
