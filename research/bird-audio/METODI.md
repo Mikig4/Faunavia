@@ -33,6 +33,8 @@ Il campione comprende 88 finestre distinte da 85 registrazioni. L'eguale numeros
 
 ## Addestrare per rumore e più specie
 
+La [prova con solo audio preprocessato](SOLO-VERSO.md) ripete il confronto sulle stesse finestre passando ai classificatori esclusivamente le sorgenti separate, una singola sorgente preselezionata oppure il segnale con il fondo attenuato.
+
 Nel progetto è stata predisposta anche una prova supervisionata con un adattatore BirdNET addestrato su registrazioni di date distinte dal test. Il relativo rapporto descrive la partizione temporale WABAD, il controllo esterno CEB e la gestione delle specie poco rappresentate. [Protocollo di adattamento](ADATTAMENTO.md)
 
 BirdNET-Analyzer supporta un classificatore personalizzato sugli embedding della versione BirdNET scelta. La documentazione spiega come fornire più etichette per clip, esempi negativi verificati e suoni ambientali. Perch 2.0 restituisce un vettore medio di 1.536 elementi per cinque secondi. Durante il suo preaddestramento gli autori mescolano più segnali e attivano tutte le specie presenti nel bersaglio di training. Questi meccanismi consentono di adattare il riconoscimento anche se il dataset locale non contiene esempi di ciascuna delle migliaia di specie del modello globale. [BirdNET-Analyzer, training](https://birdnet-team.github.io/BirdNET-Analyzer/dev/best-practices/training.html) · [BirdNET-Analyzer, gestione delle etichette](https://birdnet-team.github.io/BirdNET-Analyzer/stable/usage/cli.html#birdnet-analyzer-train) · [Perch 2.0, sezioni 2.1 e 2.2](https://arxiv.org/html/2508.04665v1)

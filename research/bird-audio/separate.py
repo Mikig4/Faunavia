@@ -13,7 +13,7 @@ WEIGHTS = "bird_mixit_4sources.safetensors"
 SHA256 = "2d6a57db5884e078953ffb9f2a9e2d00a2d1986fefb02115c677b6565e2088ff"
 
 
-def select(rows):
+def select(rows, single=False):
     from evaluate import seed
 
     selected = {}
@@ -25,6 +25,8 @@ def select(rows):
             ("many", [r for r in overlap if len(r["truth"]) > 2], 16),
             ("uniform", [r for r in dataset_rows if r["uniform"]], 12),
         ]
+        if single:
+            groups = [("single", [r for r in dataset_rows if r["stratified"] and r["group"] == "single"], 16)]
         for name, group, count in groups:
             ranked = sorted(group, key=lambda r: seed(f"mixit/{name}/{r['file']}/{r['start']}"))
             for row in ranked[:count]:
@@ -48,7 +50,27 @@ def best(labels, values):
     return {"labels": labels[top].tolist(), "scores": values[top].astype(float).tolist()}
 
 
-def run(folder, output, baseline):
+def clean_views(audio, stems):
+    """Fixed waveform-only rules. The classifier and reference labels are unavailable here."""
+    from scipy.signal import istft, stft
+
+    params = dict(fs=32000, nperseg=1024, noverlap=768)
+    def transient_energy(stem):
+        freq, _, spectrum = stft(stem, **params)
+        power = np.abs(spectrum[(freq >= 500) & (freq <= 9000)]) ** 2
+        floor = np.median(power, axis=1, keepdims=True)
+        return np.maximum(power - 3 * floor, 0).sum()
+
+    chosen = int(np.argmax([transient_energy(stem) for stem in stems]))
+    _, _, spectrum = stft(audio, **params)
+    power = np.abs(spectrum) ** 2
+    floor = np.quantile(power[:, 1:-1], 0.2, axis=1, keepdims=True)
+    gain = np.sqrt(np.clip(1 - 1.5 * floor / np.maximum(power, 1e-15), 0.01, 1))
+    _, cleaned = istft(spectrum * gain, **params)
+    return chosen, cleaned[:len(audio)].astype("float32")
+
+
+def run(folder, output, baseline, clean_only=False, single=False):
     import soundfile as sf
     import torch
     from bird_mixit_pytorch import BirdMixIT
@@ -62,7 +84,7 @@ def run(folder, output, baseline):
     classifiers = [Classifier(folder, model) for model in ("bn3", "perch")]
     base_rows = [json.loads(line) for line in baseline.read_text(encoding="utf8").splitlines()]
     by_window = {(r["dataset"], r["file"], r["start"]): r for r in base_rows}
-    scheduled = select(base_rows)
+    scheduled = select(base_rows, single)
     by_recording = defaultdict(list)
     for (dataset, recording, start), row in scheduled.items():
         by_recording[dataset, recording].append((start, row))
@@ -92,15 +114,24 @@ def run(folder, output, baseline):
                         unprocessed = resample(sample, rate, 32000)
                         stems = [resample(stem, 22050, 32000) for stem in stems]
                         row[condition] = {}
+                        if clean_only:
+                            chosen, denoised = clean_views(unprocessed, stems)
+                            row[condition]["chosen_stem"] = chosen
                         for classifier in classifiers:
                             raw = scores(classifier, unprocessed)
-                            fused = np.maximum.reduce([raw] + [scores(classifier, stem) for stem in stems])
+                            separated = [scores(classifier, stem) for stem in stems]
+                            fused = np.maximum.reduce([raw] + separated)
                             raw_top = best(classifier.labels, raw)
                             baseline_key = "bn" if classifier.model == "bn3" else "perch"
                             if raw_top["labels"] != reference[condition][baseline_key]["all"]:
                                 raise ValueError(f"Raw ranking differs from baseline at {recording}:{start}")
                             row[condition][classifier.model] = {
                                 "raw": raw_top, "mixit": best(classifier.labels, fused)}
+                            if clean_only:
+                                row[condition][classifier.model].update(
+                                    stems=best(classifier.labels, np.maximum.reduce(separated)),
+                                    selected=best(classifier.labels, separated[chosen]),
+                                    denoised=best(classifier.labels, scores(classifier, denoised)))
                     stream.write(json.dumps(row, ensure_ascii=False) + "\n")
                     done += 1
                     if done % 8 == 0:
@@ -117,6 +148,22 @@ def summarize(output):
     keys = {(r["dataset"], r["file"], r["start"]) for r in rows}
     if len(keys) != len(rows):
         raise ValueError("Duplicate prediction window")
+    if rows and all(r["cohorts"] == ["single"] for r in rows):
+        for dataset in ("CEB", "WABAD"):
+            sample = [r for r in rows if r["dataset"] == dataset]
+            assert len(sample) == len({r["file"] for r in sample}) == 16
+            assert all(len(r["truth"]) == 1 for r in sample)
+            for condition in ("original", "noise"):
+                for model in ("bn3", "perch"):
+                    for method in sample[0][condition][model]:
+                        ranks = []
+                        for r in sample:
+                            truth = aliases.get(r["truth"][0], r["truth"][0])
+                            top = [aliases.get(n, n) for n in r[condition][model][method]["labels"]]
+                            ranks.append(top.index(truth)+1 if truth in top else 4)
+                        print(dataset, condition, model, method,
+                              f"top1 {ranks.count(1)}/16, top3 {sum(k <= 3 for k in ranks)}/16")
+        return
     for dataset in ("CEB", "WABAD"):
         for name, expected in (("two", 16), ("many", 16), ("uniform", 12)):
             count = sum(r["dataset"] == dataset and name in r["cohorts"] for r in rows)
@@ -125,8 +172,9 @@ def summarize(output):
         for condition in ("original", "noise"):
             for model in ("bn3", "perch"):
                 paired = {}
-                for method in ("raw", "mixit"):
-                    recalls, complete, controls = [], [], []
+                methods = list(rows[0][condition][model])
+                for method in methods:
+                    recalls, first_correct, complete, controls = [], [], [], []
                     strata = defaultdict(list)
                     for row in rows:
                         if row["dataset"] != dataset:
@@ -137,6 +185,7 @@ def summarize(output):
                         if {"two", "many"}.intersection(row["cohorts"]):
                             recall = len(truth.intersection(labels)) / len(truth)
                             recalls.append(recall)
+                            first_correct.append(labels[0] in truth)
                             stratum = "two" if "two" in row["cohorts"] else "many"
                             strata[stratum].append(recall)
                         if "two" in row["cohorts"]:
@@ -145,25 +194,31 @@ def summarize(output):
                             controls.append(labels[0] not in truth)
                     print(dataset, condition, model, method,
                           f"recall@3 {100 * np.mean(recalls):.1f}% (n={len(recalls)}),",
+                          f"correct top1 {sum(first_correct)}/{len(first_correct)},",
                           f"both {sum(complete)}/{len(complete)},",
                           f"wrong top1 {sum(controls)}/{len(controls)}")
                     paired[method] = strata
-                rng = np.random.default_rng(41)
-                sampled = []
-                for group in ("two", "many"):
-                    diff = np.array(paired["mixit"][group]) - paired["raw"][group]
-                    indices = rng.integers(len(diff), size=(4000, len(diff)))
-                    sampled.append(diff[indices])
-                interval = np.percentile(np.hstack(sampled).mean(axis=1) * 100, [2.5, 97.5])
-                print(f"  paired recall@3 difference, 95% CI: [{interval[0]:.1f}, {interval[1]:.1f}] pp")
+                for method in methods:
+                    if method == "raw":
+                        continue
+                    rng = np.random.default_rng(41)
+                    sampled = []
+                    for group in ("two", "many"):
+                        diff = np.array(paired[method][group]) - paired["raw"][group]
+                        indices = rng.integers(len(diff), size=(4000, len(diff)))
+                        sampled.append(diff[indices])
+                    interval = np.percentile(np.hstack(sampled).mean(axis=1) * 100, [2.5, 97.5])
+                    print(f"  {method} vs raw, 95% CI: [{interval[0]:.1f}, {interval[1]:.1f}] pp")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
     parser.add_argument("--inputs", type=Path, help="Run inference using this input and weights directory")
+    parser.add_argument("--clean-only", action="store_true", help="Also test exclusive preprocessed inputs")
+    parser.add_argument("--single", action="store_true", help="Sample 16 single-species windows per dataset")
     parser.add_argument("--baseline", type=Path, default=HERE / "predictions-v3.jsonl")
     args = parser.parse_args()
     if args.inputs:
-        run(args.inputs, args.output, args.baseline)
+        run(args.inputs, args.output, args.baseline, args.clean_only, args.single)
     summarize(args.output)
